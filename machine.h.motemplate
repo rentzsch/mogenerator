@@ -3,6 +3,10 @@
 
 #import <CoreData/CoreData.h>
 
+<$foreach Relationship relationshipsByName do$>
+@class <$Relationship.destinationEntity.managedObjectClassName$>;
+<$endforeach do$>
+
 @interface _<$name$> : NSManagedObject {}
 <$foreach Attribute attributesByName do$>
 - (<$Attribute.attributeValueClassName$>*)<$Attribute.name$>;

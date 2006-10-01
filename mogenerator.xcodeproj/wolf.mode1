@@ -218,8 +218,6 @@
 			<key>Layout</key>
 			<array>
 				<dict>
-					<key>BecomeActive</key>
-					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -264,8 +262,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>3</integer>
-									<integer>1</integer>
+									<integer>7</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -289,7 +286,7 @@
 							<real>186</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>538 446 690 397 0 0 1440 878 </string>
+						<string>538 445 690 397 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -326,7 +323,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {482, 0}}</string>
 								<key>RubberWindowFrame</key>
-								<string>538 446 690 397 0 0 1440 878 </string>
+								<string>538 445 690 397 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -346,7 +343,7 @@
 								<key>Frame</key>
 								<string>{{0, 5}, {482, 351}}</string>
 								<key>RubberWindowFrame</key>
-								<string>538 446 690 397 0 0 1440 878 </string>
+								<string>538 445 690 397 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -370,9 +367,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>79D2BF0F0ACFAF4A00F3F141</string>
+				<string>79E94CD80AD03D4700CA3E7F</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>79D2BF100ACFAF4A00F3F141</string>
+				<string>79E94CD90AD03D4700CA3E7F</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -506,12 +503,10 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>1C530D57069F1CE1000CFCEE</string>
-		<string>79D2BF1B0ACFAF4A00F3F141</string>
 		<string>/Volumes/Island/wolf/code/sf/redshed/cocoa/mogenerator/mogenerator.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>538 446 690 397 0 0 1440 878 </string>
+	<string>538 445 690 397 0 0 1440 878 </string>
 	<key>WindowTools</key>
 	<array>
 		<dict>
@@ -527,12 +522,14 @@
 					<key>Dock</key>
 					<array>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>&lt;No Editor&gt;</string>
+								<string>mogenerator.m</string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -549,8 +546,6 @@
 							<string>218pt</string>
 						</dict>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -590,7 +585,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>79D2BF1B0ACFAF4A00F3F141</string>
-				<string>79D2BF1C0ACFAF4A00F3F141</string>
+				<string>79D2C19C0AD0381000F3F141</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
