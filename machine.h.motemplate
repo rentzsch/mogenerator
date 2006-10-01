@@ -1,3 +1,6 @@
+// DO NOT EDIT. This file is machine-generated and constantly overwritten.
+// Make changes to <$name$>.h instead.
+
 #import <CoreData/CoreData.h>
 
 @interface _<$name$> : NSManagedObject {}
