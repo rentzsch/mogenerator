@@ -21,8 +21,11 @@ int main (int argc, const char * argv[]) {
     NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
 	
 	NSManagedObjectModel *model = nil;
+	NSString	*tempMOMPath = nil;
 	
 	static struct option longopts[] = {
+	{ "help",			no_argument,		NULL,	'h' },
+	{ "version",		no_argument,		NULL,	'w' },
 	{ "model",			required_argument,	NULL,	'm' },
 	{ NULL,				0,					NULL,	0 },
 	};
@@ -32,15 +35,29 @@ int main (int argc, const char * argv[]) {
 			case 'm':
 				assert(!model); // Currently we only can load one model.
 				NSString *path = [[NSFileManager defaultManager] stringWithFileSystemRepresentation:optarg length:strlen(optarg)];
+				if ([[path pathExtension] isEqualToString:@"xcdatamodel"]) {
+					//	We've been handed a .xcdatamodel data model, transparently compile it into a .mom managed object model.
+					tempMOMPath = [[NSTemporaryDirectory() stringByAppendingPathComponent:[(id)CFUUIDCreateString(kCFAllocatorDefault, CFUUIDCreate(kCFAllocatorDefault)) autorelease]] stringByAppendingPathExtension:@"mom"];
+					NSString *momc = [NSString stringWithFormat:@"\"/Library/Application Support/Apple/Developer Tools/Plug-ins/XDCoreDataModel.xdplugin/Contents/Resources/momc\" %@ %@", path, tempMOMPath];
+					system([momc UTF8String]); // Ignored system's result -- momc doesn't return any relevent error codes.
+					path = tempMOMPath;
+				}
 				model = [[[NSManagedObjectModel alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path]] autorelease];
 				assert(model);
 				break;
+			case 'w':
+				printf("mogenerator 1.0. By Jonathan 'Wolf' Rentzsch.\n");
+				break;
+			case 'h':
 			default:
-				printf("USAGE\n");
+				printf("mogenerator [-model /path/to/file.xcdatamodel] [-version] [-help]\n");
+				printf("Implements generation gap codegen pattern for Core Data. Inspired by eogenerator.\n");
 		}
 	}
 	argc -= optind;
 	argv += optind;
+	
+	NSFileManager *fm = [NSFileManager defaultManager];
 	
 	if (model) {
 		NSArray *appSupportFolders = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
@@ -52,8 +69,6 @@ int main (int argc, const char * argv[]) {
 		MiscMergeEngine *machineM = engineWithTemplatePath([mogeneratorAppSupportFolder stringByAppendingPathComponent:@"machine.M.motemplate"]);
 		MiscMergeEngine *humanH = engineWithTemplatePath([mogeneratorAppSupportFolder stringByAppendingPathComponent:@"human.h.motemplate"]);
 		MiscMergeEngine *humanM = engineWithTemplatePath([mogeneratorAppSupportFolder stringByAppendingPathComponent:@"human.M.motemplate"]);
-		
-		NSFileManager *fm = [NSFileManager defaultManager];
 		
 		nsenumerate ([model entities], NSEntityDescription, entity) {
 			NSString *generatedMachineH = [machineH executeWithObject:entity sender:nil];
@@ -80,6 +95,10 @@ int main (int argc, const char * argv[]) {
 				[generatedHumanM writeToFile:humanMFileName atomically:NO];
 			}
 		}
+	}
+	
+	if (tempMOMPath) {
+		[fm removeFileAtPath:tempMOMPath handler:nil];
 	}
 	
     [pool release];
