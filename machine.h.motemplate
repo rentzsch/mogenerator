@@ -1,0 +1,22 @@
+#import <CoreData/CoreData.h>
+
+@interface _<$name$> : NSManagedObject {}
+<$foreach Attribute attributesByName do$>
+- (<$Attribute.attributeValueClassName$>*)<$Attribute.name$>;
+- (void)set<$Attribute.name.initialCapitalString$>:(<$Attribute.attributeValueClassName$>*)value_;
+- (BOOL)validate<$Attribute.name.initialCapitalString$>:(id*)value_ error:(NSError**)error_;
+<$endforeach do$>
+
+
+<$foreach Relationship relationshipsByName do$>
+<$if Relationship.isToMany$>
+- (void)add<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_;
+- (void)remove<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_;
+- (NSMutableSet*)<$Relationship.name$>Set;
+<$else$>
+- (<$Relationship.destinationEntity.managedObjectClassName$>*)<$Relationship.name$>;
+- (void)set<$Relationship.name.initialCapitalString$>:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_;
+- (BOOL)validate<$Relationship.name.initialCapitalString$>:(id*)value_ error:(NSError**)error_;
+<$endif$>
+<$endforeach do$>
+@end

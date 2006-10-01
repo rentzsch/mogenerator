@@ -1,0 +1,67 @@
+#import "_<$name$>.h"
+
+@implementation _<$name$>
+<$foreach Attribute attributesByName do$>
+
+- (<$Attribute.attributeValueClassName$>*)<$Attribute.name$> {
+	[self willAccessValueForKey:@"<$Attribute.name$>"];
+	<$Attribute.attributeValueClassName$> *result = [self primitiveValueForKey:@"<$Attribute.name$>"];
+	[self didAccessValueForKey:@"<$Attribute.name$>"];
+	return result;
+}
+
+- (void)set<$Attribute.name.initialCapitalString$>:(<$Attribute.attributeValueClassName$>*)value_ {
+    [self willChangeValueForKey:@"<$Attribute.name$>"];
+    [self setPrimitiveValue:value_ forKey:@"<$Attribute.name$>"];
+    [self didChangeValueForKey:@"<$Attribute.name$>"];
+}
+
+- (BOOL)validate<$Attribute.name.initialCapitalString$>:(id*)value_ error:(NSError**)error_ {
+	return YES;
+}
+
+<$endforeach do$>
+
+<$foreach Relationship relationshipsByName do$>
+	<$if Relationship.isToMany$>
+- (void)add<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_ {
+	NSSet *changedObjects = [[NSSet alloc] initWithObjects:&value_ count:1];
+	[self willChangeValueForKey:@"<$Relationship.name$>" withSetMutation:NSKeyValueUnionSetMutation usingObjects:changedObjects];
+    [[self primitiveValueForKey:@"<$Relationship.name$>"] addObject:value_];
+    [self didChangeValueForKey:@"<$Relationship.name$>" withSetMutation:NSKeyValueUnionSetMutation usingObjects:changedObjects];
+    [changedObjects release];
+}
+
+- (void)remove<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_ {
+	NSSet *changedObjects = [[NSSet alloc] initWithObjects:&value_ count:1];
+	[self willChangeValueForKey:@"<$Relationship.name$>" withSetMutation:NSKeyValueMinusSetMutation usingObjects:changedObjects];
+	[[self primitiveValueForKey:@"<$Relationship.name$>"] removeObject:value_];
+	[self didChangeValueForKey:@"<$Relationship.name$>" withSetMutation:NSKeyValueMinusSetMutation usingObjects:changedObjects];
+	[changedObjects release];
+}
+
+- (NSMutableSet*)<$Relationship.name$>Set {
+	return [self mutableSetValueForKey:@"<$Relationship.name$>"];
+}
+	<$else$>
+
+- (<$Relationship.destinationEntity.managedObjectClassName$>*)<$Relationship.name$> {
+	[self willAccessValueForKey:@"<$Relationship.name$>"];
+	<$Relationship.destinationEntity.managedObjectClassName$> *result = [self primitiveValueForKey:@"<$Relationship.name$>"];
+	[self didAccessValueForKey:@"<$Relationship.name$>"];
+	return result;
+}
+
+- (void)set<$Relationship.name.initialCapitalString$>:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_ {
+	[self willChangeValueForKey:@"<$Relationship.name$>"];
+	[self setPrimitiveValue:value_ forKey:@"<$Relationship.name$>"];
+	[self didChangeValueForKey:@"<$Relationship.name$>"];
+}
+
+- (BOOL)validate<$Relationship.name.initialCapitalString$>:(id*)value_ error:(NSError**)error_ {
+	return YES;
+}
+
+	<$endif$>
+<$endforeach do$>
+@end
