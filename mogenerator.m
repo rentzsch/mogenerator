@@ -9,6 +9,20 @@
 
 #include <getopt.h>
 
+NSString	*gCustomBaseClass;
+@interface NSEntityDescription (customBaseClass)
+- (BOOL)hasCustomBaseClass;
+- (NSString*)customBaseClass;
+@end
+@implementation NSEntityDescription (customBaseClass)
+- (BOOL)hasCustomBaseClass {
+	return gCustomBaseClass ? YES : NO;
+}
+- (NSString*)customBaseClass {
+	return gCustomBaseClass;
+}
+@end
+
 static MiscMergeEngine* engineWithTemplatePath(NSString *templatePath_) {
 	MiscMergeTemplate *template = [[[MiscMergeTemplate alloc] init] autorelease];
 	[template setStartDelimiter:@"<$" endDelimiter:@"$>"];
@@ -27,6 +41,7 @@ int main (int argc, const char * argv[]) {
 	{ "help",			no_argument,		NULL,	'h' },
 	{ "version",		no_argument,		NULL,	'w' },
 	{ "model",			required_argument,	NULL,	'm' },
+	{ "baseClass",		required_argument,	NULL,	'b' },
 	{ NULL,				0,					NULL,	0 },
 	};
 	int opt_char;
@@ -44,6 +59,9 @@ int main (int argc, const char * argv[]) {
 				}
 				model = [[[NSManagedObjectModel alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path]] autorelease];
 				assert(model);
+				break;
+			case 'b':
+				gCustomBaseClass = [[NSString stringWithUTF8String:optarg] retain];
 				break;
 			case 'w':
 				printf("mogenerator 1.0. By Jonathan 'Wolf' Rentzsch.\n");
