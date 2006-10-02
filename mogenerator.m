@@ -12,14 +12,19 @@
 NSString	*gCustomBaseClass;
 @interface NSEntityDescription (customBaseClass)
 - (BOOL)hasCustomBaseClass;
-- (NSString*)customBaseClass;
+- (NSString*)customSuperentity;
 @end
 @implementation NSEntityDescription (customBaseClass)
 - (BOOL)hasCustomBaseClass {
 	return gCustomBaseClass ? YES : NO;
 }
-- (NSString*)customBaseClass {
-	return gCustomBaseClass;
+- (NSString*)customSuperentity {
+	NSEntityDescription *superentity = [self superentity];
+	if (superentity) {
+		return [superentity managedObjectClassName];
+	} else {
+		return gCustomBaseClass ? gCustomBaseClass : @"NSManagedObject";
+	}
 }
 @end
 
