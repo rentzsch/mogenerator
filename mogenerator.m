@@ -99,22 +99,32 @@ int main (int argc, const char * argv[]) {
 			NSString *generatedHumanH = [humanH executeWithObject:entity sender:nil];
 			NSString *generatedHumanM = [humanM executeWithObject:entity sender:nil];
 			
+			BOOL machineDirtied = NO;
+			
 			NSString *machineHFileName = [NSString stringWithFormat:@"_%@.h", [entity name]];
 			if (![fm regularFileExistsAtPath:machineHFileName] || ![generatedMachineH isEqualToString:[NSString stringWithContentsOfFile:machineHFileName]]) {
 				//	If the file doesn't exist or is different than what we just generated, write it out.
 				[generatedMachineH writeToFile:machineHFileName atomically:NO];
+				machineDirtied = YES;
 			}
 			NSString *machineMFileName = [NSString stringWithFormat:@"_%@.m", [entity name]];
 			if (![fm regularFileExistsAtPath:machineMFileName] || ![generatedMachineM isEqualToString:[NSString stringWithContentsOfFile:machineMFileName]]) {
 				//	If the file doesn't exist or is different than what we just generated, write it out.
 				[generatedMachineM writeToFile:machineMFileName atomically:NO];
+				machineDirtied = YES;
 			}
 			NSString *humanHFileName = [NSString stringWithFormat:@"%@.h", [entity name]];
-			if (![fm regularFileExistsAtPath:humanHFileName]) {
+			if ([fm regularFileExistsAtPath:humanHFileName]) {
+				if (machineDirtied)
+					[fm touchPath:humanHFileName];
+			} else {
 				[generatedHumanH writeToFile:humanHFileName atomically:NO];
 			}
 			NSString *humanMFileName = [NSString stringWithFormat:@"%@.m", [entity name]];
-			if (![fm regularFileExistsAtPath:humanMFileName]) {
+			if ([fm regularFileExistsAtPath:humanMFileName]) {
+				if (machineDirtied)
+					[fm touchPath:humanMFileName];
+			} else {
 				[generatedHumanM writeToFile:humanMFileName atomically:NO];
 			}
 		}

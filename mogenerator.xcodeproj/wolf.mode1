@@ -185,7 +185,48 @@
 	<key>Notifications</key>
 	<array/>
 	<key>OpenEditors</key>
-	<array/>
+	<array>
+		<dict>
+			<key>Content</key>
+			<dict>
+				<key>PBXProjectModuleGUID</key>
+				<string>79E94E590AD0A5EB00CA3E7F</string>
+				<key>PBXProjectModuleLabel</key>
+				<string>mogenerator.m</string>
+				<key>PBXSplitModuleInNavigatorKey</key>
+				<dict>
+					<key>Split0</key>
+					<dict>
+						<key>PBXProjectModuleGUID</key>
+						<string>79E94E5A0AD0A5EB00CA3E7F</string>
+						<key>PBXProjectModuleLabel</key>
+						<string>mogenerator.m</string>
+						<key>_historyCapacity</key>
+						<integer>0</integer>
+						<key>bookmark</key>
+						<string>79E94E5B0AD0A5EB00CA3E7F</string>
+						<key>history</key>
+						<array>
+							<string>79E94E520AD0A56C00CA3E7F</string>
+						</array>
+					</dict>
+					<key>SplitCount</key>
+					<string>1</string>
+				</dict>
+				<key>StatusBarVisibility</key>
+				<true/>
+			</dict>
+			<key>Geometry</key>
+			<dict>
+				<key>Frame</key>
+				<string>{{0, 20}, {1056, 726}}</string>
+				<key>PBXModuleWindowStatusBarHidden2</key>
+				<false/>
+				<key>RubberWindowFrame</key>
+				<string>30 66 1056 767 0 0 1440 878 </string>
+			</dict>
+		</dict>
+	</array>
 	<key>PerspectiveWidths</key>
 	<array>
 		<integer>-1</integer>
@@ -262,7 +303,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>3</integer>
+									<integer>6</integer>
 									<integer>1</integer>
 									<integer>0</integer>
 								</array>
@@ -287,7 +328,7 @@
 							<real>186</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>537 446 690 397 0 0 1440 878 </string>
+						<string>537 447 690 397 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -324,7 +365,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {482, 0}}</string>
 								<key>RubberWindowFrame</key>
-								<string>537 446 690 397 0 0 1440 878 </string>
+								<string>537 447 690 397 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -332,6 +373,8 @@
 							<string>0pt</string>
 						</dict>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -344,7 +387,7 @@
 								<key>Frame</key>
 								<string>{{0, 5}, {482, 351}}</string>
 								<key>RubberWindowFrame</key>
-								<string>537 446 690 397 0 0 1440 878 </string>
+								<string>537 447 690 397 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -368,9 +411,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>79E94DAC0AD09E0200CA3E7F</string>
+				<string>79E94E570AD0A5EB00CA3E7F</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>79E94DAD0AD09E0200CA3E7F</string>
+				<string>79E94E580AD0A5EB00CA3E7F</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -505,10 +548,11 @@
 	<key>WindowOrderList</key>
 	<array>
 		<string>79D2BF1B0ACFAF4A00F3F141</string>
+		<string>79E94E590AD0A5EB00CA3E7F</string>
 		<string>/Volumes/Island/wolf/code/sf/redshed/cocoa/mogenerator/mogenerator.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>537 446 690 397 0 0 1440 878 </string>
+	<string>537 447 690 397 0 0 1440 878 </string>
 	<key>WindowTools</key>
 	<array>
 		<dict>
@@ -585,7 +629,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>79D2BF1B0ACFAF4A00F3F141</string>
-				<string>79E94DC20AD09FAF00CA3E7F</string>
+				<string>79E94E5C0AD0A5EB00CA3E7F</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
