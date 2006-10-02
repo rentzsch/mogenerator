@@ -12,10 +12,12 @@
 <$foreach Attribute attributesByName do$>
 - (<$Attribute.attributeValueClassName$>*)<$Attribute.name$>;
 - (void)set<$Attribute.name.initialCapitalString$>:(<$Attribute.attributeValueClassName$>*)value_;
+<$if Attribute.hasScalarAttributeType$>
+- (<$Attribute.scalarAttributeType$>)<$Attribute.name$>Value;
+- (void)set<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_;
+<$endif$>
 - (BOOL)validate<$Attribute.name.initialCapitalString$>:(id*)value_ error:(NSError**)error_;
 <$endforeach do$>
-
-
 <$foreach Relationship relationshipsByName do$>
 <$if Relationship.isToMany$>
 - (void)add<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_;

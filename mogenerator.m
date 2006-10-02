@@ -27,6 +27,50 @@ NSString	*gCustomBaseClass;
 	}
 }
 @end
+@interface NSAttributeDescription (scalarAttributeType)
+- (BOOL)hasScalarAttributeType;
+- (NSString*)scalarAttributeType;
+@end
+@implementation NSAttributeDescription (scalarAttributeType)
+- (BOOL)hasScalarAttributeType {
+	switch ([self attributeType]) {
+		case NSInteger16AttributeType:
+		case NSInteger32AttributeType:
+		case NSInteger64AttributeType:
+		case NSDoubleAttributeType:
+		case NSFloatAttributeType:
+		case NSBooleanAttributeType:
+			return YES;
+			break;
+		default:
+			return NO;
+	}
+}
+- (NSString*)scalarAttributeType {
+	switch ([self attributeType]) {
+		case NSInteger16AttributeType:
+			return @"short";
+			break;
+		case NSInteger32AttributeType:
+			return @"long";
+			break;
+		case NSInteger64AttributeType:
+			return @"long long";
+			break;
+		case NSDoubleAttributeType:
+			return @"double";
+			break;
+		case NSFloatAttributeType:
+			return @"float";
+			break;
+		case NSBooleanAttributeType:
+			return @"BOOL";
+			break;
+		default:
+			return nil;
+	}
+}
+@end
 
 static MiscMergeEngine* engineWithTemplatePath(NSString *templatePath_) {
 	MiscMergeTemplate *template = [[[MiscMergeTemplate alloc] init] autorelease];

@@ -265,11 +265,11 @@
 		08FB7795FE84155DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				32A70AAB03705E1F00C91783 /* mogenerator_Prefix.pch */,
 				08FB7796FE84155DC02AAC07 /* mogenerator.m */,
 				79D2C00E0ACFB81200F3F141 /* nsenumerate.h */,
 				79D2C0570ACFBCB500F3F141 /* FoundationAdditions.h */,
 				79D2C0580ACFBCB500F3F141 /* FoundationAdditions.m */,
+				32A70AAB03705E1F00C91783 /* mogenerator_Prefix.pch */,
 			);
 			name = Source;
 			sourceTree = "<group>";

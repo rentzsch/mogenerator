@@ -23,6 +23,18 @@
 	return YES;
 }
 
+<$if Attribute.hasScalarAttributeType$>
+
+- (<$Attribute.scalarAttributeType$>)<$Attribute.name$>Value {
+	return [[self <$Attribute.name$>] <$Attribute.scalarAttributeType.lowercaseString$>Value];
+}
+
+- (void)set<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_ {
+	[self set<$Attribute.name.initialCapitalString$>:[NSNumber numberWith<$Attribute.scalarAttributeType.lowercaseString.initialCapitalString$>:value_]];
+}
+
+<$endif$>
+
 <$endforeach do$>
 
 <$foreach Relationship relationshipsByName do$>
