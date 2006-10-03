@@ -36,8 +36,8 @@
 					PBXFileDataSource_Target_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 181446325;
-			PBXWorkspaceStateSaveDate = 181446325;
+			PBXPerProjectTemplateStateSaveDate = 181588375;
+			PBXWorkspaceStateSaveDate = 181588375;
 		};
 		sourceControlManager = 79D2BF0B0ACFAE0700F3F141 /* Source Control */;
 		userBuildSettings = {
@@ -45,10 +45,10 @@
 	};
 	08FB7796FE84155DC02AAC07 /* mogenerator.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1017, 2618}}";
-			sepNavSelRange = "{1028, 0}";
-			sepNavVisRect = "{{0, 324}, {1017, 709}}";
-			sepNavWindowFrame = "{{30, 66}, {1056, 767}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1017, 2856}}";
+			sepNavSelRange = "{1234, 0}";
+			sepNavVisRect = "{{0, 471}, {1017, 709}}";
+			sepNavWindowFrame = "{{894, 241}, {1056, 767}}";
 		};
 	};
 	79D2BF080ACFAE0100F3F141 /* mogenerator */ = {
@@ -121,16 +121,16 @@
 	79D2BF9F0ACFB51A00F3F141 /* NSString+MiscAdditions.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1331, 1484}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRect = "{{0, 814}, {1331, 647}}";
+			sepNavSelRange = "{1031, 34}";
+			sepNavVisRect = "{{0, 0}, {1331, 647}}";
 			sepNavWindowFrame = "{{15, 168}, {1370, 705}}";
 		};
 	};
 	79D2BFA00ACFB51A00F3F141 /* NSString+MiscAdditions.m */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1331, 9002}}";
-			sepNavSelRange = "{495, 24}";
-			sepNavVisRect = "{{0, 0}, {1331, 647}}";
+			sepNavSelRange = "{1634, 25}";
+			sepNavVisRect = "{{0, 1724}, {1331, 647}}";
 			sepNavWindowFrame = "{{61, 126}, {1370, 705}}";
 		};
 	};
@@ -144,17 +144,17 @@
 	};
 	79D2C0570ACFBCB500F3F141 /* FoundationAdditions.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {689, 652}}";
-			sepNavSelRange = "{1237, 23}";
-			sepNavVisRect = "{{0, 0}, {689, 652}}";
+			sepNavIntBoundsRect = "{{0, 0}, {740, 630}}";
+			sepNavSelRange = "{1074, 20}";
+			sepNavVisRect = "{{0, 330}, {740, 195}}";
 			sepNavWindowFrame = "{{661, 54}, {728, 710}}";
 		};
 	};
 	79D2C0580ACFBCB500F3F141 /* FoundationAdditions.m */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1331, 3710}}";
-			sepNavSelRange = "{7863, 9}";
-			sepNavVisRect = "{{0, 3030}, {1331, 647}}";
+			sepNavSelRange = "{7038, 20}";
+			sepNavVisRect = "{{0, 2442}, {1331, 647}}";
 			sepNavWindowFrame = "{{38, 147}, {1370, 705}}";
 		};
 	};

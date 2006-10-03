@@ -26,11 +26,11 @@
 <$if Attribute.hasScalarAttributeType$>
 
 - (<$Attribute.scalarAttributeType$>)<$Attribute.name$>Value {
-	return [[self <$Attribute.name$>] <$Attribute.scalarAttributeType.lowercaseString$>Value];
+	return [[self <$Attribute.name$>] <$Attribute.scalarAttributeType.camelCaseString$>Value];
 }
 
 - (void)set<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_ {
-	[self set<$Attribute.name.initialCapitalString$>:[NSNumber numberWith<$Attribute.scalarAttributeType.lowercaseString.initialCapitalString$>:value_]];
+	[self set<$Attribute.name.initialCapitalString$>:[NSNumber numberWith<$Attribute.scalarAttributeType.camelCaseString.initialCapitalString$>:value_]];
 }
 
 <$endif$>

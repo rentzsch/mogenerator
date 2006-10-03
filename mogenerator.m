@@ -6,6 +6,7 @@
 #import "MiscMergeEngine.h"
 #import "FoundationAdditions.h"
 #import "nsenumerate.h"
+#import "NSString+MiscAdditions.h"
 
 #include <getopt.h>
 
@@ -69,6 +70,22 @@ NSString	*gCustomBaseClass;
 		default:
 			return nil;
 	}
+}
+@end
+@interface NSString (camelCaseString)
+- (NSString*)camelCaseString;
+@end
+@implementation NSString (camelCaseString)
+- (NSString*)camelCaseString {
+	NSArray *lowerCasedWordArray = [[self wordArray] arrayByMakingObjectsPerformSelector:@selector(lowercaseString)];
+	unsigned wordIndex = 1, wordCount = [lowerCasedWordArray count];
+	NSMutableArray *camelCasedWordArray = [NSMutableArray arrayWithCapacity:wordCount];
+	if (wordCount)
+		[camelCasedWordArray addObject:[lowerCasedWordArray objectAtIndex:0]];
+	for (; wordIndex < wordCount; wordIndex++) {
+		[camelCasedWordArray addObject:[[lowerCasedWordArray objectAtIndex:wordIndex] initialCapitalString]];
+	}
+	return [camelCasedWordArray componentsJoinedByString:@""];
 }
 @end
 
