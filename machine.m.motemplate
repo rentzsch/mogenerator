@@ -1,9 +1,9 @@
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
-// Make changes to <$name$>.m instead.
+// Make changes to <$managedObjectClassName$>.m instead.
 
-#import "_<$name$>.h"
+#import "_<$managedObjectClassName$>.h"
 
-@implementation _<$name$>
+@implementation _<$managedObjectClassName$>
 <$foreach Attribute attributesByName do$>
 
 - (<$Attribute.attributeValueClassName$>*)<$Attribute.name$> {

@@ -1,6 +1,6 @@
-#import "<$name$>.h"
+#import "<$managedObjectClassName$>.h"
 
-@implementation <$name$>
+@implementation <$managedObjectClassName$>
 
 // Custom logic goes here.
 

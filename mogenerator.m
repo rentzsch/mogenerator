@@ -97,23 +97,38 @@ static MiscMergeEngine* engineWithTemplatePath(NSString *templatePath_) {
 	return [[[MiscMergeEngine alloc] initWithTemplate:template] autorelease];
 }
 
+#define DEOPT_(OPTION_NAME) OPTION_NAME+(sizeof("opt_")-1)
+#define LONG_OPT(OPTION_NAME, HAS_ARG)	{DEOPT_(#OPTION_NAME), HAS_ARG, NULL, OPTION_NAME}
+#define LONG_OPT_LAST { NULL,0,NULL,0 }
+
+enum {
+	opt_help = 1,
+	opt_version,
+	opt_model,
+	opt_baseClass,
+	opt_mfile
+};
+
 int main (int argc, const char * argv[]) {
-    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+    NSAutoreleasePool	*pool = [[NSAutoreleasePool alloc] init];
 	
 	NSManagedObjectModel *model = nil;
-	NSString	*tempMOMPath = nil;
+	NSString			*tempMOMPath = nil;
+	NSString			*mfilePath = nil;
+	NSMutableString		*mfileContent = [NSMutableString stringWithString:@""];
 	
 	static struct option longopts[] = {
-	{ "help",			no_argument,		NULL,	'h' },
-	{ "version",		no_argument,		NULL,	'w' },
-	{ "model",			required_argument,	NULL,	'm' },
-	{ "baseClass",		required_argument,	NULL,	'b' },
-	{ NULL,				0,					NULL,	0 },
+		LONG_OPT(opt_help, no_argument),
+		LONG_OPT(opt_version, no_argument),
+		LONG_OPT(opt_model, required_argument),
+		LONG_OPT(opt_baseClass, required_argument),
+		LONG_OPT(opt_mfile, required_argument),
+		LONG_OPT_LAST
 	};
 	int opt_char;
 	while ((opt_char = getopt_long_only(argc, (char* const*)argv, "m:", longopts, NULL)) != -1) {
 		switch (opt_char) {
-			case 'm':
+			case opt_model:
 				assert(!model); // Currently we only can load one model.
 				NSString *path = [[NSFileManager defaultManager] stringWithFileSystemRepresentation:optarg length:strlen(optarg)];
 				if ([[path pathExtension] isEqualToString:@"xcdatamodel"]) {
@@ -126,13 +141,19 @@ int main (int argc, const char * argv[]) {
 				model = [[[NSManagedObjectModel alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path]] autorelease];
 				assert(model);
 				break;
-			case 'b':
-				gCustomBaseClass = [[NSString stringWithUTF8String:optarg] retain];
+			case opt_baseClass:
+				gCustomBaseClass = [NSString stringWithUTF8String:optarg];
 				break;
-			case 'w':
+			case opt_mfile:
+				assert(!mfilePath);
+				mfilePath = [NSString stringWithUTF8String:optarg];
+				assert(mfilePath);
+				assert([mfilePath length]);
+				break;
+			case opt_version:
 				printf("mogenerator 1.0. By Jonathan 'Wolf' Rentzsch.\n");
 				break;
-			case 'h':
+			case opt_help:
 			default:
 				printf("mogenerator [-model /path/to/file.xcdatamodel] [-version] [-help]\n");
 				printf("Implements generation gap codegen pattern for Core Data. Inspired by eogenerator.\n");
@@ -162,37 +183,42 @@ int main (int argc, const char * argv[]) {
 			
 			BOOL machineDirtied = NO;
 			
-			NSString *machineHFileName = [NSString stringWithFormat:@"_%@.h", [entity name]];
+			NSString *machineHFileName = [NSString stringWithFormat:@"_%@.h", [entity managedObjectClassName]];
 			if (![fm regularFileExistsAtPath:machineHFileName] || ![generatedMachineH isEqualToString:[NSString stringWithContentsOfFile:machineHFileName]]) {
 				//	If the file doesn't exist or is different than what we just generated, write it out.
 				[generatedMachineH writeToFile:machineHFileName atomically:NO];
 				machineDirtied = YES;
 			}
-			NSString *machineMFileName = [NSString stringWithFormat:@"_%@.m", [entity name]];
+			NSString *machineMFileName = [NSString stringWithFormat:@"_%@.m", [entity managedObjectClassName]];
 			if (![fm regularFileExistsAtPath:machineMFileName] || ![generatedMachineM isEqualToString:[NSString stringWithContentsOfFile:machineMFileName]]) {
 				//	If the file doesn't exist or is different than what we just generated, write it out.
 				[generatedMachineM writeToFile:machineMFileName atomically:NO];
 				machineDirtied = YES;
 			}
-			NSString *humanHFileName = [NSString stringWithFormat:@"%@.h", [entity name]];
+			NSString *humanHFileName = [NSString stringWithFormat:@"%@.h", [entity managedObjectClassName]];
 			if ([fm regularFileExistsAtPath:humanHFileName]) {
 				if (machineDirtied)
 					[fm touchPath:humanHFileName];
 			} else {
 				[generatedHumanH writeToFile:humanHFileName atomically:NO];
 			}
-			NSString *humanMFileName = [NSString stringWithFormat:@"%@.m", [entity name]];
+			NSString *humanMFileName = [NSString stringWithFormat:@"%@.m", [entity managedObjectClassName]];
 			if ([fm regularFileExistsAtPath:humanMFileName]) {
 				if (machineDirtied)
 					[fm touchPath:humanMFileName];
 			} else {
 				[generatedHumanM writeToFile:humanMFileName atomically:NO];
 			}
+			
+			[mfileContent appendFormat:@"#include \"%@.m\"\n#include \"_%@.m\"\n", [entity managedObjectClassName], [entity managedObjectClassName]];
 		}
 	}
 	
 	if (tempMOMPath) {
 		[fm removeFileAtPath:tempMOMPath handler:nil];
+	}
+	if (mfilePath) {
+		[mfileContent writeToFile:mfilePath atomically:NO];
 	}
 	
     [pool release];

@@ -1,5 +1,5 @@
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
-// Make changes to <$name$>.h instead.
+// Make changes to <$managedObjectClassName$>.h instead.
 
 #import <CoreData/CoreData.h>
 <$if hasCustomBaseClass$>#import "<$customSuperentity$>.h"<$endif$>
@@ -8,7 +8,7 @@
 @class <$Relationship.destinationEntity.managedObjectClassName$>;
 <$endforeach do$>
 
-@interface _<$name$> : <$customSuperentity$> {}
+@interface _<$managedObjectClassName$> : <$customSuperentity$> {}
 <$foreach Attribute attributesByName do$>
 - (<$Attribute.attributeValueClassName$>*)<$Attribute.name$>;
 - (void)set<$Attribute.name.initialCapitalString$>:(<$Attribute.attributeValueClassName$>*)value_;
