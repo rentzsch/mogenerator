@@ -106,7 +106,7 @@ enum {
 	opt_version,
 	opt_model,
 	opt_baseClass,
-	opt_mfile
+	opt_includem
 };
 
 int main (int argc, const char * argv[]) {
@@ -122,12 +122,12 @@ int main (int argc, const char * argv[]) {
 		LONG_OPT(opt_version, no_argument),
 		LONG_OPT(opt_model, required_argument),
 		LONG_OPT(opt_baseClass, required_argument),
-		LONG_OPT(opt_mfile, required_argument),
+		LONG_OPT(opt_includem, required_argument),
 		LONG_OPT_LAST
 	};
-	int opt_char;
-	while ((opt_char = getopt_long_only(argc, (char* const*)argv, "m:", longopts, NULL)) != -1) {
-		switch (opt_char) {
+	int opt_code;
+	while ((opt_code = getopt_long_only(argc, (char* const*)argv, "m:", longopts, NULL)) != -1) {
+		switch (opt_code) {
 			case opt_model:
 				assert(!model); // Currently we only can load one model.
 				NSString *path = [[NSFileManager defaultManager] stringWithFileSystemRepresentation:optarg length:strlen(optarg)];
@@ -144,18 +144,18 @@ int main (int argc, const char * argv[]) {
 			case opt_baseClass:
 				gCustomBaseClass = [NSString stringWithUTF8String:optarg];
 				break;
-			case opt_mfile:
+			case opt_includem:
 				assert(!mfilePath);
 				mfilePath = [NSString stringWithUTF8String:optarg];
 				assert(mfilePath);
 				assert([mfilePath length]);
 				break;
 			case opt_version:
-				printf("mogenerator 1.0. By Jonathan 'Wolf' Rentzsch.\n");
+				printf("mogenerator 1.0.1. By Jonathan 'Wolf' Rentzsch.\n");
 				break;
 			case opt_help:
 			default:
-				printf("mogenerator [-model /path/to/file.xcdatamodel] [-version] [-help]\n");
+				printf("mogenerator [-model /path/to/file.xcdatamodel] [-baseClass MyBaseClassMO] [-includem include.m] [-version] [-help]\n");
 				printf("Implements generation gap codegen pattern for Core Data. Inspired by eogenerator.\n");
 		}
 	}
