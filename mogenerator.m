@@ -14,6 +14,7 @@ NSString	*gCustomBaseClass;
 @interface NSEntityDescription (customBaseClass)
 - (BOOL)hasCustomBaseClass;
 - (NSString*)customSuperentity;
+- (BOOL)hasCustomSuperentity;
 @end
 @implementation NSEntityDescription (customBaseClass)
 - (BOOL)hasCustomBaseClass {
@@ -27,10 +28,15 @@ NSString	*gCustomBaseClass;
 		return gCustomBaseClass ? gCustomBaseClass : @"NSManagedObject";
 	}
 }
+- (BOOL)hasCustomSuperentity {
+	// managedObjectClassName is null when the parent entity isn't set.
+    return [[self superentity] managedObjectClassName] ? YES : NO;
+}
 @end
 @interface NSAttributeDescription (scalarAttributeType)
 - (BOOL)hasScalarAttributeType;
 - (NSString*)scalarAttributeType;
+- (BOOL)hasDefinedAttributeType;
 @end
 @implementation NSAttributeDescription (scalarAttributeType)
 - (BOOL)hasScalarAttributeType {
@@ -70,6 +76,9 @@ NSString	*gCustomBaseClass;
 		default:
 			return nil;
 	}
+}
+- (BOOL)hasDefinedAttributeType {
+	return [self attributeType] != NSUndefinedAttributeType;
 }
 @end
 @interface NSString (camelCaseString)
@@ -151,7 +160,7 @@ int main (int argc, const char * argv[]) {
 				assert([mfilePath length]);
 				break;
 			case opt_version:
-				printf("mogenerator 1.0.1. By Jonathan 'Wolf' Rentzsch.\n");
+				printf("mogenerator 1.0.2. By Jonathan 'Wolf' Rentzsch.\n");
 				break;
 			case opt_help:
 			default:
@@ -224,5 +233,3 @@ int main (int argc, const char * argv[]) {
     [pool release];
     return 0;
 }
-
-	

@@ -2,7 +2,7 @@
 // Make changes to <$managedObjectClassName$>.h instead.
 
 #import <CoreData/CoreData.h>
-<$if hasCustomBaseClass$>#import "<$customSuperentity$>.h"<$endif$>
+<$if hasCustomBaseClass$>#import "<$customSuperentity$>.h"<$elseif hasCustomSuperentity$>#import "<$customSuperentity$>.h"<$endif$>
 
 <$foreach Relationship relationshipsByName do$>
 @class <$Relationship.destinationEntity.managedObjectClassName$>;
@@ -10,13 +10,15 @@
 
 @interface _<$managedObjectClassName$> : <$customSuperentity$> {}
 <$foreach Attribute attributesByName do$>
+<$if Attribute.hasDefinedAttributeType$>
 - (<$Attribute.attributeValueClassName$>*)<$Attribute.name$>;
 - (void)set<$Attribute.name.initialCapitalString$>:(<$Attribute.attributeValueClassName$>*)value_;
 <$if Attribute.hasScalarAttributeType$>
 - (<$Attribute.scalarAttributeType$>)<$Attribute.name$>Value;
 - (void)set<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_;
 <$endif$>
-- (BOOL)validate<$Attribute.name.initialCapitalString$>:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validate<$Attribute.name.initialCapitalString$>:(id*)value_ error:(NSError**)error_;
+<$endif$>
 <$endforeach do$>
 <$foreach Relationship relationshipsByName do$>
 <$if Relationship.isToMany$>
@@ -26,7 +28,7 @@
 <$else$>
 - (<$Relationship.destinationEntity.managedObjectClassName$>*)<$Relationship.name$>;
 - (void)set<$Relationship.name.initialCapitalString$>:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_;
-- (BOOL)validate<$Relationship.name.initialCapitalString$>:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validate<$Relationship.name.initialCapitalString$>:(id*)value_ error:(NSError**)error_;
 <$endif$>
 <$endforeach do$>
 @end

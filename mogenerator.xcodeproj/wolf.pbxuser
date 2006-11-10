@@ -14,12 +14,26 @@
 			79D2BF080ACFAE0100F3F141 /* mogenerator */,
 		);
 		perUserDictionary = {
+			PBXConfiguration.PBXFileTableDataSource3.PBXExecutablesDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXExecutablesDataSource_NameID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					22,
+					300,
+					131,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXExecutablesDataSource_ActiveFlagID,
+					PBXExecutablesDataSource_NameID,
+					PBXExecutablesDataSource_CommentsID,
+				);
+			};
 			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
 				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					243,
+					137,
 					20,
 					48,
 					43,
@@ -36,8 +50,35 @@
 					PBXFileDataSource_Target_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 181774645;
-			PBXWorkspaceStateSaveDate = 181774645;
+			PBXConfiguration.PBXTargetDataSource.PBXTargetDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					200,
+					10,
+					20,
+					48,
+					43,
+					43,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXTargetDataSource_PrimaryAttribute,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 184882159;
+			PBXWorkspaceStateSaveDate = 184882159;
+		};
+		perUserProjectItems = {
+			79812E460B050E2200DF4429 = 79812E460B050E2200DF4429 /* PBXBookmark */;
+			79812E860B050F5F00DF4429 = 79812E860B050F5F00DF4429 /* PBXTextBookmark */;
+			79812EA90B05140600DF4429 /* PBXTextBookmark */ = 79812EA90B05140600DF4429 /* PBXTextBookmark */;
 		};
 		sourceControlManager = 79D2BF0B0ACFAE0700F3F141 /* Source Control */;
 		userBuildSettings = {
@@ -45,11 +86,35 @@
 	};
 	08FB7796FE84155DC02AAC07 /* mogenerator.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1057, 3220}}";
-			sepNavSelRange = "{5130, 0}";
-			sepNavVisRect = "{{0, 1702}, {1057, 940}}";
-			sepNavWindowFrame = "{{1159, 188}, {1096, 998}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1057, 3332}}";
+			sepNavSelRange = "{6643, 22}";
+			sepNavVisRect = "{{0, 0}, {1057, 777}}";
+			sepNavWindowFrame = "{{339, 43}, {1096, 835}}";
 		};
+	};
+	79812E460B050E2200DF4429 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 08FB7796FE84155DC02AAC07 /* mogenerator.m */;
+	};
+	79812E860B050F5F00DF4429 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 08FB7796FE84155DC02AAC07 /* mogenerator.m */;
+		name = "mogenerator.m: 33";
+		rLen = 0;
+		rLoc = 913;
+		rType = 0;
+		vrLen = 1555;
+		vrLoc = 270;
+	};
+	79812EA90B05140600DF4429 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 08FB7796FE84155DC02AAC07 /* mogenerator.m */;
+		name = "mogenerator.m: 32";
+		rLen = 0;
+		rLoc = 901;
+		rType = 0;
+		vrLen = 1548;
+		vrLoc = 270;
 	};
 	79D2BF080ACFAE0100F3F141 /* mogenerator */ = {
 		isa = PBXExecutable;
@@ -60,10 +125,22 @@
 		);
 		autoAttachOnCrash = 1;
 		configStateDict = {
+			"PBXLSLaunchAction-0" = {
+				PBXLSLaunchAction = 0;
+				PBXLSLaunchStartAction = 1;
+				PBXLSLaunchStdioStyle = 2;
+				PBXLSLaunchStyle = 0;
+				class = PBXLSRunLaunchConfig;
+				displayName = "Executable Runner";
+				identifier = com.apple.Xcode.launch.runConfig;
+				remoteHostInfo = "";
+				startActionInfo = "";
+			};
 		};
 		customDataFormattersEnabled = 1;
 		debuggerPlugin = GDBDebugging;
 		disassemblyDisplayState = 0;
+		dylibVariantSuffix = "";
 		enableDebugStr = 1;
 		environmentEntries = (
 		);
@@ -73,6 +150,7 @@
 		name = mogenerator;
 		sourceDirectories = (
 		);
+		startupPath = "<<ProductDirectory>>";
 	};
 	79D2BF0B0ACFAE0700F3F141 /* Source Control */ = {
 		isa = PBXSourceControlManager;
@@ -136,10 +214,10 @@
 	};
 	79D2C00E0ACFB81200F3F141 /* nsenumerate.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1331, 647}}";
-			sepNavSelRange = "{91, 13}";
-			sepNavVisRect = "{{0, 0}, {1331, 647}}";
-			sepNavWindowFrame = "{{15, 168}, {1370, 705}}";
+			sepNavIntBoundsRect = "{{0, 0}, {596, 503}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRect = "{{0, 0}, {596, 503}}";
+			sepNavWindowFrame = "{{37, 281}, {635, 561}}";
 		};
 	};
 	79D2C0570ACFBCB500F3F141 /* FoundationAdditions.h */ = {

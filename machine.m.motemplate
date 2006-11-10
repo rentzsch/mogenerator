@@ -5,6 +5,7 @@
 
 @implementation _<$managedObjectClassName$>
 <$foreach Attribute attributesByName do$>
+<$if Attribute.hasDefinedAttributeType$>
 
 - (<$Attribute.attributeValueClassName$>*)<$Attribute.name$> {
 	[self willAccessValueForKey:@"<$Attribute.name$>"];
@@ -19,10 +20,6 @@
     [self didChangeValueForKey:@"<$Attribute.name$>"];
 }
 
-- (BOOL)validate<$Attribute.name.initialCapitalString$>:(id*)value_ error:(NSError**)error_ {
-	return YES;
-}
-
 <$if Attribute.hasScalarAttributeType$>
 
 - (<$Attribute.scalarAttributeType$>)<$Attribute.name$>Value {
@@ -34,7 +31,7 @@
 }
 
 <$endif$>
-
+<$endif$>
 <$endforeach do$>
 
 <$foreach Relationship relationshipsByName do$>
@@ -71,10 +68,6 @@
 	[self willChangeValueForKey:@"<$Relationship.name$>"];
 	[self setPrimitiveValue:value_ forKey:@"<$Relationship.name$>"];
 	[self didChangeValueForKey:@"<$Relationship.name$>"];
-}
-
-- (BOOL)validate<$Relationship.name.initialCapitalString$>:(id*)value_ error:(NSError**)error_ {
-	return YES;
 }
 
 	<$endif$>
