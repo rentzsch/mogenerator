@@ -218,6 +218,8 @@
 			<key>Layout</key>
 			<array>
 				<dict>
+					<key>BecomeActive</key>
+					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -261,8 +263,8 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>10</integer>
-									<integer>8</integer>
+									<integer>6</integer>
+									<integer>5</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -331,8 +333,6 @@
 							<string>0pt</string>
 						</dict>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -369,9 +369,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>79812E310B050B9300DF4429</string>
+				<string>790C55C00B058A9A00BF93B7</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>79812E320B050B9300DF4429</string>
+				<string>790C55C10B058A9A00BF93B7</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -505,9 +505,6 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>1C0AD2B3069F1EA900FABCE6</string>
-		<string>1C0AD2AF069F1E9B00FABCE6</string>
-		<string>79812D6F0B05091300DF4429</string>
 		<string>/Volumes/Island/wolf/code/sf/redshed/cocoa/mogenerator/mogeneratorTestMule/mogeneratorTestMule.xcodeproj</string>
 	</array>
 	<key>WindowString</key>

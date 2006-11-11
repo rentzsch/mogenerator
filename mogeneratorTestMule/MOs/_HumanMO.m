@@ -9,24 +9,6 @@
 
 
 
-- (NSString*)humanName {
-	[self willAccessValueForKey:@"humanName"];
-	NSString *result = [self primitiveValueForKey:@"humanName"];
-	[self didAccessValueForKey:@"humanName"];
-	return result;
-}
-
-- (void)setHumanName:(NSString*)value_ {
-    [self willChangeValueForKey:@"humanName"];
-    [self setPrimitiveValue:value_ forKey:@"humanName"];
-    [self didChangeValueForKey:@"humanName"];
-}
-
-
-
-
-
-
 - (NSData*)hairColorStorage {
 	[self willAccessValueForKey:@"hairColorStorage"];
 	NSData *result = [self primitiveValueForKey:@"hairColorStorage"];
@@ -38,6 +20,24 @@
     [self willChangeValueForKey:@"hairColorStorage"];
     [self setPrimitiveValue:value_ forKey:@"hairColorStorage"];
     [self didChangeValueForKey:@"hairColorStorage"];
+}
+
+
+
+
+
+
+- (NSString*)humanName {
+	[self willAccessValueForKey:@"humanName"];
+	NSString *result = [self primitiveValueForKey:@"humanName"];
+	[self didAccessValueForKey:@"humanName"];
+	return result;
+}
+
+- (void)setHumanName:(NSString*)value_ {
+    [self willChangeValueForKey:@"humanName"];
+    [self setPrimitiveValue:value_ forKey:@"humanName"];
+    [self didChangeValueForKey:@"humanName"];
 }
 
 
