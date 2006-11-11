@@ -9,17 +9,17 @@
 
 
 
-- (NSString*)humanName {
-	[self willAccessValueForKey:@"humanName"];
-	NSString *result = [self primitiveValueForKey:@"humanName"];
-	[self didAccessValueForKey:@"humanName"];
+- (NSData*)hairColorStorage {
+	[self willAccessValueForKey:@"hairColorStorage"];
+	NSData *result = [self primitiveValueForKey:@"hairColorStorage"];
+	[self didAccessValueForKey:@"hairColorStorage"];
 	return result;
 }
 
-- (void)setHumanName:(NSString*)value_ {
-    [self willChangeValueForKey:@"humanName"];
-    [self setPrimitiveValue:value_ forKey:@"humanName"];
-    [self didChangeValueForKey:@"humanName"];
+- (void)setHairColorStorage:(NSData*)value_ {
+    [self willChangeValueForKey:@"hairColorStorage"];
+    [self setPrimitiveValue:value_ forKey:@"hairColorStorage"];
+    [self didChangeValueForKey:@"hairColorStorage"];
 }
 
 
@@ -45,17 +45,17 @@
 
 
 
-- (NSData*)hairColorStorage {
-	[self willAccessValueForKey:@"hairColorStorage"];
-	NSData *result = [self primitiveValueForKey:@"hairColorStorage"];
-	[self didAccessValueForKey:@"hairColorStorage"];
+- (NSString*)humanName {
+	[self willAccessValueForKey:@"humanName"];
+	NSString *result = [self primitiveValueForKey:@"humanName"];
+	[self didAccessValueForKey:@"humanName"];
 	return result;
 }
 
-- (void)setHairColorStorage:(NSData*)value_ {
-    [self willChangeValueForKey:@"hairColorStorage"];
-    [self setPrimitiveValue:value_ forKey:@"hairColorStorage"];
-    [self didChangeValueForKey:@"hairColorStorage"];
+- (void)setHumanName:(NSString*)value_ {
+    [self willChangeValueForKey:@"humanName"];
+    [self setPrimitiveValue:value_ forKey:@"humanName"];
+    [self didChangeValueForKey:@"humanName"];
 }
 
 

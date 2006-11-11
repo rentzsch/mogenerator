@@ -11,14 +11,19 @@
 #include <getopt.h>
 
 NSString	*gCustomBaseClass;
+
 @interface NSEntityDescription (customBaseClass)
-- (BOOL)hasCustomBaseClass;
-- (NSString*)customSuperentity;
 - (BOOL)hasCustomSuperentity;
+- (NSString*)customSuperentity;
 @end
 @implementation NSEntityDescription (customBaseClass)
-- (BOOL)hasCustomBaseClass {
-	return gCustomBaseClass ? YES : NO;
+- (BOOL)hasCustomSuperentity {
+	NSEntityDescription *superentity = [self superentity];
+	if (superentity) {
+		return YES;
+	} else {
+		return gCustomBaseClass ? YES : NO;
+	}
 }
 - (NSString*)customSuperentity {
 	NSEntityDescription *superentity = [self superentity];
@@ -27,10 +32,6 @@ NSString	*gCustomBaseClass;
 	} else {
 		return gCustomBaseClass ? gCustomBaseClass : @"NSManagedObject";
 	}
-}
-- (BOOL)hasCustomSuperentity {
-	// managedObjectClassName is null when the parent entity isn't set.
-    return [[self superentity] managedObjectClassName] ? YES : NO;
 }
 @end
 @interface NSAttributeDescription (scalarAttributeType)
@@ -160,7 +161,7 @@ int main (int argc, const char * argv[]) {
 				assert([mfilePath length]);
 				break;
 			case opt_version:
-				printf("mogenerator 1.0.2. By Jonathan 'Wolf' Rentzsch.\n");
+				printf("mogenerator 1.0.3. By Jonathan 'Wolf' Rentzsch.\n");
 				break;
 			case opt_help:
 			default:
@@ -185,41 +186,44 @@ int main (int argc, const char * argv[]) {
 		MiscMergeEngine *humanM = engineWithTemplatePath([mogeneratorAppSupportFolder stringByAppendingPathComponent:@"human.M.motemplate"]);
 		
 		nsenumerate ([model entities], NSEntityDescription, entity) {
-			NSString *generatedMachineH = [machineH executeWithObject:entity sender:nil];
-			NSString *generatedMachineM = [machineM executeWithObject:entity sender:nil];
-			NSString *generatedHumanH = [humanH executeWithObject:entity sender:nil];
-			NSString *generatedHumanM = [humanM executeWithObject:entity sender:nil];
-			
-			BOOL machineDirtied = NO;
-			
-			NSString *machineHFileName = [NSString stringWithFormat:@"_%@.h", [entity managedObjectClassName]];
-			if (![fm regularFileExistsAtPath:machineHFileName] || ![generatedMachineH isEqualToString:[NSString stringWithContentsOfFile:machineHFileName]]) {
-				//	If the file doesn't exist or is different than what we just generated, write it out.
-				[generatedMachineH writeToFile:machineHFileName atomically:NO];
-				machineDirtied = YES;
+			NSString *entityClassName = [entity managedObjectClassName];
+			if (![entityClassName isEqualToString:@"NSManagedObject"] && ![entityClassName isEqualToString:gCustomBaseClass]) {
+				NSString *generatedMachineH = [machineH executeWithObject:entity sender:nil];
+				NSString *generatedMachineM = [machineM executeWithObject:entity sender:nil];
+				NSString *generatedHumanH = [humanH executeWithObject:entity sender:nil];
+				NSString *generatedHumanM = [humanM executeWithObject:entity sender:nil];
+				
+				BOOL machineDirtied = NO;
+				
+				NSString *machineHFileName = [NSString stringWithFormat:@"_%@.h", entityClassName];
+				if (![fm regularFileExistsAtPath:machineHFileName] || ![generatedMachineH isEqualToString:[NSString stringWithContentsOfFile:machineHFileName]]) {
+					//	If the file doesn't exist or is different than what we just generated, write it out.
+					[generatedMachineH writeToFile:machineHFileName atomically:NO];
+					machineDirtied = YES;
+				}
+				NSString *machineMFileName = [NSString stringWithFormat:@"_%@.m", entityClassName];
+				if (![fm regularFileExistsAtPath:machineMFileName] || ![generatedMachineM isEqualToString:[NSString stringWithContentsOfFile:machineMFileName]]) {
+					//	If the file doesn't exist or is different than what we just generated, write it out.
+					[generatedMachineM writeToFile:machineMFileName atomically:NO];
+					machineDirtied = YES;
+				}
+				NSString *humanHFileName = [NSString stringWithFormat:@"%@.h", entityClassName];
+				if ([fm regularFileExistsAtPath:humanHFileName]) {
+					if (machineDirtied)
+						[fm touchPath:humanHFileName];
+				} else {
+					[generatedHumanH writeToFile:humanHFileName atomically:NO];
+				}
+				NSString *humanMFileName = [NSString stringWithFormat:@"%@.m", entityClassName];
+				if ([fm regularFileExistsAtPath:humanMFileName]) {
+					if (machineDirtied)
+						[fm touchPath:humanMFileName];
+				} else {
+					[generatedHumanM writeToFile:humanMFileName atomically:NO];
+				}
+				
+				[mfileContent appendFormat:@"#include \"%@.m\"\n#include \"_%@.m\"\n", entityClassName, entityClassName];
 			}
-			NSString *machineMFileName = [NSString stringWithFormat:@"_%@.m", [entity managedObjectClassName]];
-			if (![fm regularFileExistsAtPath:machineMFileName] || ![generatedMachineM isEqualToString:[NSString stringWithContentsOfFile:machineMFileName]]) {
-				//	If the file doesn't exist or is different than what we just generated, write it out.
-				[generatedMachineM writeToFile:machineMFileName atomically:NO];
-				machineDirtied = YES;
-			}
-			NSString *humanHFileName = [NSString stringWithFormat:@"%@.h", [entity managedObjectClassName]];
-			if ([fm regularFileExistsAtPath:humanHFileName]) {
-				if (machineDirtied)
-					[fm touchPath:humanHFileName];
-			} else {
-				[generatedHumanH writeToFile:humanHFileName atomically:NO];
-			}
-			NSString *humanMFileName = [NSString stringWithFormat:@"%@.m", [entity managedObjectClassName]];
-			if ([fm regularFileExistsAtPath:humanMFileName]) {
-				if (machineDirtied)
-					[fm touchPath:humanMFileName];
-			} else {
-				[generatedHumanM writeToFile:humanMFileName atomically:NO];
-			}
-			
-			[mfileContent appendFormat:@"#include \"%@.m\"\n#include \"_%@.m\"\n", [entity managedObjectClassName], [entity managedObjectClassName]];
 		}
 	}
 	
