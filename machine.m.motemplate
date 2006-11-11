@@ -4,7 +4,7 @@
 #import "_<$managedObjectClassName$>.h"
 
 @implementation _<$managedObjectClassName$>
-<$foreach Attribute attributesByName do$>
+<$foreach Attribute noninheritedAttributes do$>
 <$if Attribute.hasDefinedAttributeType$>
 
 - (<$Attribute.attributeValueClassName$>*)<$Attribute.name$> {

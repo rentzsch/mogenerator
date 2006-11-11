@@ -28,13 +28,6 @@
 
 
 
-- (NSString*)humanName;
-- (void)setHumanName:(NSString*)value_;
-
-//- (BOOL)validateHumanName:(id*)value_ error:(NSError**)error_;
-
-
-
 - (NSDecimalNumber*)myDecimal;
 - (void)setMyDecimal:(NSDecimalNumber*)value_;
 
@@ -46,8 +39,6 @@
 - (void)setMyDate:(NSDate*)value_;
 
 //- (BOOL)validateMyDate:(id*)value_ error:(NSError**)error_;
-
-
 
 
 
@@ -112,13 +103,6 @@
 - (void)setMyString:(NSString*)value_;
 
 //- (BOOL)validateMyString:(id*)value_ error:(NSError**)error_;
-
-
-
-- (NSData*)hairColorStorage;
-- (void)setHairColorStorage:(NSData*)value_;
-
-//- (BOOL)validateHairColorStorage:(id*)value_ error:(NSError**)error_;
 
 
 

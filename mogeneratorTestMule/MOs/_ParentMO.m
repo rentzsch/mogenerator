@@ -53,24 +53,6 @@
 
 
 
-- (NSString*)humanName {
-	[self willAccessValueForKey:@"humanName"];
-	NSString *result = [self primitiveValueForKey:@"humanName"];
-	[self didAccessValueForKey:@"humanName"];
-	return result;
-}
-
-- (void)setHumanName:(NSString*)value_ {
-    [self willChangeValueForKey:@"humanName"];
-    [self setPrimitiveValue:value_ forKey:@"humanName"];
-    [self didChangeValueForKey:@"humanName"];
-}
-
-
-
-
-
-
 - (NSDecimalNumber*)myDecimal {
 	[self willAccessValueForKey:@"myDecimal"];
 	NSDecimalNumber *result = [self primitiveValueForKey:@"myDecimal"];
@@ -101,8 +83,6 @@
     [self setPrimitiveValue:value_ forKey:@"myDate"];
     [self didChangeValueForKey:@"myDate"];
 }
-
-
 
 
 
@@ -278,24 +258,6 @@
     [self willChangeValueForKey:@"myString"];
     [self setPrimitiveValue:value_ forKey:@"myString"];
     [self didChangeValueForKey:@"myString"];
-}
-
-
-
-
-
-
-- (NSData*)hairColorStorage {
-	[self willAccessValueForKey:@"hairColorStorage"];
-	NSData *result = [self primitiveValueForKey:@"hairColorStorage"];
-	[self didAccessValueForKey:@"hairColorStorage"];
-	return result;
-}
-
-- (void)setHairColorStorage:(NSData*)value_ {
-    [self willChangeValueForKey:@"hairColorStorage"];
-    [self setPrimitiveValue:value_ forKey:@"hairColorStorage"];
-    [self didChangeValueForKey:@"hairColorStorage"];
 }
 
 

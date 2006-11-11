@@ -9,7 +9,7 @@
 <$endforeach do$>
 
 @interface _<$managedObjectClassName$> : <$customSuperentity$> {}
-<$foreach Attribute attributesByName do$>
+<$foreach Attribute noninheritedAttributes do$>
 <$if Attribute.hasDefinedAttributeType$>
 - (<$Attribute.attributeValueClassName$>*)<$Attribute.name$>;
 - (void)set<$Attribute.name.initialCapitalString$>:(<$Attribute.attributeValueClassName$>*)value_;

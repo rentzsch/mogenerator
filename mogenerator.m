@@ -33,6 +33,17 @@ NSString	*gCustomBaseClass;
 		return gCustomBaseClass ? gCustomBaseClass : @"NSManagedObject";
 	}
 }
+/** @TypeInfo NSAttributeDescription */
+- (NSArray*)noninheritedAttributes {
+	NSEntityDescription *superentity = [self superentity];
+	if (superentity) {
+		NSMutableArray *result = [[[self attributesByName] allValues] mutableCopy];
+		[result removeObjectsInArray:[[superentity attributesByName] allValues]];
+		return result;
+	} else {
+		return [[self attributesByName] allValues];
+	}
+}
 @end
 @interface NSAttributeDescription (scalarAttributeType)
 - (BOOL)hasScalarAttributeType;
@@ -161,7 +172,7 @@ int main (int argc, const char * argv[]) {
 				assert([mfilePath length]);
 				break;
 			case opt_version:
-				printf("mogenerator 1.0.3. By Jonathan 'Wolf' Rentzsch.\n");
+				printf("mogenerator 1.0.4. By Jonathan 'Wolf' Rentzsch.\n");
 				break;
 			case opt_help:
 			default:
