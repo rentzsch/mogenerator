@@ -37,11 +37,22 @@ NSString	*gCustomBaseClass;
 - (NSArray*)noninheritedAttributes {
 	NSEntityDescription *superentity = [self superentity];
 	if (superentity) {
-		NSMutableArray *result = [[[self attributesByName] allValues] mutableCopy];
+		NSMutableArray *result = [[[[self attributesByName] allValues] mutableCopy] autorelease];
 		[result removeObjectsInArray:[[superentity attributesByName] allValues]];
 		return result;
 	} else {
 		return [[self attributesByName] allValues];
+	}
+}
+/** @TypeInfo NSAttributeDescription */
+- (NSArray*)noninheritedRelationships {
+	NSEntityDescription *superentity = [self superentity];
+	if (superentity) {
+		NSMutableArray *result = [[[[self relationshipsByName] allValues] mutableCopy] autorelease];
+		[result removeObjectsInArray:[[superentity relationshipsByName] allValues]];
+		return result;
+	} else {
+		return [[self relationshipsByName] allValues];
 	}
 }
 @end
@@ -172,7 +183,7 @@ int main (int argc, const char * argv[]) {
 				assert([mfilePath length]);
 				break;
 			case opt_version:
-				printf("mogenerator 1.0.4. By Jonathan 'Wolf' Rentzsch.\n");
+				printf("mogenerator 1.0.5. By Jonathan 'Wolf' Rentzsch.\n");
 				break;
 			case opt_help:
 			default:

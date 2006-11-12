@@ -34,7 +34,7 @@
 <$endif$>
 <$endforeach do$>
 
-<$foreach Relationship relationshipsByName do$>
+<$foreach Relationship noninheritedRelationships do$>
 	<$if Relationship.isToMany$>
 - (void)add<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_ {
 	NSSet *changedObjects = [[NSSet alloc] initWithObjects:&value_ count:1];

@@ -9,6 +9,24 @@
 
 
 
+- (NSString*)humanName {
+	[self willAccessValueForKey:@"humanName"];
+	NSString *result = [self primitiveValueForKey:@"humanName"];
+	[self didAccessValueForKey:@"humanName"];
+	return result;
+}
+
+- (void)setHumanName:(NSString*)value_ {
+    [self willChangeValueForKey:@"humanName"];
+    [self setPrimitiveValue:value_ forKey:@"humanName"];
+    [self didChangeValueForKey:@"humanName"];
+}
+
+
+
+
+
+
 - (NSData*)hairColorStorage {
 	[self willAccessValueForKey:@"hairColorStorage"];
 	NSData *result = [self primitiveValueForKey:@"hairColorStorage"];
@@ -27,22 +45,21 @@
 
 
 
-- (NSString*)humanName {
-	[self willAccessValueForKey:@"humanName"];
-	NSString *result = [self primitiveValueForKey:@"humanName"];
-	[self didAccessValueForKey:@"humanName"];
+	
+
+- (NSManagedObject*)meaninglessRelationship {
+	[self willAccessValueForKey:@"meaninglessRelationship"];
+	NSManagedObject *result = [self primitiveValueForKey:@"meaninglessRelationship"];
+	[self didAccessValueForKey:@"meaninglessRelationship"];
 	return result;
 }
 
-- (void)setHumanName:(NSString*)value_ {
-    [self willChangeValueForKey:@"humanName"];
-    [self setPrimitiveValue:value_ forKey:@"humanName"];
-    [self didChangeValueForKey:@"humanName"];
+- (void)setMeaninglessRelationship:(NSManagedObject*)value_ {
+	[self willChangeValueForKey:@"meaninglessRelationship"];
+	[self setPrimitiveValue:value_ forKey:@"meaninglessRelationship"];
+	[self didChangeValueForKey:@"meaninglessRelationship"];
 }
 
-
-
-
-
+	
 
 @end

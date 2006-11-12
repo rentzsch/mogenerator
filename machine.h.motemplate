@@ -4,7 +4,7 @@
 #import <CoreData/CoreData.h>
 <$if hasCustomSuperentity$>#import "<$customSuperentity$>.h"<$endif$>
 
-<$foreach Relationship relationshipsByName do$>
+<$foreach Relationship noninheritedRelationships do$>
 @class <$Relationship.destinationEntity.managedObjectClassName$>;
 <$endforeach do$>
 
@@ -20,7 +20,7 @@
 //- (BOOL)validate<$Attribute.name.initialCapitalString$>:(id*)value_ error:(NSError**)error_;
 <$endif$>
 <$endforeach do$>
-<$foreach Relationship relationshipsByName do$>
+<$foreach Relationship noninheritedRelationships do$>
 <$if Relationship.isToMany$>
 - (void)add<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_;
 - (void)remove<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_;
