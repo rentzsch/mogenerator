@@ -183,7 +183,7 @@ int main (int argc, const char * argv[]) {
 				assert([mfilePath length]);
 				break;
 			case opt_version:
-				printf("mogenerator 1.0.5. By Jonathan 'Wolf' Rentzsch.\n");
+				printf("mogenerator 1.1. By Jonathan 'Wolf' Rentzsch.\n");
 				break;
 			case opt_help:
 			default:
@@ -237,6 +237,12 @@ int main (int argc, const char * argv[]) {
 					[generatedHumanH writeToFile:humanHFileName atomically:NO];
 				}
 				NSString *humanMFileName = [NSString stringWithFormat:@"%@.m", entityClassName];
+				NSString *humanMMFileName = [NSString stringWithFormat:@"%@.mm", entityClassName];
+				if (![fm regularFileExistsAtPath:humanMFileName] && [fm regularFileExistsAtPath:humanMMFileName]) {
+					//	Allow .mm human files as well as .m files.
+					humanMFileName = humanMMFileName;
+				}
+				
 				if ([fm regularFileExistsAtPath:humanMFileName]) {
 					if (machineDirtied)
 						[fm touchPath:humanMFileName];
@@ -244,7 +250,7 @@ int main (int argc, const char * argv[]) {
 					[generatedHumanM writeToFile:humanMFileName atomically:NO];
 				}
 				
-				[mfileContent appendFormat:@"#include \"%@.m\"\n#include \"_%@.m\"\n", entityClassName, entityClassName];
+				[mfileContent appendFormat:@"#include \"%@\"\n#include \"%@\"\n", humanMFileName, machineMFileName];
 			}
 		}
 	}

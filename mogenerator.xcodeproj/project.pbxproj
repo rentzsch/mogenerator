@@ -139,7 +139,7 @@
 		79D2C00E0ACFB81200F3F141 /* nsenumerate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = nsenumerate.h; sourceTree = "<group>"; };
 		79D2C0570ACFBCB500F3F141 /* FoundationAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FoundationAdditions.h; sourceTree = "<group>"; };
 		79D2C0580ACFBCB500F3F141 /* FoundationAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FoundationAdditions.m; sourceTree = "<group>"; };
-		8DD76FA10486AA7600D96B5E /* mogenerator */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = mogenerator; sourceTree = BUILT_PRODUCTS_DIR; };
+		8DD76FA10486AA7600D96B5E /* mogenerator */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "compiled.mach-o.executable"; path = mogenerator; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
