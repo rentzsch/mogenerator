@@ -22,6 +22,8 @@
 <$endforeach do$>
 <$foreach Relationship noninheritedRelationships do$>
 <$if Relationship.isToMany$>
+- (void)add<$Relationship.name.initialCapitalString$>:(NSSet*)value_;
+- (void)remove<$Relationship.name.initialCapitalString$>:(NSSet*)value_;
 - (void)add<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_;
 - (void)remove<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_;
 - (NSMutableSet*)<$Relationship.name$>Set;

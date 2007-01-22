@@ -49,6 +49,18 @@
 
 <$foreach Relationship noninheritedRelationships do$>
 	<$if Relationship.isToMany$>
+- (void)add<$Relationship.name.initialCapitalString$>:(NSSet*)value_ {
+	[self willChangeValueForKey:@"<$Relationship.name$>" withSetMutation:NSKeyValueUnionSetMutation usingObjects:value_];
+    [[self primitiveValueForKey:@"<$Relationship.name$>"] unionSet:value_];
+    [self didChangeValueForKey:@"<$Relationship.name$>" withSetMutation:NSKeyValueUnionSetMutation usingObjects:value_];
+}
+
+-(void)remove<$Relationship.name.initialCapitalString$>:(NSSet*)value_ {
+	[self willChangeValueForKey:@"<$Relationship.name$>" withSetMutation:NSKeyValueMinusSetMutation usingObjects:value_];
+	[[self primitiveValueForKey:@"<$Relationship.name$>"] minusSet:value_];
+	[self didChangeValueForKey:@"<$Relationship.name$>" withSetMutation:NSKeyValueMinusSetMutation usingObjects:value_];
+}
+	
 - (void)add<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_ {
 	NSSet *changedObjects = [[NSSet alloc] initWithObjects:&value_ count:1];
 	[self willChangeValueForKey:@"<$Relationship.name$>" withSetMutation:NSKeyValueUnionSetMutation usingObjects:changedObjects];
