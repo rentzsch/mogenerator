@@ -72,13 +72,11 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 188717308;
-			PBXWorkspaceStateSaveDate = 188717308;
+			PBXPerProjectTemplateStateSaveDate = 193727532;
+			PBXWorkspaceStateSaveDate = 193727532;
 		};
 		perUserProjectItems = {
-			790C56700B06A11E00BF93B7 = 790C56700B06A11E00BF93B7 /* PBXBookmark */;
-			790C56760B06A8FA00BF93B7 = 790C56760B06A8FA00BF93B7 /* PBXTextBookmark */;
-			798B560F0B3F9A3E0017012B /* PBXTextBookmark */ = 798B560F0B3F9A3E0017012B /* PBXTextBookmark */;
+			7968E44B0B8C0D83007B6ABC /* PBXTextBookmark */ = 7968E44B0B8C0D83007B6ABC /* PBXTextBookmark */;
 			798B56100B3F9A3E0017012B /* PBXTextBookmark */ = 798B56100B3F9A3E0017012B /* PBXTextBookmark */;
 		};
 		sourceControlManager = 79D2BF0B0ACFAE0700F3F141 /* Source Control */;
@@ -87,42 +85,28 @@
 	};
 	08FB7796FE84155DC02AAC07 /* mogenerator.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1057, 3780}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1057, 4368}}";
 			sepNavSelRange = "{0, 0}";
 			sepNavVisRect = "{{0, 0}, {1057, 777}}";
-			sepNavWindowFrame = "{{339, 43}, {1096, 835}}";
+			sepNavWindowFrame = "{{1444, 743}, {1096, 835}}";
 		};
 	};
-	790C56700B06A11E00BF93B7 /* PBXBookmark */ = {
-		isa = PBXBookmark;
-		fRef = 08FB7796FE84155DC02AAC07 /* mogenerator.m */;
-	};
-	790C56760B06A8FA00BF93B7 /* PBXTextBookmark */ = {
+	7968E44B0B8C0D83007B6ABC /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 08FB7796FE84155DC02AAC07 /* mogenerator.m */;
-		name = noninheritedRelationships;
-		rLen = 25;
-		rLoc = 1332;
+		name = "mogenerator.m: 1";
+		rLen = 0;
+		rLoc = 0;
 		rType = 0;
-		vrLen = 1690;
-		vrLoc = 638;
-	};
-	798B560F0B3F9A3E0017012B /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 08FB7796FE84155DC02AAC07 /* mogenerator.m */;
-		name = noninheritedRelationships;
-		rLen = 25;
-		rLoc = 1332;
-		rType = 0;
-		vrLen = 1690;
-		vrLoc = 638;
+		vrLen = 1739;
+		vrLoc = 0;
 	};
 	798B56100B3F9A3E0017012B /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 08FB7796FE84155DC02AAC07 /* mogenerator.m */;
 		name = "mogenerator.m: 1";
 		rLen = 0;
-		rLoc = 0;
+		rLoc = 323;
 		rType = 0;
 		vrLen = 1689;
 		vrLoc = 0;
@@ -233,9 +217,9 @@
 	};
 	79D2C0570ACFBCB500F3F141 /* FoundationAdditions.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {740, 630}}";
+			sepNavIntBoundsRect = "{{0, 0}, {689, 652}}";
 			sepNavSelRange = "{1074, 20}";
-			sepNavVisRect = "{{0, 330}, {740, 195}}";
+			sepNavVisRect = "{{0, 0}, {689, 652}}";
 			sepNavWindowFrame = "{{661, 54}, {728, 710}}";
 		};
 	};

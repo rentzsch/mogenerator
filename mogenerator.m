@@ -1,3 +1,10 @@
+/*******************************************************************************
+	mogenerator.m
+		Copyright (c) 2006-2007 Jonathan 'Wolf' Rentzsch: <http://rentzsch.com>
+		Some rights reserved: <http://opensource.org/licenses/mit-license.php>
+
+	***************************************************************************/
+
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
@@ -142,7 +149,7 @@ enum {
 };
 
 int main (int argc, const char * argv[]) {
-    NSAutoreleasePool	*pool = [[NSAutoreleasePool alloc] init];
+	NSAutoreleasePool	*pool = [[NSAutoreleasePool alloc] init];
 	
 	NSManagedObjectModel *model = nil;
 	NSString			*tempMOMPath = nil;
@@ -163,6 +170,12 @@ int main (int argc, const char * argv[]) {
 			case opt_model:
 				assert(!model); // Currently we only can load one model.
 				NSString *path = [[NSFileManager defaultManager] stringWithFileSystemRepresentation:optarg length:strlen(optarg)];
+
+				if( ![[NSFileManager defaultManager] fileExistsAtPath:path]){
+					fprintf(stderr, "mogenerator: error loading file at %s: no such file exists.\n", optarg);
+					return ENOENT;
+				}
+					
 				if ([[path pathExtension] isEqualToString:@"xcdatamodel"]) {
 					//	We've been handed a .xcdatamodel data model, transparently compile it into a .mom managed object model.
 					tempMOMPath = [[NSTemporaryDirectory() stringByAppendingPathComponent:[(id)CFUUIDCreateString(kCFAllocatorDefault, CFUUIDCreate(kCFAllocatorDefault)) autorelease]] stringByAppendingPathExtension:@"mom"];
@@ -183,7 +196,7 @@ int main (int argc, const char * argv[]) {
 				assert([mfilePath length]);
 				break;
 			case opt_version:
-				printf("mogenerator 1.1. By Jonathan 'Wolf' Rentzsch.\n");
+				printf("mogenerator 1.1.1. By Jonathan 'Wolf' Rentzsch + friends.\n");
 				break;
 			case opt_help:
 			default:
@@ -195,6 +208,9 @@ int main (int argc, const char * argv[]) {
 	argv += optind;
 	
 	NSFileManager *fm = [NSFileManager defaultManager];
+
+	int machineFilesGenerated = 0;        
+	int humanFilesGenerated = 0;
 	
 	if (model) {
 		NSArray *appSupportFolders = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
@@ -203,65 +219,91 @@ int main (int argc, const char * argv[]) {
 		NSString *mogeneratorAppSupportFolder = [[appSupportFolders objectAtIndex:0] stringByAppendingPathComponent:@"mogenerator"];
 		
 		MiscMergeEngine *machineH = engineWithTemplatePath([mogeneratorAppSupportFolder stringByAppendingPathComponent:@"machine.h.motemplate"]);
-		MiscMergeEngine *machineM = engineWithTemplatePath([mogeneratorAppSupportFolder stringByAppendingPathComponent:@"machine.M.motemplate"]);
+		assert(machineH);
+		MiscMergeEngine *machineM = engineWithTemplatePath([mogeneratorAppSupportFolder stringByAppendingPathComponent:@"machine.m.motemplate"]);
+		assert(machineM);
 		MiscMergeEngine *humanH = engineWithTemplatePath([mogeneratorAppSupportFolder stringByAppendingPathComponent:@"human.h.motemplate"]);
-		MiscMergeEngine *humanM = engineWithTemplatePath([mogeneratorAppSupportFolder stringByAppendingPathComponent:@"human.M.motemplate"]);
+		assert(humanH);
+		MiscMergeEngine *humanM = engineWithTemplatePath([mogeneratorAppSupportFolder stringByAppendingPathComponent:@"human.m.motemplate"]);
+		assert(humanM);	
+
+		int entityCount = [[model entities] count];
+
+		if(entityCount == 0){ 
+			printf("No entities found in model. No files will be generated.\n");
+			NSLog(@"the model description is %@.", model);
+		}
 		
 		nsenumerate ([model entities], NSEntityDescription, entity) {
 			NSString *entityClassName = [entity managedObjectClassName];
-			if (![entityClassName isEqualToString:@"NSManagedObject"] && ![entityClassName isEqualToString:gCustomBaseClass]) {
-				NSString *generatedMachineH = [machineH executeWithObject:entity sender:nil];
-				NSString *generatedMachineM = [machineM executeWithObject:entity sender:nil];
-				NSString *generatedHumanH = [humanH executeWithObject:entity sender:nil];
-				NSString *generatedHumanM = [humanM executeWithObject:entity sender:nil];
-				
-				BOOL machineDirtied = NO;
-				
-				NSString *machineHFileName = [NSString stringWithFormat:@"_%@.h", entityClassName];
-				if (![fm regularFileExistsAtPath:machineHFileName] || ![generatedMachineH isEqualToString:[NSString stringWithContentsOfFile:machineHFileName]]) {
-					//	If the file doesn't exist or is different than what we just generated, write it out.
-					[generatedMachineH writeToFile:machineHFileName atomically:NO];
-					machineDirtied = YES;
-				}
-				NSString *machineMFileName = [NSString stringWithFormat:@"_%@.m", entityClassName];
-				if (![fm regularFileExistsAtPath:machineMFileName] || ![generatedMachineM isEqualToString:[NSString stringWithContentsOfFile:machineMFileName]]) {
-					//	If the file doesn't exist or is different than what we just generated, write it out.
-					[generatedMachineM writeToFile:machineMFileName atomically:NO];
-					machineDirtied = YES;
-				}
-				NSString *humanHFileName = [NSString stringWithFormat:@"%@.h", entityClassName];
-				if ([fm regularFileExistsAtPath:humanHFileName]) {
-					if (machineDirtied)
-						[fm touchPath:humanHFileName];
-				} else {
-					[generatedHumanH writeToFile:humanHFileName atomically:NO];
-				}
-				NSString *humanMFileName = [NSString stringWithFormat:@"%@.m", entityClassName];
-				NSString *humanMMFileName = [NSString stringWithFormat:@"%@.mm", entityClassName];
-				if (![fm regularFileExistsAtPath:humanMFileName] && [fm regularFileExistsAtPath:humanMMFileName]) {
-					//	Allow .mm human files as well as .m files.
-					humanMFileName = humanMMFileName;
-				}
-				
-				if ([fm regularFileExistsAtPath:humanMFileName]) {
-					if (machineDirtied)
-						[fm touchPath:humanMFileName];
-				} else {
-					[generatedHumanM writeToFile:humanMFileName atomically:NO];
-				}
-				
-				[mfileContent appendFormat:@"#include \"%@\"\n#include \"%@\"\n", humanMFileName, machineMFileName];
+
+			if ([entityClassName isEqualToString:@"NSManagedObject"] ||
+				[entityClassName isEqualToString:gCustomBaseClass]){
+				printf("skipping entity %s because it doesn't use a custom subclass.\n", 
+					   [entityClassName cStringUsingEncoding:NSUTF8StringEncoding]);
+				continue;
 			}
+			
+			NSString *generatedMachineH = [machineH executeWithObject:entity sender:nil];
+			NSString *generatedMachineM = [machineM executeWithObject:entity sender:nil];
+			NSString *generatedHumanH = [humanH executeWithObject:entity sender:nil];
+			NSString *generatedHumanM = [humanM executeWithObject:entity sender:nil];
+			
+			BOOL machineDirtied = NO;
+			
+			NSString *machineHFileName = [NSString stringWithFormat:@"_%@.h", entityClassName];
+			if (![fm regularFileExistsAtPath:machineHFileName] || ![generatedMachineH isEqualToString:[NSString stringWithContentsOfFile:machineHFileName]]) {
+				//	If the file doesn't exist or is different than what we just generated, write it out.
+				[generatedMachineH writeToFile:machineHFileName atomically:NO];
+				machineDirtied = YES;
+				machineFilesGenerated++;
+			}
+			NSString *machineMFileName = [NSString stringWithFormat:@"_%@.m", entityClassName];
+			if (![fm regularFileExistsAtPath:machineMFileName] || ![generatedMachineM isEqualToString:[NSString stringWithContentsOfFile:machineMFileName]]) {
+				//	If the file doesn't exist or is different than what we just generated, write it out.
+				[generatedMachineM writeToFile:machineMFileName atomically:NO];
+				machineDirtied = YES;
+				machineFilesGenerated++;
+			}
+			NSString *humanHFileName = [NSString stringWithFormat:@"%@.h", entityClassName];
+			if ([fm regularFileExistsAtPath:humanHFileName]) {
+				if (machineDirtied)
+					[fm touchPath:humanHFileName];
+			} else {
+				[generatedHumanH writeToFile:humanHFileName atomically:NO];
+				humanFilesGenerated++;
+			}
+			NSString *humanMFileName = [NSString stringWithFormat:@"%@.m", entityClassName];
+			NSString *humanMMFileName = [NSString stringWithFormat:@"%@.mm", entityClassName];
+			if (![fm regularFileExistsAtPath:humanMFileName] && [fm regularFileExistsAtPath:humanMMFileName]) {
+				//	Allow .mm human files as well as .m files.
+				humanMFileName = humanMMFileName;
+			}
+			
+			if ([fm regularFileExistsAtPath:humanMFileName]) {
+				if (machineDirtied)
+					[fm touchPath:humanMFileName];
+			} else {
+				[generatedHumanM writeToFile:humanMFileName atomically:NO];
+				humanFilesGenerated++;
+			}
+			
+			[mfileContent appendFormat:@"#include \"%@\"\n#include \"%@\"\n", humanMFileName, machineMFileName];
 		}
 	}
 	
 	if (tempMOMPath) {
 		[fm removeFileAtPath:tempMOMPath handler:nil];
 	}
-	if (mfilePath) {
+	bool mfileGenerated = NO;
+	if (mfilePath && ![mfileContent isEqualToString:@""]) {
 		[mfileContent writeToFile:mfilePath atomically:NO];
+		mfileGenerated = YES;
 	}
 	
-    [pool release];
-    return 0;
+	printf("%d machine files%s %d human files%s generated.\n", machineFilesGenerated,
+		   (mfileGenerated ? "," : " and"), humanFilesGenerated, (mfileGenerated ? " and one include.m file" : ""));
+	
+	[pool release];
+	return 0;
 }
