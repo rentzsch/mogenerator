@@ -204,10 +204,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>7968E44B0B8C0D83007B6ABC</string>
+						<string>793FDB640B8E117B00DAAB1A</string>
 						<key>history</key>
 						<array>
-							<string>798B56100B3F9A3E0017012B</string>
+							<string>793FDB5F0B8E10E500DAAB1A</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -259,6 +259,8 @@
 			<key>Layout</key>
 			<array>
 				<dict>
+					<key>BecomeActive</key>
+					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -304,8 +306,8 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>10</integer>
-									<integer>9</integer>
+									<integer>2</integer>
+									<integer>1</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -410,9 +412,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>7968E42F0B8C0C54007B6ABC</string>
+				<string>793FDB5D0B8E10E500DAAB1A</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>7968E4300B8C0C54007B6ABC</string>
+				<string>793FDB5E0B8E10E500DAAB1A</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -589,12 +591,10 @@
 							<string>218pt</string>
 						</dict>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXBuildLogShowsTranscriptDefaultKey</key>
-								<string>{{0, 236}, {500, 0}}</string>
+								<string>{{0, 189}, {500, 47}}</string>
 								<key>PBXProjectModuleGUID</key>
 								<string>XCMainBuildResultsModuleGUID</string>
 								<key>PBXProjectModuleLabel</key>
@@ -632,7 +632,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>79D2BF1B0ACFAF4A00F3F141</string>
-				<string>7968E42D0B8C0C4F007B6ABC</string>
+				<string>793FDB630B8E112200DAAB1A</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>

@@ -89,7 +89,7 @@ NSString	*gCustomBaseClass;
 			return @"short";
 			break;
 		case NSInteger32AttributeType:
-			return @"long";
+			return @"int";
 			break;
 		case NSInteger64AttributeType:
 			return @"long long";
@@ -196,7 +196,7 @@ int main (int argc, const char * argv[]) {
 				assert([mfilePath length]);
 				break;
 			case opt_version:
-				printf("mogenerator 1.1.1. By Jonathan 'Wolf' Rentzsch + friends.\n");
+				printf("mogenerator 1.1.2. By Jonathan 'Wolf' Rentzsch + friends.\n");
 				break;
 			case opt_help:
 			default:
