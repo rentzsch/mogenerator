@@ -11,22 +11,6 @@
 	[self willAccessValueForKey:@"<$Attribute.name$>"];
 	<$Attribute.attributeValueClassName$> *result = [self primitiveValueForKey:@"<$Attribute.name$>"];
 	[self didAccessValueForKey:@"<$Attribute.name$>"];
-<$if Attribute.name == position_$>
-	//	position_ is a calculated value: @max(position_)+1. Calculate it the first time it's used.
-	static BOOL fetching = NO;
-	if (!result || [result longLongValue] == -1) {
-		fetching = YES;
-		NSFetchRequest *fetchObjectWithMaximumPosition = [[[NSFetchRequest alloc] init] autorelease];
-		[fetchObjectWithMaximumPosition setEntity:[self entity]];
-		[fetchObjectWithMaximumPosition setSortDescriptors:[NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"position_" ascending:NO] autorelease]]];
-		[fetchObjectWithMaximumPosition setFetchLimit:1];
-		NSArray *objectWithMaximumPosition = [[self managedObjectContext] executeFetchRequest:fetchObjectWithMaximumPosition error:nil];
-		assert(objectWithMaximumPosition && [objectWithMaximumPosition count] < 2);
-		result = [NSNumber numberWithLongLong:[objectWithMaximumPosition count] ? [[[objectWithMaximumPosition lastObject] valueForKey:@"position_"] longLongValue]+1 : 0];
-		[self setPosition_:result];
-		fetching = NO;
-	}
-<$endif$>
 	return result;
 }
 
