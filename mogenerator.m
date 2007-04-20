@@ -136,6 +136,31 @@ static MiscMergeEngine* engineWithTemplatePath(NSString *templatePath_) {
 	return [[[MiscMergeEngine alloc] initWithTemplate:template] autorelease];
 }
 
+NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
+static NSString* appSupportFileNamed(NSString *fileName_) {
+	NSArray *appSupportDirectories = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask+NSLocalDomainMask, YES);
+	assert(appSupportDirectories);
+	
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	BOOL isDirectory;
+	
+	nsenumerate (appSupportDirectories, NSString*, appSupportDirectory) {
+		if ([fileManager fileExistsAtPath:appSupportDirectory isDirectory:&isDirectory]) {
+			NSString *appSupportSubdirectory = [appSupportDirectory stringByAppendingPathComponent:ApplicationSupportSubdirectoryName];
+			if ([fileManager fileExistsAtPath:appSupportSubdirectory isDirectory:&isDirectory] && isDirectory) {
+				NSString *appSupportFile = [appSupportSubdirectory stringByAppendingPathComponent:fileName_];
+				if ([fileManager fileExistsAtPath:appSupportFile isDirectory:&isDirectory] && !isDirectory) {
+					return appSupportFile;
+				}
+			}
+		}
+	}
+	
+	NSLog(@"appSupportFileNamed(@\"%@\"): file not found", fileName_);
+	exit(1);
+	return nil;
+}
+
 #define DEOPT_(OPTION_NAME) OPTION_NAME+(sizeof("opt_")-1)
 #define LONG_OPT(OPTION_NAME, HAS_ARG)	{DEOPT_(#OPTION_NAME), HAS_ARG, NULL, OPTION_NAME}
 #define LONG_OPT_LAST { NULL,0,NULL,0 }
@@ -178,9 +203,12 @@ int main (int argc, const char * argv[]) {
 					
 				if ([[path pathExtension] isEqualToString:@"xcdatamodel"]) {
 					//	We've been handed a .xcdatamodel data model, transparently compile it into a .mom managed object model.
+					NSString *momc = [[NSFileManager defaultManager] fileExistsAtPath:@"/Library/Application Support/Apple/Developer Tools/Plug-ins/XDCoreDataModel.xdplugin/Contents/Resources/momc"]
+						? @"/Library/Application Support/Apple/Developer Tools/Plug-ins/XDCoreDataModel.xdplugin/Contents/Resources/momc"
+						: @"/Developer/Library/Xcode/Plug-ins/XDCoreDataModel.xdplugin/Contents/Resources/momc";
+					
 					tempMOMPath = [[NSTemporaryDirectory() stringByAppendingPathComponent:[(id)CFUUIDCreateString(kCFAllocatorDefault, CFUUIDCreate(kCFAllocatorDefault)) autorelease]] stringByAppendingPathExtension:@"mom"];
-					NSString *momc = [NSString stringWithFormat:@"\"/Library/Application Support/Apple/Developer Tools/Plug-ins/XDCoreDataModel.xdplugin/Contents/Resources/momc\" %@ %@", path, tempMOMPath];
-					system([momc UTF8String]); // Ignored system's result -- momc doesn't return any relevent error codes.
+					system([[NSString stringWithFormat:@"\"%@\" %@ %@", momc, path, tempMOMPath] UTF8String]); // Ignored system's result -- momc doesn't return any relevent error codes.
 					path = tempMOMPath;
 				}
 				model = [[[NSManagedObjectModel alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path]] autorelease];
@@ -196,7 +224,7 @@ int main (int argc, const char * argv[]) {
 				assert([mfilePath length]);
 				break;
 			case opt_version:
-				printf("mogenerator 1.1.2. By Jonathan 'Wolf' Rentzsch + friends.\n");
+				printf("mogenerator 1.2. By Jonathan 'Wolf' Rentzsch + friends.\n");
 				break;
 			case opt_help:
 			default:
@@ -213,18 +241,13 @@ int main (int argc, const char * argv[]) {
 	int humanFilesGenerated = 0;
 	
 	if (model) {
-		NSArray *appSupportFolders = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
-		assert(appSupportFolders);
-		assert([appSupportFolders count] == 1);
-		NSString *mogeneratorAppSupportFolder = [[appSupportFolders objectAtIndex:0] stringByAppendingPathComponent:@"mogenerator"];
-		
-		MiscMergeEngine *machineH = engineWithTemplatePath([mogeneratorAppSupportFolder stringByAppendingPathComponent:@"machine.h.motemplate"]);
+		MiscMergeEngine *machineH = engineWithTemplatePath(appSupportFileNamed(@"machine.h.motemplate"));
 		assert(machineH);
-		MiscMergeEngine *machineM = engineWithTemplatePath([mogeneratorAppSupportFolder stringByAppendingPathComponent:@"machine.m.motemplate"]);
+		MiscMergeEngine *machineM = engineWithTemplatePath(appSupportFileNamed(@"machine.m.motemplate"));
 		assert(machineM);
-		MiscMergeEngine *humanH = engineWithTemplatePath([mogeneratorAppSupportFolder stringByAppendingPathComponent:@"human.h.motemplate"]);
+		MiscMergeEngine *humanH = engineWithTemplatePath(appSupportFileNamed(@"human.h.motemplate"));
 		assert(humanH);
-		MiscMergeEngine *humanM = engineWithTemplatePath([mogeneratorAppSupportFolder stringByAppendingPathComponent:@"human.m.motemplate"]);
+		MiscMergeEngine *humanM = engineWithTemplatePath(appSupportFileNamed(@"human.m.motemplate"));
 		assert(humanM);	
 
 		int entityCount = [[model entities] count];

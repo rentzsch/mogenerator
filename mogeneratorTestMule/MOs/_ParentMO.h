@@ -109,14 +109,16 @@
 - (NSNumber*)myInt32;
 - (void)setMyInt32:(NSNumber*)value_;
 
-- (long)myInt32Value;
-- (void)setMyInt32Value:(long)value_;
+- (int)myInt32Value;
+- (void)setMyInt32Value:(int)value_;
 
 //- (BOOL)validateMyInt32:(id*)value_ error:(NSError**)error_;
 
 
 
 
+- (void)addChildren:(NSSet*)value_;
+- (void)removeChildren:(NSSet*)value_;
 - (void)addChildrenObject:(ChildMO*)value_;
 - (void)removeChildrenObject:(ChildMO*)value_;
 - (NSMutableSet*)childrenSet;

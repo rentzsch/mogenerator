@@ -280,12 +280,12 @@
 
 
 
-- (long)myInt32Value {
-	return [[self myInt32] longValue];
+- (int)myInt32Value {
+	return [[self myInt32] intValue];
 }
 
-- (void)setMyInt32Value:(long)value_ {
-	[self setMyInt32:[NSNumber numberWithLong:value_]];
+- (void)setMyInt32Value:(int)value_ {
+	[self setMyInt32:[NSNumber numberWithInt:value_]];
 }
 
 
@@ -293,6 +293,18 @@
 
 
 
+	
+- (void)addChildren:(NSSet*)value_ {
+	[self willChangeValueForKey:@"children" withSetMutation:NSKeyValueUnionSetMutation usingObjects:value_];
+    [[self primitiveValueForKey:@"children"] unionSet:value_];
+    [self didChangeValueForKey:@"children" withSetMutation:NSKeyValueUnionSetMutation usingObjects:value_];
+}
+
+-(void)removeChildren:(NSSet*)value_ {
+	[self willChangeValueForKey:@"children" withSetMutation:NSKeyValueMinusSetMutation usingObjects:value_];
+	[[self primitiveValueForKey:@"children"] minusSet:value_];
+	[self didChangeValueForKey:@"children" withSetMutation:NSKeyValueMinusSetMutation usingObjects:value_];
+}
 	
 - (void)addChildrenObject:(ChildMO*)value_ {
 	NSSet *changedObjects = [[NSSet alloc] initWithObjects:&value_ count:1];
