@@ -137,20 +137,27 @@ static MiscMergeEngine* engineWithTemplatePath(NSString *templatePath_) {
 }
 
 NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
+NSString *gTemplatePath = nil;
 static NSString* appSupportFileNamed(NSString *fileName_) {
-	NSArray *appSupportDirectories = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask+NSLocalDomainMask, YES);
-	assert(appSupportDirectories);
-	
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	BOOL isDirectory;
 	
-	nsenumerate (appSupportDirectories, NSString*, appSupportDirectory) {
-		if ([fileManager fileExistsAtPath:appSupportDirectory isDirectory:&isDirectory]) {
-			NSString *appSupportSubdirectory = [appSupportDirectory stringByAppendingPathComponent:ApplicationSupportSubdirectoryName];
-			if ([fileManager fileExistsAtPath:appSupportSubdirectory isDirectory:&isDirectory] && isDirectory) {
-				NSString *appSupportFile = [appSupportSubdirectory stringByAppendingPathComponent:fileName_];
-				if ([fileManager fileExistsAtPath:appSupportFile isDirectory:&isDirectory] && !isDirectory) {
-					return appSupportFile;
+	if (gTemplatePath) {
+		if ([fileManager fileExistsAtPath:gTemplatePath isDirectory:&isDirectory] && isDirectory) {
+			return [gTemplatePath stringByAppendingPathComponent:fileName_];
+		}
+	} else {
+		NSArray *appSupportDirectories = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask+NSLocalDomainMask, YES);
+		assert(appSupportDirectories);
+		
+		nsenumerate (appSupportDirectories, NSString*, appSupportDirectory) {
+			if ([fileManager fileExistsAtPath:appSupportDirectory isDirectory:&isDirectory]) {
+				NSString *appSupportSubdirectory = [appSupportDirectory stringByAppendingPathComponent:ApplicationSupportSubdirectoryName];
+				if ([fileManager fileExistsAtPath:appSupportSubdirectory isDirectory:&isDirectory] && isDirectory) {
+					NSString *appSupportFile = [appSupportSubdirectory stringByAppendingPathComponent:fileName_];
+					if ([fileManager fileExistsAtPath:appSupportFile isDirectory:&isDirectory] && !isDirectory) {
+						return appSupportFile;
+					}
 				}
 			}
 		}
@@ -170,7 +177,8 @@ enum {
 	opt_version,
 	opt_model,
 	opt_baseClass,
-	opt_includem
+	opt_includem,
+	opt_templatePath
 };
 
 int main (int argc, const char * argv[]) {
@@ -187,6 +195,7 @@ int main (int argc, const char * argv[]) {
 		LONG_OPT(opt_model, required_argument),
 		LONG_OPT(opt_baseClass, required_argument),
 		LONG_OPT(opt_includem, required_argument),
+		LONG_OPT(opt_templatePath, required_argument),
 		LONG_OPT_LAST
 	};
 	int opt_code;
@@ -224,11 +233,14 @@ int main (int argc, const char * argv[]) {
 				assert([mfilePath length]);
 				break;
 			case opt_version:
-				printf("mogenerator 1.2. By Jonathan 'Wolf' Rentzsch + friends.\n");
+				printf("mogenerator 1.3. By Jonathan 'Wolf' Rentzsch + friends.\n");
+				break;
+			case opt_templatePath:
+				gTemplatePath = [NSString stringWithUTF8String:optarg];
 				break;
 			case opt_help:
 			default:
-				printf("mogenerator [-model /path/to/file.xcdatamodel] [-baseClass MyBaseClassMO] [-includem include.m] [-version] [-help]\n");
+				printf("mogenerator [-model /path/to/file.xcdatamodel] [-baseClass MyBaseClassMO] [-includem include.m] [-version] [-templatePath] [-help]\n");
 				printf("Implements generation gap codegen pattern for Core Data. Inspired by eogenerator.\n");
 		}
 	}
