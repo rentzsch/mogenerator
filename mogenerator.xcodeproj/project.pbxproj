@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		55200E960C49FEEA00018A42 /* DDCliApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 55200E900C49FEEA00018A42 /* DDCliApplication.m */; };
+		55200E970C49FEEA00018A42 /* DDCliUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 55200E920C49FEEA00018A42 /* DDCliUtil.m */; };
+		55200E980C49FEEA00018A42 /* DDGetoptLongParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 55200E950C49FEEA00018A42 /* DDGetoptLongParser.m */; };
+		55200F9D0C4A2CA800018A42 /* DDCliParseException.m in Sources */ = {isa = PBXBuildFile; fileRef = 55200F9C0C4A2CA800018A42 /* DDCliParseException.m */; };
 		79D2BF3F0ACFB25B00F3F141 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79D2BF3E0ACFB25B00F3F141 /* CoreData.framework */; };
 		79D2BFA20ACFB51A00F3F141 /* _MiscMergeBreakCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 79D2BF530ACFB51A00F3F141 /* _MiscMergeBreakCommand.m */; };
 		79D2BFA40ACFB51A00F3F141 /* _MiscMergeCallCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 79D2BF550ACFB51A00F3F141 /* _MiscMergeCallCommand.m */; };
@@ -56,6 +60,15 @@
 		08FB7796FE84155DC02AAC07 /* mogenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mogenerator.m; sourceTree = "<group>"; };
 		08FB779EFE84155DC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32A70AAB03705E1F00C91783 /* mogenerator_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mogenerator_Prefix.pch; sourceTree = "<group>"; };
+		55200E8F0C49FEEA00018A42 /* DDCliApplication.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DDCliApplication.h; sourceTree = "<group>"; };
+		55200E900C49FEEA00018A42 /* DDCliApplication.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DDCliApplication.m; sourceTree = "<group>"; };
+		55200E910C49FEEA00018A42 /* DDCliUtil.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DDCliUtil.h; sourceTree = "<group>"; };
+		55200E920C49FEEA00018A42 /* DDCliUtil.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DDCliUtil.m; sourceTree = "<group>"; };
+		55200E930C49FEEA00018A42 /* DDCommandLineInterface.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DDCommandLineInterface.h; sourceTree = "<group>"; };
+		55200E940C49FEEA00018A42 /* DDGetoptLongParser.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DDGetoptLongParser.h; sourceTree = "<group>"; };
+		55200E950C49FEEA00018A42 /* DDGetoptLongParser.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DDGetoptLongParser.m; sourceTree = "<group>"; };
+		55200F9B0C4A2CA800018A42 /* DDCliParseException.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DDCliParseException.h; sourceTree = "<group>"; };
+		55200F9C0C4A2CA800018A42 /* DDCliParseException.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DDCliParseException.m; sourceTree = "<group>"; };
 		79D2BF3E0ACFB25B00F3F141 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		79D2BF520ACFB51A00F3F141 /* _MiscMergeBreakCommand.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = _MiscMergeBreakCommand.h; path = ../MiscMerge/_MiscMergeBreakCommand.h; sourceTree = "<group>"; };
 		79D2BF530ACFB51A00F3F141 /* _MiscMergeBreakCommand.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = _MiscMergeBreakCommand.m; path = ../MiscMerge/_MiscMergeBreakCommand.m; sourceTree = "<group>"; };
@@ -160,6 +173,7 @@
 			children = (
 				08FB7795FE84155DC02AAC07 /* Source */,
 				79D2BF510ACFB51000F3F141 /* MiscMerge */,
+				55200E8E0C49FEEA00018A42 /* ddcli */,
 				08FB779DFE84155DC02AAC07 /* External Frameworks and Libraries */,
 				1AB674ADFE9D54B511CA2CBB /* Products */,
 			);
@@ -193,6 +207,22 @@
 				8DD76FA10486AA7600D96B5E /* mogenerator */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		55200E8E0C49FEEA00018A42 /* ddcli */ = {
+			isa = PBXGroup;
+			children = (
+				55200F9B0C4A2CA800018A42 /* DDCliParseException.h */,
+				55200F9C0C4A2CA800018A42 /* DDCliParseException.m */,
+				55200E8F0C49FEEA00018A42 /* DDCliApplication.h */,
+				55200E900C49FEEA00018A42 /* DDCliApplication.m */,
+				55200E910C49FEEA00018A42 /* DDCliUtil.h */,
+				55200E920C49FEEA00018A42 /* DDCliUtil.m */,
+				55200E930C49FEEA00018A42 /* DDCommandLineInterface.h */,
+				55200E940C49FEEA00018A42 /* DDGetoptLongParser.h */,
+				55200E950C49FEEA00018A42 /* DDGetoptLongParser.m */,
+			);
+			path = ddcli;
 			sourceTree = "<group>";
 		};
 		79D2BF510ACFB51000F3F141 /* MiscMerge */ = {
@@ -363,6 +393,10 @@
 				79D2BFED0ACFB51A00F3F141 /* NSScanner+MiscMerge.m in Sources */,
 				79D2BFEF0ACFB51A00F3F141 /* NSString+MiscAdditions.m in Sources */,
 				79D2C05A0ACFBCB500F3F141 /* FoundationAdditions.m in Sources */,
+				55200E960C49FEEA00018A42 /* DDCliApplication.m in Sources */,
+				55200E970C49FEEA00018A42 /* DDCliUtil.m in Sources */,
+				55200E980C49FEEA00018A42 /* DDGetoptLongParser.m in Sources */,
+				55200F9D0C4A2CA800018A42 /* DDCliParseException.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -408,6 +442,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
@@ -419,6 +454,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;

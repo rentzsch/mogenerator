@@ -14,8 +14,7 @@
 #import "FoundationAdditions.h"
 #import "nsenumerate.h"
 #import "NSString+MiscAdditions.h"
-
-#include <getopt.h>
+#import "DDCommandLineInterface.h"
 
 NSString	*gCustomBaseClass;
 
@@ -164,91 +163,125 @@ static NSString* appSupportFileNamed(NSString *fileName_) {
 	}
 	
 	NSLog(@"appSupportFileNamed(@\"%@\"): file not found", fileName_);
-	exit(1);
+	exit(EXIT_FAILURE);
 	return nil;
 }
 
-#define DEOPT_(OPTION_NAME) OPTION_NAME+(sizeof("opt_")-1)
-#define LONG_OPT(OPTION_NAME, HAS_ARG)	{DEOPT_(#OPTION_NAME), HAS_ARG, NULL, OPTION_NAME}
-#define LONG_OPT_LAST { NULL,0,NULL,0 }
+@interface MOGeneratorApp : NSObject <DDCliApplicationDelegate>
+{
+	NSString * tempMOMPath;
+    NSManagedObjectModel * model;
+    NSString * baseClass;
+    NSString * includem;
+    NSString * templatePath;
+    NSString * outputDir;
+    NSString * machineDir;
+    NSString * humanDir;
+    BOOL _help;
+    BOOL _version;
+}
 
-enum {
-	opt_help = 1,
-	opt_version,
-	opt_model,
-	opt_baseClass,
-	opt_includem,
-	opt_templatePath
-};
+@end
 
-int main (int argc, const char * argv[]) {
-	NSAutoreleasePool	*pool = [[NSAutoreleasePool alloc] init];
-	
-	NSManagedObjectModel *model = nil;
-	NSString			*tempMOMPath = nil;
-	NSString			*mfilePath = nil;
-	NSMutableString		*mfileContent = [NSMutableString stringWithString:@""];
-	
-	static struct option longopts[] = {
-		LONG_OPT(opt_help, no_argument),
-		LONG_OPT(opt_version, no_argument),
-		LONG_OPT(opt_model, required_argument),
-		LONG_OPT(opt_baseClass, required_argument),
-		LONG_OPT(opt_includem, required_argument),
-		LONG_OPT(opt_templatePath, required_argument),
-		LONG_OPT_LAST
-	};
-	int opt_code;
-	while ((opt_code = getopt_long_only(argc, (char* const*)argv, "m:", longopts, NULL)) != -1) {
-		switch (opt_code) {
-			case opt_model:
-				assert(!model); // Currently we only can load one model.
-				NSString *path = [[NSFileManager defaultManager] stringWithFileSystemRepresentation:optarg length:strlen(optarg)];
+@implementation MOGeneratorApp
 
-				if( ![[NSFileManager defaultManager] fileExistsAtPath:path]){
-					fprintf(stderr, "mogenerator: error loading file at %s: no such file exists.\n", optarg);
-					return ENOENT;
-				}
-					
-				if ([[path pathExtension] isEqualToString:@"xcdatamodel"]) {
-					//	We've been handed a .xcdatamodel data model, transparently compile it into a .mom managed object model.
-					NSString *momc = [[NSFileManager defaultManager] fileExistsAtPath:@"/Library/Application Support/Apple/Developer Tools/Plug-ins/XDCoreDataModel.xdplugin/Contents/Resources/momc"]
-						? @"/Library/Application Support/Apple/Developer Tools/Plug-ins/XDCoreDataModel.xdplugin/Contents/Resources/momc"
-						: @"/Developer/Library/Xcode/Plug-ins/XDCoreDataModel.xdplugin/Contents/Resources/momc";
-					
-					tempMOMPath = [[NSTemporaryDirectory() stringByAppendingPathComponent:[(id)CFUUIDCreateString(kCFAllocatorDefault, CFUUIDCreate(kCFAllocatorDefault)) autorelease]] stringByAppendingPathExtension:@"mom"];
-					system([[NSString stringWithFormat:@"\"%@\" %@ %@", momc, path, tempMOMPath] UTF8String]); // Ignored system's result -- momc doesn't return any relevent error codes.
-					path = tempMOMPath;
-				}
-				model = [[[NSManagedObjectModel alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path]] autorelease];
-				assert(model);
-				break;
-			case opt_baseClass:
-				gCustomBaseClass = [NSString stringWithUTF8String:optarg];
-				break;
-			case opt_includem:
-				assert(!mfilePath);
-				mfilePath = [NSString stringWithUTF8String:optarg];
-				assert(mfilePath);
-				assert([mfilePath length]);
-				break;
-			case opt_version:
-				printf("mogenerator 1.3. By Jonathan 'Wolf' Rentzsch + friends.\n");
-				break;
-			case opt_templatePath:
-				gTemplatePath = [NSString stringWithUTF8String:optarg];
-				break;
-			case opt_help:
-			default:
-				printf("mogenerator [-model /path/to/file.xcdatamodel] [-baseClass MyBaseClassMO] [-includem include.m] [-version] [-templatePath] [-help]\n");
-				printf("Implements generation gap codegen pattern for Core Data. Inspired by eogenerator.\n");
-		}
-	}
-	argc -= optind;
-	argv += optind;
-	
+- (void) application: (DDCliApplication *) app
+    willParseOptions: (DDGetoptLongParser *) optionsParser;
+{
+    [optionsParser setGetoptLongOnly: YES];
+    DDGetoptOption optionTable[] = 
+    {
+    // Long             Short   Argument options
+    {@"model",          'm',    DDGetoptRequiredArgument},
+    {@"base-class",      0,     DDGetoptRequiredArgument},
+    // For compatibility:
+    {@"baseClass",      0,      DDGetoptRequiredArgument},
+    {@"includem",       0,      DDGetoptRequiredArgument},
+    {@"template-path",  0,      DDGetoptRequiredArgument},
+    // For compatibility:
+    {@"templatePath",   0,      DDGetoptRequiredArgument},
+    {@"output-dir",     'O',    DDGetoptRequiredArgument},
+    {@"machine-dir",    'M',    DDGetoptRequiredArgument},
+    {@"human-dir",      'H',    DDGetoptRequiredArgument},
+
+    {@"help",           'h',    DDGetoptNoArgument},
+    {@"version",        0,      DDGetoptNoArgument},
+    {nil,               0,      0},
+    };
+    [optionsParser addOptionsFromTable: optionTable];
+}
+
+- (void) printUsage;
+{
+    ddprintf(@"%@: Usage [OPTIONS] <argument> [...]\n", DDCliApp);
+    printf("\n"
+           "  -m, --model MODEL             Path to model\n"
+           "      --base-class CLASS        Custom base class\n"
+           "      --includem FILE           Generate aggregate include file\n"
+           "      --template-path PATH      Path to templates\n"
+           "  -O, --output-dir DIR          Output directory\n"
+           "  -M, --machine-dir DIR         Output directory for machine files\n"
+           "  -H, --human-dir DIR           Output director for human files\n"
+           "      --version                 Display version and exit\n"
+           "  -h, --help                    Display this help and exit\n"
+           "\n"
+           "Implements generation gap codegen pattern for Core Data.\n"
+           "Inspired by eogenerator.\n");
+}
+
+- (void) setModel: (NSString *) path;
+{
+    assert(!model); // Currently we only can load one model.
+
+    if( ![[NSFileManager defaultManager] fileExistsAtPath:path]){
+        NSString * reason = [NSString stringWithFormat: @"error loading file at %@: no such file exists", path];
+        DDCliParseException * e = [DDCliParseException parseExceptionWithReason: reason
+                                                                       exitCode: EX_NOINPUT];
+        @throw e;
+    }
+
+    if ([[path pathExtension] isEqualToString:@"xcdatamodel"]) {
+        //	We've been handed a .xcdatamodel data model, transparently compile it into a .mom managed object model.
+        NSString *momc = [[NSFileManager defaultManager] fileExistsAtPath:@"/Library/Application Support/Apple/Developer Tools/Plug-ins/XDCoreDataModel.xdplugin/Contents/Resources/momc"]
+        ? @"/Library/Application Support/Apple/Developer Tools/Plug-ins/XDCoreDataModel.xdplugin/Contents/Resources/momc"
+        : @"/Developer/Library/Xcode/Plug-ins/XDCoreDataModel.xdplugin/Contents/Resources/momc";
+        
+        tempMOMPath = [[NSTemporaryDirectory() stringByAppendingPathComponent:[(id)CFUUIDCreateString(kCFAllocatorDefault, CFUUIDCreate(kCFAllocatorDefault)) autorelease]] stringByAppendingPathExtension:@"mom"];
+        system([[NSString stringWithFormat:@"\"%@\" %@ %@", momc, path, tempMOMPath] UTF8String]); // Ignored system's result -- momc doesn't return any relevent error codes.
+        path = tempMOMPath;
+    }
+    model = [[[NSManagedObjectModel alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path]] autorelease];
+    assert(model);
+}
+
+- (int) application: (DDCliApplication *) app
+   runWithArguments: (NSArray *) arguments;
+{
+    if (_help)
+    {
+        [self printUsage];
+        return EXIT_SUCCESS;
+    }
+    
+    if (_version)
+    {
+        printf("mogenerator 1.4. By Jonathan 'Wolf' Rentzsch + friends.\n");
+        return EXIT_SUCCESS;
+    }
+    
+    gCustomBaseClass = [baseClass retain];
+    gTemplatePath = templatePath;
+    NSString * mfilePath = includem;
+	NSMutableString * mfileContent = [NSMutableString stringWithString:@""];
+    if (outputDir == nil)
+        outputDir = @"";
+    if (machineDir == nil)
+        machineDir = outputDir;
+    if (humanDir == nil)
+        humanDir = outputDir;
+
 	NSFileManager *fm = [NSFileManager defaultManager];
-
+    
 	int machineFilesGenerated = 0;        
 	int humanFilesGenerated = 0;
 	
@@ -261,9 +294,9 @@ int main (int argc, const char * argv[]) {
 		assert(humanH);
 		MiscMergeEngine *humanM = engineWithTemplatePath(appSupportFileNamed(@"human.m.motemplate"));
 		assert(humanM);	
-
+        
 		int entityCount = [[model entities] count];
-
+        
 		if(entityCount == 0){ 
 			printf("No entities found in model. No files will be generated.\n");
 			NSLog(@"the model description is %@.", model);
@@ -271,11 +304,11 @@ int main (int argc, const char * argv[]) {
 		
 		nsenumerate ([model entities], NSEntityDescription, entity) {
 			NSString *entityClassName = [entity managedObjectClassName];
-
+            
 			if ([entityClassName isEqualToString:@"NSManagedObject"] ||
 				[entityClassName isEqualToString:gCustomBaseClass]){
-				printf("skipping entity %s because it doesn't use a custom subclass.\n", 
-					   [entityClassName cStringUsingEncoding:NSUTF8StringEncoding]);
+				ddprintf(@"skipping entity %@ because it doesn't use a custom subclass.\n", 
+                         entityClassName);
 				continue;
 			}
 			
@@ -286,21 +319,24 @@ int main (int argc, const char * argv[]) {
 			
 			BOOL machineDirtied = NO;
 			
-			NSString *machineHFileName = [NSString stringWithFormat:@"_%@.h", entityClassName];
+			NSString *machineHFileName = [machineDir stringByAppendingPathComponent:
+                [NSString stringWithFormat:@"_%@.h", entityClassName]];
 			if (![fm regularFileExistsAtPath:machineHFileName] || ![generatedMachineH isEqualToString:[NSString stringWithContentsOfFile:machineHFileName]]) {
 				//	If the file doesn't exist or is different than what we just generated, write it out.
 				[generatedMachineH writeToFile:machineHFileName atomically:NO];
 				machineDirtied = YES;
 				machineFilesGenerated++;
 			}
-			NSString *machineMFileName = [NSString stringWithFormat:@"_%@.m", entityClassName];
+			NSString *machineMFileName = [machineDir stringByAppendingPathComponent:
+                [NSString stringWithFormat:@"_%@.m", entityClassName]];
 			if (![fm regularFileExistsAtPath:machineMFileName] || ![generatedMachineM isEqualToString:[NSString stringWithContentsOfFile:machineMFileName]]) {
 				//	If the file doesn't exist or is different than what we just generated, write it out.
 				[generatedMachineM writeToFile:machineMFileName atomically:NO];
 				machineDirtied = YES;
 				machineFilesGenerated++;
 			}
-			NSString *humanHFileName = [NSString stringWithFormat:@"%@.h", entityClassName];
+			NSString *humanHFileName = [humanDir stringByAppendingPathComponent:
+                [NSString stringWithFormat:@"%@.h", entityClassName]];
 			if ([fm regularFileExistsAtPath:humanHFileName]) {
 				if (machineDirtied)
 					[fm touchPath:humanHFileName];
@@ -308,8 +344,10 @@ int main (int argc, const char * argv[]) {
 				[generatedHumanH writeToFile:humanHFileName atomically:NO];
 				humanFilesGenerated++;
 			}
-			NSString *humanMFileName = [NSString stringWithFormat:@"%@.m", entityClassName];
-			NSString *humanMMFileName = [NSString stringWithFormat:@"%@.mm", entityClassName];
+			NSString *humanMFileName = [humanDir stringByAppendingPathComponent:
+                [NSString stringWithFormat:@"%@.m", entityClassName]];
+			NSString *humanMMFileName = [humanDir stringByAppendingPathComponent:
+                [NSString stringWithFormat:@"%@.mm", entityClassName]];
 			if (![fm regularFileExistsAtPath:humanMFileName] && [fm regularFileExistsAtPath:humanMMFileName]) {
 				//	Allow .mm human files as well as .m files.
 				humanMFileName = humanMMFileName;
@@ -323,7 +361,8 @@ int main (int argc, const char * argv[]) {
 				humanFilesGenerated++;
 			}
 			
-			[mfileContent appendFormat:@"#include \"%@\"\n#include \"%@\"\n", humanMFileName, machineMFileName];
+			[mfileContent appendFormat:@"#include \"%@\"\n#include \"%@\"\n",
+                [humanMFileName lastPathComponent], [machineMFileName lastPathComponent]];
 		}
 	}
 	
@@ -338,7 +377,14 @@ int main (int argc, const char * argv[]) {
 	
 	printf("%d machine files%s %d human files%s generated.\n", machineFilesGenerated,
 		   (mfileGenerated ? "," : " and"), humanFilesGenerated, (mfileGenerated ? " and one include.m file" : ""));
-	
-	[pool release];
-	return 0;
+    
+    return EXIT_SUCCESS;
 }
+
+@end
+
+int main (int argc, char * const * argv)
+{
+    return DDCliAppRunWithClass([MOGeneratorApp class]);
+}
+
