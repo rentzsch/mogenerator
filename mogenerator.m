@@ -135,15 +135,33 @@ static MiscMergeEngine* engineWithTemplatePath(NSString *templatePath_) {
 	return [[[MiscMergeEngine alloc] initWithTemplate:template] autorelease];
 }
 
+@interface MOGeneratorApp : NSObject <DDCliApplicationDelegate> {
+	NSString				*tempMOMPath;
+	NSManagedObjectModel	*model;
+	NSString				*baseClass;
+	NSString				*includem;
+	NSString				*templatePath;
+	NSString				*outputDir;
+	NSString				*machineDir;
+	NSString				*humanDir;
+	NSString				*templateGroup;
+	BOOL					_help;
+	BOOL					_version;
+}
+
+- (NSString*)appSupportFileNamed:(NSString*)fileName_;
+@end
+
+@implementation MOGeneratorApp
+
 NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
-NSString *gTemplatePath = nil;
-static NSString* appSupportFileNamed(NSString *fileName_) {
+- (NSString*)appSupportFileNamed:(NSString*)fileName_ {
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	BOOL isDirectory;
 	
-	if (gTemplatePath) {
-		if ([fileManager fileExistsAtPath:gTemplatePath isDirectory:&isDirectory] && isDirectory) {
-			return [gTemplatePath stringByAppendingPathComponent:fileName_];
+	if (templatePath) {
+		if ([fileManager fileExistsAtPath:templatePath isDirectory:&isDirectory] && isDirectory) {
+			return [templatePath stringByAppendingPathComponent:fileName_];
 		}
 	} else {
 		NSArray *appSupportDirectories = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask+NSLocalDomainMask, YES);
@@ -152,6 +170,9 @@ static NSString* appSupportFileNamed(NSString *fileName_) {
 		nsenumerate (appSupportDirectories, NSString*, appSupportDirectory) {
 			if ([fileManager fileExistsAtPath:appSupportDirectory isDirectory:&isDirectory]) {
 				NSString *appSupportSubdirectory = [appSupportDirectory stringByAppendingPathComponent:ApplicationSupportSubdirectoryName];
+				if (templateGroup) {
+					appSupportSubdirectory = [appSupportSubdirectory stringByAppendingPathComponent:templateGroup];
+				}
 				if ([fileManager fileExistsAtPath:appSupportSubdirectory isDirectory:&isDirectory] && isDirectory) {
 					NSString *appSupportFile = [appSupportSubdirectory stringByAppendingPathComponent:fileName_];
 					if ([fileManager fileExistsAtPath:appSupportFile isDirectory:&isDirectory] && !isDirectory) {
@@ -162,28 +183,10 @@ static NSString* appSupportFileNamed(NSString *fileName_) {
 		}
 	}
 	
-	NSLog(@"appSupportFileNamed(@\"%@\"): file not found", fileName_);
+	NSLog(@"appSupportFileNamed:@\"%@\": file not found", fileName_);
 	exit(EXIT_FAILURE);
 	return nil;
 }
-
-@interface MOGeneratorApp : NSObject <DDCliApplicationDelegate>
-{
-	NSString * tempMOMPath;
-    NSManagedObjectModel * model;
-    NSString * baseClass;
-    NSString * includem;
-    NSString * templatePath;
-    NSString * outputDir;
-    NSString * machineDir;
-    NSString * humanDir;
-    BOOL _help;
-    BOOL _version;
-}
-
-@end
-
-@implementation MOGeneratorApp
 
 - (void) application: (DDCliApplication *) app
     willParseOptions: (DDGetoptLongParser *) optionsParser;
@@ -203,6 +206,7 @@ static NSString* appSupportFileNamed(NSString *fileName_) {
     {@"output-dir",     'O',    DDGetoptRequiredArgument},
     {@"machine-dir",    'M',    DDGetoptRequiredArgument},
     {@"human-dir",      'H',    DDGetoptRequiredArgument},
+    {@"template-group", 0,      DDGetoptRequiredArgument},
 
     {@"help",           'h',    DDGetoptNoArgument},
     {@"version",        0,      DDGetoptNoArgument},
@@ -219,6 +223,7 @@ static NSString* appSupportFileNamed(NSString *fileName_) {
            "      --base-class CLASS        Custom base class\n"
            "      --includem FILE           Generate aggregate include file\n"
            "      --template-path PATH      Path to templates\n"
+           "      --template-group NAME     Name of template group\n"
            "  -O, --output-dir DIR          Output directory\n"
            "  -M, --machine-dir DIR         Output directory for machine files\n"
            "  -H, --human-dir DIR           Output director for human files\n"
@@ -265,12 +270,11 @@ static NSString* appSupportFileNamed(NSString *fileName_) {
     
     if (_version)
     {
-        printf("mogenerator 1.4. By Jonathan 'Wolf' Rentzsch + friends.\n");
+        printf("mogenerator 1.5. By Jonathan 'Wolf' Rentzsch + friends.\n");
         return EXIT_SUCCESS;
     }
     
     gCustomBaseClass = [baseClass retain];
-    gTemplatePath = templatePath;
     NSString * mfilePath = includem;
 	NSMutableString * mfileContent = [NSMutableString stringWithString:@""];
     if (outputDir == nil)
@@ -286,13 +290,13 @@ static NSString* appSupportFileNamed(NSString *fileName_) {
 	int humanFilesGenerated = 0;
 	
 	if (model) {
-		MiscMergeEngine *machineH = engineWithTemplatePath(appSupportFileNamed(@"machine.h.motemplate"));
+		MiscMergeEngine *machineH = engineWithTemplatePath([self appSupportFileNamed:@"machine.h.motemplate"]);
 		assert(machineH);
-		MiscMergeEngine *machineM = engineWithTemplatePath(appSupportFileNamed(@"machine.m.motemplate"));
+		MiscMergeEngine *machineM = engineWithTemplatePath([self appSupportFileNamed:@"machine.m.motemplate"]);
 		assert(machineM);
-		MiscMergeEngine *humanH = engineWithTemplatePath(appSupportFileNamed(@"human.h.motemplate"));
+		MiscMergeEngine *humanH = engineWithTemplatePath([self appSupportFileNamed:@"human.h.motemplate"]);
 		assert(humanH);
-		MiscMergeEngine *humanM = engineWithTemplatePath(appSupportFileNamed(@"human.m.motemplate"));
+		MiscMergeEngine *humanM = engineWithTemplatePath([self appSupportFileNamed:@"human.m.motemplate"]);
 		assert(humanM);	
         
 		int entityCount = [[model entities] count];
@@ -387,4 +391,3 @@ int main (int argc, char * const * argv)
 {
     return DDCliAppRunWithClass([MOGeneratorApp class]);
 }
-

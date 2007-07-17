@@ -15,9 +15,9 @@
 }
 
 - (void)set<$Attribute.name.initialCapitalString$>:(<$Attribute.attributeValueClassName$>*)value_ {
-    [self willChangeValueForKey:@"<$Attribute.name$>"];
-    [self setPrimitiveValue:value_ forKey:@"<$Attribute.name$>"];
-    [self didChangeValueForKey:@"<$Attribute.name$>"];
+	[self willChangeValueForKey:@"<$Attribute.name$>"];
+	[self setPrimitiveValue:value_ forKey:@"<$Attribute.name$>"];
+	[self didChangeValueForKey:@"<$Attribute.name$>"];
 }
 
 <$if Attribute.hasScalarAttributeType$>
@@ -38,8 +38,8 @@
 	<$if Relationship.isToMany$>
 - (void)add<$Relationship.name.initialCapitalString$>:(NSSet*)value_ {
 	[self willChangeValueForKey:@"<$Relationship.name$>" withSetMutation:NSKeyValueUnionSetMutation usingObjects:value_];
-    [[self primitiveValueForKey:@"<$Relationship.name$>"] unionSet:value_];
-    [self didChangeValueForKey:@"<$Relationship.name$>" withSetMutation:NSKeyValueUnionSetMutation usingObjects:value_];
+	[[self primitiveValueForKey:@"<$Relationship.name$>"] unionSet:value_];
+	[self didChangeValueForKey:@"<$Relationship.name$>" withSetMutation:NSKeyValueUnionSetMutation usingObjects:value_];
 }
 
 -(void)remove<$Relationship.name.initialCapitalString$>:(NSSet*)value_ {
@@ -51,9 +51,9 @@
 - (void)add<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_ {
 	NSSet *changedObjects = [[NSSet alloc] initWithObjects:&value_ count:1];
 	[self willChangeValueForKey:@"<$Relationship.name$>" withSetMutation:NSKeyValueUnionSetMutation usingObjects:changedObjects];
-    [[self primitiveValueForKey:@"<$Relationship.name$>"] addObject:value_];
-    [self didChangeValueForKey:@"<$Relationship.name$>" withSetMutation:NSKeyValueUnionSetMutation usingObjects:changedObjects];
-    [changedObjects release];
+	[[self primitiveValueForKey:@"<$Relationship.name$>"] addObject:value_];
+	[self didChangeValueForKey:@"<$Relationship.name$>" withSetMutation:NSKeyValueUnionSetMutation usingObjects:changedObjects];
+	[changedObjects release];
 }
 
 - (void)remove<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_ {
