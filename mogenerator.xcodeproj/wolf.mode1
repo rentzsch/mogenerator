@@ -218,6 +218,8 @@
 			<key>Layout</key>
 			<array>
 				<dict>
+					<key>BecomeActive</key>
+					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -288,7 +290,7 @@
 							<real>292</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>881 554 690 397 0 0 1680 1028 </string>
+						<string>1664 1033 690 397 0 0 2560 1578 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -325,7 +327,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {376, 0}}</string>
 								<key>RubberWindowFrame</key>
-								<string>881 554 690 397 0 0 1680 1028 </string>
+								<string>1664 1033 690 397 0 0 2560 1578 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -345,7 +347,7 @@
 								<key>Frame</key>
 								<string>{{0, 5}, {376, 351}}</string>
 								<key>RubberWindowFrame</key>
-								<string>881 554 690 397 0 0 1680 1028 </string>
+								<string>1664 1033 690 397 0 0 2560 1578 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -369,9 +371,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>793FF9560C43E2AE00E68F6D</string>
+				<string>792983FB0C8FF2C100EFBBFE</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>793FF9570C43E2AE00E68F6D</string>
+				<string>792983FC0C8FF2C100EFBBFE</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -505,11 +507,10 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>79D2BF1B0ACFAF4A00F3F141</string>
 		<string>/Users/wolf/code/sf/redshed/cocoa/mogenerator/mogenerator.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>881 554 690 397 0 0 1680 1028 </string>
+	<string>1664 1033 690 397 0 0 2560 1578 </string>
 	<key>WindowTools</key>
 	<array>
 		<dict>
