@@ -13,6 +13,7 @@
 			contextName = "";
 			files = (
 				79D150FE0C8FBE01006706AF /* Xmod.applescript in AppleScript */,
+				79F8A9C30C8FF06700082291 /* Autocustomize Entity Classes.applescript in AppleScript */,
 			);
 			isSharedContext = 0;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -23,6 +24,7 @@
 		79D150FE0C8FBE01006706AF /* Xmod.applescript in AppleScript */ = {isa = PBXBuildFile; fileRef = 79D150FA0C8FBDE9006706AF /* Xmod.applescript */; settings = {ATTRIBUTES = (Debug, ); }; };
 		79DFC11F0B59B8C80056C80E /* Xmod.m in Sources */ = {isa = PBXBuildFile; fileRef = 79DFC11E0B59B8C80056C80E /* Xmod.m */; };
 		79DFC1290B59BFD60056C80E /* MethodSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 79DFC1280B59BFD60056C80E /* MethodSwizzle.m */; };
+		79F8A9C30C8FF06700082291 /* Autocustomize Entity Classes.applescript in AppleScript */ = {isa = PBXBuildFile; fileRef = 79F8A9C20C8FF06600082291 /* Autocustomize Entity Classes.applescript */; settings = {ATTRIBUTES = (Debug, ); }; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
@@ -38,6 +40,7 @@
 		79DFC11E0B59B8C80056C80E /* Xmod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Xmod.m; sourceTree = "<group>"; };
 		79DFC1270B59BFD60056C80E /* MethodSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MethodSwizzle.h; sourceTree = "<group>"; };
 		79DFC1280B59BFD60056C80E /* MethodSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MethodSwizzle.m; sourceTree = "<group>"; };
+		79F8A9C20C8FF06600082291 /* Autocustomize Entity Classes.applescript */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.applescript; path = "Autocustomize Entity Classes.applescript"; sourceTree = "<group>"; };
 		8D5B49B6048680CD000E48DA /* Xmod.pbplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Xmod.pbplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
 		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
@@ -82,6 +85,7 @@
 				8D5B49B7048680CD000E48DA /* Info.plist */,
 				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
 				79D150FA0C8FBDE9006706AF /* Xmod.applescript */,
+				79F8A9C20C8FF06600082291 /* Autocustomize Entity Classes.applescript */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
