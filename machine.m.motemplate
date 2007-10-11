@@ -23,7 +23,8 @@
 <$if Attribute.hasScalarAttributeType$>
 
 - (<$Attribute.scalarAttributeType$>)<$Attribute.name$>Value {
-	return [[self <$Attribute.name$>] <$Attribute.scalarAttributeType.camelCaseString$>Value];
+	NSNumber *result = [self <$Attribute.name$>];
+	return result ? [result <$Attribute.scalarAttributeType.camelCaseString$>Value] : 0;
 }
 
 - (void)set<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_ {
