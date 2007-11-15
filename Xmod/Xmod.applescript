@@ -39,8 +39,9 @@ on updateProjectXmod(_project)
 			repeat with pathIt in pathList
 				tell modelSrcGroup
 					set modelSrcFileRef to make new file reference with properties {full path:pathIt, name:name of (info for POSIX file pathIt)}
-					repeat with targetIt in targetList
-						add modelSrcFileRef to (targetIt as anything)
+					repeat with targetIndex from 1 to (count of targetList)
+						set targetIt to item targetIndex of targetList
+						add modelSrcFileRef to targetIt
 					end repeat
 				end tell
 			end repeat
