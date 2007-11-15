@@ -36,7 +36,15 @@ static void runScriptNamed(NSString *scriptName) {
 	[[self alloc] init];
 	
 	//	Force loading of the Core Data XDesign plugin so we can find the class to swizzle its instance method.
-	NSBundle *coreDataPlugin = [NSBundle bundleWithPath:@"/Library/Application Support/Apple/Developer Tools/Plug-ins/XDCoreDataModel.xdplugin"];
+#define Xcode24_XDCoreDataModelPlugin @"/Library/Application Support/Apple/Developer Tools/Plug-ins/XDCoreDataModel.xdplugin"
+#define Xcode25_XDCoreDataModelPlugin @"/Xcode2.5/Library/Xcode/Plug-ins/XDCoreDataModel.xdplugin"
+	
+	NSBundle *coreDataPlugin = nil;
+	if ([[NSFileManager defaultManager] fileExistsAtPath:Xcode25_XDCoreDataModelPlugin]) {
+		coreDataPlugin = [NSBundle bundleWithPath:Xcode25_XDCoreDataModelPlugin];
+	} else {
+		coreDataPlugin = [NSBundle bundleWithPath:Xcode24_XDCoreDataModelPlugin];
+	}	
 	NSAssert(coreDataPlugin, @"failed to load XDCoreDataModel.xdplugin");
 	[coreDataPlugin load];
 	
