@@ -1,50 +1,55 @@
 #import "Xmod.h"
 #import "MethodSwizzle.h"
 
-NSBundle *selfBundle;
-
-static void runScriptNamed(NSString *scriptName) {
-	NSString *scriptPath = [selfBundle pathForResource:scriptName ofType:@"scpt" inDirectory:@"Scripts"];
-	NSCAssert1(scriptPath, @"failed to find %@.scpt", scriptName);
-	NSDictionary *scriptInitError = nil;
-	NSAppleScript *script = [[[NSAppleScript alloc] initWithContentsOfURL:[NSURL fileURLWithPath:scriptPath]
-																	error:&scriptInitError] autorelease];
-	NSCAssert2(!scriptInitError, @"failed to init %@.scpt: %@", scriptName, scriptInitError);
-	if (!scriptInitError) {
-		NSDictionary *scriptExecuteError = nil;
-		[script executeAndReturnError:&scriptExecuteError];
-		NSCAssert2(!scriptInitError, @"failed to execute %@.scpt: %@", scriptName, scriptExecuteError);
-	}
-}
-
 @interface NSObject (xmod_saveModelToFile)
 @end
 @implementation NSObject (xmod_saveModelToFile)
 - (BOOL)xmod_saveModelToFile:(NSString*)modelPackagePath_ {
 	BOOL result = [self xmod_saveModelToFile:modelPackagePath_];
-	if (result) {
-		runScriptNamed(@"Xmod");
-	}
+	if (result)
+		[[Xmod sharedXmod] performSelector:@selector(runScriptNamed:) withObject:@"Xmod" afterDelay:0.0];
 	return result;
 }
 @end
 
 @implementation Xmod
 
+Xmod *gSharedXmod;
+
 + (void)pluginDidLoad:(NSBundle*)bundle_ {
-	selfBundle = bundle_;
-	[[self alloc] init];
-	
+	gSharedXmod = [[self alloc] initWithBundle:bundle_];
+}
+
++ (id)sharedXmod {
+	return gSharedXmod;
+}
+
+- (id)initWithBundle:(NSBundle*)bundle_ {
+	self = [super init];
+	if (self) {
+		bundle = [bundle_ retain];
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(applicationDidFinishLaunching:)
+													 name:NSApplicationDidFinishLaunchingNotification
+												   object:nil];
+	}
+	return self;
+}
+
+- (void)applicationDidFinishLaunching:(NSNotification*)notification_ {
 	//	Force loading of the Core Data XDesign plugin so we can find the class to swizzle its instance method.
-#define Xcode24_XDCoreDataModelPlugin @"/Library/Application Support/Apple/Developer Tools/Plug-ins/XDCoreDataModel.xdplugin"
-#define Xcode25_XDCoreDataModelPlugin @"/Xcode2.5/Library/Xcode/Plug-ins/XDCoreDataModel.xdplugin"
-	
 	NSBundle *coreDataPlugin = nil;
-	if ([[NSFileManager defaultManager] fileExistsAtPath:Xcode25_XDCoreDataModelPlugin]) {
-		coreDataPlugin = [NSBundle bundleWithPath:Xcode25_XDCoreDataModelPlugin];
+	
+	NSString *xcodeVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+	NSAssert(xcodeVersion, @"failed to read Xcode version");
+	if ([xcodeVersion isEqualToString:@"2.4"]) {
+		coreDataPlugin = [NSBundle bundleWithPath:@"/Library/Application Support/Apple/Developer Tools/Plug-ins/XDCoreDataModel.xdplugin"];
+	} else if ([xcodeVersion isEqualToString:@"2.5"]) {
+		coreDataPlugin = [NSBundle bundleWithPath:@"/Xcode2.5/Library/Xcode/Plug-ins/XDCoreDataModel.xdplugin"];
 	} else {
-		coreDataPlugin = [NSBundle bundleWithPath:Xcode24_XDCoreDataModelPlugin];
-	}	
+		//	Unknown territory, exit.
+		return;
+	}
 	NSAssert(coreDataPlugin, @"failed to load XDCoreDataModel.xdplugin");
 	[coreDataPlugin load];
 	
@@ -55,20 +60,8 @@ static void runScriptNamed(NSString *scriptName) {
 								  @selector(saveModelToFile:),
 								  @selector(xmod_saveModelToFile:));
 	NSAssert(swizzled, @"failed to swizzle -[XDPersistenceDocumentController saveModelToFile:]");
-}
-
-- (id)init {
-	self = [super init];
-	if (self) {
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(applicationDidFinishLaunching:)
-													 name:NSApplicationDidFinishLaunchingNotification
-												   object:nil];
-	}
-	return self;
-}
-
-- (void)applicationDidFinishLaunching:(NSNotification*)notification_ {
+	
+	//	Install the Autocustomize menu item.
 	NSMenu *designMenu = [[[NSApp mainMenu] itemWithTitle:@"Design"] submenu];
 	NSMenu *dataModelMenu = [[designMenu itemWithTitle:@"Data Model"] submenu];
 	
@@ -80,7 +73,21 @@ static void runScriptNamed(NSString *scriptName) {
 }
 
 - (IBAction)autocustomizeEntityClasses:(id)sender_ {
-	runScriptNamed(@"Autocustomize Entity Classes");
+	[self runScriptNamed:@"Autocustomize Entity Classes"];
+}
+
+- (void)runScriptNamed:(NSString*)scriptName_ {
+	NSString *scriptPath = [bundle pathForResource:scriptName_ ofType:@"scpt" inDirectory:@"Scripts"];
+	NSAssert1(scriptPath, @"failed to find %@.scpt", scriptName_);
+	NSDictionary *scriptInitError = nil;
+	NSAppleScript *script = [[[NSAppleScript alloc] initWithContentsOfURL:[NSURL fileURLWithPath:scriptPath]
+																	error:&scriptInitError] autorelease];
+	NSAssert2(!scriptInitError, @"failed to init %@.scpt: %@", scriptName_, scriptInitError);
+	if (!scriptInitError) {
+		NSDictionary *scriptExecuteError = nil;
+		[script executeAndReturnError:&scriptExecuteError];
+		NSAssert2(!scriptInitError, @"failed to execute %@.scpt: %@", scriptName_, scriptExecuteError);
+	}
 }
 
 @end

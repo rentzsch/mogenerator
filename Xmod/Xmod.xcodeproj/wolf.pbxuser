@@ -76,12 +76,58 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 210759999;
-			PBXWorkspaceStateSaveDate = 210759999;
+			PBXPerProjectTemplateStateSaveDate = 217105925;
+			PBXWorkspaceStateSaveDate = 217105925;
+		};
+		perUserProjectItems = {
+			794C2E520CF0CA070003EC27 /* PBXTextBookmark */ = 794C2E520CF0CA070003EC27 /* PBXTextBookmark */;
+			794C2E670CF0CA330003EC27 /* PBXTextBookmark */ = 794C2E670CF0CA330003EC27 /* PBXTextBookmark */;
+			794C2E680CF0CA330003EC27 /* PBXTextBookmark */ = 794C2E680CF0CA330003EC27 /* PBXTextBookmark */;
+			79A7D2BE0CF0C56F00193A80 /* PBXTextBookmark */ = 79A7D2BE0CF0C56F00193A80 /* PBXTextBookmark */;
 		};
 		sourceControlManager = 79DFC1170B59B8870056C80E /* Source Control */;
 		userBuildSettings = {
 		};
+	};
+	794C2E520CF0CA070003EC27 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 79DFC11D0B59B8C80056C80E /* Xmod.h */;
+		name = "+ (id)sharedXmod;";
+		rLen = 17;
+		rLoc = 103;
+		rType = 0;
+		vrLen = 265;
+		vrLoc = 0;
+	};
+	794C2E670CF0CA330003EC27 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 79DFC11E0B59B8C80056C80E /* Xmod.m */;
+		name = "Xmod.m: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1983;
+		vrLoc = 0;
+	};
+	794C2E680CF0CA330003EC27 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 79DFC11D0B59B8C80056C80E /* Xmod.h */;
+		name = "+ (id)sharedXmod;";
+		rLen = 17;
+		rLoc = 103;
+		rType = 0;
+		vrLen = 265;
+		vrLoc = 0;
+	};
+	79A7D2BE0CF0C56F00193A80 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 79DFC11E0B59B8C80056C80E /* Xmod.m */;
+		name = "Xmod.m: 51";
+		rLen = 0;
+		rLoc = 1767;
+		rType = 0;
+		vrLen = 2211;
+		vrLoc = 1164;
 	};
 	79D150FA0C8FBDE9006706AF /* Xmod.applescript */ = {
 		uiCtxt = {
@@ -105,18 +151,18 @@
 	};
 	79DFC11D0B59B8C80056C80E /* Xmod.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1261, 667}}";
-			sepNavSelRange = "{134, 0}";
-			sepNavVisRect = "{{0, 0}, {1261, 667}}";
-			sepNavWindowFrame = "{{751, 476}, {1300, 725}}";
+			sepNavIntBoundsRect = "{{0, 0}, {704, 565}}";
+			sepNavSelRange = "{103, 17}";
+			sepNavVisRect = "{{0, 0}, {704, 565}}";
+			sepNavWindowFrame = "{{896, 345}, {743, 670}}";
 		};
 	};
 	79DFC11E0B59B8C80056C80E /* Xmod.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1186, 1106}}";
+			sepNavIntBoundsRect = "{{0, 0}, {882, 1316}}";
 			sepNavSelRange = "{0, 0}";
-			sepNavVisRect = "{{0, 0}, {1186, 856}}";
-			sepNavWindowFrame = "{{1120, 289}, {1225, 914}}";
+			sepNavVisRect = "{{0, 0}, {882, 799}}";
+			sepNavWindowFrame = "{{396, 112}, {921, 904}}";
 		};
 	};
 	79DFC1280B59BFD60056C80E /* MethodSwizzle.m */ = {
