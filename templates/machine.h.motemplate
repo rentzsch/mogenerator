@@ -9,10 +9,15 @@
 <$endforeach do$>
 
 @interface _<$managedObjectClassName$> : <$customSuperentity$> {}
++ (id)newInManagedObjectContext:(NSManagedObjectContext*)moc_;
+
 <$foreach Attribute noninheritedAttributes do$>
 <$if Attribute.hasDefinedAttributeType$>
 - (<$Attribute.attributeValueClassName$>*)<$Attribute.name$>;
 - (void)set<$Attribute.name.initialCapitalString$>:(<$Attribute.attributeValueClassName$>*)value_;
+#if defined(MAC_OS_X_VERSION_10_5) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
+@property (retain) <$Attribute.attributeValueClassName$> *<$Attribute.name$>;
+#endif
 <$if Attribute.hasScalarAttributeType$>
 - (<$Attribute.scalarAttributeType$>)<$Attribute.name$>Value;
 - (void)set<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_;
@@ -22,15 +27,22 @@
 <$endforeach do$>
 <$foreach Relationship noninheritedRelationships do$>
 <$if Relationship.isToMany$>
+- (NSSet*)<$Relationship.name$>;
 - (void)add<$Relationship.name.initialCapitalString$>:(NSSet*)value_;
 - (void)remove<$Relationship.name.initialCapitalString$>:(NSSet*)value_;
 - (void)add<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_;
 - (void)remove<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_;
 - (NSMutableSet*)<$Relationship.name$>Set;
+#if defined(MAC_OS_X_VERSION_10_5) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
+@property (retain) NSSet* <$Relationship.name$>;
+#endif
 <$else$>
 - (<$Relationship.destinationEntity.managedObjectClassName$>*)<$Relationship.name$>;
 - (void)set<$Relationship.name.initialCapitalString$>:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_;
 //- (BOOL)validate<$Relationship.name.initialCapitalString$>:(id*)value_ error:(NSError**)error_;
+#if defined(MAC_OS_X_VERSION_10_5) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
+@property (retain) <$Relationship.destinationEntity.managedObjectClassName$>* <$Relationship.name$>;
+#endif
 <$endif$>
 <$endforeach do$>
 @end

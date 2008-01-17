@@ -4,6 +4,11 @@
 #import "_<$managedObjectClassName$>.h"
 
 @implementation _<$managedObjectClassName$>
+
++ (id)newInManagedObjectContext:(NSManagedObjectContext*)moc_ {
+	return [NSEntityDescription insertNewObjectForEntityForName:@"<$name$>" inManagedObjectContext:moc_];									 
+}
+
 <$foreach Attribute noninheritedAttributes do$>
 <$if Attribute.hasDefinedAttributeType$>
 
@@ -37,6 +42,20 @@
 
 <$foreach Relationship noninheritedRelationships do$>
 	<$if Relationship.isToMany$>
+
+- (NSSet*)<$Relationship.name$> {
+	[self willAccessValueForKey:@"<$Relationship.name$>"];
+	NSSet *result = [self primitiveValueForKey:@"<$Relationship.name$>"];
+	[self didAccessValueForKey:@"<$Relationship.name$>"];
+	return result;
+}
+
+- (void)set<$Relationship.name.initialCapitalString$>:(NSSet*)value_ {
+	[self willChangeValueForKey:@"<$Relationship.name$>"];
+	[self setPrimitiveValue:value_ forKey:@"<$Relationship.name$>"];
+	[self didChangeValueForKey:@"<$Relationship.name$>"];
+}
+
 - (void)add<$Relationship.name.initialCapitalString$>:(NSSet*)value_ {
 	[self willChangeValueForKey:@"<$Relationship.name$>" withSetMutation:NSKeyValueUnionSetMutation usingObjects:value_];
 	[[self primitiveValueForKey:@"<$Relationship.name$>"] unionSet:value_];
