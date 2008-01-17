@@ -1,6 +1,7 @@
 // !$*UTF8*$!
 {
 	08FB7793FE84155DC02AAC07 /* Project object */ = {
+		activeArchitecture = i386;
 		activeBuildConfigurationName = Release;
 		activeExecutable = 79D2BF080ACFAE0100F3F141 /* mogenerator */;
 		activeTarget = 8DD76F960486AA7600D96B5E /* mogenerator */;
@@ -33,7 +34,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					137,
+					243,
 					20,
 					48,
 					43,
@@ -72,8 +73,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 210760346;
-			PBXWorkspaceStateSaveDate = 210760346;
+			PBXPerProjectTemplateStateSaveDate = 222292400;
+			PBXWorkspaceStateSaveDate = 222292400;
 		};
 		sourceControlManager = 79D2BF0B0ACFAE0700F3F141 /* Source Control */;
 		userBuildSettings = {
@@ -81,20 +82,21 @@
 	};
 	08FB7796FE84155DC02AAC07 /* mogenerator.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1057, 5558}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1274, 5670}}";
 			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1657}";
 			sepNavVisRect = "{{0, 0}, {1057, 777}}";
 			sepNavWindowFrame = "{{542, 178}, {1096, 835}}";
 		};
 	};
 	79D2BF080ACFAE0100F3F141 /* mogenerator */ = {
 		isa = PBXExecutable;
-		activeArgIndex = 2147483647;
 		activeArgIndices = (
 		);
 		argumentStrings = (
 		);
 		autoAttachOnCrash = 1;
+		breakpointsEnabled = 1;
 		configStateDict = {
 			"PBXLSLaunchAction-0" = {
 				PBXLSLaunchAction = 0;
