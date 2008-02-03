@@ -1,7 +1,11 @@
 tell application "Xcode"
 	if not (exists active project document) then Â
 		error "No active project. Please open an Xcode project and re-run the script."
-	my updateProjectXmod(project of active project document)
+	try
+		my updateProjectXmod(project of active project document)
+	on error errMsg
+		my logger("Xmod.scpt exception: " & errMsg)
+	end try
 end tell
 
 on updateProjectXmod(_project)
@@ -79,3 +83,7 @@ on modelSrcDirPath(modelFilePath)
 	end tell
 	return text 1 thru -2 of (POSIX path of (modelSrcFolder as alias)) -- kill the trailing slash
 end modelSrcDirPath
+
+on logger(msg)
+	do shell script "logger '" & msg & "'"
+end logger

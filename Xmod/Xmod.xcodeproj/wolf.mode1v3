@@ -277,6 +277,8 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
+									<integer>8</integer>
+									<integer>7</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -300,7 +302,7 @@
 							<real>186</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>537 534 853 471 0 0 1680 1028 </string>
+						<string>799 479 853 471 0 0 1680 1028 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -337,7 +339,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {645, 0}}</string>
 								<key>RubberWindowFrame</key>
-								<string>537 534 853 471 0 0 1680 1028 </string>
+								<string>799 479 853 471 0 0 1680 1028 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -357,7 +359,7 @@
 								<key>Frame</key>
 								<string>{{0, 5}, {645, 425}}</string>
 								<key>RubberWindowFrame</key>
-								<string>537 534 853 471 0 0 1680 1028 </string>
+								<string>799 479 853 471 0 0 1680 1028 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -381,9 +383,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>791E10A60D56394C0043AD7E</string>
+				<string>79A40F110D56713F003978D3</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>791E10A70D56394C0043AD7E</string>
+				<string>79A40F120D56713F003978D3</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -515,11 +517,13 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>79E65E2C0D56333100B09941</string>
+		<string>79EAFC590D5670CD00578856</string>
+		<string>79EAFC5C0D5670CD00578856</string>
+		<string>79EAFC620D5670CD00578856</string>
 		<string>/Users/wolf/code/trac/cocoa/mogenerator/Xmod/Xmod.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>537 534 853 471 0 0 1680 1028 </string>
+	<string>799 479 853 471 0 0 1680 1028 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
@@ -596,7 +600,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>79E65E2C0D56333100B09941</string>
-				<string>791E10A80D56394C0043AD7E</string>
+				<string>79EAFBEB0D56422400578856</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
