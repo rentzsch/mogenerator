@@ -8,7 +8,7 @@ mkdir -p 'build/root/Library/Application Support/mogenerator'
 
 cd ..
 xcodebuild -configuration Release CONFIGURATION_BUILD_DIR="$PWD/installer/build/root/usr/bin/"
-cp *.motemplate "$PWD/installer/build/root/Library/Application Support/mogenerator/"
+cp templates/*.motemplate "$PWD/installer/build/root/Library/Application Support/mogenerator/"
 cd installer
 
 VERSION=`build/root/usr/bin/mogenerator --version|head -n 1|sed -E 's/mogenerator ([0-9]+\.[0-9]+(\.[0-9]+)?).+/\1/g'`
@@ -20,5 +20,5 @@ sed -e "s/MAJOR_VERSION/$MAJOR_VERSION/g" -e "s/MINOR_VERSION/$MINOR_VERSION/g" 
 
 sudo chown -R root 'build/root'
 sudo chgrp -R admin 'build/root'
-/Developer/Tools/packagemaker -build -p "build/mogenerator-$VERSION.pkg" -f 'build/root' -i 'build/Info.plist' -d 'build/Description.plist' -ds
+/Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker -build -p "build/mogenerator-$VERSION.pkg" -f 'build/root' -i 'build/Info.plist' -d 'build/Description.plist' -ds
 hdiutil create -srcfolder "build/mogenerator-$VERSION.pkg" -volname "mogenerator $VERSION" "build/mogenerator-$VERSION.dmg"
