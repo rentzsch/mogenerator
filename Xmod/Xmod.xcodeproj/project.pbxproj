@@ -23,7 +23,7 @@
 /* Begin PBXBuildFile section */
 		79D150FE0C8FBE01006706AF /* Xmod.applescript in AppleScript */ = {isa = PBXBuildFile; fileRef = 79D150FA0C8FBDE9006706AF /* Xmod.applescript */; settings = {ATTRIBUTES = (Debug, ); }; };
 		79DFC11F0B59B8C80056C80E /* Xmod.m in Sources */ = {isa = PBXBuildFile; fileRef = 79DFC11E0B59B8C80056C80E /* Xmod.m */; };
-		79DFC1290B59BFD60056C80E /* MethodSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 79DFC1280B59BFD60056C80E /* MethodSwizzle.m */; };
+		79E65E0D0D5631EA00B09941 /* JRSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 79E65E0B0D5631EA00B09941 /* JRSwizzle.m */; };
 		79F8A9C30C8FF06700082291 /* Autocustomize Entity Classes.applescript in AppleScript */ = {isa = PBXBuildFile; fileRef = 79F8A9C20C8FF06600082291 /* Autocustomize Entity Classes.applescript */; settings = {ATTRIBUTES = (Debug, ); }; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
@@ -38,8 +38,8 @@
 		79D150FA0C8FBDE9006706AF /* Xmod.applescript */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.applescript; path = Xmod.applescript; sourceTree = "<group>"; };
 		79DFC11D0B59B8C80056C80E /* Xmod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Xmod.h; sourceTree = "<group>"; };
 		79DFC11E0B59B8C80056C80E /* Xmod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Xmod.m; sourceTree = "<group>"; };
-		79DFC1270B59BFD60056C80E /* MethodSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MethodSwizzle.h; sourceTree = "<group>"; };
-		79DFC1280B59BFD60056C80E /* MethodSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MethodSwizzle.m; sourceTree = "<group>"; };
+		79E65E0B0D5631EA00B09941 /* JRSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRSwizzle.m; path = ../../JRSwizzle/JRSwizzle.m; sourceTree = "<group>"; };
+		79E65E0C0D5631EA00B09941 /* JRSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRSwizzle.h; path = ../../JRSwizzle/JRSwizzle.h; sourceTree = "<group>"; };
 		79F8A9C20C8FF06600082291 /* Autocustomize Entity Classes.applescript */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.applescript; path = "Autocustomize Entity Classes.applescript"; sourceTree = "<group>"; };
 		8D5B49B6048680CD000E48DA /* Xmod.pbplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Xmod.pbplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -95,8 +95,8 @@
 			children = (
 				79DFC11D0B59B8C80056C80E /* Xmod.h */,
 				79DFC11E0B59B8C80056C80E /* Xmod.m */,
-				79DFC1270B59BFD60056C80E /* MethodSwizzle.h */,
-				79DFC1280B59BFD60056C80E /* MethodSwizzle.m */,
+				79E65E0C0D5631EA00B09941 /* JRSwizzle.h */,
+				79E65E0B0D5631EA00B09941 /* JRSwizzle.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -163,9 +163,11 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "Xmod" */;
+			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			mainGroup = 089C166AFE841209C02AAC07 /* Xmod */;
 			projectDirPath = "";
+			projectRoot = "";
 			targets = (
 				8D5B49AC048680CD000E48DA /* Xmod */,
 			);
@@ -189,7 +191,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				79DFC11F0B59B8C80056C80E /* Xmod.m in Sources */,
-				79DFC1290B59BFD60056C80E /* MethodSwizzle.m in Sources */,
+				79E65E0D0D5631EA00B09941 /* JRSwizzle.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -210,6 +212,12 @@
 		1DEB913B08733D840010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc64,
+					i386,
+					ppc,
+					x86_64,
+				);
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -229,8 +237,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = (
-					ppc,
+					ppc64,
 					i386,
+					ppc,
+					x86_64,
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
@@ -246,20 +256,34 @@
 		1DEB913F08733D840010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_ENABLE_OBJC_GC = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = "$(SDKROOT_$(CURRENT_ARCH))";
+				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT_ppc = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT_ppc64 = /Developer/SDKs/MacOSX10.5.sdk;
+				SDKROOT_ppc7400 = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT_ppc970 = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT_x86_64 = /Developer/SDKs/MacOSX10.5.sdk;
 			};
 			name = Debug;
 		};
 		1DEB914008733D840010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_ENABLE_OBJC_GC = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = "$(SDKROOT_$(CURRENT_ARCH))";
+				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT_ppc = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT_ppc64 = /Developer/SDKs/MacOSX10.5.sdk;
+				SDKROOT_ppc7400 = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT_ppc970 = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT_x86_64 = /Developer/SDKs/MacOSX10.5.sdk;
 			};
 			name = Release;
 		};

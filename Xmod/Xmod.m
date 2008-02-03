@@ -1,5 +1,5 @@
 #import "Xmod.h"
-#import "MethodSwizzle.h"
+#import "JRSwizzle.h"
 
 @interface NSObject (xmod_saveModelToFile)
 @end
@@ -47,7 +47,7 @@ Xmod *gSharedXmod;
 	} else if ([xcodeVersion isEqualToString:@"2.5"]) {
 		coreDataPlugin = [NSBundle bundleWithPath:@"/Xcode2.5/Library/Xcode/Plug-ins/XDCoreDataModel.xdplugin"];
 	} else {
-		//	Unknown territory, exit.
+		NSLog(@"Xmod: unknown Xcode version (%@), exiting.", xcodeVersion);
 		return;
 	}
 	NSAssert(coreDataPlugin, @"failed to load XDCoreDataModel.xdplugin");
@@ -56,10 +56,11 @@ Xmod *gSharedXmod;
 	Class persistenceDocumentController = NSClassFromString(@"XDPersistenceDocumentController");
 	NSAssert(persistenceDocumentController, @"failed to load XDPersistenceDocumentController");
 	
-	BOOL swizzled = MethodSwizzle(persistenceDocumentController,
-								  @selector(saveModelToFile:),
-								  @selector(xmod_saveModelToFile:));
-	NSAssert(swizzled, @"failed to swizzle -[XDPersistenceDocumentController saveModelToFile:]");
+	NSError *error = nil;
+	BOOL swizzled = [persistenceDocumentController jr_swizzleMethod:@selector(saveModelToFile:)
+														 withMethod:@selector(xmod_saveModelToFile:)
+															  error:&error];
+	NSAssert1(swizzled, @"failed to swizzle -[XDPersistenceDocumentController saveModelToFile:]: %@", error);
 	
 	//	Install the Autocustomize menu item.
 	NSMenu *designMenu = [[[NSApp mainMenu] itemWithTitle:@"Design"] submenu];
