@@ -13,10 +13,10 @@
 
 <$foreach Attribute noninheritedAttributes do$>
 <$if Attribute.hasDefinedAttributeType$>
-- (<$Attribute.attributeValueClassName$>*)<$Attribute.name$>;
-- (void)set<$Attribute.name.initialCapitalString$>:(<$Attribute.attributeValueClassName$>*)value_;
+- (<$Attribute.objectAttributeType$>*)<$Attribute.name$>;
+- (void)set<$Attribute.name.initialCapitalString$>:(<$Attribute.objectAttributeType$>*)value_;
 #if defined(MAC_OS_X_VERSION_10_5) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
-@property (retain) <$Attribute.attributeValueClassName$> *<$Attribute.name$>;
+@property (retain) <$Attribute.objectAttributeType$> *<$Attribute.name$>;
 #endif
 <$if Attribute.hasScalarAttributeType$>
 - (<$Attribute.scalarAttributeType$>)<$Attribute.name$>Value;

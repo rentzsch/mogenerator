@@ -12,14 +12,14 @@
 <$foreach Attribute noninheritedAttributes do$>
 <$if Attribute.hasDefinedAttributeType$>
 
-- (<$Attribute.attributeValueClassName$>*)<$Attribute.name$> {
+- (<$Attribute.objectAttributeType$>*)<$Attribute.name$> {
 	[self willAccessValueForKey:@"<$Attribute.name$>"];
-	<$Attribute.attributeValueClassName$> *result = [self primitiveValueForKey:@"<$Attribute.name$>"];
+	<$Attribute.objectAttributeType$> *result = [self primitiveValueForKey:@"<$Attribute.name$>"];
 	[self didAccessValueForKey:@"<$Attribute.name$>"];
 	return result;
 }
 
-- (void)set<$Attribute.name.initialCapitalString$>:(<$Attribute.attributeValueClassName$>*)value_ {
+- (void)set<$Attribute.name.initialCapitalString$>:(<$Attribute.objectAttributeType$>*)value_ {
 	[self willChangeValueForKey:@"<$Attribute.name$>"];
 	[self setPrimitiveValue:value_ forKey:@"<$Attribute.name$>"];
 	[self didChangeValueForKey:@"<$Attribute.name$>"];

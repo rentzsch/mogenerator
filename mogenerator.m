@@ -66,6 +66,7 @@ NSString	*gCustomBaseClass;
 - (BOOL)hasScalarAttributeType;
 - (NSString*)scalarAttributeType;
 - (BOOL)hasDefinedAttributeType;
+- (NSString*)objectAttributeType;
 @end
 @implementation NSAttributeDescription (scalarAttributeType)
 - (BOOL)hasScalarAttributeType {
@@ -108,6 +109,17 @@ NSString	*gCustomBaseClass;
 }
 - (BOOL)hasDefinedAttributeType {
 	return [self attributeType] != NSUndefinedAttributeType;
+}
+- (NSString*)objectAttributeType {
+#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
+    #define NSTransformableAttributeType 1800
+#endif
+    if ([self attributeType] == NSTransformableAttributeType) {
+        NSString *result = [[self userInfo] objectForKey:@"attributeValueClassName"];
+        return result ? result : @"NSObject";
+    } else {
+        return [self attributeValueClassName];
+    }
 }
 @end
 @interface NSString (camelCaseString)
@@ -270,7 +282,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     
     if (_version)
     {
-        printf("mogenerator 1.7. By Jonathan 'Wolf' Rentzsch + friends.\n");
+        printf("mogenerator 1.8. By Jonathan 'Wolf' Rentzsch + friends.\n");
         return EXIT_SUCCESS;
     }
     
