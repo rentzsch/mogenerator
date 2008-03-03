@@ -264,7 +264,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
         : @"/Developer/Library/Xcode/Plug-ins/XDCoreDataModel.xdplugin/Contents/Resources/momc";
         
         tempMOMPath = [[NSTemporaryDirectory() stringByAppendingPathComponent:[(id)CFUUIDCreateString(kCFAllocatorDefault, CFUUIDCreate(kCFAllocatorDefault)) autorelease]] stringByAppendingPathExtension:@"mom"];
-        system([[NSString stringWithFormat:@"\"%@\" %@ %@", momc, path, tempMOMPath] UTF8String]); // Ignored system's result -- momc doesn't return any relevent error codes.
+        system([[NSString stringWithFormat:@"\"%@\" \"%@\" \"%@\"", momc, path, tempMOMPath] UTF8String]); // Ignored system's result -- momc doesn't return any relevent error codes.
         path = tempMOMPath;
     }
     model = [[[NSManagedObjectModel alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path]] autorelease];
@@ -282,7 +282,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     
     if (_version)
     {
-        printf("mogenerator 1.8. By Jonathan 'Wolf' Rentzsch + friends.\n");
+        printf("mogenerator 1.8.1. By Jonathan 'Wolf' Rentzsch + friends.\n");
         return EXIT_SUCCESS;
     }
     

@@ -73,14 +73,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 225834547;
-			PBXWorkspaceStateSaveDate = 225834547;
-		};
-		perUserProjectItems = {
-			7942A4B10D7603A40097D2DE /* PBXTextBookmark */ = 7942A4B10D7603A40097D2DE /* PBXTextBookmark */;
-			7942A4B20D7603A40097D2DE /* PBXTextBookmark */ = 7942A4B20D7603A40097D2DE /* PBXTextBookmark */;
-			7942A4B50D7603A40097D2DE /* PBXTextBookmark */ = 7942A4B50D7603A40097D2DE /* PBXTextBookmark */;
-			7942A4B70D7603A40097D2DE /* PBXTextBookmark */ = 7942A4B70D7603A40097D2DE /* PBXTextBookmark */;
+			PBXPerProjectTemplateStateSaveDate = 226256017;
+			PBXWorkspaceStateSaveDate = 226256017;
 		};
 		sourceControlManager = 79D2BF0B0ACFAE0700F3F141 /* Source Control */;
 		userBuildSettings = {
@@ -88,67 +82,11 @@
 	};
 	08FB7796FE84155DC02AAC07 /* mogenerator.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1037, 6048}}";
-			sepNavSelRange = "{3485, 0}";
-			sepNavVisRange = "{2598, 1676}";
+			sepNavIntBoundsRect = "{{0, 0}, {1274, 5684}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1657}";
 			sepNavVisRect = "{{0, 0}, {1057, 777}}";
-			sepNavWindowFrame = "{{542, 178}, {1096, 835}}";
-		};
-	};
-	7942A4B10D7603A40097D2DE /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 08FB7796FE84155DC02AAC07 /* mogenerator.m */;
-		name = "mogenerator.m: 78";
-		rLen = 22;
-		rLoc = 2519;
-		rType = 0;
-		vrLen = 1391;
-		vrLoc = 2155;
-	};
-	7942A4B20D7603A40097D2DE /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 08FB7796FE84155DC02AAC07 /* mogenerator.m */;
-		name = "mogenerator.m: 119";
-		rLen = 0;
-		rLoc = 3485;
-		rType = 0;
-		vrLen = 1676;
-		vrLoc = 2598;
-	};
-	7942A4B50D7603A40097D2DE /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 7942A4B60D7603A40097D2DE /* NSAttributeDescription.h */;
-		rLen = 0;
-		rLoc = 9223372036854775807;
-		rType = 0;
-	};
-	7942A4B60D7603A40097D2DE /* NSAttributeDescription.h */ = {
-		isa = PBXFileReference;
-		lastKnownFileType = sourcecode.c.h;
-		name = NSAttributeDescription.h;
-		path = /System/Library/Frameworks/CoreData.framework/Versions/A/Headers/NSAttributeDescription.h;
-		sourceTree = "<absolute>";
-	};
-	7942A4B70D7603A40097D2DE /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 7942A4B80D7603A40097D2DE /* NSAttributeDescription.h */;
-		name = "NSAttributeDescription.h: 31";
-		rLen = 28;
-		rLoc = 989;
-		rType = 0;
-		vrLen = 1912;
-		vrLoc = 0;
-	};
-	7942A4B80D7603A40097D2DE /* NSAttributeDescription.h */ = {
-		isa = PBXFileReference;
-		name = NSAttributeDescription.h;
-		path = /System/Library/Frameworks/CoreData.framework/Versions/A/Headers/NSAttributeDescription.h;
-		sourceTree = "<absolute>";
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1334, 1176}}";
-			sepNavSelRange = "{989, 28}";
-			sepNavVisRange = "{0, 1912}";
-			sepNavWindowFrame = "{{107, 592}, {1035, 897}}";
+			sepNavWindowFrame = "{{1031, 492}, {1096, 835}}";
 		};
 	};
 	79D2BF080ACFAE0100F3F141 /* mogenerator */ = {
