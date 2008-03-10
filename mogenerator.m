@@ -259,9 +259,17 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 
     if ([[path pathExtension] isEqualToString:@"xcdatamodel"]) {
         //	We've been handed a .xcdatamodel data model, transparently compile it into a .mom managed object model.
-        NSString *momc = [[NSFileManager defaultManager] fileExistsAtPath:@"/Library/Application Support/Apple/Developer Tools/Plug-ins/XDCoreDataModel.xdplugin/Contents/Resources/momc"]
-        ? @"/Library/Application Support/Apple/Developer Tools/Plug-ins/XDCoreDataModel.xdplugin/Contents/Resources/momc"
-        : @"/Developer/Library/Xcode/Plug-ins/XDCoreDataModel.xdplugin/Contents/Resources/momc";
+        
+        //  Find where Xcode installed momc this week.
+        NSString *momc = nil;
+        if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Developer/usr/bin/momc"]) { // Xcode 3.1 installs it here.
+            momc = @"/Developer/usr/bin/momc";
+        } else if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/Application Support/Apple/Developer Tools/Plug-ins/XDCoreDataModel.xdplugin/Contents/Resources/momc"]) { // Xcode 3.0.
+            momc = @"/Library/Application Support/Apple/Developer Tools/Plug-ins/XDCoreDataModel.xdplugin/Contents/Resources/momc";
+        } else if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Developer/Library/Xcode/Plug-ins/XDCoreDataModel.xdplugin/Contents/Resources/momc"]) { // Xcode 2.4.
+            momc = @"/Developer/Library/Xcode/Plug-ins/XDCoreDataModel.xdplugin/Contents/Resources/momc";
+        }
+        assert(momc && "momc not found");
         
         tempMOMPath = [[NSTemporaryDirectory() stringByAppendingPathComponent:[(id)CFUUIDCreateString(kCFAllocatorDefault, CFUUIDCreate(kCFAllocatorDefault)) autorelease]] stringByAppendingPathExtension:@"mom"];
         system([[NSString stringWithFormat:@"\"%@\" \"%@\" \"%@\"", momc, path, tempMOMPath] UTF8String]); // Ignored system's result -- momc doesn't return any relevent error codes.
@@ -282,7 +290,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     
     if (_version)
     {
-        printf("mogenerator 1.8.1. By Jonathan 'Wolf' Rentzsch + friends.\n");
+        printf("mogenerator 1.9. By Jonathan 'Wolf' Rentzsch + friends.\n");
         return EXIT_SUCCESS;
     }
     
