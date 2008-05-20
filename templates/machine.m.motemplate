@@ -3,10 +3,17 @@
 
 #import "_<$managedObjectClassName$>.h"
 
+@implementation <$managedObjectClassName$>ID
+@end
+
 @implementation _<$managedObjectClassName$>
 
 + (id)newInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	return [NSEntityDescription insertNewObjectForEntityForName:@"<$name$>" inManagedObjectContext:moc_];									 
+}
+
+- (<$managedObjectClassName$>ID*)objectID {
+	return (<$managedObjectClassName$>ID*)[super objectID];
 }
 
 <$foreach Attribute noninheritedAttributes do$>

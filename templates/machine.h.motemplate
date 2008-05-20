@@ -4,12 +4,14 @@
 #import <CoreData/CoreData.h>
 <$if hasCustomSuperentity$>#import "<$customSuperentity$>.h"<$endif$>
 
-<$foreach Relationship noninheritedRelationships do$>
-@class <$Relationship.destinationEntity.managedObjectClassName$>;
+<$foreach Relationship noninheritedRelationships do$>@class <$Relationship.destinationEntity.managedObjectClassName$>;
 <$endforeach do$>
+@interface <$managedObjectClassName$>ID : NSManagedObjectID {}
+@end
 
 @interface _<$managedObjectClassName$> : <$customSuperentity$> {}
 + (id)newInManagedObjectContext:(NSManagedObjectContext*)moc_;
+- (<$managedObjectClassName$>ID*)objectID;
 
 <$foreach Attribute noninheritedAttributes do$>
 <$if Attribute.hasDefinedAttributeType$>
