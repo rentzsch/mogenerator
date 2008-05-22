@@ -1,0 +1,56 @@
+// DO NOT EDIT. This file is machine-generated and constantly overwritten.
+// Make changes to <$managedObjectClassName$>.h instead.
+
+#import <Cocoa/Cocoa.h>
+<$if hasCustomSuperentity$>#import "<$customSuperentity$>.h"<$endif$>
+
+<$foreach Relationship noninheritedRelationships do$>
+@class <$Relationship.destinationEntity.managedObjectClassName$>;
+<$endforeach do$>
+
+@interface _<$managedObjectClassName$> : <$customSuperentity$> {
+<$foreach Attribute noninheritedAttributes do$>
+<$if Attribute.hasScalarAttributeType$>
+	<$Attribute.scalarAttributeType$> my<$Attribute.name.initialCapitalString$>;
+<$else$>
+<$if Attribute.hasDefinedAttributeType$>
+	<$Attribute.attributeValueClassName$> *my<$Attribute.name.initialCapitalString$>;
+<$else$>
+	id my<$Attribute.name.initialCapitalString$>;
+<$endif$>
+<$endif$>
+<$endforeach do$>
+<$foreach Relationship noninheritedRelationships do$>
+<$if Relationship.isToMany$>
+	NSMutableSet *my<$Relationship.name.initialCapitalString$>s;
+<$else$>
+	<$Relationship.destinationEntity.managedObjectClassName$> *my<$Relationship.name.initialCapitalString$>;
+<$endif$>
+<$endforeach do$>
+}
+<$foreach Attribute noninheritedAttributes do$>
+<$if Attribute.hasScalarAttributeType$>
+- (<$Attribute.scalarAttributeType$>)<$Attribute.name$>;
+- (void)set<$Attribute.name.initialCapitalString$>:(<$Attribute.scalarAttributeType$>)value_;
+<$else$>
+<$if Attribute.hasDefinedAttributeType$>
+- (<$Attribute.attributeValueClassName$> *)<$Attribute.name$>;
+- (void)set<$Attribute.name.initialCapitalString$>:(<$Attribute.attributeValueClassName$> *)value_;
+<$else$>
+- (id)<$Attribute.name$>;
+- (void)set<$Attribute.name.initialCapitalString$>:(id)value_;
+<$endif$>
+<$endif$>
+<$endforeach do$>
+<$foreach Relationship noninheritedRelationships do$>
+<$if Relationship.isToMany$>
+- (void)add<$Relationship.name.initialCapitalString$>:(<$Relationship.destinationEntity.managedObjectClassName$> *)value_;
+- (void)remove<$Relationship.name.initialCapitalString$>:(<$Relationship.destinationEntity.managedObjectClassName$> *)value_;
+- (NSMutableSet *)<$Relationship.name$>s;
+- (void)set<$Relationship.name.initialCapitalString$>s:(NSMutableSet *)value_;
+<$else$>
+- (<$Relationship.destinationEntity.managedObjectClassName$> *)<$Relationship.name$>;
+- (void)set<$Relationship.name.initialCapitalString$>:(<$Relationship.destinationEntity.managedObjectClassName$> *)value_;
+<$endif$>
+<$endforeach do$>
+@end

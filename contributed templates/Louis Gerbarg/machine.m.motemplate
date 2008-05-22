@@ -1,0 +1,41 @@
+// DO NOT EDIT. This file is machine-generated and constantly overwritten.
+// Make changes to <$managedObjectClassName$>.m instead.
+
+#import "_<$managedObjectClassName$>.h"
+
+@implementation _<$managedObjectClassName$>
+
+- (void) dealloc {
+	<$foreach Attribute noninheritedAttributes do$>
+	self.<$Attribute.name$>  = nil;
+	<$endforeach do$>
+	<$foreach Relationship noninheritedRelationships do$>
+	self.<$Relationship.name$>  = nil;
+	<$endforeach do$>
+	[super dealloc];
+}
+
+<$foreach Attribute noninheritedAttributes do$>
+<$if Attribute.hasDefinedAttributeType$>
+
+@synthesize <$Attribute.name$>;
+
+<$if Attribute.hasScalarAttributeType$>
+
+- (<$Attribute.scalarAttributeType$>)<$Attribute.name$>Value {
+	NSNumber *result = [self <$Attribute.name$>];
+	return result ? [result <$Attribute.scalarAttributeType.camelCaseString$>Value] : 0;
+}
+
+- (void)set<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_ {
+	[self set<$Attribute.name.initialCapitalString$>:[NSNumber numberWith<$Attribute.scalarAttributeType.camelCaseString.initialCapitalString$>:value_]];
+}
+
+<$endif$>
+<$endif$>
+<$endforeach do$>
+
+<$foreach Relationship noninheritedRelationships do$>
+@synthesize <$Relationship.name$>;
+<$endforeach do$>
+@end

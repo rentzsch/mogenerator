@@ -1,0 +1,8 @@
+#import "<$managedObjectClassName$>.h"
+
+@implementation <$managedObjectClassName$>
+
+
+
+
+@end

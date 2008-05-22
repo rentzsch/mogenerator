@@ -1,0 +1,42 @@
+// DO NOT EDIT. This file is machine-generated and constantly overwritten.
+// Make changes to <$managedObjectClassName$>.h instead.
+
+#import <Foundation/Foundation.h>
+<$if hasCustomSuperentity$>#import "<$customSuperentity$>.h"<$endif$>
+
+<$foreach Relationship noninheritedRelationships do$>
+@class <$Relationship.destinationEntity.managedObjectClassName$>;
+<$endforeach do$>
+
+@interface _<$managedObjectClassName$> : <$if hasCustomSuperentity$><$customSuperentity$><$else$>NSObject<$endif$> {
+	<$foreach Attribute noninheritedAttributes do$>
+	<$if Attribute.hasDefinedAttributeType$>
+	<$Attribute.attributeValueClassName$> *<$Attribute.name$>;
+	<$endif$>
+	<$endforeach do$>
+	<$foreach Relationship noninheritedRelationships do$>
+	<$if Relationship.isToMany$>
+	NSMutableArray *<$Relationship.name$>;
+	<$else$>
+	<$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>;
+	<$endif$>
+	<$endforeach do$>
+}
+
+<$foreach Attribute noninheritedAttributes do$>
+<$if Attribute.hasDefinedAttributeType$>
+@property (retain) <$Attribute.attributeValueClassName$> *<$Attribute.name$>;
+<$if Attribute.hasScalarAttributeType$>
+- (<$Attribute.scalarAttributeType$>)<$Attribute.name$>Value;
+- (void)set<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_;
+<$endif$>
+<$endif$>
+<$endforeach do$>
+<$foreach Relationship noninheritedRelationships do$>
+<$if Relationship.isToMany$>
+@property (retain, nonatomic) NSMutableArray *<$Relationship.name$>;
+<$else$>
+@property (retain, nonatomic) <$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>;
+<$endif$>
+<$endforeach do$>
+@end

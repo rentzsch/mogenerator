@@ -1,0 +1,96 @@
+// DO NOT EDIT. This file is machine-generated and constantly overwritten.
+// Make changes to <$managedObjectClassName$>.m instead.
+
+#import "_<$managedObjectClassName$>.h"
+
+@implementation _<$managedObjectClassName$>
+
+- (id)init
+{
+	self = [super init];
+<$foreach Relationship noninheritedRelationships do$>
+<$if Relationship.isToMany$>
+	[self set<$Relationship.name.initialCapitalString$>s:[NSMutableSet set]];
+<$endif$>
+<$endforeach do$>
+	return self;
+}
+
+- (void) dealloc
+{
+<$foreach Attribute noninheritedAttributes do$>
+<$if Attribute.hasScalarAttributeType$>
+<$else$>
+	[self set<$Attribute.name.initialCapitalString$>:nil];
+<$endif$>
+<$endforeach do$>
+
+<$foreach Relationship noninheritedRelationships do$>
+<$if Relationship.isToMany$>
+	[self set<$Relationship.name.initialCapitalString$>s:nil];
+<$else$>
+	[self set<$Relationship.name.initialCapitalString$>:nil];
+<$endif$>
+<$endforeach do$>
+	[super dealloc];
+}
+
+<$foreach Attribute noninheritedAttributes do$>
+<$if Attribute.hasScalarAttributeType$>
+- (<$Attribute.scalarAttributeType$>)<$Attribute.name$> {
+	return my<$Attribute.name.initialCapitalString$>;
+}
+- (void)set<$Attribute.name.initialCapitalString$>:(<$Attribute.scalarAttributeType$>)value_ {
+	my<$Attribute.name.initialCapitalString$> = value_;
+}
+<$else$>
+<$if Attribute.hasDefinedAttributeType$>
+- (<$Attribute.attributeValueClassName$> *)<$Attribute.name$> {
+	return my<$Attribute.name.initialCapitalString$>;
+}
+- (void)set<$Attribute.name.initialCapitalString$>:(<$Attribute.attributeValueClassName$> *)value_ {
+	[value_ retain];
+	[my<$Attribute.name.initialCapitalString$> release];
+	my<$Attribute.name.initialCapitalString$> = value_;
+}
+<$else$>
+- (id)<$Attribute.name$> {
+	return my<$Attribute.name.initialCapitalString$>;
+}
+- (void)set<$Attribute.name.initialCapitalString$>:(<$Attribute.attributeValueClassName$> *)value_ {
+	[value_ retain];
+	[my<$Attribute.name.initialCapitalString$> release];
+	my<$Attribute.name.initialCapitalString$> = value_;
+}
+<$endif$>
+<$endif$>
+<$endforeach do$>
+<$foreach Relationship noninheritedRelationships do$>
+<$if Relationship.isToMany$>
+- (void)add<$Relationship.name.initialCapitalString$>:(<$Relationship.destinationEntity.managedObjectClassName$> *)value_ {
+	[my<$Relationship.name.initialCapitalString$>s addObject:value_];
+}
+- (void)remove<$Relationship.name.initialCapitalString$>:(<$Relationship.destinationEntity.managedObjectClassName$> *)value_ {
+	[my<$Relationship.name.initialCapitalString$>s removeObject:value_];
+}
+- (NSMutableSet*)<$Relationship.name$>s {
+	return my<$Relationship.name.initialCapitalString$>s;
+}
+- (void)set<$Relationship.name.initialCapitalString$>s:(NSMutableSet *)value_ {
+	[value_ retain];
+	[my<$Relationship.name.initialCapitalString$>s release];
+	my<$Relationship.name.initialCapitalString$>s = value_;
+}
+
+<$else$>
+- (<$Relationship.destinationEntity.managedObjectClassName$> *)<$Relationship.name$> {
+	return my<$Relationship.name.initialCapitalString$>;
+}
+- (void)set<$Relationship.name.initialCapitalString$>:(<$Relationship.destinationEntity.managedObjectClassName$> *)value_ {
+	[value_ retain];
+	[my<$Relationship.name.initialCapitalString$> release];
+	my<$Relationship.name.initialCapitalString$> = value_;
+}
+<$endif$>
+<$endforeach do$>
+@end

@@ -1,0 +1,7 @@
+#import "<$managedObjectClassName$>.h"
+
+@implementation <$managedObjectClassName$>
+
+// Custom logic goes here.
+
+@end
