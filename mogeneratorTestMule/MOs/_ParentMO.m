@@ -3,31 +3,44 @@
 
 #import "_ParentMO.h"
 
+@implementation ParentMOID
+@end
+
 @implementation _ParentMO
 
++ (id)newInManagedObjectContext:(NSManagedObjectContext*)moc_ {
+	return [NSEntityDescription insertNewObjectForEntityForName:@"Parent" inManagedObjectContext:moc_];									 
+}
+
+- (ParentMOID*)objectID {
+	return (ParentMOID*)[super objectID];
+}
 
 
-- (NSNumber*)myInt16Transient {
-	[self willAccessValueForKey:@"myInt16Transient"];
-	NSNumber *result = [self primitiveValueForKey:@"myInt16Transient"];
-	[self didAccessValueForKey:@"myInt16Transient"];
+
+
+- (NSNumber*)myDouble {
+	[self willAccessValueForKey:@"myDouble"];
+	NSNumber *result = [self primitiveValueForKey:@"myDouble"];
+	[self didAccessValueForKey:@"myDouble"];
 	return result;
 }
 
-- (void)setMyInt16Transient:(NSNumber*)value_ {
-    [self willChangeValueForKey:@"myInt16Transient"];
-    [self setPrimitiveValue:value_ forKey:@"myInt16Transient"];
-    [self didChangeValueForKey:@"myInt16Transient"];
+- (void)setMyDouble:(NSNumber*)value_ {
+	[self willChangeValueForKey:@"myDouble"];
+	[self setPrimitiveValue:value_ forKey:@"myDouble"];
+	[self didChangeValueForKey:@"myDouble"];
 }
 
 
 
-- (short)myInt16TransientValue {
-	return [[self myInt16Transient] shortValue];
+- (double)myDoubleValue {
+	NSNumber *result = [self myDouble];
+	return result ? [result doubleValue] : 0;
 }
 
-- (void)setMyInt16TransientValue:(short)value_ {
-	[self setMyInt16Transient:[NSNumber numberWithShort:value_]];
+- (void)setMyDoubleValue:(double)value_ {
+	[self setMyDouble:[NSNumber numberWithDouble:value_]];
 }
 
 
@@ -35,17 +48,17 @@
 
 
 
-- (NSString*)parentName {
-	[self willAccessValueForKey:@"parentName"];
-	NSString *result = [self primitiveValueForKey:@"parentName"];
-	[self didAccessValueForKey:@"parentName"];
+- (NSString*)myString {
+	[self willAccessValueForKey:@"myString"];
+	NSString *result = [self primitiveValueForKey:@"myString"];
+	[self didAccessValueForKey:@"myString"];
 	return result;
 }
 
-- (void)setParentName:(NSString*)value_ {
-    [self willChangeValueForKey:@"parentName"];
-    [self setPrimitiveValue:value_ forKey:@"parentName"];
-    [self didChangeValueForKey:@"parentName"];
+- (void)setMyString:(NSString*)value_ {
+	[self willChangeValueForKey:@"myString"];
+	[self setPrimitiveValue:value_ forKey:@"myString"];
+	[self didChangeValueForKey:@"myString"];
 }
 
 
@@ -61,9 +74,27 @@
 }
 
 - (void)setMyDecimal:(NSDecimalNumber*)value_ {
-    [self willChangeValueForKey:@"myDecimal"];
-    [self setPrimitiveValue:value_ forKey:@"myDecimal"];
-    [self didChangeValueForKey:@"myDecimal"];
+	[self willChangeValueForKey:@"myDecimal"];
+	[self setPrimitiveValue:value_ forKey:@"myDecimal"];
+	[self didChangeValueForKey:@"myDecimal"];
+}
+
+
+
+
+
+
+- (NSString*)parentName {
+	[self willAccessValueForKey:@"parentName"];
+	NSString *result = [self primitiveValueForKey:@"parentName"];
+	[self didAccessValueForKey:@"parentName"];
+	return result;
+}
+
+- (void)setParentName:(NSString*)value_ {
+	[self willChangeValueForKey:@"parentName"];
+	[self setPrimitiveValue:value_ forKey:@"parentName"];
+	[self didChangeValueForKey:@"parentName"];
 }
 
 
@@ -79,9 +110,114 @@
 }
 
 - (void)setMyDate:(NSDate*)value_ {
-    [self willChangeValueForKey:@"myDate"];
-    [self setPrimitiveValue:value_ forKey:@"myDate"];
-    [self didChangeValueForKey:@"myDate"];
+	[self willChangeValueForKey:@"myDate"];
+	[self setPrimitiveValue:value_ forKey:@"myDate"];
+	[self didChangeValueForKey:@"myDate"];
+}
+
+
+
+
+
+
+- (NSNumber*)myFloat {
+	[self willAccessValueForKey:@"myFloat"];
+	NSNumber *result = [self primitiveValueForKey:@"myFloat"];
+	[self didAccessValueForKey:@"myFloat"];
+	return result;
+}
+
+- (void)setMyFloat:(NSNumber*)value_ {
+	[self willChangeValueForKey:@"myFloat"];
+	[self setPrimitiveValue:value_ forKey:@"myFloat"];
+	[self didChangeValueForKey:@"myFloat"];
+}
+
+
+
+- (float)myFloatValue {
+	NSNumber *result = [self myFloat];
+	return result ? [result floatValue] : 0;
+}
+
+- (void)setMyFloatValue:(float)value_ {
+	[self setMyFloat:[NSNumber numberWithFloat:value_]];
+}
+
+
+
+
+
+
+- (NSNumber*)myInt32 {
+	[self willAccessValueForKey:@"myInt32"];
+	NSNumber *result = [self primitiveValueForKey:@"myInt32"];
+	[self didAccessValueForKey:@"myInt32"];
+	return result;
+}
+
+- (void)setMyInt32:(NSNumber*)value_ {
+	[self willChangeValueForKey:@"myInt32"];
+	[self setPrimitiveValue:value_ forKey:@"myInt32"];
+	[self didChangeValueForKey:@"myInt32"];
+}
+
+
+
+- (int)myInt32Value {
+	NSNumber *result = [self myInt32];
+	return result ? [result intValue] : 0;
+}
+
+- (void)setMyInt32Value:(int)value_ {
+	[self setMyInt32:[NSNumber numberWithInt:value_]];
+}
+
+
+
+
+
+
+- (NSData*)myBinaryData {
+	[self willAccessValueForKey:@"myBinaryData"];
+	NSData *result = [self primitiveValueForKey:@"myBinaryData"];
+	[self didAccessValueForKey:@"myBinaryData"];
+	return result;
+}
+
+- (void)setMyBinaryData:(NSData*)value_ {
+	[self willChangeValueForKey:@"myBinaryData"];
+	[self setPrimitiveValue:value_ forKey:@"myBinaryData"];
+	[self didChangeValueForKey:@"myBinaryData"];
+}
+
+
+
+
+
+
+- (NSNumber*)myInt16Transient {
+	[self willAccessValueForKey:@"myInt16Transient"];
+	NSNumber *result = [self primitiveValueForKey:@"myInt16Transient"];
+	[self didAccessValueForKey:@"myInt16Transient"];
+	return result;
+}
+
+- (void)setMyInt16Transient:(NSNumber*)value_ {
+	[self willChangeValueForKey:@"myInt16Transient"];
+	[self setPrimitiveValue:value_ forKey:@"myInt16Transient"];
+	[self didChangeValueForKey:@"myInt16Transient"];
+}
+
+
+
+- (short)myInt16TransientValue {
+	NSNumber *result = [self myInt16Transient];
+	return result ? [result shortValue] : 0;
+}
+
+- (void)setMyInt16TransientValue:(short)value_ {
+	[self setMyInt16Transient:[NSNumber numberWithShort:value_]];
 }
 
 
@@ -97,15 +233,16 @@
 }
 
 - (void)setMyBoolean:(NSNumber*)value_ {
-    [self willChangeValueForKey:@"myBoolean"];
-    [self setPrimitiveValue:value_ forKey:@"myBoolean"];
-    [self didChangeValueForKey:@"myBoolean"];
+	[self willChangeValueForKey:@"myBoolean"];
+	[self setPrimitiveValue:value_ forKey:@"myBoolean"];
+	[self didChangeValueForKey:@"myBoolean"];
 }
 
 
 
 - (BOOL)myBooleanValue {
-	return [[self myBoolean] boolValue];
+	NSNumber *result = [self myBoolean];
+	return result ? [result boolValue] : 0;
 }
 
 - (void)setMyBooleanValue:(BOOL)value_ {
@@ -125,47 +262,20 @@
 }
 
 - (void)setMyInt64:(NSNumber*)value_ {
-    [self willChangeValueForKey:@"myInt64"];
-    [self setPrimitiveValue:value_ forKey:@"myInt64"];
-    [self didChangeValueForKey:@"myInt64"];
+	[self willChangeValueForKey:@"myInt64"];
+	[self setPrimitiveValue:value_ forKey:@"myInt64"];
+	[self didChangeValueForKey:@"myInt64"];
 }
 
 
 
 - (long long)myInt64Value {
-	return [[self myInt64] longLongValue];
+	NSNumber *result = [self myInt64];
+	return result ? [result longLongValue] : 0;
 }
 
 - (void)setMyInt64Value:(long long)value_ {
 	[self setMyInt64:[NSNumber numberWithLongLong:value_]];
-}
-
-
-
-
-
-
-- (NSNumber*)myDouble {
-	[self willAccessValueForKey:@"myDouble"];
-	NSNumber *result = [self primitiveValueForKey:@"myDouble"];
-	[self didAccessValueForKey:@"myDouble"];
-	return result;
-}
-
-- (void)setMyDouble:(NSNumber*)value_ {
-    [self willChangeValueForKey:@"myDouble"];
-    [self setPrimitiveValue:value_ forKey:@"myDouble"];
-    [self didChangeValueForKey:@"myDouble"];
-}
-
-
-
-- (double)myDoubleValue {
-	return [[self myDouble] doubleValue];
-}
-
-- (void)setMyDoubleValue:(double)value_ {
-	[self setMyDouble:[NSNumber numberWithDouble:value_]];
 }
 
 
@@ -181,15 +291,16 @@
 }
 
 - (void)setMyInt16:(NSNumber*)value_ {
-    [self willChangeValueForKey:@"myInt16"];
-    [self setPrimitiveValue:value_ forKey:@"myInt16"];
-    [self didChangeValueForKey:@"myInt16"];
+	[self willChangeValueForKey:@"myInt16"];
+	[self setPrimitiveValue:value_ forKey:@"myInt16"];
+	[self didChangeValueForKey:@"myInt16"];
 }
 
 
 
 - (short)myInt16Value {
-	return [[self myInt16] shortValue];
+	NSNumber *result = [self myInt16];
+	return result ? [result shortValue] : 0;
 }
 
 - (void)setMyInt16Value:(short)value_ {
@@ -201,103 +312,25 @@
 
 
 
-- (NSNumber*)myFloat {
-	[self willAccessValueForKey:@"myFloat"];
-	NSNumber *result = [self primitiveValueForKey:@"myFloat"];
-	[self didAccessValueForKey:@"myFloat"];
-	return result;
-}
-
-- (void)setMyFloat:(NSNumber*)value_ {
-    [self willChangeValueForKey:@"myFloat"];
-    [self setPrimitiveValue:value_ forKey:@"myFloat"];
-    [self didChangeValueForKey:@"myFloat"];
-}
-
-
-
-- (float)myFloatValue {
-	return [[self myFloat] floatValue];
-}
-
-- (void)setMyFloatValue:(float)value_ {
-	[self setMyFloat:[NSNumber numberWithFloat:value_]];
-}
-
-
-
-
-
-
-- (NSData*)myBinaryData {
-	[self willAccessValueForKey:@"myBinaryData"];
-	NSData *result = [self primitiveValueForKey:@"myBinaryData"];
-	[self didAccessValueForKey:@"myBinaryData"];
-	return result;
-}
-
-- (void)setMyBinaryData:(NSData*)value_ {
-    [self willChangeValueForKey:@"myBinaryData"];
-    [self setPrimitiveValue:value_ forKey:@"myBinaryData"];
-    [self didChangeValueForKey:@"myBinaryData"];
-}
-
-
-
-
-
-
-- (NSString*)myString {
-	[self willAccessValueForKey:@"myString"];
-	NSString *result = [self primitiveValueForKey:@"myString"];
-	[self didAccessValueForKey:@"myString"];
-	return result;
-}
-
-- (void)setMyString:(NSString*)value_ {
-    [self willChangeValueForKey:@"myString"];
-    [self setPrimitiveValue:value_ forKey:@"myString"];
-    [self didChangeValueForKey:@"myString"];
-}
-
-
-
-
-
-
-- (NSNumber*)myInt32 {
-	[self willAccessValueForKey:@"myInt32"];
-	NSNumber *result = [self primitiveValueForKey:@"myInt32"];
-	[self didAccessValueForKey:@"myInt32"];
-	return result;
-}
-
-- (void)setMyInt32:(NSNumber*)value_ {
-    [self willChangeValueForKey:@"myInt32"];
-    [self setPrimitiveValue:value_ forKey:@"myInt32"];
-    [self didChangeValueForKey:@"myInt32"];
-}
-
-
-
-- (int)myInt32Value {
-	return [[self myInt32] intValue];
-}
-
-- (void)setMyInt32Value:(int)value_ {
-	[self setMyInt32:[NSNumber numberWithInt:value_]];
-}
-
-
-
-
-
-
 	
+
+- (NSSet*)children {
+	[self willAccessValueForKey:@"children"];
+	NSSet *result = [self primitiveValueForKey:@"children"];
+	[self didAccessValueForKey:@"children"];
+	return result;
+}
+
+- (void)setChildren:(NSSet*)value_ {
+	[self willChangeValueForKey:@"children"];
+	[self setPrimitiveValue:value_ forKey:@"children"];
+	[self didChangeValueForKey:@"children"];
+}
+
 - (void)addChildren:(NSSet*)value_ {
 	[self willChangeValueForKey:@"children" withSetMutation:NSKeyValueUnionSetMutation usingObjects:value_];
-    [[self primitiveValueForKey:@"children"] unionSet:value_];
-    [self didChangeValueForKey:@"children" withSetMutation:NSKeyValueUnionSetMutation usingObjects:value_];
+	[[self primitiveValueForKey:@"children"] unionSet:value_];
+	[self didChangeValueForKey:@"children" withSetMutation:NSKeyValueUnionSetMutation usingObjects:value_];
 }
 
 -(void)removeChildren:(NSSet*)value_ {
@@ -309,9 +342,9 @@
 - (void)addChildrenObject:(ChildMO*)value_ {
 	NSSet *changedObjects = [[NSSet alloc] initWithObjects:&value_ count:1];
 	[self willChangeValueForKey:@"children" withSetMutation:NSKeyValueUnionSetMutation usingObjects:changedObjects];
-    [[self primitiveValueForKey:@"children"] addObject:value_];
-    [self didChangeValueForKey:@"children" withSetMutation:NSKeyValueUnionSetMutation usingObjects:changedObjects];
-    [changedObjects release];
+	[[self primitiveValueForKey:@"children"] addObject:value_];
+	[self didChangeValueForKey:@"children" withSetMutation:NSKeyValueUnionSetMutation usingObjects:changedObjects];
+	[changedObjects release];
 }
 
 - (void)removeChildrenObject:(ChildMO*)value_ {
@@ -323,7 +356,10 @@
 }
 
 - (NSMutableSet*)childrenSet {
-	return [self mutableSetValueForKey:@"children"];
+	[self willChangeValueForKey:@"children"];
+	NSMutableSet *result = [self mutableSetValueForKey:@"children"];
+	[self didChangeValueForKey:@"children"];
+	return result;
 }
 	
 

@@ -3,7 +3,19 @@
 
 #import "_ChildMO.h"
 
+@implementation ChildMOID
+@end
+
 @implementation _ChildMO
+
++ (id)newInManagedObjectContext:(NSManagedObjectContext*)moc_ {
+	return [NSEntityDescription insertNewObjectForEntityForName:@"Child" inManagedObjectContext:moc_];									 
+}
+
+- (ChildMOID*)objectID {
+	return (ChildMOID*)[super objectID];
+}
+
 
 
 
@@ -15,9 +27,9 @@
 }
 
 - (void)setChildName:(NSString*)value_ {
-    [self willChangeValueForKey:@"childName"];
-    [self setPrimitiveValue:value_ forKey:@"childName"];
-    [self didChangeValueForKey:@"childName"];
+	[self willChangeValueForKey:@"childName"];
+	[self setPrimitiveValue:value_ forKey:@"childName"];
+	[self didChangeValueForKey:@"childName"];
 }
 
 

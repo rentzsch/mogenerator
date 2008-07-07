@@ -3,7 +3,19 @@
 
 #import "_HumanMO.h"
 
+@implementation HumanMOID
+@end
+
 @implementation _HumanMO
+
++ (id)newInManagedObjectContext:(NSManagedObjectContext*)moc_ {
+	return [NSEntityDescription insertNewObjectForEntityForName:@"Human" inManagedObjectContext:moc_];									 
+}
+
+- (HumanMOID*)objectID {
+	return (HumanMOID*)[super objectID];
+}
+
 
 
 
@@ -17,9 +29,9 @@
 }
 
 - (void)setHumanName:(NSString*)value_ {
-    [self willChangeValueForKey:@"humanName"];
-    [self setPrimitiveValue:value_ forKey:@"humanName"];
-    [self didChangeValueForKey:@"humanName"];
+	[self willChangeValueForKey:@"humanName"];
+	[self setPrimitiveValue:value_ forKey:@"humanName"];
+	[self didChangeValueForKey:@"humanName"];
 }
 
 
@@ -35,9 +47,9 @@
 }
 
 - (void)setHairColorStorage:(NSData*)value_ {
-    [self willChangeValueForKey:@"hairColorStorage"];
-    [self setPrimitiveValue:value_ forKey:@"hairColorStorage"];
-    [self didChangeValueForKey:@"hairColorStorage"];
+	[self willChangeValueForKey:@"hairColorStorage"];
+	[self setPrimitiveValue:value_ forKey:@"hairColorStorage"];
+	[self didChangeValueForKey:@"hairColorStorage"];
 }
 
 
