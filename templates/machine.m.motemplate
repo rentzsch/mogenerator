@@ -116,9 +116,54 @@
 <$endforeach do$>
 
 <$foreach FetchRequest prettyFetchRequests do$>
-+ (NSArray*)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_<$endforeach do2$> {
+<$if Relationship.singleResult$>
++ (id)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_<$endforeach do2$> {
 	NSError *error = nil;
 	id result = [self fetch<$FetchRequest.name.initialCapitalString$>:moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:<$Binding.name$>_<$endforeach do2$> error:&error];
+	if (error) {
+		[NSApp presentError:error];
+	}
+	return result;
+}
++ (id)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_<$endforeach do2$> error:(NSError**)error_ {
+	NSError *error = nil;
+	
+	NSManagedObjectModel *model = [[moc_ persistentStoreCoordinator] managedObjectModel];
+	NSDictionary *substitutionVariables = [NSDictionary dictionaryWithObjectsAndKeys:
+														<$foreach Binding FetchRequest.bindings do2$>
+														<$Binding.name$>_, @"<$Binding.name$>",
+														<$endforeach do2$>
+														nil];
+	NSFetchRequest *fetchRequest = [model fetchRequestFromTemplateWithName:@"<$FetchRequest.name$>"
+													 substitutionVariables:substitutionVariables];
+	NSAssert(fetchRequest, @"Can't find fetch request named \"<$FetchRequest.name$>\".");
+	
+	id result = nil;
+	NSArray *results = [moc_ executeFetchRequest:fetchRequest error:&error];
+	
+	if (!error) {
+		switch ([results count]) {
+			case 0:
+				//	Nothing found matching the fetch request. That's cool, though: we'll just return nil.
+				break;
+			case 1:
+				result = [results objectAtIndex:0];
+				break;
+			default:
+				NSLog(@"WARN fetch request <$FetchRequest.name$>: 0 or 1 objects expected, %u found (substitutionVariables:%@, results:%@)",
+					[results count],
+					substitutionVariables,
+					results);
+		}
+	}
+	
+	if (error_) *error_ = error;
+	return result;
+}
+<$else$>
++ (NSArray*)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_<$endforeach do2$> {
+	NSError *error = nil;
+	NSArray *result = [self fetch<$FetchRequest.name.initialCapitalString$>:moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:<$Binding.name$>_<$endforeach do2$> error:&error];
 	if (error) {
 		[NSApp presentError:error];
 	}
@@ -141,5 +186,6 @@
 	if (error_) *error_ = error;
 	return result;
 }
+<$endif$>
 <$endforeach do$>
 @end

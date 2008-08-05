@@ -118,6 +118,7 @@ NSString	*gCustomBaseClass;
 		[result addObject:[NSDictionary dictionaryWithObjectsAndKeys:
                            fetchRequestName, @"name",
                            bindings, @"bindings",
+                           [NSNumber numberWithBool:[fetchRequestName hasPrefix:@"one"]], @"singleResult",
                            nil]];
 	}
 	return result;
