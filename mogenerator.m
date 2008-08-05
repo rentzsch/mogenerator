@@ -5,23 +5,10 @@
 
 	***************************************************************************/
 
-#import <Foundation/Foundation.h>
-#import <CoreData/CoreData.h>
-
-#import "MiscMergeTemplate.h"
-#import "MiscMergeCommandBlock.h"
-#import "MiscMergeEngine.h"
-#import "FoundationAdditions.h"
-#import "nsenumerate.h"
-#import "NSString+MiscAdditions.h"
-#import "DDCommandLineInterface.h"
+#import "mogenerator.h"
 
 NSString	*gCustomBaseClass;
 
-@interface NSEntityDescription (customBaseClass)
-- (BOOL)hasCustomSuperentity;
-- (NSString*)customSuperentity;
-@end
 @implementation NSEntityDescription (customBaseClass)
 - (BOOL)hasCustomSuperentity {
 	NSEntityDescription *superentity = [self superentity];
@@ -61,13 +48,82 @@ NSString	*gCustomBaseClass;
 		return [[self relationshipsByName] allValues];
 	}
 }
+
+#pragma mark Fetch Request support
+
+- (NSDictionary*)fetchRequestTemplates {
+	// -[NSManagedObjectModel _fetchRequestTemplatesByName] is a private method, but it's the only way to get
+	//	model fetch request templates without knowing their name ahead of time. rdar://problem/4901396 asks for
+	//	a public method (-[NSManagedObjectModel fetchRequestTemplatesByName]) that does the same thing.
+	//	If that request is fulfilled, this code won't need to be modified thanks to KVC lookup order magic.
+    //  UPDATE: 10.5 now has a public -fetchRequestTemplatesByName method.
+	NSDictionary *fetchRequests = [[self managedObjectModel] valueForKey:@"fetchRequestTemplatesByName"];
+	
+	NSMutableDictionary *result = [NSMutableDictionary dictionaryWithCapacity:[fetchRequests count]];
+	nsenumerate ([fetchRequests allKeys], NSString, fetchRequestName) {
+		NSFetchRequest *fetchRequest = [fetchRequests objectForKey:fetchRequestName];
+		if ([fetchRequest entity] == self) {
+			[result setObject:fetchRequest forKey:fetchRequestName];
+		}
+	}
+	return result;
+}
+- (void)_processPredicate:(NSPredicate*)predicate_ bindings:(NSMutableArray*)bindings_ {
+	if ([predicate_ isKindOfClass:[NSCompoundPredicate class]]) {
+		nsenumerate([(NSCompoundPredicate*)predicate_ subpredicates], NSPredicate, subpredicate) {
+			[self _processPredicate:subpredicate bindings:bindings_];
+		}
+	} else {
+		assert([[(NSComparisonPredicate*)predicate_ leftExpression] expressionType] == NSKeyPathExpressionType);
+		NSExpression *lhs = [(NSComparisonPredicate*)predicate_ leftExpression];
+		NSExpression *rhs = [(NSComparisonPredicate*)predicate_ rightExpression];
+		switch([rhs expressionType]) {
+			case NSConstantValueExpressionType:
+			case NSEvaluatedObjectExpressionType:
+			case NSKeyPathExpressionType:
+			case NSFunctionExpressionType:
+				//	Don't do anything with these.
+				break;
+			case NSVariableExpressionType: {
+				// TODO SHOULD Handle LHS keypaths.
+                
+                NSString *type = nil;
+                
+                NSAttributeDescription *attribute = [[self attributesByName] objectForKey:[lhs keyPath]];
+                if (attribute) {
+                    type = [attribute objectAttributeType];
+                    type = [type stringByAppendingString:@"*"];
+                } else {
+                    //  Probably a relationship
+                    assert(0&&"TODO: add relationship support");
+                }
+                
+				[bindings_ addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                                      [rhs variable], @"name",
+                                      type, @"type",
+                                      nil]];
+			} break;
+			default:
+				assert(0 && "unknown NSExpression type");
+		}
+	}
+}
+- (NSArray*)prettyFetchRequests {
+	NSDictionary *fetchRequests = [self fetchRequestTemplates];
+	NSMutableArray *result = [NSMutableArray arrayWithCapacity:[fetchRequests count]];
+	nsenumerate ([fetchRequests allKeys], NSString, fetchRequestName) {
+		NSFetchRequest *fetchRequest = [fetchRequests objectForKey:fetchRequestName];
+		NSMutableArray *bindings = [NSMutableArray array];
+		[self _processPredicate:[fetchRequest predicate] bindings:bindings];
+		[result addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                           fetchRequestName, @"name",
+                           bindings, @"bindings",
+                           nil]];
+	}
+	return result;
+}
 @end
-@interface NSAttributeDescription (scalarAttributeType)
-- (BOOL)hasScalarAttributeType;
-- (NSString*)scalarAttributeType;
-- (BOOL)hasDefinedAttributeType;
-- (NSString*)objectAttributeType;
-@end
+
 @implementation NSAttributeDescription (scalarAttributeType)
 - (BOOL)hasScalarAttributeType {
 	switch ([self attributeType]) {
@@ -122,9 +178,7 @@ NSString	*gCustomBaseClass;
     }
 }
 @end
-@interface NSString (camelCaseString)
-- (NSString*)camelCaseString;
-@end
+
 @implementation NSString (camelCaseString)
 - (NSString*)camelCaseString {
 	NSArray *lowerCasedWordArray = [[self wordArray] arrayByMakingObjectsPerformSelector:@selector(lowercaseString)];
@@ -146,23 +200,6 @@ static MiscMergeEngine* engineWithTemplatePath(NSString *templatePath_) {
 	
 	return [[[MiscMergeEngine alloc] initWithTemplate:template] autorelease];
 }
-
-@interface MOGeneratorApp : NSObject <DDCliApplicationDelegate> {
-	NSString				*tempMOMPath;
-	NSManagedObjectModel	*model;
-	NSString				*baseClass;
-	NSString				*includem;
-	NSString				*templatePath;
-	NSString				*outputDir;
-	NSString				*machineDir;
-	NSString				*humanDir;
-	NSString				*templateGroup;
-	BOOL					_help;
-	BOOL					_version;
-}
-
-- (NSString*)appSupportFileNamed:(NSString*)fileName_;
-@end
 
 @implementation MOGeneratorApp
 
@@ -290,7 +327,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     
     if (_version)
     {
-        printf("mogenerator 1.10.1. By Jonathan 'Wolf' Rentzsch + friends.\n");
+        printf("mogenerator 1.11. By Jonathan 'Wolf' Rentzsch + friends.\n");
         return EXIT_SUCCESS;
     }
     

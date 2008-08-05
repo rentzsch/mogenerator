@@ -74,4 +74,32 @@
 
 	
 
+
+
++ (NSArray*)fetchByHumanName:(NSManagedObjectContext*)moc_ humanName:(NSString*)humanName_ {
+	NSError *error = nil;
+	id result = [self fetchByHumanName:moc_ humanName:humanName_ error:&error];
+	if (error) {
+		[NSApp presentError:error];
+	}
+	return result;
+}
++ (NSArray*)fetchByHumanName:(NSManagedObjectContext*)moc_ humanName:(NSString*)humanName_ error:(NSError**)error_ {
+	NSError *error = nil;
+	
+	NSManagedObjectModel *model = [[moc_ persistentStoreCoordinator] managedObjectModel];
+	NSFetchRequest *fetchRequest = [model fetchRequestFromTemplateWithName:@"byHumanName"
+													 substitutionVariables:[NSDictionary dictionaryWithObjectsAndKeys:
+														
+														humanName_, @"humanName",
+														
+														nil]
+													 ];
+	NSAssert(fetchRequest, @"Can't find fetch request named \"byHumanName\".");
+	
+	NSArray *result = [moc_ executeFetchRequest:fetchRequest error:&error];
+	if (error_) *error_ = error;
+	return result;
+}
+
 @end
