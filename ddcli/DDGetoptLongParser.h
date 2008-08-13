@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007 Dave Dribin
+ * Copyright (c) 2007-2008 Dave Dribin
  * 
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -98,6 +98,20 @@ typedef struct
  * @param target Object that receives target messages.
  */
 - (id) initWithTarget: (id) target;
+
+/**
+ * Returns the target object.
+ *
+ * @return The target object
+ */
+- (id) target;
+
+/**
+ * Sets the target object.
+ *
+ * @param target The target object
+ */
+- (void) setTarget: (id) target;
 
 /**
  * If set to YES, parses options with getopt_long_only() instead of

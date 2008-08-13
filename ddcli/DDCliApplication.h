@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007 Dave Dribin
+ * Copyright (c) 2007-2008 Dave Dribin
  * 
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -135,7 +135,7 @@ int DDCliAppRunWithClass(Class delegateClass);
 /**
  * @example example.m
  *
- * This is a slighly more complexe example application.  Here are a
+ * This is a slighly more complex example application.  Here are a
  * few sample runs of this program:
  *
  * @verbatim

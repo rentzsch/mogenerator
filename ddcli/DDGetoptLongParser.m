@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007 Dave Dribin
+ * Copyright (c) 2007-2008 Dave Dribin
  * 
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -66,6 +66,27 @@
     
     return self;
 }
+
+- (void) dealloc
+{
+    [mOptionInfoMap release];
+    [mOptionString release];
+    [mOptionsData release];
+    [mUtf8Data release];
+    
+    [super dealloc];
+}
+
+- (id) target;
+{
+    return mTarget;
+}
+
+- (void) setTarget: (id) target;
+{
+    mTarget = target;
+}
+
 
 - (void) setGetoptLongOnly: (BOOL) getoptLongOnly;
 {
