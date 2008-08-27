@@ -48,8 +48,8 @@
 
 
 
-+ (id)fetchByHumanName:(NSManagedObjectContext*)moc_ humanName:(NSString*)humanName_;
-+ (id)fetchByHumanName:(NSManagedObjectContext*)moc_ humanName:(NSString*)humanName_ error:(NSError**)error_;
++ (NSArray*)fetchByHumanName:(NSManagedObjectContext*)moc_ humanName:(NSString*)humanName_;
++ (NSArray*)fetchByHumanName:(NSManagedObjectContext*)moc_ humanName:(NSString*)humanName_ error:(NSError**)error_;
 
 
 

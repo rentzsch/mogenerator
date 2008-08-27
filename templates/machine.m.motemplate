@@ -116,7 +116,7 @@
 <$endforeach do$>
 
 <$foreach FetchRequest prettyFetchRequests do$>
-<$if Relationship.singleResult$>
+<$if FetchRequest.singleResult$>
 + (id)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_<$endforeach do2$> {
 	NSError *error = nil;
 	id result = [self fetch<$FetchRequest.name.initialCapitalString$>:moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:<$Binding.name$>_<$endforeach do2$> error:&error];
