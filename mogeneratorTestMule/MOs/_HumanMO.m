@@ -150,4 +150,30 @@
 }
 
 
+
++ (NSArray*)fetchAllHumans:(NSManagedObjectContext*)moc_  {
+	NSError *error = nil;
+	NSArray *result = [self fetchAllHumans:moc_  error:&error];
+	if (error) {
+		[NSApp presentError:error];
+	}
+	return result;
+}
++ (NSArray*)fetchAllHumans:(NSManagedObjectContext*)moc_  error:(NSError**)error_ {
+	NSError *error = nil;
+	
+	NSManagedObjectModel *model = [[moc_ persistentStoreCoordinator] managedObjectModel];
+	NSFetchRequest *fetchRequest = [model fetchRequestFromTemplateWithName:@"allHumans"
+													 substitutionVariables:[NSDictionary dictionaryWithObjectsAndKeys:
+														
+														nil]
+													 ];
+	NSAssert(fetchRequest, @"Can't find fetch request named \"allHumans\".");
+	
+	NSArray *result = [moc_ executeFetchRequest:fetchRequest error:&error];
+	if (error_) *error_ = error;
+	return result;
+}
+
+
 @end

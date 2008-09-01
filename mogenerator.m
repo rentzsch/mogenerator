@@ -69,6 +69,8 @@ NSString	*gCustomBaseClass;
 	return result;
 }
 - (void)_processPredicate:(NSPredicate*)predicate_ bindings:(NSMutableArray*)bindings_ {
+    if (!predicate_) return;
+    
 	if ([predicate_ isKindOfClass:[NSCompoundPredicate class]]) {
 		nsenumerate([(NSCompoundPredicate*)predicate_ subpredicates], NSPredicate, subpredicate) {
 			[self _processPredicate:subpredicate bindings:bindings_];
@@ -92,11 +94,13 @@ NSString	*gCustomBaseClass;
                 NSAttributeDescription *attribute = [[self attributesByName] objectForKey:[lhs keyPath]];
                 if (attribute) {
                     type = [attribute objectAttributeType];
-                    type = [type stringByAppendingString:@"*"];
                 } else {
                     //  Probably a relationship
-                    assert(0&&"TODO: add relationship support");
+                    NSRelationshipDescription *relationship = [[self relationshipsByName] objectForKey:[lhs keyPath]];
+                    assert(relationship);
+                    type = [[relationship destinationEntity] managedObjectClassName];
                 }
+                type = [type stringByAppendingString:@"*"];
                 
 				[bindings_ addObject:[NSDictionary dictionaryWithObjectsAndKeys:
                                       [rhs variable], @"name",
@@ -328,7 +332,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     
     if (_version)
     {
-        printf("mogenerator 1.11. By Jonathan 'Wolf' Rentzsch + friends.\n");
+        printf("mogenerator 1.12. By Jonathan 'Wolf' Rentzsch + friends.\n");
         return EXIT_SUCCESS;
     }
     
