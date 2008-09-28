@@ -94,6 +94,16 @@
 
 
 
+- (NSColor*)myTransformableWithClassName;
+- (void)setMyTransformableWithClassName:(NSColor*)value_;
+#if defined(MAC_OS_X_VERSION_10_5) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
+@property (retain) NSColor *myTransformableWithClassName;
+#endif
+
+//- (BOOL)validateMyTransformableWithClassName:(id*)value_ error:(NSError**)error_;
+
+
+
 - (NSData*)myBinaryData;
 - (void)setMyBinaryData:(NSData*)value_;
 #if defined(MAC_OS_X_VERSION_10_5) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
@@ -153,6 +163,16 @@
 - (void)setMyInt16Value:(short)value_;
 
 //- (BOOL)validateMyInt16:(id*)value_ error:(NSError**)error_;
+
+
+
+- (NSObject*)myTransformableSansClassName;
+- (void)setMyTransformableSansClassName:(NSObject*)value_;
+#if defined(MAC_OS_X_VERSION_10_5) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
+@property (retain) NSObject *myTransformableSansClassName;
+#endif
+
+//- (BOOL)validateMyTransformableSansClassName:(id*)value_ error:(NSError**)error_;
 
 
 

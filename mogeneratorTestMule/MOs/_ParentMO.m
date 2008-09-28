@@ -178,6 +178,24 @@
 
 
 
+- (NSColor*)myTransformableWithClassName {
+	[self willAccessValueForKey:@"myTransformableWithClassName"];
+	NSColor *result = [self primitiveValueForKey:@"myTransformableWithClassName"];
+	[self didAccessValueForKey:@"myTransformableWithClassName"];
+	return result;
+}
+
+- (void)setMyTransformableWithClassName:(NSColor*)value_ {
+	[self willChangeValueForKey:@"myTransformableWithClassName"];
+	[self setPrimitiveValue:value_ forKey:@"myTransformableWithClassName"];
+	[self didChangeValueForKey:@"myTransformableWithClassName"];
+}
+
+
+
+
+
+
 - (NSData*)myBinaryData {
 	[self willAccessValueForKey:@"myBinaryData"];
 	NSData *result = [self primitiveValueForKey:@"myBinaryData"];
@@ -305,6 +323,24 @@
 
 - (void)setMyInt16Value:(short)value_ {
 	[self setMyInt16:[NSNumber numberWithShort:value_]];
+}
+
+
+
+
+
+
+- (NSObject*)myTransformableSansClassName {
+	[self willAccessValueForKey:@"myTransformableSansClassName"];
+	NSObject *result = [self primitiveValueForKey:@"myTransformableSansClassName"];
+	[self didAccessValueForKey:@"myTransformableSansClassName"];
+	return result;
+}
+
+- (void)setMyTransformableSansClassName:(NSObject*)value_ {
+	[self willChangeValueForKey:@"myTransformableSansClassName"];
+	[self setPrimitiveValue:value_ forKey:@"myTransformableSansClassName"];
+	[self didChangeValueForKey:@"myTransformableSansClassName"];
 }
 
 
