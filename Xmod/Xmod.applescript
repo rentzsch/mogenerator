@@ -13,42 +13,44 @@ on updateProjectXmod(_project)
 		-- Iterate over every .xcdatamodel in the project.
 		set modelList to every file reference of _project whose file kind is "wrapper.xcdatamodel"
 		repeat with modelIt in modelList
-			set modelSrcDir to my modelSrcDirPath(full path of modelIt)
-			set targetList to my everyTargetWithBuildFilePath(_project, full path of modelIt)
-			
-			-- Create the .xcdatamodel related source group if necessary.
-			if not (exists (every item reference of group of modelIt whose full path is modelSrcDir)) then
-				tell group of modelIt
-					make new group with properties {full path:modelSrcDir, name:text 1 thru -13 of ((name of modelIt) as string)}
-				end tell
-			end if
-			set modelSrcGroup to item 1 of (every item reference of group of modelIt whose full path is modelSrcDir)
-			tell modelSrcGroup to delete every item reference -- clear it out for population in case we didn't just create it
-			
-			--	Meat.
-			do shell script "/usr/bin/mogenerator --model '" & full path of modelIt & "' --output-dir '" & modelSrcDir & "'"
-			
-			--	Build a list of resulting source files.
-			tell application "System Events"
-				set humanFileList to (every file of (POSIX file modelSrcDir as alias) whose (name ends with ".m" or name ends with ".mm") and name does not start with "_")
-				set machineFileList to (every file of (POSIX file modelSrcDir as alias) whose (name ends with ".m" or name ends with ".mm") and name starts with "_")
-				set fileList to humanFileList & machineFileList
-				set pathList to {}
-				repeat with fileItem in fileList
-					set pathList to pathList & POSIX path of fileItem
-				end repeat
-			end tell
-			
-			--	Add the source files to the model's source group and the model's targets.
-			repeat with pathIt in pathList
-				tell modelSrcGroup
-					set modelSrcFileRef to make new file reference with properties {full path:pathIt, name:name of (info for POSIX file pathIt)}
-					repeat with targetIndex from 1 to (count of targetList)
-						set targetIt to item targetIndex of targetList
-						add modelSrcFileRef to targetIt
+			if comments of modelIt contains "xmod" then
+				set modelSrcDir to my modelSrcDirPath(full path of modelIt)
+				set targetList to my everyTargetWithBuildFilePath(_project, full path of modelIt)
+				
+				-- Create the .xcdatamodel related source group if necessary.
+				if not (exists (every item reference of group of modelIt whose full path is modelSrcDir)) then
+					tell group of modelIt
+						make new group with properties {full path:modelSrcDir, name:text 1 thru -13 of ((name of modelIt) as string)}
+					end tell
+				end if
+				set modelSrcGroup to item 1 of (every item reference of group of modelIt whose full path is modelSrcDir)
+				tell modelSrcGroup to delete every item reference -- clear it out for population in case we didn't just create it
+				
+				--	Meat.
+				do shell script "/usr/bin/mogenerator --model '" & full path of modelIt & "' --output-dir '" & modelSrcDir & "'"
+				
+				--	Build a list of resulting source files.
+				tell application "System Events"
+					set humanFileList to (every file of (POSIX file modelSrcDir as alias) whose (name ends with ".m" or name ends with ".mm") and name does not start with "_")
+					set machineFileList to (every file of (POSIX file modelSrcDir as alias) whose (name ends with ".m" or name ends with ".mm") and name starts with "_")
+					set fileList to humanFileList & machineFileList
+					set pathList to {}
+					repeat with fileItem in fileList
+						set pathList to pathList & POSIX path of fileItem
 					end repeat
 				end tell
-			end repeat
+				
+				--	Add the source files to the model's source group and the model's targets.
+				repeat with pathIt in pathList
+					tell modelSrcGroup
+						set modelSrcFileRef to make new file reference with properties {full path:pathIt, name:name of (info for POSIX file pathIt)}
+						repeat with targetIndex from 1 to (count of targetList)
+							set targetIt to item targetIndex of targetList
+							add modelSrcFileRef to targetIt
+						end repeat
+					end tell
+				end repeat
+			end if
 		end repeat
 	end tell
 end updateProjectXmod
