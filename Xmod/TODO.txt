@@ -1,5 +1,4 @@
 MUST
-- Add opt-in "xmod" into datamodel's comment field.
 
 SHOULD
 - Default-install Xmo'd (but allow opt-out)
@@ -11,3 +10,6 @@ NICE
 - 
 
 NOTES
+
+DONE
+- Add opt-in "xmod" into datamodel's comment field.
