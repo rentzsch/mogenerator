@@ -55,11 +55,6 @@ on updateProjectXmod(_project)
 	end tell
 end updateProjectXmod
 
-on updateModelXmod(_project, _modelFilePath)
-	tell application "Xcode"
-	end tell
-end updateModelXmod
-
 on everyTargetWithBuildFilePath(_project, _buildFilePath)
 	set theResult to {}
 	tell application "Xcode"
