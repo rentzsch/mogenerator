@@ -358,9 +358,9 @@
 }
 
 - (void)setChildren:(NSSet*)value_ {
-	[self willChangeValueForKey:@"children"];
-	[self setPrimitiveValue:value_ forKey:@"children"];
-	[self didChangeValueForKey:@"children"];
+	[self willChangeValueForKey:@"children" withSetMutation:NSKeyValueSetSetMutation usingObjects:value_];
+	[[self primitiveValueForKey:@"children"] setSet:value_];
+	[self didChangeValueForKey:@"children" withSetMutation:NSKeyValueSetSetMutation usingObjects:value_];
 }
 
 - (void)addChildren:(NSSet*)value_ {

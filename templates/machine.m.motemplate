@@ -58,9 +58,9 @@
 }
 
 - (void)set<$Relationship.name.initialCapitalString$>:(NSSet*)value_ {
-	[self willChangeValueForKey:@"<$Relationship.name$>"];
-	[self setPrimitiveValue:value_ forKey:@"<$Relationship.name$>"];
-	[self didChangeValueForKey:@"<$Relationship.name$>"];
+	[self willChangeValueForKey:@"<$Relationship.name$>" withSetMutation:NSKeyValueSetSetMutation usingObjects:value_];
+	[[self primitiveValueForKey:@"<$Relationship.name$>"] setSet:value_];
+	[self didChangeValueForKey:@"<$Relationship.name$>" withSetMutation:NSKeyValueSetSetMutation usingObjects:value_];
 }
 
 - (void)add<$Relationship.name.initialCapitalString$>:(NSSet*)value_ {
