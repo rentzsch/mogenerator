@@ -92,9 +92,9 @@
 }
 
 - (NSMutableSet*)<$Relationship.name$>Set {
-	[self willChangeValueForKey:@"<$Relationship.name$>"];
+	[self willAccessValueForKey:@"<$Relationship.name$>"];
 	NSMutableSet *result = [self mutableSetValueForKey:@"<$Relationship.name$>"];
-	[self didChangeValueForKey:@"<$Relationship.name$>"];
+	[self didAccessValueForKey:@"<$Relationship.name$>"];
 	return result;
 }
 	<$else$>
