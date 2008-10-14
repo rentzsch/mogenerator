@@ -392,9 +392,9 @@
 }
 
 - (NSMutableSet*)childrenSet {
-	[self willChangeValueForKey:@"children"];
+	[self willAccessValueForKey:@"children"];
 	NSMutableSet *result = [self mutableSetValueForKey:@"children"];
-	[self didChangeValueForKey:@"children"];
+	[self didAccessValueForKey:@"children"];
 	return result;
 }
 	
