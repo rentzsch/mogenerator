@@ -55,7 +55,7 @@ Xmod *gSharedXmod;
 		coreDataPlugin = [NSBundle bundleWithPath:@"/Library/Application Support/Apple/Developer Tools/Plug-ins/XDCoreDataModel.xdplugin"];
 	} else if ([xcodeVersion isEqualToString:@"2.5"]) {
 		coreDataPlugin = [NSBundle bundleWithPath:@"/Xcode2.5/Library/Xcode/Plug-ins/XDCoreDataModel.xdplugin"];
-	} else if ([xcodeVersion isEqualToString:@"3.0"] || [xcodeVersion isEqualToString:@"3.1"] || [xcodeVersion isEqualToString:@"3.1.1"]) {
+	} else if ([xcodeVersion isEqualToString:@"3.0"] || [xcodeVersion hasPrefix:@"3.1"]) {
 		coreDataPlugin = [NSBundle bundleWithPath:@"/Developer/Library/Xcode/Plug-ins/XDCoreDataModel.xdplugin"];
 	} else {
 		NSLog(@"Xmod: unknown Xcode version (%@), not loading.", xcodeVersion);
