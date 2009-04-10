@@ -310,7 +310,7 @@
 				79D2BF9F0ACFB51A00F3F141 /* NSString+MiscAdditions.h */,
 				79D2BFA00ACFB51A00F3F141 /* NSString+MiscAdditions.m */,
 			);
-			name = MiscMerge;
+			path = MiscMerge;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
