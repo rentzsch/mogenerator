@@ -38,8 +38,8 @@
 		79D150FA0C8FBDE9006706AF /* Xmod.applescript */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.applescript; path = Xmod.applescript; sourceTree = "<group>"; };
 		79DFC11D0B59B8C80056C80E /* Xmod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Xmod.h; sourceTree = "<group>"; };
 		79DFC11E0B59B8C80056C80E /* Xmod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Xmod.m; sourceTree = "<group>"; };
-		79E65E0B0D5631EA00B09941 /* JRSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRSwizzle.m; path = ../../JRSwizzle/JRSwizzle.m; sourceTree = "<group>"; };
-		79E65E0C0D5631EA00B09941 /* JRSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRSwizzle.h; path = ../../JRSwizzle/JRSwizzle.h; sourceTree = "<group>"; };
+		79E65E0B0D5631EA00B09941 /* JRSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRSwizzle.m; path = JRSwizzle/JRSwizzle.m; sourceTree = "<group>"; };
+		79E65E0C0D5631EA00B09941 /* JRSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRSwizzle.m; path = JRSwizzle/JRSwizzle.m; sourceTree = "<group>"; };
 		79F8A9C20C8FF06600082291 /* Autocustomize Entity Classes.applescript */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.applescript; path = "Autocustomize Entity Classes.applescript"; sourceTree = "<group>"; };
 		8D5B49B6048680CD000E48DA /* Xmod.pbplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Xmod.pbplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -95,7 +95,7 @@
 			children = (
 				79DFC11D0B59B8C80056C80E /* Xmod.h */,
 				79DFC11E0B59B8C80056C80E /* Xmod.m */,
-				79E65E0C0D5631EA00B09941 /* JRSwizzle.h */,
+				79E65E0C0D5631EA00B09941 /* JRSwizzle.m */,
 				79E65E0B0D5631EA00B09941 /* JRSwizzle.m */,
 			);
 			name = Classes;
