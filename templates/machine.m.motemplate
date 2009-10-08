@@ -8,7 +8,7 @@
 
 @implementation _<$managedObjectClassName$>
 
-+ (id)newInManagedObjectContext:(NSManagedObjectContext*)moc_ {
++ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	return [NSEntityDescription insertNewObjectForEntityForName:@"<$name$>" inManagedObjectContext:moc_];									 
 }
 
