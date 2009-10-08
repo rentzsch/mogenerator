@@ -10,7 +10,7 @@
 @end
 
 @interface _ChildMO : HumanMO {}
-+ (id)newInManagedObjectContext:(NSManagedObjectContext*)moc_;
++ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
 - (ChildMOID*)objectID;
 
 

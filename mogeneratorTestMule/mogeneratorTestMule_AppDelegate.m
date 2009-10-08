@@ -4,7 +4,7 @@
 @implementation mogeneratorTestMule_AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification*)notification_ {
-	ParentMO *parent = [ParentMO newInManagedObjectContext:[self managedObjectContext]];
+	ParentMO *parent = [ParentMO insertInManagedObjectContext:[self managedObjectContext]];
 	[parent setIvar:42.0];
 	[parent setHairColor:[NSColor brownColor]];
 	NSLog(@"success");

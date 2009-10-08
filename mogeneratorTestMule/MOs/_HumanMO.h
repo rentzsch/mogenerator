@@ -10,10 +10,18 @@
 @end
 
 @interface _HumanMO : MyBaseClass {}
-+ (id)newInManagedObjectContext:(NSManagedObjectContext*)moc_;
++ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
 - (HumanMOID*)objectID;
 
 
+
+- (NSData*)hairColorStorage;
+- (void)setHairColorStorage:(NSData*)value_;
+#if defined(MAC_OS_X_VERSION_10_5) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
+@property (retain) NSData *hairColorStorage;
+#endif
+
+//- (BOOL)validateHairColorStorage:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -26,14 +34,6 @@
 //- (BOOL)validateHumanName:(id*)value_ error:(NSError**)error_;
 
 
-
-- (NSData*)hairColorStorage;
-- (void)setHairColorStorage:(NSData*)value_;
-#if defined(MAC_OS_X_VERSION_10_5) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
-@property (retain) NSData *hairColorStorage;
-#endif
-
-//- (BOOL)validateHairColorStorage:(id*)value_ error:(NSError**)error_;
 
 
 

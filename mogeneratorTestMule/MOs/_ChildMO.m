@@ -8,7 +8,7 @@
 
 @implementation _ChildMO
 
-+ (id)newInManagedObjectContext:(NSManagedObjectContext*)moc_ {
++ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	return [NSEntityDescription insertNewObjectForEntityForName:@"Child" inManagedObjectContext:moc_];									 
 }
 

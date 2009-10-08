@@ -8,12 +8,28 @@
 
 @implementation _HumanMO
 
-+ (id)newInManagedObjectContext:(NSManagedObjectContext*)moc_ {
++ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	return [NSEntityDescription insertNewObjectForEntityForName:@"Human" inManagedObjectContext:moc_];									 
 }
 
 - (HumanMOID*)objectID {
 	return (HumanMOID*)[super objectID];
+}
+
+
+
+
+- (NSData*)hairColorStorage {
+	[self willAccessValueForKey:@"hairColorStorage"];
+	NSData *result = [self primitiveValueForKey:@"hairColorStorage"];
+	[self didAccessValueForKey:@"hairColorStorage"];
+	return result;
+}
+
+- (void)setHairColorStorage:(NSData*)value_ {
+	[self willChangeValueForKey:@"hairColorStorage"];
+	[self setPrimitiveValue:value_ forKey:@"hairColorStorage"];
+	[self didChangeValueForKey:@"hairColorStorage"];
 }
 
 
@@ -35,22 +51,6 @@
 }
 
 
-
-
-
-
-- (NSData*)hairColorStorage {
-	[self willAccessValueForKey:@"hairColorStorage"];
-	NSData *result = [self primitiveValueForKey:@"hairColorStorage"];
-	[self didAccessValueForKey:@"hairColorStorage"];
-	return result;
-}
-
-- (void)setHairColorStorage:(NSData*)value_ {
-	[self willChangeValueForKey:@"hairColorStorage"];
-	[self setPrimitiveValue:value_ forKey:@"hairColorStorage"];
-	[self didChangeValueForKey:@"hairColorStorage"];
-}
 
 
 
