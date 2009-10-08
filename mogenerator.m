@@ -1,6 +1,6 @@
 /*******************************************************************************
-	mogenerator.m
-		Copyright (c) 2006-2008 Jonathan 'Wolf' Rentzsch: <http://rentzsch.com>
+	mogenerator.m - <http://github.com/rentzsch/mogenerator>
+		Copyright (c) 2006-2009 Jonathan 'Wolf' Rentzsch: <http://rentzsch.com>
 		Some rights reserved: <http://opensource.org/licenses/mit-license.php>
 
 	***************************************************************************/
@@ -332,7 +332,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     
     if (_version)
     {
-        printf("mogenerator 1.13.1. By Jonathan 'Wolf' Rentzsch + friends.\n");
+        printf("mogenerator 1.14. By Jonathan 'Wolf' Rentzsch + friends.\n");
         return EXIT_SUCCESS;
     }
     
