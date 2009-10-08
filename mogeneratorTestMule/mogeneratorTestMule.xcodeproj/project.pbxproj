@@ -11,7 +11,6 @@
 		77C8280E06725ACE000B614F /* mogeneratorTestMule_AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C8280C06725ACE000B614F /* mogeneratorTestMule_AppDelegate.m */; };
 		79812C8E0B04F4E500DF4429 /* include.m in Sources */ = {isa = PBXBuildFile; fileRef = 79812C8D0B04F4E500DF4429 /* include.m */; };
 		79812CDA0B04F81B00DF4429 /* MyBaseClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 79812CD90B04F81B00DF4429 /* MyBaseClass.m */; };
-		79812D770B0509FB00DF4429 /* CoreData+JRExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 79812D760B0509FB00DF4429 /* CoreData+JRExtensions.m */; };
 		8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
@@ -33,8 +32,6 @@
 		79812C8D0B04F4E500DF4429 /* include.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = include.m; path = MOs/include.m; sourceTree = "<group>"; };
 		79812CD80B04F81B00DF4429 /* MyBaseClass.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MyBaseClass.h; sourceTree = "<group>"; };
 		79812CD90B04F81B00DF4429 /* MyBaseClass.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MyBaseClass.m; sourceTree = "<group>"; };
-		79812D750B0509FB00DF4429 /* CoreData+JRExtensions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "CoreData+JRExtensions.h"; path = "../../CoreData+JRExtensions/CoreData+JRExtensions.h"; sourceTree = "<group>"; };
-		79812D760B0509FB00DF4429 /* CoreData+JRExtensions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "CoreData+JRExtensions.m"; path = "../../CoreData+JRExtensions/CoreData+JRExtensions.m"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* mogeneratorTestMule.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mogeneratorTestMule.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -91,8 +88,6 @@
 			children = (
 				79812CD80B04F81B00DF4429 /* MyBaseClass.h */,
 				79812CD90B04F81B00DF4429 /* MyBaseClass.m */,
-				79812D750B0509FB00DF4429 /* CoreData+JRExtensions.h */,
-				79812D760B0509FB00DF4429 /* CoreData+JRExtensions.m */,
 				7756732906782D8800D1FEB8 /* Models */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
@@ -200,7 +195,6 @@
 				770B37ED0679A11B001EADE2 /* mogeneratorTestMule_DataModel.xcdatamodel in Sources */,
 				79812C8E0B04F4E500DF4429 /* include.m in Sources */,
 				79812CDA0B04F81B00DF4429 /* MyBaseClass.m in Sources */,
-				79812D770B0509FB00DF4429 /* CoreData+JRExtensions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

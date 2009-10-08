@@ -1,5 +1,4 @@
 #import "mogeneratorTestMule_AppDelegate.h"
-#import "CoreData+JRExtensions.h"
 #import "ParentMO.h"
 
 @implementation mogeneratorTestMule_AppDelegate
