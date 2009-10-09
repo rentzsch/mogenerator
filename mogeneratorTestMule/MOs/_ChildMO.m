@@ -19,38 +19,14 @@
 
 
 
-- (NSString*)childName {
-	[self willAccessValueForKey:@"childName"];
-	NSString *result = [self primitiveValueForKey:@"childName"];
-	[self didAccessValueForKey:@"childName"];
-	return result;
-}
-
-- (void)setChildName:(NSString*)value_ {
-	[self willChangeValueForKey:@"childName"];
-	[self setPrimitiveValue:value_ forKey:@"childName"];
-	[self didChangeValueForKey:@"childName"];
-}
+@dynamic childName;
 
 
 
 
 
 
-	
-
-- (ParentMO*)parent {
-	[self willAccessValueForKey:@"parent"];
-	ParentMO *result = [self primitiveValueForKey:@"parent"];
-	[self didAccessValueForKey:@"parent"];
-	return result;
-}
-
-- (void)setParent:(ParentMO*)value_ {
-	[self willChangeValueForKey:@"parent"];
-	[self setPrimitiveValue:value_ forKey:@"parent"];
-	[self didChangeValueForKey:@"parent"];
-}
+@dynamic parent;
 
 	
 

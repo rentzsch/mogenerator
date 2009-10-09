@@ -15,21 +15,13 @@
 
 
 
-- (NSData*)hairColorStorage;
-- (void)setHairColorStorage:(NSData*)value_;
-#if defined(MAC_OS_X_VERSION_10_5) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
-@property (retain) NSData *hairColorStorage;
-#endif
+@property (nonatomic, retain) NSData *hairColorStorage;
 
 //- (BOOL)validateHairColorStorage:(id*)value_ error:(NSError**)error_;
 
 
 
-- (NSString*)humanName;
-- (void)setHumanName:(NSString*)value_;
-#if defined(MAC_OS_X_VERSION_10_5) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
-@property (retain) NSString *humanName;
-#endif
+@property (nonatomic, retain) NSString *humanName;
 
 //- (BOOL)validateHumanName:(id*)value_ error:(NSError**)error_;
 
@@ -38,12 +30,8 @@
 
 
 
-- (NSManagedObject*)meaninglessRelationship;
-- (void)setMeaninglessRelationship:(NSManagedObject*)value_;
+@property (nonatomic, retain) NSManagedObject* meaninglessRelationship;
 //- (BOOL)validateMeaninglessRelationship:(id*)value_ error:(NSError**)error_;
-#if defined(MAC_OS_X_VERSION_10_5) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
-@property (retain) NSManagedObject* meaninglessRelationship;
-#endif
 
 
 

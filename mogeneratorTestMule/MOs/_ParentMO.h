@@ -15,11 +15,7 @@
 
 
 
-- (NSNumber*)myInt16Transient;
-- (void)setMyInt16Transient:(NSNumber*)value_;
-#if defined(MAC_OS_X_VERSION_10_5) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
-@property (retain) NSNumber *myInt16Transient;
-#endif
+@property (nonatomic, retain) NSNumber *myInt16Transient;
 
 - (short)myInt16TransientValue;
 - (void)setMyInt16TransientValue:(short)value_;
@@ -28,61 +24,37 @@
 
 
 
-- (NSString*)parentName;
-- (void)setParentName:(NSString*)value_;
-#if defined(MAC_OS_X_VERSION_10_5) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
-@property (retain) NSString *parentName;
-#endif
+@property (nonatomic, retain) NSString *parentName;
 
 //- (BOOL)validateParentName:(id*)value_ error:(NSError**)error_;
 
 
 
-- (NSObject*)myTransformableSansClassName;
-- (void)setMyTransformableSansClassName:(NSObject*)value_;
-#if defined(MAC_OS_X_VERSION_10_5) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
-@property (retain) NSObject *myTransformableSansClassName;
-#endif
+@property (nonatomic, retain) NSObject *myTransformableSansClassName;
 
 //- (BOOL)validateMyTransformableSansClassName:(id*)value_ error:(NSError**)error_;
 
 
 
-- (NSDecimalNumber*)myDecimal;
-- (void)setMyDecimal:(NSDecimalNumber*)value_;
-#if defined(MAC_OS_X_VERSION_10_5) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
-@property (retain) NSDecimalNumber *myDecimal;
-#endif
+@property (nonatomic, retain) NSDecimalNumber *myDecimal;
 
 //- (BOOL)validateMyDecimal:(id*)value_ error:(NSError**)error_;
 
 
 
-- (NSDate*)myDate;
-- (void)setMyDate:(NSDate*)value_;
-#if defined(MAC_OS_X_VERSION_10_5) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
-@property (retain) NSDate *myDate;
-#endif
+@property (nonatomic, retain) NSDate *myDate;
 
 //- (BOOL)validateMyDate:(id*)value_ error:(NSError**)error_;
 
 
 
-- (NSColor*)myTransformableWithClassName;
-- (void)setMyTransformableWithClassName:(NSColor*)value_;
-#if defined(MAC_OS_X_VERSION_10_5) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
-@property (retain) NSColor *myTransformableWithClassName;
-#endif
+@property (nonatomic, retain) NSColor *myTransformableWithClassName;
 
 //- (BOOL)validateMyTransformableWithClassName:(id*)value_ error:(NSError**)error_;
 
 
 
-- (NSNumber*)myBoolean;
-- (void)setMyBoolean:(NSNumber*)value_;
-#if defined(MAC_OS_X_VERSION_10_5) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
-@property (retain) NSNumber *myBoolean;
-#endif
+@property (nonatomic, retain) NSNumber *myBoolean;
 
 - (BOOL)myBooleanValue;
 - (void)setMyBooleanValue:(BOOL)value_;
@@ -91,11 +63,7 @@
 
 
 
-- (NSNumber*)myInt64;
-- (void)setMyInt64:(NSNumber*)value_;
-#if defined(MAC_OS_X_VERSION_10_5) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
-@property (retain) NSNumber *myInt64;
-#endif
+@property (nonatomic, retain) NSNumber *myInt64;
 
 - (long long)myInt64Value;
 - (void)setMyInt64Value:(long long)value_;
@@ -104,11 +72,7 @@
 
 
 
-- (NSNumber*)myDouble;
-- (void)setMyDouble:(NSNumber*)value_;
-#if defined(MAC_OS_X_VERSION_10_5) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
-@property (retain) NSNumber *myDouble;
-#endif
+@property (nonatomic, retain) NSNumber *myDouble;
 
 - (double)myDoubleValue;
 - (void)setMyDoubleValue:(double)value_;
@@ -117,11 +81,7 @@
 
 
 
-- (NSNumber*)myInt16;
-- (void)setMyInt16:(NSNumber*)value_;
-#if defined(MAC_OS_X_VERSION_10_5) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
-@property (retain) NSNumber *myInt16;
-#endif
+@property (nonatomic, retain) NSNumber *myInt16;
 
 - (short)myInt16Value;
 - (void)setMyInt16Value:(short)value_;
@@ -130,11 +90,7 @@
 
 
 
-- (NSNumber*)myFloat;
-- (void)setMyFloat:(NSNumber*)value_;
-#if defined(MAC_OS_X_VERSION_10_5) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
-@property (retain) NSNumber *myFloat;
-#endif
+@property (nonatomic, retain) NSNumber *myFloat;
 
 - (float)myFloatValue;
 - (void)setMyFloatValue:(float)value_;
@@ -143,31 +99,19 @@
 
 
 
-- (NSData*)myBinaryData;
-- (void)setMyBinaryData:(NSData*)value_;
-#if defined(MAC_OS_X_VERSION_10_5) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
-@property (retain) NSData *myBinaryData;
-#endif
+@property (nonatomic, retain) NSData *myBinaryData;
 
 //- (BOOL)validateMyBinaryData:(id*)value_ error:(NSError**)error_;
 
 
 
-- (NSString*)myString;
-- (void)setMyString:(NSString*)value_;
-#if defined(MAC_OS_X_VERSION_10_5) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
-@property (retain) NSString *myString;
-#endif
+@property (nonatomic, retain) NSString *myString;
 
 //- (BOOL)validateMyString:(id*)value_ error:(NSError**)error_;
 
 
 
-- (NSNumber*)myInt32;
-- (void)setMyInt32:(NSNumber*)value_;
-#if defined(MAC_OS_X_VERSION_10_5) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
-@property (retain) NSNumber *myInt32;
-#endif
+@property (nonatomic, retain) NSNumber *myInt32;
 
 - (int)myInt32Value;
 - (void)setMyInt32Value:(int)value_;
@@ -177,15 +121,13 @@
 
 
 
-- (NSSet*)children;
+@property (nonatomic, retain) NSSet* children;
+
 - (void)addChildren:(NSSet*)value_;
 - (void)removeChildren:(NSSet*)value_;
 - (void)addChildrenObject:(ChildMO*)value_;
 - (void)removeChildrenObject:(ChildMO*)value_;
 - (NSMutableSet*)childrenSet;
-#if defined(MAC_OS_X_VERSION_10_5) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
-@property (retain) NSSet* children;
-#endif
 
 
 
