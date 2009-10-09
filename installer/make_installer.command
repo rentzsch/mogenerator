@@ -18,6 +18,10 @@ MINOR_VERSION=`echo $VERSION|sed -E 's/[0-9]+\.([0-9]+).*/\1/g'`
 sed -E "s/VERSION/$VERSION/g" < Description.plist > 'build/Description.plist'
 sed -e "s/MAJOR_VERSION/$MAJOR_VERSION/g" -e "s/MINOR_VERSION/$MINOR_VERSION/g" -e "s/VERSION/$VERSION/g" < Info.plist > 'build/Info.plist'
 
+cd ../Xmod
+xcodebuild -configuration Release CONFIGURATION_BUILD_DIR="`dirname $PWD`/installer/build/root/Developer/Library/Xcode/Plug-ins/"
+cd ../installer
+
 sudo chown -R root 'build/root'
 sudo chgrp -R admin 'build/root'
 /Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker -build -p "build/mogenerator-$VERSION.pkg" -f 'build/root' -i 'build/Info.plist' -d 'build/Description.plist' -ds
