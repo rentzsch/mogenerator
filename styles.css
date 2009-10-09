@@ -12,7 +12,7 @@ a img, :link img, :visited img {
 }
 body {
     font-family: helvetica, verdana, sans-serif;
-    padding: 20px 0 0 40px;
+    padding: 20px 0 0 0;
     color: #333;
 }
 a {
