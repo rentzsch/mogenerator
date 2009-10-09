@@ -1,89 +1,38 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
-	<title>rentzsch/mogenerator @ GitHub</title>
-	
-	<style type="text/css">
-		body {
-  		margin-top: 1.0em;
-  		background-color: #ffffff;
-		  font-family: "Helvetica,Arial,FreeSans"; 
-  		color: #000000;
-    }
-    #container {
-      margin: 0 auto;
-      width: 700px;
-    }
-		h1 { font-size: 3.8em; color: #000000; margin-bottom: 3px; }
-		h1 .small { font-size: 0.4em; }
-		h1 a { text-decoration: none }
-		h2 { font-size: 1.5em; color: #000000; }
-    h3 { text-align: center; color: #000000; }
-    a { color: #000000; }
-    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
-    .download { float: right; }
-		pre { background: #000; color: #fff; padding: 15px;}
-    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
-	</style>
-	
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>mogenerator + Xmo’d</title>
+	<link href="styles.css" rel="stylesheet" type="text/css">
 </head>
-
 <body>
-  <a href="http://github.com/rentzsch/mogenerator"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
-  
-  <div id="container">
-
-    <div class="download">
-      <a href="http://github.com/rentzsch/mogenerator/zipball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
-      <a href="http://github.com/rentzsch/mogenerator/tarball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
+    <div id="page">
+		<a href="http://github.com/rentzsch/mogenerator">
+			<img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub">
+		</a>
+        <div id="main">
+    	    <dl>
+        	    <dt>mogenerator</dt>
+        		<dd>
+        		    <p>generates Objective-C code for your 
+        		        <a href="http://developer.apple.com/mac/library/documentation/Cocoa/Conceptual/CoreData/cdProgrammingGuide.html">Core Data</a> custom classes</p>
+                    <p>Unlike Xcode, mogenerator manages <em>two</em> classes per entity: 
+                        one for <strong>machine</strong>, one for <strong>humans</strong></p>
+                    <p>The machine class can always be overwritten to match the data model, 
+                        with humans’ work effortlessly preserved</p>
+                </dd>
+        		<dt>Xmo’d</dt>
+        		<dd><p>seamlessly integrates mogenerator into Xcode</p></dd>
+    		</dl>
+		
+    		<div id="actions">
+        		<a href="http://cloud.github.com/downloads/rentzsch/mogenerator/mogenerator-1.14.dmg">
+        		    <img src="download.png" alt="Download">
+        		    <span class="title">Download mogenerator 1.14</span>
+                    <span class="subtitle">includes Xmo'd</span>
+                </a>
+            </div>
+        </div>
     </div>
-      
-    <h1><a href="http://github.com/rentzsch/mogenerator">mogenerator</a> 
-      <span class="small">by <a href="http://github.com/rentzsch">rentzsch</a></span></h1>
-
-    <div class="description">
-      Core Data code generation. Mac OS X and iPhone.
-    </div>
-
-    <h2>Install</h2>
-<p>Download and open <i>mogenerator-$LATEST_VERSION.dmg</i> from the project page's Downloads tab</p>
-<h2>License</h2>
-<p>MIT License.</p>
-<h2>Authors</h2>
-<p>Dave Dribin (dave@dribin.org)
-<br/>rentzsch (jwr.git@redshed.net)
-<br/>Ruotger Skupin (ruotger.skupin@berlin.de)
-<br/>
-<br/>      </p>
-<h2>Contact</h2>
-<p>Jonathan 'Wolf' Rentzsch (jwr.git@redshed.net)
-<br/>      </p>
-
-
-    <h2>Download</h2>
-    <p>
-      You can download this project in either
-      <a href="http://github.com/rentzsch/mogenerator/zipball/master">zip</a> or
-      <a href="http://github.com/rentzsch/mogenerator/tarball/master">tar</a> formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/rentzsch/mogenerator</pre>
-    </p>
-      
-    <div class="footer">
-      get the source code on GitHub : <a href="http://github.com/rentzsch/mogenerator">rentzsch/mogenerator</a>
-    </div>
-    
-  </div>
-
-  
 </body>
 </html>
