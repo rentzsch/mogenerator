@@ -33,6 +33,7 @@
 - (void)remove<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_;
 - (NSMutableSet*)<$Relationship.name$>Set;
 <$else$>
+@property (nonatomic, retain) <$Relationship.destinationEntity.managedObjectClassName$>* <$Relationship.name$>;
 //- (BOOL)validate<$Relationship.name.initialCapitalString$>:(id*)value_ error:(NSError**)error_;
 <$endif$>
 <$endforeach do$>
