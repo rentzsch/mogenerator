@@ -75,7 +75,7 @@ NSString	*gCustomBaseClass;
 		nsenumerate([(NSCompoundPredicate*)predicate_ subpredicates], NSPredicate, subpredicate) {
 			[self _processPredicate:subpredicate bindings:bindings_];
 		}
-	} else {
+	} else if ([predicate_ isKindOfClass:[NSComparisonPredicate class]]) {
 		assert([[(NSComparisonPredicate*)predicate_ leftExpression] expressionType] == NSKeyPathExpressionType);
 		NSExpression *lhs = [(NSComparisonPredicate*)predicate_ leftExpression];
 		NSExpression *rhs = [(NSComparisonPredicate*)predicate_ rightExpression];

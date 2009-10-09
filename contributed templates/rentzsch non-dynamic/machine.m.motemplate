@@ -19,7 +19,18 @@
 <$foreach Attribute noninheritedAttributes do$>
 <$if Attribute.hasDefinedAttributeType$>
 
-@dynamic <$Attribute.name$>;
+- (<$Attribute.objectAttributeType$>*)<$Attribute.name$> {
+	[self willAccessValueForKey:@"<$Attribute.name$>"];
+	<$Attribute.objectAttributeType$> *result = [self primitiveValueForKey:@"<$Attribute.name$>"];
+	[self didAccessValueForKey:@"<$Attribute.name$>"];
+	return result;
+}
+
+- (void)set<$Attribute.name.initialCapitalString$>:(<$Attribute.objectAttributeType$>*)value_ {
+	[self willChangeValueForKey:@"<$Attribute.name$>"];
+	[self setPrimitiveValue:value_ forKey:@"<$Attribute.name$>"];
+	[self didChangeValueForKey:@"<$Attribute.name$>"];
+}
 
 <$if Attribute.hasScalarAttributeType$>
 
@@ -37,9 +48,20 @@
 <$endforeach do$>
 
 <$foreach Relationship noninheritedRelationships do$>
-@dynamic <$Relationship.name$>;
-
 	<$if Relationship.isToMany$>
+
+- (NSSet*)<$Relationship.name$> {
+	[self willAccessValueForKey:@"<$Relationship.name$>"];
+	NSSet *result = [self primitiveValueForKey:@"<$Relationship.name$>"];
+	[self didAccessValueForKey:@"<$Relationship.name$>"];
+	return result;
+}
+
+- (void)set<$Relationship.name.initialCapitalString$>:(NSSet*)value_ {
+	[self willChangeValueForKey:@"<$Relationship.name$>" withSetMutation:NSKeyValueSetSetMutation usingObjects:value_];
+	[[self primitiveValueForKey:@"<$Relationship.name$>"] setSet:value_];
+	[self didChangeValueForKey:@"<$Relationship.name$>" withSetMutation:NSKeyValueSetSetMutation usingObjects:value_];
+}
 
 - (void)add<$Relationship.name.initialCapitalString$>:(NSSet*)value_ {
 	[self willChangeValueForKey:@"<$Relationship.name$>" withSetMutation:NSKeyValueUnionSetMutation usingObjects:value_];
@@ -74,6 +96,20 @@
 	NSMutableSet *result = [self mutableSetValueForKey:@"<$Relationship.name$>"];
 	[self didAccessValueForKey:@"<$Relationship.name$>"];
 	return result;
+}
+	<$else$>
+
+- (<$Relationship.destinationEntity.managedObjectClassName$>*)<$Relationship.name$> {
+	[self willAccessValueForKey:@"<$Relationship.name$>"];
+	<$Relationship.destinationEntity.managedObjectClassName$> *result = [self primitiveValueForKey:@"<$Relationship.name$>"];
+	[self didAccessValueForKey:@"<$Relationship.name$>"];
+	return result;
+}
+
+- (void)set<$Relationship.name.initialCapitalString$>:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_ {
+	[self willChangeValueForKey:@"<$Relationship.name$>"];
+	[self setPrimitiveValue:value_ forKey:@"<$Relationship.name$>"];
+	[self didChangeValueForKey:@"<$Relationship.name$>"];
 }
 
 	<$endif$>
