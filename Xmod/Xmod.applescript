@@ -67,11 +67,13 @@ on everyTargetWithBuildFilePath(_project, _buildFilePath)
 	return theResult
 end everyTargetWithBuildFilePath
 
-on modelSrcDirPath(modelFilePath)
-	set modelFilePath to POSIX file modelFilePath
+on modelSrcDirPath(modelFileUnixPath)
+	set modelFilePosixRef to POSIX file modelFileUnixPath
+	set modelFileAlias to modelFilePosixRef as alias
+	
 	tell application "Finder"
-		set modelFileFolder to folder of (modelFilePath as file)
-		set modelFileName to name of (modelFilePath as file)
+		set modelFileFolder to folder of modelFileAlias
+		set modelFileName to name of modelFileAlias
 		set modelSrcFolderName to text 1 thru -13 of modelFileName -- pull off the .xcdatamodel extension
 		if not (exists folder modelSrcFolderName of modelFileFolder) then
 			make folder at modelFileFolder with properties {name:modelSrcFolderName}
