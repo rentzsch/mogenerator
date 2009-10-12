@@ -68,6 +68,22 @@ NSString	*gCustomBaseClass;
 	}
 	return result;
 }
+
+- (NSString *)_resolveKeyPathType:(NSString *)keyPath {
+	NSArray *components = [keyPath componentsSeparatedByString:@"."];
+
+	// Hope the set of keys in the key path consists of solely relationships. Abort otherwise
+	
+	NSEntityDescription *entity = self;
+	for (NSString *key in components) {
+		NSRelationshipDescription *relationship = [[entity relationshipsByName] objectForKey:key];
+		assert(relationship);
+		entity = [relationship destinationEntity];
+	}
+	
+	return [entity managedObjectClassName];
+}
+
 - (void)_processPredicate:(NSPredicate*)predicate_ bindings:(NSMutableArray*)bindings_ {
     if (!predicate_) return;
     
@@ -95,10 +111,7 @@ NSString	*gCustomBaseClass;
                 if (attribute) {
                     type = [attribute objectAttributeType];
                 } else {
-                    //  Probably a relationship
-                    NSRelationshipDescription *relationship = [[self relationshipsByName] objectForKey:[lhs keyPath]];
-                    assert(relationship);
-                    type = [[relationship destinationEntity] managedObjectClassName];
+                    type = [self _resolveKeyPathType:[lhs keyPath]];
                 }
                 type = [type stringByAppendingString:@"*"];
                 
