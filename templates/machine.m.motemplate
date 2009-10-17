@@ -86,7 +86,11 @@
 	NSError *error = nil;
 	id result = [self fetch<$FetchRequest.name.initialCapitalString$>:moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:<$Binding.name$>_<$endforeach do2$> error:&error];
 	if (error) {
+#if TARGET_OS_IPHONE
+		NSLog(@"error: %@", error);
+#else
 		[NSApp presentError:error];
+#endif
 	}
 	return result;
 }
@@ -130,7 +134,11 @@
 	NSError *error = nil;
 	NSArray *result = [self fetch<$FetchRequest.name.initialCapitalString$>:moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:<$Binding.name$>_<$endforeach do2$> error:&error];
 	if (error) {
+#if TARGET_OS_IPHONE
+		NSLog(@"error: %@", error);
+#else
 		[NSApp presentError:error];
+#endif
 	}
 	return result;
 }
