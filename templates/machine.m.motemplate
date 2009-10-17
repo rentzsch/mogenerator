@@ -9,7 +9,8 @@
 @implementation _<$managedObjectClassName$>
 
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
-	return [NSEntityDescription insertNewObjectForEntityForName:@"<$name$>" inManagedObjectContext:moc_];									 
+	NSParameterAssert(moc_);
+	return [NSEntityDescription insertNewObjectForEntityForName:@"<$name$>" inManagedObjectContext:moc_];
 }
 
 - (<$managedObjectClassName$>ID*)objectID {
