@@ -31,9 +31,12 @@ on updateProjectXmod(_project)
 				
 				--	Build a list of resulting source files.
 				tell application "System Events"
-					set humanFileList to (every file of (POSIX file modelSrcDir as alias) whose (name ends with ".m" or name ends with ".mm") and name does not start with "_")
-					set machineFileList to (every file of (POSIX file modelSrcDir as alias) whose (name ends with ".m" or name ends with ".mm") and name starts with "_")
-					set fileList to humanFileList & machineFileList
+					set modelSrcDirAlias to POSIX file modelSrcDir as alias
+					set humanHeaderFileList to (every file of modelSrcDirAlias whose name ends with ".h" and name does not start with "_")
+					set humanSourceFileList to (every file of modelSrcDirAlias whose (name ends with ".m" or name ends with ".mm") and name does not start with "_")
+					set machineHeaderFileList to (every file of modelSrcDirAlias whose name ends with ".h" and name starts with "_")
+					set machineSourceFileList to (every file of modelSrcDirAlias whose (name ends with ".m" or name ends with ".mm") and name starts with "_")
+					set fileList to humanHeaderFileList & humanSourceFileList & machineHeaderFileList & machineSourceFileList
 					set pathList to {}
 					repeat with fileItem in fileList
 						set pathList to pathList & POSIX path of fileItem
