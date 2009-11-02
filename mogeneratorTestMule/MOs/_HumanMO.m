@@ -9,7 +9,8 @@
 @implementation _HumanMO
 
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
-	return [NSEntityDescription insertNewObjectForEntityForName:@"Human" inManagedObjectContext:moc_];									 
+	NSParameterAssert(moc_);
+	return [NSEntityDescription insertNewObjectForEntityForName:@"Human" inManagedObjectContext:moc_];
 }
 
 - (HumanMOID*)objectID {
@@ -46,7 +47,11 @@
 	NSError *error = nil;
 	NSArray *result = [self fetchByHumanName:moc_ humanName:humanName_ error:&error];
 	if (error) {
+#if TARGET_OS_IPHONE
+		NSLog(@"error: %@", error);
+#else
 		[NSApp presentError:error];
+#endif
 	}
 	return result;
 }
@@ -74,7 +79,11 @@
 	NSError *error = nil;
 	id result = [self fetchOneByHumanName:moc_ humanName:humanName_ error:&error];
 	if (error) {
+#if TARGET_OS_IPHONE
+		NSLog(@"error: %@", error);
+#else
 		[NSApp presentError:error];
+#endif
 	}
 	return result;
 }
@@ -120,7 +129,11 @@
 	NSError *error = nil;
 	NSArray *result = [self fetchAllHumans:moc_  error:&error];
 	if (error) {
+#if TARGET_OS_IPHONE
+		NSLog(@"error: %@", error);
+#else
 		[NSApp presentError:error];
+#endif
 	}
 	return result;
 }

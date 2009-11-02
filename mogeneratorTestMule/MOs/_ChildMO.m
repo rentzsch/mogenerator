@@ -9,7 +9,8 @@
 @implementation _ChildMO
 
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
-	return [NSEntityDescription insertNewObjectForEntityForName:@"Child" inManagedObjectContext:moc_];									 
+	NSParameterAssert(moc_);
+	return [NSEntityDescription insertNewObjectForEntityForName:@"Child" inManagedObjectContext:moc_];
 }
 
 - (ChildMOID*)objectID {
@@ -37,7 +38,11 @@
 	NSError *error = nil;
 	NSArray *result = [self fetchByParent:moc_ parent:parent_ error:&error];
 	if (error) {
+#if TARGET_OS_IPHONE
+		NSLog(@"error: %@", error);
+#else
 		[NSApp presentError:error];
+#endif
 	}
 	return result;
 }
