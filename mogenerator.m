@@ -75,7 +75,7 @@ NSString	*gCustomBaseClass;
 	// Hope the set of keys in the key path consists of solely relationships. Abort otherwise
 	
 	NSEntityDescription *entity = self;
-	for (NSString *key in components) {
+    nsenumerate(components, NSString, key) {
 		NSRelationshipDescription *relationship = [[entity relationshipsByName] objectForKey:key];
 		assert(relationship);
 		entity = [relationship destinationEntity];
