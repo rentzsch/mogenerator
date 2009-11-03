@@ -82,9 +82,9 @@
 
 <$foreach FetchRequest prettyFetchRequests do$>
 <$if FetchRequest.singleResult$>
-+ (id)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_<$endforeach do2$> {
++ (id)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>{
 	NSError *error = nil;
-	id result = [self fetch<$FetchRequest.name.initialCapitalString$>:moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:<$Binding.name$>_<$endforeach do2$> error:&error];
+	id result = [self fetch<$FetchRequest.name.initialCapitalString$>:moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:<$Binding.name$>_ <$endforeach do2$>error:&error];
 	if (error) {
 #if TARGET_OS_IPHONE
 		NSLog(@"error: %@", error);
@@ -94,7 +94,7 @@
 	}
 	return result;
 }
-+ (id)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_<$endforeach do2$> error:(NSError**)error_ {
++ (id)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>error:(NSError**)error_ {
 	NSError *error = nil;
 	
 	NSManagedObjectModel *model = [[moc_ persistentStoreCoordinator] managedObjectModel];
@@ -130,9 +130,9 @@
 	return result;
 }
 <$else$>
-+ (NSArray*)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_<$endforeach do2$> {
++ (NSArray*)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>{
 	NSError *error = nil;
-	NSArray *result = [self fetch<$FetchRequest.name.initialCapitalString$>:moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:<$Binding.name$>_<$endforeach do2$> error:&error];
+	NSArray *result = [self fetch<$FetchRequest.name.initialCapitalString$>:moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:<$Binding.name$>_ <$endforeach do2$>error:&error];
 	if (error) {
 #if TARGET_OS_IPHONE
 		NSLog(@"error: %@", error);
@@ -142,7 +142,7 @@
 	}
 	return result;
 }
-+ (NSArray*)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_<$endforeach do2$> error:(NSError**)error_ {
++ (NSArray*)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>error:(NSError**)error_ {
 	NSError *error = nil;
 	
 	NSManagedObjectModel *model = [[moc_ persistentStoreCoordinator] managedObjectModel];

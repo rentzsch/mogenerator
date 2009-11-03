@@ -39,11 +39,11 @@
 <$endforeach do$>
 <$foreach FetchRequest prettyFetchRequests do$>
 <$if FetchRequest.singleResult$>
-+ (id)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_<$endforeach do2$>;
-+ (id)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_<$endforeach do2$> error:(NSError**)error_;
++ (id)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>;
++ (id)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>error:(NSError**)error_;
 <$else$>
-+ (NSArray*)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_<$endforeach do2$>;
-+ (NSArray*)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_<$endforeach do2$> error:(NSError**)error_;
++ (NSArray*)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>;
++ (NSArray*)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>error:(NSError**)error_;
 <$endif$>
 <$endforeach do$>
 @end
