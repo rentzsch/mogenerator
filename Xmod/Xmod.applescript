@@ -36,7 +36,7 @@ on updateProjectXmod(_project)
 					set humanSourceFileList to (every file of modelSrcDirAlias whose (name ends with ".m" or name ends with ".mm") and name does not start with "_")
 					set machineHeaderFileList to (every file of modelSrcDirAlias whose name ends with ".h" and name starts with "_")
 					set machineSourceFileList to (every file of modelSrcDirAlias whose (name ends with ".m" or name ends with ".mm") and name starts with "_")
-					set fileList to humanHeaderFileList & humanSourceFileList & machineHeaderFileList & machineSourceFileList
+					set fileList to humanSourceFileList & humanHeaderFileList & machineSourceFileList & machineHeaderFileList
 					set pathList to {}
 					repeat with fileItem in fileList
 						set pathList to pathList & POSIX path of fileItem
