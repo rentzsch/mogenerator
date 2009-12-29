@@ -125,9 +125,9 @@
 
 
 
-+ (NSArray*)fetchAllHumans:(NSManagedObjectContext*)moc_  {
++ (NSArray*)fetchAllHumans:(NSManagedObjectContext*)moc_ {
 	NSError *error = nil;
-	NSArray *result = [self fetchAllHumans:moc_  error:&error];
+	NSArray *result = [self fetchAllHumans:moc_ error:&error];
 	if (error) {
 #if TARGET_OS_IPHONE
 		NSLog(@"error: %@", error);
@@ -137,7 +137,7 @@
 	}
 	return result;
 }
-+ (NSArray*)fetchAllHumans:(NSManagedObjectContext*)moc_  error:(NSError**)error_ {
++ (NSArray*)fetchAllHumans:(NSManagedObjectContext*)moc_ error:(NSError**)error_ {
 	NSError *error = nil;
 	
 	NSManagedObjectModel *model = [[moc_ persistentStoreCoordinator] managedObjectModel];

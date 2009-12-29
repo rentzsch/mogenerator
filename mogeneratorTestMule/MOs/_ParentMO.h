@@ -17,6 +17,7 @@
 
 @property (nonatomic, retain) NSNumber *myInt16Transient;
 
+@property short myInt16TransientValue;
 - (short)myInt16TransientValue;
 - (void)setMyInt16TransientValue:(short)value_;
 
@@ -56,6 +57,7 @@
 
 @property (nonatomic, retain) NSNumber *myBoolean;
 
+@property BOOL myBooleanValue;
 - (BOOL)myBooleanValue;
 - (void)setMyBooleanValue:(BOOL)value_;
 
@@ -65,6 +67,7 @@
 
 @property (nonatomic, retain) NSNumber *myInt64;
 
+@property long long myInt64Value;
 - (long long)myInt64Value;
 - (void)setMyInt64Value:(long long)value_;
 
@@ -74,6 +77,7 @@
 
 @property (nonatomic, retain) NSNumber *myDouble;
 
+@property double myDoubleValue;
 - (double)myDoubleValue;
 - (void)setMyDoubleValue:(double)value_;
 
@@ -83,6 +87,7 @@
 
 @property (nonatomic, retain) NSNumber *myInt16;
 
+@property short myInt16Value;
 - (short)myInt16Value;
 - (void)setMyInt16Value:(short)value_;
 
@@ -92,6 +97,7 @@
 
 @property (nonatomic, retain) NSNumber *myFloat;
 
+@property float myFloatValue;
 - (float)myFloatValue;
 - (void)setMyFloatValue:(float)value_;
 
@@ -113,6 +119,7 @@
 
 @property (nonatomic, retain) NSNumber *myInt32;
 
+@property int myInt32Value;
 - (int)myInt32Value;
 - (void)setMyInt32Value:(int)value_;
 

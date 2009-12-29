@@ -36,18 +36,18 @@
 
 
 
-+ (NSArray*)fetchByHumanName:(NSManagedObjectContext*)moc_ humanName:(NSString*)humanName_;
++ (NSArray*)fetchByHumanName:(NSManagedObjectContext*)moc_ humanName:(NSString*)humanName_ ;
 + (NSArray*)fetchByHumanName:(NSManagedObjectContext*)moc_ humanName:(NSString*)humanName_ error:(NSError**)error_;
 
 
 
-+ (id)fetchOneByHumanName:(NSManagedObjectContext*)moc_ humanName:(NSString*)humanName_;
++ (id)fetchOneByHumanName:(NSManagedObjectContext*)moc_ humanName:(NSString*)humanName_ ;
 + (id)fetchOneByHumanName:(NSManagedObjectContext*)moc_ humanName:(NSString*)humanName_ error:(NSError**)error_;
 
 
 
 + (NSArray*)fetchAllHumans:(NSManagedObjectContext*)moc_ ;
-+ (NSArray*)fetchAllHumans:(NSManagedObjectContext*)moc_  error:(NSError**)error_;
++ (NSArray*)fetchAllHumans:(NSManagedObjectContext*)moc_ error:(NSError**)error_;
 
 
 @end
