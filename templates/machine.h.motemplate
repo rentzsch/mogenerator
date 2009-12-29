@@ -17,6 +17,7 @@
 <$if Attribute.hasDefinedAttributeType$>
 @property (nonatomic, retain) <$Attribute.objectAttributeType$> *<$Attribute.name$>;
 <$if Attribute.hasScalarAttributeType$>
+@property <$Attribute.scalarAttributeType$> <$Attribute.name$>Value;
 - (<$Attribute.scalarAttributeType$>)<$Attribute.name$>Value;
 - (void)set<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_;
 <$endif$>
