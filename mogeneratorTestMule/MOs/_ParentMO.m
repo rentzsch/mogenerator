@@ -198,42 +198,12 @@
 @dynamic children;
 
 	
-
-- (void)addChildren:(NSSet*)value_ {
-	[self willChangeValueForKey:@"children" withSetMutation:NSKeyValueUnionSetMutation usingObjects:value_];
-	[[self primitiveValueForKey:@"children"] unionSet:value_];
-	[self didChangeValueForKey:@"children" withSetMutation:NSKeyValueUnionSetMutation usingObjects:value_];
-}
-
--(void)removeChildren:(NSSet*)value_ {
-	[self willChangeValueForKey:@"children" withSetMutation:NSKeyValueMinusSetMutation usingObjects:value_];
-	[[self primitiveValueForKey:@"children"] minusSet:value_];
-	[self didChangeValueForKey:@"children" withSetMutation:NSKeyValueMinusSetMutation usingObjects:value_];
-}
-	
-- (void)addChildrenObject:(ChildMO*)value_ {
-	NSSet *changedObjects = [[NSSet alloc] initWithObjects:&value_ count:1];
-	[self willChangeValueForKey:@"children" withSetMutation:NSKeyValueUnionSetMutation usingObjects:changedObjects];
-	[[self primitiveValueForKey:@"children"] addObject:value_];
-	[self didChangeValueForKey:@"children" withSetMutation:NSKeyValueUnionSetMutation usingObjects:changedObjects];
-	[changedObjects release];
-}
-
-- (void)removeChildrenObject:(ChildMO*)value_ {
-	NSSet *changedObjects = [[NSSet alloc] initWithObjects:&value_ count:1];
-	[self willChangeValueForKey:@"children" withSetMutation:NSKeyValueMinusSetMutation usingObjects:changedObjects];
-	[[self primitiveValueForKey:@"children"] removeObject:value_];
-	[self didChangeValueForKey:@"children" withSetMutation:NSKeyValueMinusSetMutation usingObjects:changedObjects];
-	[changedObjects release];
-}
-
 - (NSMutableSet*)childrenSet {
 	[self willAccessValueForKey:@"children"];
 	NSMutableSet *result = [self mutableSetValueForKey:@"children"];
 	[self didAccessValueForKey:@"children"];
 	return result;
 }
-
 	
 
 

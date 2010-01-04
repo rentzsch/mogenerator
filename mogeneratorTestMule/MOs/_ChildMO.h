@@ -33,3 +33,7 @@
 
 
 @end
+
+@interface _ChildMO (CoreDataGeneratedAccessors)
+
+@end

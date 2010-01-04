@@ -129,13 +129,17 @@
 
 
 @property (nonatomic, retain) NSSet* children;
+- (NSMutableSet*)childrenSet;
+
+
+
+@end
+
+@interface _ParentMO (CoreDataGeneratedAccessors)
 
 - (void)addChildren:(NSSet*)value_;
 - (void)removeChildren:(NSSet*)value_;
 - (void)addChildrenObject:(ChildMO*)value_;
 - (void)removeChildrenObject:(ChildMO*)value_;
-- (NSMutableSet*)childrenSet;
-
-
 
 @end

@@ -51,3 +51,7 @@
 
 
 @end
+
+@interface _HumanMO (CoreDataGeneratedAccessors)
+
+@end
