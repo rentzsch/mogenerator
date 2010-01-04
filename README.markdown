@@ -14,6 +14,14 @@ Xmo'd works by noticing when your `*.xcdatamodel` is saved. If the model file's 
 
 ## Version History
 
+* **1.16** Mon 4 Jan 2010 [download](http://cloud.github.com/downloads/rentzsch/mogenerator/mogenerator-1.16.dmg)
+
+	* [NEW] machine.h template now produces type-safe scalar attribute property declarations. ([rentzsch](http://github.com/rentzsch/mogenerator/commit/b56ec4aebe0146b7c4258111274fb4a4fbb3e01e))
+
+	* [CHANGE] Remove machine.m implementations of to-many relationship setters. ([rentzsch](http://github.com/rentzsch/mogenerator/commit/665a8d65a54f3fc95b8ffff8ec6ef708634b7baa))
+
+	* [CHANGE] Xmo'd: change file ordering to human.m, human.h, machine.m, machine.h (from human.h, human.m, machine.h, machine.m). ([rentzsch](http://github.com/rentzsch/mogenerator/commit/fb7eb172817b1bee7e4a5448b4250aa2b5cdeb8a))
+
 * **1.15** Mon 2 Nov 2009 [download](http://cloud.github.com/downloads/rentzsch/mogenerator/mogenerator-1.15.dmg)
 
 	* [CHANGE] Xmo'd: now adds `.h` human+machine header files to project (in addition 
