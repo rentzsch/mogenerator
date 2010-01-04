@@ -27,11 +27,6 @@
 <$foreach Relationship noninheritedRelationships do$>
 <$if Relationship.isToMany$>
 @property (nonatomic, retain) NSSet* <$Relationship.name$>;
-
-- (void)add<$Relationship.name.initialCapitalString$>:(NSSet*)value_;
-- (void)remove<$Relationship.name.initialCapitalString$>:(NSSet*)value_;
-- (void)add<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_;
-- (void)remove<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_;
 - (NSMutableSet*)<$Relationship.name$>Set;
 <$else$>
 @property (nonatomic, retain) <$Relationship.destinationEntity.managedObjectClassName$>* <$Relationship.name$>;
@@ -47,4 +42,13 @@
 + (NSArray*)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>error:(NSError**)error_;
 <$endif$>
 <$endforeach do$>
+@end
+
+@interface _<$managedObjectClassName$> (CoreDataGeneratedAccessors)
+<$foreach Relationship noninheritedRelationships do$><$if Relationship.isToMany$>
+- (void)add<$Relationship.name.initialCapitalString$>:(NSSet*)value_;
+- (void)remove<$Relationship.name.initialCapitalString$>:(NSSet*)value_;
+- (void)add<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_;
+- (void)remove<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_;
+<$endif$><$endforeach do$>
 @end

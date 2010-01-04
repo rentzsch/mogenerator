@@ -41,42 +41,12 @@
 @dynamic <$Relationship.name$>;
 
 	<$if Relationship.isToMany$>
-
-- (void)add<$Relationship.name.initialCapitalString$>:(NSSet*)value_ {
-	[self willChangeValueForKey:@"<$Relationship.name$>" withSetMutation:NSKeyValueUnionSetMutation usingObjects:value_];
-	[[self primitiveValueForKey:@"<$Relationship.name$>"] unionSet:value_];
-	[self didChangeValueForKey:@"<$Relationship.name$>" withSetMutation:NSKeyValueUnionSetMutation usingObjects:value_];
-}
-
--(void)remove<$Relationship.name.initialCapitalString$>:(NSSet*)value_ {
-	[self willChangeValueForKey:@"<$Relationship.name$>" withSetMutation:NSKeyValueMinusSetMutation usingObjects:value_];
-	[[self primitiveValueForKey:@"<$Relationship.name$>"] minusSet:value_];
-	[self didChangeValueForKey:@"<$Relationship.name$>" withSetMutation:NSKeyValueMinusSetMutation usingObjects:value_];
-}
-	
-- (void)add<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_ {
-	NSSet *changedObjects = [[NSSet alloc] initWithObjects:&value_ count:1];
-	[self willChangeValueForKey:@"<$Relationship.name$>" withSetMutation:NSKeyValueUnionSetMutation usingObjects:changedObjects];
-	[[self primitiveValueForKey:@"<$Relationship.name$>"] addObject:value_];
-	[self didChangeValueForKey:@"<$Relationship.name$>" withSetMutation:NSKeyValueUnionSetMutation usingObjects:changedObjects];
-	[changedObjects release];
-}
-
-- (void)remove<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_ {
-	NSSet *changedObjects = [[NSSet alloc] initWithObjects:&value_ count:1];
-	[self willChangeValueForKey:@"<$Relationship.name$>" withSetMutation:NSKeyValueMinusSetMutation usingObjects:changedObjects];
-	[[self primitiveValueForKey:@"<$Relationship.name$>"] removeObject:value_];
-	[self didChangeValueForKey:@"<$Relationship.name$>" withSetMutation:NSKeyValueMinusSetMutation usingObjects:changedObjects];
-	[changedObjects release];
-}
-
 - (NSMutableSet*)<$Relationship.name$>Set {
 	[self willAccessValueForKey:@"<$Relationship.name$>"];
 	NSMutableSet *result = [self mutableSetValueForKey:@"<$Relationship.name$>"];
 	[self didAccessValueForKey:@"<$Relationship.name$>"];
 	return result;
 }
-
 	<$endif$>
 <$endforeach do$>
 
