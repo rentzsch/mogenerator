@@ -11,6 +11,8 @@
 		55200E970C49FEEA00018A42 /* DDCliUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 55200E920C49FEEA00018A42 /* DDCliUtil.m */; };
 		55200E980C49FEEA00018A42 /* DDGetoptLongParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 55200E950C49FEEA00018A42 /* DDGetoptLongParser.m */; };
 		55200F9D0C4A2CA800018A42 /* DDCliParseException.m in Sources */ = {isa = PBXBuildFile; fileRef = 55200F9C0C4A2CA800018A42 /* DDCliParseException.m */; };
+		7931E67810FE982500175784 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7931E67710FE982500175784 /* libicucore.dylib */; };
+		7931E67B10FE984F00175784 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 7931E67A10FE984F00175784 /* RegexKitLite.m */; };
 		79D2BF3F0ACFB25B00F3F141 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79D2BF3E0ACFB25B00F3F141 /* CoreData.framework */; };
 		79D2BFA20ACFB51A00F3F141 /* _MiscMergeBreakCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 79D2BF530ACFB51A00F3F141 /* _MiscMergeBreakCommand.m */; };
 		79D2BFA40ACFB51A00F3F141 /* _MiscMergeCallCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 79D2BF550ACFB51A00F3F141 /* _MiscMergeCallCommand.m */; };
@@ -57,7 +59,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		08FB7796FE84155DC02AAC07 /* mogenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mogenerator.m; sourceTree = "<group>"; };
+		08FB7796FE84155DC02AAC07 /* mogenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mogenerator.m; sourceTree = "<group>"; usesTabs = 1; };
 		08FB779EFE84155DC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32A70AAB03705E1F00C91783 /* mogenerator_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mogenerator_Prefix.pch; sourceTree = "<group>"; };
 		55200E8F0C49FEEA00018A42 /* DDCliApplication.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DDCliApplication.h; sourceTree = "<group>"; };
@@ -69,7 +71,10 @@
 		55200E950C49FEEA00018A42 /* DDGetoptLongParser.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DDGetoptLongParser.m; sourceTree = "<group>"; };
 		55200F9B0C4A2CA800018A42 /* DDCliParseException.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DDCliParseException.h; sourceTree = "<group>"; };
 		55200F9C0C4A2CA800018A42 /* DDCliParseException.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DDCliParseException.m; sourceTree = "<group>"; };
-		79A586510E48E8B400474C35 /* mogenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mogenerator.h; sourceTree = "<group>"; };
+		7931E67710FE982500175784 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
+		7931E67910FE984F00175784 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
+		7931E67A10FE984F00175784 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
+		79A586510E48E8B400474C35 /* mogenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mogenerator.h; sourceTree = "<group>"; usesTabs = 1; };
 		79D2BF3E0ACFB25B00F3F141 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		79D2BF520ACFB51A00F3F141 /* _MiscMergeBreakCommand.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = _MiscMergeBreakCommand.h; path = ../MiscMerge/_MiscMergeBreakCommand.h; sourceTree = "<group>"; };
 		79D2BF530ACFB51A00F3F141 /* _MiscMergeBreakCommand.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = _MiscMergeBreakCommand.m; path = ../MiscMerge/_MiscMergeBreakCommand.m; sourceTree = "<group>"; };
@@ -163,6 +168,7 @@
 			files = (
 				8DD76F9C0486AA7600D96B5E /* Foundation.framework in Frameworks */,
 				79D2BF3F0ACFB25B00F3F141 /* CoreData.framework in Frameworks */,
+				7931E67810FE982500175784 /* libicucore.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -189,6 +195,8 @@
 				79D2C00E0ACFB81200F3F141 /* nsenumerate.h */,
 				79D2C0570ACFBCB500F3F141 /* FoundationAdditions.h */,
 				79D2C0580ACFBCB500F3F141 /* FoundationAdditions.m */,
+				7931E67910FE984F00175784 /* RegexKitLite.h */,
+				7931E67A10FE984F00175784 /* RegexKitLite.m */,
 				32A70AAB03705E1F00C91783 /* mogenerator_Prefix.pch */,
 			);
 			name = Source;
@@ -199,6 +207,7 @@
 			children = (
 				79D2BF3E0ACFB25B00F3F141 /* CoreData.framework */,
 				08FB779EFE84155DC02AAC07 /* Foundation.framework */,
+				7931E67710FE982500175784 /* libicucore.dylib */,
 			);
 			name = "External Frameworks and Libraries";
 			sourceTree = "<group>";
@@ -400,6 +409,7 @@
 				55200E970C49FEEA00018A42 /* DDCliUtil.m in Sources */,
 				55200E980C49FEEA00018A42 /* DDGetoptLongParser.m in Sources */,
 				55200F9D0C4A2CA800018A42 /* DDCliParseException.m in Sources */,
+				7931E67B10FE984F00175784 /* RegexKitLite.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

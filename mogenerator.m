@@ -1,13 +1,41 @@
 /*******************************************************************************
 	mogenerator.m - <http://github.com/rentzsch/mogenerator>
-		Copyright (c) 2006-2009 Jonathan 'Wolf' Rentzsch: <http://rentzsch.com>
+		Copyright (c) 2006-2010 Jonathan 'Wolf' Rentzsch: <http://rentzsch.com>
 		Some rights reserved: <http://opensource.org/licenses/mit-license.php>
 
 	***************************************************************************/
 
 #import "mogenerator.h"
+#import "RegexKitLite.h"
 
 NSString	*gCustomBaseClass;
+
+@implementation NSManagedObjectModel (entitiesWithACustomSubclassVerbose)
+- (NSArray*)entitiesWithACustomSubclassVerbose:(BOOL)verbose_ {
+	NSMutableArray *result = [NSMutableArray array];
+	
+	if(verbose_ && [[self entities] count] == 0){ 
+		printf("No entities found in model. No files will be generated.\n");
+		NSLog(@"the model description is %@.", self);
+	}
+	
+	nsenumerate ([self entities], NSEntityDescription, entity) {
+		NSString *entityClassName = [entity managedObjectClassName];
+		
+		if ([entityClassName isEqualToString:@"NSManagedObject"] || [entityClassName isEqualToString:gCustomBaseClass]){
+			if (verbose_) {
+				ddprintf(@"skipping entity %@ because it doesn't use a custom subclass.\n", 
+						 entityClassName);
+			}
+		} else {
+			[result addObject:entity];
+		}
+	}
+	
+	return result;
+}
+@end
+
 
 @implementation NSEntityDescription (customBaseClass)
 - (BOOL)hasCustomSuperentity {
@@ -274,6 +302,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     {@"machine-dir",    'M',    DDGetoptRequiredArgument},
     {@"human-dir",      'H',    DDGetoptRequiredArgument},
     {@"template-group", 0,      DDGetoptRequiredArgument},
+    {@"orphaned",       0,      DDGetoptNoArgument},
 
     {@"help",           'h',    DDGetoptNoArgument},
     {@"version",        0,      DDGetoptNoArgument},
@@ -293,7 +322,8 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
            "      --template-group NAME     Name of template group\n"
            "  -O, --output-dir DIR          Output directory\n"
            "  -M, --machine-dir DIR         Output directory for machine files\n"
-           "  -H, --human-dir DIR           Output director for human files\n"
+           "  -H, --human-dir DIR           Output directory for human files\n"
+           "      --orphaned                Only list files whose entities no longer exist\n"
            "      --version                 Display version and exit\n"
            "  -h, --help                    Display this help and exit\n"
            "\n"
@@ -337,15 +367,13 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 - (int) application: (DDCliApplication *) app
    runWithArguments: (NSArray *) arguments;
 {
-    if (_help)
-    {
+    if (_help) {
         [self printUsage];
         return EXIT_SUCCESS;
     }
     
-    if (_version)
-    {
-        printf("mogenerator 1.16. By Jonathan 'Wolf' Rentzsch + friends.\n");
+    if (_version) {
+        printf("mogenerator 1.17. By Jonathan 'Wolf' Rentzsch + friends.\n");
         return EXIT_SUCCESS;
     }
     
@@ -360,6 +388,37 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
         humanDir = outputDir;
 
 	NSFileManager *fm = [NSFileManager defaultManager];
+	
+	if (_orphaned) {
+		NSMutableDictionary *entityFilesByName = [NSMutableDictionary dictionary];
+		
+		NSArray *srcDirs = [NSArray arrayWithObjects:machineDir, humanDir, nil];
+		nsenumerate(srcDirs, NSString, srcDir) {
+			if (![srcDir length]) {
+				srcDir = [fm currentDirectoryPath];
+			}
+			nsenumerate([fm subpathsAtPath:srcDir], NSString, srcFileName) {
+				#define MANAGED_OBJECT_SOURCE_FILE_REGEX	@"_?([a-zA-Z0-9_]+MO).(h|m|mm)" // Sadly /^(*MO).(h|m|mm)$/ doesn't work.
+				if ([srcFileName isMatchedByRegex:MANAGED_OBJECT_SOURCE_FILE_REGEX]) {
+					NSString *entityName = [[srcFileName captureComponentsMatchedByRegex:MANAGED_OBJECT_SOURCE_FILE_REGEX] objectAtIndex:1];
+					if (![entityFilesByName objectForKey:entityName]) {
+						[entityFilesByName setObject:[NSMutableSet set] forKey:entityName];
+					}
+					[[entityFilesByName objectForKey:entityName] addObject:srcFileName];
+				}
+			}
+		}
+		nsenumerate ([model entitiesWithACustomSubclassVerbose:NO], NSEntityDescription, entity) {
+			[entityFilesByName removeObjectForKey:[entity managedObjectClassName]];
+		}
+		nsenumerate(entityFilesByName, NSSet, ophanedFiles) {
+			nsenumerate(ophanedFiles, NSString, ophanedFile) {
+				ddprintf(@"%@\n", ophanedFile);
+			}
+		}
+		
+		return EXIT_SUCCESS;
+	}
     
 	int machineFilesGenerated = 0;        
 	int humanFilesGenerated = 0;
@@ -372,30 +431,15 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 		MiscMergeEngine *humanH = engineWithTemplatePath([self appSupportFileNamed:@"human.h.motemplate"]);
 		assert(humanH);
 		MiscMergeEngine *humanM = engineWithTemplatePath([self appSupportFileNamed:@"human.m.motemplate"]);
-		assert(humanM);	
-        
-		int entityCount = [[model entities] count];
-        
-		if(entityCount == 0){ 
-			printf("No entities found in model. No files will be generated.\n");
-			NSLog(@"the model description is %@.", model);
-		}
+		assert(humanM);
 		
-		nsenumerate ([model entities], NSEntityDescription, entity) {
-			NSString *entityClassName = [entity managedObjectClassName];
-            
-			if ([entityClassName isEqualToString:@"NSManagedObject"] ||
-				[entityClassName isEqualToString:gCustomBaseClass]){
-				ddprintf(@"skipping entity %@ because it doesn't use a custom subclass.\n", 
-                         entityClassName);
-				continue;
-			}
-			
+		nsenumerate ([model entitiesWithACustomSubclassVerbose:YES], NSEntityDescription, entity) {
 			NSString *generatedMachineH = [machineH executeWithObject:entity sender:nil];
 			NSString *generatedMachineM = [machineM executeWithObject:entity sender:nil];
 			NSString *generatedHumanH = [humanH executeWithObject:entity sender:nil];
 			NSString *generatedHumanM = [humanM executeWithObject:entity sender:nil];
 			
+			NSString *entityClassName = [entity managedObjectClassName];
 			BOOL machineDirtied = NO;
 			
 			NSString *machineHFileName = [machineDir stringByAppendingPathComponent:

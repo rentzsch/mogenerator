@@ -1,6 +1,6 @@
 /*******************************************************************************
 	mogenerator.h - <http://github.com/rentzsch/mogenerator>
-		Copyright (c) 2006-2009 Jonathan 'Wolf' Rentzsch: <http://rentzsch.com>
+		Copyright (c) 2006-2010 Jonathan 'Wolf' Rentzsch: <http://rentzsch.com>
 		Some rights reserved: <http://opensource.org/licenses/mit-license.php>
 
 	***************************************************************************/
@@ -15,6 +15,11 @@
 #import "nsenumerate.h"
 #import "NSString+MiscAdditions.h"
 #import "DDCommandLineInterface.h"
+
+@interface NSManagedObjectModel (entitiesWithACustomSubclassVerbose)
+- (NSArray*)entitiesWithACustomSubclassVerbose:(BOOL)verbose_;
+@end
+
 
 @interface NSEntityDescription (customBaseClass)
 - (BOOL)hasCustomSuperentity;
@@ -46,6 +51,7 @@
 	NSString				*templateGroup;
 	BOOL					_help;
 	BOOL					_version;
+    BOOL					_orphaned;
 }
 
 - (NSString*)appSupportFileNamed:(NSString*)fileName_;
