@@ -15,8 +15,7 @@ NSString	*gCustomBaseClass;
 	NSMutableArray *result = [NSMutableArray array];
 	
 	if(verbose_ && [[self entities] count] == 0){ 
-		printf("No entities found in model. No files will be generated.\n");
-		NSLog(@"the model description is %@.", self);
+		ddprintf(@"No entities found in model. No files will be generated.\n(model description: %@)\n", self);
 	}
 	
 	nsenumerate ([self entities], NSEntityDescription, entity) {
@@ -32,7 +31,8 @@ NSString	*gCustomBaseClass;
 		}
 	}
 	
-	return result;
+	return [result sortedArrayUsingDescriptors:[NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"managedObjectClassName"
+																									 ascending:YES] autorelease]]];
 }
 @end
 
@@ -278,7 +278,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 		}
 	}
 	
-	NSLog(@"appSupportFileNamed:@\"%@\": file not found", fileName_);
+	ddprintf(@"appSupportFileNamed:@\"%@\": file not found", fileName_);
 	exit(EXIT_FAILURE);
 	return nil;
 }
@@ -289,24 +289,25 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     [optionsParser setGetoptLongOnly: YES];
     DDGetoptOption optionTable[] = 
     {
-    // Long             Short   Argument options
-    {@"model",          'm',    DDGetoptRequiredArgument},
-    {@"base-class",      0,     DDGetoptRequiredArgument},
+    // Long					Short   Argument options
+    {@"model",				'm',    DDGetoptRequiredArgument},
+    {@"base-class",			0,     DDGetoptRequiredArgument},
     // For compatibility:
-    {@"baseClass",      0,      DDGetoptRequiredArgument},
-    {@"includem",       0,      DDGetoptRequiredArgument},
-    {@"template-path",  0,      DDGetoptRequiredArgument},
+    {@"baseClass",			0,      DDGetoptRequiredArgument},
+    {@"includem",			0,      DDGetoptRequiredArgument},
+    {@"template-path",		0,      DDGetoptRequiredArgument},
     // For compatibility:
-    {@"templatePath",   0,      DDGetoptRequiredArgument},
-    {@"output-dir",     'O',    DDGetoptRequiredArgument},
-    {@"machine-dir",    'M',    DDGetoptRequiredArgument},
-    {@"human-dir",      'H',    DDGetoptRequiredArgument},
-    {@"template-group", 0,      DDGetoptRequiredArgument},
-    {@"orphaned",       0,      DDGetoptNoArgument},
+    {@"templatePath",		0,      DDGetoptRequiredArgument},
+    {@"output-dir",			'O',    DDGetoptRequiredArgument},
+    {@"machine-dir",		'M',    DDGetoptRequiredArgument},
+    {@"human-dir",			'H',    DDGetoptRequiredArgument},
+    {@"template-group",		0,      DDGetoptRequiredArgument},
+    {@"list-source-files",	0,      DDGetoptNoArgument},
+    {@"orphaned",			0,      DDGetoptNoArgument},
 
-    {@"help",           'h',    DDGetoptNoArgument},
-    {@"version",        0,      DDGetoptNoArgument},
-    {nil,               0,      0},
+    {@"help",				'h',    DDGetoptNoArgument},
+    {@"version",			0,      DDGetoptNoArgument},
+    {nil,					0,      0},
     };
     [optionsParser addOptionsFromTable: optionTable];
 }
@@ -323,6 +324,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
            "  -O, --output-dir DIR          Output directory\n"
            "  -M, --machine-dir DIR         Output directory for machine files\n"
            "  -H, --human-dir DIR           Output directory for human files\n"
+		   "      --list-source-files		Only list model-related source files\n"
            "      --orphaned                Only list files whose entities no longer exist\n"
            "      --version                 Display version and exit\n"
            "  -h, --help                    Display this help and exit\n"
@@ -433,6 +435,11 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 		MiscMergeEngine *humanM = engineWithTemplatePath([self appSupportFileNamed:@"human.m.motemplate"]);
 		assert(humanM);
 		
+		NSMutableArray	*humanMFiles = [NSMutableArray array],
+						*humanHFiles = [NSMutableArray array],
+						*machineMFiles = [NSMutableArray array],
+						*machineHFiles = [NSMutableArray array];
+		
 		nsenumerate ([model entitiesWithACustomSubclassVerbose:YES], NSEntityDescription, entity) {
 			NSString *generatedMachineH = [machineH executeWithObject:entity sender:nil];
 			NSString *generatedMachineM = [machineM executeWithObject:entity sender:nil];
@@ -442,31 +449,50 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 			NSString *entityClassName = [entity managedObjectClassName];
 			BOOL machineDirtied = NO;
 			
+			// Machine header files.
 			NSString *machineHFileName = [machineDir stringByAppendingPathComponent:
                 [NSString stringWithFormat:@"_%@.h", entityClassName]];
-			if (![fm regularFileExistsAtPath:machineHFileName] || ![generatedMachineH isEqualToString:[NSString stringWithContentsOfFile:machineHFileName]]) {
-				//	If the file doesn't exist or is different than what we just generated, write it out.
-				[generatedMachineH writeToFile:machineHFileName atomically:NO];
-				machineDirtied = YES;
-				machineFilesGenerated++;
+			if (_listSourceFiles) {
+				[machineHFiles addObject:machineHFileName];
+			} else {
+				if (![fm regularFileExistsAtPath:machineHFileName] || ![generatedMachineH isEqualToString:[NSString stringWithContentsOfFile:machineHFileName]]) {
+					//	If the file doesn't exist or is different than what we just generated, write it out.
+					[generatedMachineH writeToFile:machineHFileName atomically:NO];
+					machineDirtied = YES;
+					machineFilesGenerated++;
+				}
 			}
+			
+			// Machine source files.
 			NSString *machineMFileName = [machineDir stringByAppendingPathComponent:
                 [NSString stringWithFormat:@"_%@.m", entityClassName]];
-			if (![fm regularFileExistsAtPath:machineMFileName] || ![generatedMachineM isEqualToString:[NSString stringWithContentsOfFile:machineMFileName]]) {
-				//	If the file doesn't exist or is different than what we just generated, write it out.
-				[generatedMachineM writeToFile:machineMFileName atomically:NO];
-				machineDirtied = YES;
-				machineFilesGenerated++;
+			if (_listSourceFiles) {
+				[machineMFiles addObject:machineMFileName];
+			} else {
+				if (![fm regularFileExistsAtPath:machineMFileName] || ![generatedMachineM isEqualToString:[NSString stringWithContentsOfFile:machineMFileName]]) {
+					//	If the file doesn't exist or is different than what we just generated, write it out.
+					[generatedMachineM writeToFile:machineMFileName atomically:NO];
+					machineDirtied = YES;
+					machineFilesGenerated++;
+				}
 			}
+			
+			// Human header files.
 			NSString *humanHFileName = [humanDir stringByAppendingPathComponent:
                 [NSString stringWithFormat:@"%@.h", entityClassName]];
-			if ([fm regularFileExistsAtPath:humanHFileName]) {
-				if (machineDirtied)
-					[fm touchPath:humanHFileName];
+			if (_listSourceFiles) {
+				[humanHFiles addObject:humanHFileName];
 			} else {
-				[generatedHumanH writeToFile:humanHFileName atomically:NO];
-				humanFilesGenerated++;
+				if ([fm regularFileExistsAtPath:humanHFileName]) {
+					if (machineDirtied)
+						[fm touchPath:humanHFileName];
+				} else {
+					[generatedHumanH writeToFile:humanHFileName atomically:NO];
+					humanFilesGenerated++;
+				}
 			}
+			
+			//	Human source files.
 			NSString *humanMFileName = [humanDir stringByAppendingPathComponent:
                 [NSString stringWithFormat:@"%@.m", entityClassName]];
 			NSString *humanMMFileName = [humanDir stringByAppendingPathComponent:
@@ -475,17 +501,29 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 				//	Allow .mm human files as well as .m files.
 				humanMFileName = humanMMFileName;
 			}
-			
-			if ([fm regularFileExistsAtPath:humanMFileName]) {
-				if (machineDirtied)
-					[fm touchPath:humanMFileName];
+			if (_listSourceFiles) {
+				[humanMFiles addObject:humanMFileName];
 			} else {
-				[generatedHumanM writeToFile:humanMFileName atomically:NO];
-				humanFilesGenerated++;
+				if ([fm regularFileExistsAtPath:humanMFileName]) {
+					if (machineDirtied)
+						[fm touchPath:humanMFileName];
+				} else {
+					[generatedHumanM writeToFile:humanMFileName atomically:NO];
+					humanFilesGenerated++;
+				}
 			}
 			
 			[mfileContent appendFormat:@"#include \"%@\"\n#include \"%@\"\n",
                 [humanMFileName lastPathComponent], [machineMFileName lastPathComponent]];
+		}
+		
+		if (_listSourceFiles) {
+			NSArray *filesList = [NSArray arrayWithObjects:humanMFiles, humanHFiles, machineMFiles, machineHFiles, nil];
+			nsenumerate (filesList, NSArray, files) {
+				nsenumerate (files, NSString, fileName) {
+					ddprintf(@"%@\n", fileName);
+				}
+			}
 		}
 	}
 	
@@ -498,8 +536,10 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 		mfileGenerated = YES;
 	}
 	
-	printf("%d machine files%s %d human files%s generated.\n", machineFilesGenerated,
-		   (mfileGenerated ? "," : " and"), humanFilesGenerated, (mfileGenerated ? " and one include.m file" : ""));
+	if (!_listSourceFiles) {
+		printf("%d machine files%s %d human files%s generated.\n", machineFilesGenerated,
+			   (mfileGenerated ? "," : " and"), humanFilesGenerated, (mfileGenerated ? " and one include.m file" : ""));
+	}
     
     return EXIT_SUCCESS;
 }
