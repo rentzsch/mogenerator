@@ -13,6 +13,15 @@
 	return [NSEntityDescription insertNewObjectForEntityForName:@"<$name$>" inManagedObjectContext:moc_];
 }
 
++ (NSString*)entityName {
+	return @"<$name$>";
+}
+
++ (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_ {
+	NSParameterAssert(moc_);
+	return [NSEntityDescription entityForName:@"<$name$>" inManagedObjectContext:moc_];
+}
+
 - (<$managedObjectClassName$>ID*)objectID {
 	return (<$managedObjectClassName$>ID*)[super objectID];
 }

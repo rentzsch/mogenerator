@@ -11,6 +11,8 @@
 
 @interface _<$managedObjectClassName$> : <$customSuperentity$> {}
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
++ (NSString*)entityName;
++ (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 - (<$managedObjectClassName$>ID*)objectID;
 
 <$foreach Attribute noninheritedAttributes do$>

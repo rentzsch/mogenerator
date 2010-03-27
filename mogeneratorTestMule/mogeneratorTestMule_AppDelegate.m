@@ -7,6 +7,7 @@
 	ParentMO *parent = [ParentMO insertInManagedObjectContext:[self managedObjectContext]];
 	[parent setIvar:42.0];
 	[parent setHairColor:[NSColor brownColor]];
+    NSAssert([[ParentMO entityName] isEqualToString:@"Parent"], nil);
 	NSLog(@"success");
 	[NSApp terminate:nil];
 }
