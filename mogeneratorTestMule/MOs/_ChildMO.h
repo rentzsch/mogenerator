@@ -11,6 +11,8 @@
 
 @interface _ChildMO : HumanMO {}
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
++ (NSString*)entityName;
++ (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 - (ChildMOID*)objectID;
 
 

@@ -13,6 +13,15 @@
 	return [NSEntityDescription insertNewObjectForEntityForName:@"Human" inManagedObjectContext:moc_];
 }
 
++ (NSString*)entityName {
+	return @"Human";
+}
+
++ (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_ {
+	NSParameterAssert(moc_);
+	return [NSEntityDescription entityForName: @"Human" inManagedObjectContext: moc_];
+}
+
 - (HumanMOID*)objectID {
 	return (HumanMOID*)[super objectID];
 }

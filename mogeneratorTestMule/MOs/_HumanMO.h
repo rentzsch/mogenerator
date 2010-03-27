@@ -11,6 +11,8 @@
 
 @interface _HumanMO : MyBaseClass {}
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
++ (NSString*)entityName;
++ (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 - (HumanMOID*)objectID;
 
 
