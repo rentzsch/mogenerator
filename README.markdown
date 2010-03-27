@@ -14,6 +14,14 @@ Xmo'd works by noticing when your `*.xcdatamodel` is saved. If the model file's 
 
 ## Version History
 
+* **1.17** Sat 27 Mar 2010 [download](http://github.com/downloads/rentzsch/mogenerator/mogenerator-1.17.dmg)
+
+	* [NEW] `+[Machine entityName]` (for [@drance](http://twitter.com/drance/status/11157708725)) and `+[Machine entityInManagedObjectContext:]` ([Michael Dales](http://github.com/rentzsch/mogenerator/commit/8902305650c68d7ba7550acb7f3c21ce42c02d93)).
+
+	* [NEW] Add --orphaned option. ([rentzsch](http://github.com/rentzsch/mogenerator/commit/b64370f7532bcaf709fc8e0da8561306fa09a412))
+
+	* [NEW] --list-source-files option, which lists model-related source files. ([rentzsch](http://github.com/rentzsch/mogenerator/commit/19fe5be5d9c0e13721cda4cdb18f8209222657f6))
+
 * **1.16** Mon 4 Jan 2010 [download](http://cloud.github.com/downloads/rentzsch/mogenerator/mogenerator-1.16.dmg)
 
 	* [NEW] machine.h template now produces type-safe scalar attribute property declarations. ([rentzsch](http://github.com/rentzsch/mogenerator/commit/b56ec4aebe0146b7c4258111274fb4a4fbb3e01e))
