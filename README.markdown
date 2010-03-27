@@ -18,9 +18,17 @@ Xmo'd works by noticing when your `*.xcdatamodel` is saved. If the model file's 
 
 	* [NEW] `+[Machine entityName]` (for [@drance](http://twitter.com/drance/status/11157708725)) and `+[Machine entityInManagedObjectContext:]` ([Michael Dales](http://github.com/rentzsch/mogenerator/commit/8902305650c68d7ba7550acb7f3c21ce42c02d93)).
 
-	* [NEW] Add --orphaned option. ([rentzsch](http://github.com/rentzsch/mogenerator/commit/b64370f7532bcaf709fc8e0da8561306fa09a412))
+	* [NEW] Add `--orphaned` option. ([rentzsch](http://github.com/rentzsch/mogenerator/commit/b64370f7532bcaf709fc8e0da8561306fa09a412))
 
-	* [NEW] --list-source-files option, which lists model-related source files. ([rentzsch](http://github.com/rentzsch/mogenerator/commit/19fe5be5d9c0e13721cda4cdb18f8209222657f6))
+		Couple it with `--model` to get a listing of source files that no longer 
+have corresponding entities in the model.
+
+		The intent is to be able to pipe its output to xargs + git to remove 
+deleted and renamed entities in one command, something like:
+
+			$ mogenerator --model ../MyModel.xcdatamodel --orphaned | xargs git rm
+
+	* [NEW] `--list-source-files` option, which lists model-related source files. ([rentzsch](http://github.com/rentzsch/mogenerator/commit/19fe5be5d9c0e13721cda4cdb18f8209222657f6))
 
 * **1.16** Mon 4 Jan 2010 [download](http://cloud.github.com/downloads/rentzsch/mogenerator/mogenerator-1.16.dmg)
 
