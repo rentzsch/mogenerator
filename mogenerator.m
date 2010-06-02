@@ -10,6 +10,25 @@
 
 NSString	*gCustomBaseClass;
 
+@interface NSEntityDescription (fetchedPropertiesAdditions)
+- (NSDictionary *)fetchedPropertiesByName;
+@end
+
+@implementation NSEntityDescription (fetchedPropertiesAdditions)
+- (NSDictionary *)fetchedPropertiesByName
+{
+	NSMutableDictionary *fetchedPropertiesByName = [NSMutableDictionary dictionary];
+	
+	for (NSPropertyDescription *property in [self properties])
+	{
+		if([property isKindOfClass:[NSFetchedPropertyDescription class]])
+			[fetchedPropertiesByName setObject:property forKey:[property name]];
+	}
+	
+	return fetchedPropertiesByName;
+}
+@end
+
 @implementation NSManagedObjectModel (entitiesWithACustomSubclassVerbose)
 - (NSArray*)entitiesWithACustomSubclassVerbose:(BOOL)verbose_ {
 	NSMutableArray *result = [NSMutableArray array];
@@ -74,6 +93,17 @@ NSString	*gCustomBaseClass;
 		return result;
 	} else {
 		return [[self relationshipsByName] allValues];
+	}
+}
+/** @TypeInfo NSFetchedPropertyDescription */
+- (NSArray*)noninheritedFetchedProperties {
+	NSEntityDescription *superentity = [self superentity];
+	if (superentity) {
+		NSMutableArray *result = [[[[self fetchedPropertiesByName] allValues] mutableCopy] autorelease];
+		[result removeObjectsInArray:[[superentity fetchedPropertiesByName] allValues]];
+		return result;
+	} else {
+		return [[self fetchedPropertiesByName] allValues];
 	}
 }
 
