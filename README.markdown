@@ -30,7 +30,7 @@ Xmo'd works by noticing when your `*.xcdatamodel` is saved. If the model file's 
 	Couple it with `--model` to get a listing of source files that no longer have corresponding entities in the model.  
 The intent is to be able to pipe its output to xargs + git to remove deleted and renamed entities in one command, something like:  
 
-			$ mogenerator --model ../MyModel.xcdatamodel --orphaned | xargs git rm
+		$ mogenerator --model ../MyModel.xcdatamodel --orphaned | xargs git rm
 
 	* [NEW] `--list-source-files` option, which lists model-related source files. ([rentzsch](http://github.com/rentzsch/mogenerator/commit/19fe5be5d9c0e13721cda4cdb18f8209222657f6))
 
