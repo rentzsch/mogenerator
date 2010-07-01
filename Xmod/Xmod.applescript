@@ -12,26 +12,35 @@ on updateProjectXmod(_project)
 	tell application "Xcode"
 		-- Iterate over every .xcdatamodel in the project.
 		set modelList to every file reference of _project whose file kind is "wrapper.xcdatamodel"
-		repeat with modelIt in modelList
-			if comments of modelIt contains "xmod" then
-				set modelSrcDir to my modelSrcDirPath(full path of modelIt)
-				set targetList to my everyTargetWithBuildFilePath(_project, full path of modelIt)
+		repeat with modelItr in modelList
+			if comments of modelItr contains "xmod" then
+				set modelInfo to my getModelInfo(full path of modelItr)
+				
+				-- Figure out the model's parent group.
+				-- Unversioned models are simple files so their group is the answer.
+				-- Version models are bundles, which are represented as pseudo-groups in Xcode. You can't ask a pseudo-group for its parent group,
+				-- so we discover it by querying project-wide all groups that contain the pseudo-group and using the first result.
+				set modelItemRef to item 1 of (every item reference of _project whose full path is (full path of modelItr))
+				set modelGroupRef to group of modelItemRef
+				if isBundle of modelInfo then
+					set modelGroupRef to item 1 of (every group of _project whose groups contains modelGroupRef)
+				end if
 				
 				-- Create the .xcdatamodel related source group if necessary.
-				if not (exists (every item reference of group of modelIt whose full path is modelSrcDir)) then
-					tell group of modelIt
-						make new group with properties {full path:modelSrcDir, name:text 1 thru -13 of ((name of modelIt) as string)}
+				if not (exists (every item reference of modelGroupRef whose full path is (srcDirPath of modelInfo))) then
+					tell modelGroupRef
+						make new group with properties {full path:(srcDirPath of modelInfo), name:(name of modelInfo)}
 					end tell
 				end if
-				set modelSrcGroup to item 1 of (every item reference of group of modelIt whose full path is modelSrcDir)
+				set modelSrcGroup to item 1 of (every item reference of modelGroupRef whose full path is (srcDirPath of modelInfo))
 				tell modelSrcGroup to delete every item reference -- clear it out for population in case we didn't just create it
 				
 				--	Meat.
-				do shell script "/usr/bin/mogenerator --model '" & full path of modelIt & "' --output-dir '" & modelSrcDir & "'"
+				do shell script "/usr/bin/mogenerator --model '" & full path of modelItr & "' --output-dir '" & (srcDirPath of modelInfo) & "'"
 				
 				--	Build a list of resulting source files.
 				tell application "System Events"
-					set modelSrcDirAlias to POSIX file modelSrcDir as alias
+					set modelSrcDirAlias to POSIX file (srcDirPath of modelInfo) as alias
 					set humanHeaderFileList to (every file of modelSrcDirAlias whose name ends with ".h" and name does not start with "_")
 					set humanSourceFileList to (every file of modelSrcDirAlias whose (name ends with ".m" or name ends with ".mm") and name does not start with "_")
 					set machineHeaderFileList to (every file of modelSrcDirAlias whose name ends with ".h" and name starts with "_")
@@ -44,12 +53,13 @@ on updateProjectXmod(_project)
 				end tell
 				
 				--	Add the source files to the model's source group and the model's targets.
-				repeat with pathIt in pathList
+				set targetList to my everyTargetWithBuildFilePath(_project, full path of modelItr)
+				repeat with pathItr in pathList
 					tell modelSrcGroup
-						set modelSrcFileRef to make new file reference with properties {full path:pathIt, name:name of (info for POSIX file pathIt)}
+						set modelSrcFileRef to make new file reference with properties {full path:pathItr, name:name of (info for POSIX file pathItr)}
 						repeat with targetIndex from 1 to (count of targetList)
-							set targetIt to item targetIndex of targetList
-							add modelSrcFileRef to targetIt
+							set targetItr to item targetIndex of targetList
+							add modelSrcFileRef to targetItr
 						end repeat
 					end tell
 				end repeat
@@ -61,30 +71,44 @@ end updateProjectXmod
 on everyTargetWithBuildFilePath(_project, _buildFilePath)
 	set theResult to {}
 	tell application "Xcode"
-		repeat with targetIt in (every target of _project)
-			repeat with buildFileIt in build files of targetIt
-				if full path of file reference of buildFileIt is _buildFilePath then set theResult to theResult & {(targetIt as anything)}
+		repeat with targetItr in (every target of _project)
+			repeat with buildFileItr in build files of targetItr
+				if full path of file reference of buildFileItr is _buildFilePath then set theResult to theResult & {(targetItr as anything)}
 			end repeat
 		end repeat
 	end tell
 	return theResult
 end everyTargetWithBuildFilePath
 
-on modelSrcDirPath(modelFileUnixPath)
+on getModelInfo(modelFileUnixPath)
 	set modelFilePosixRef to POSIX file modelFileUnixPath
 	set modelFileAlias to modelFilePosixRef as alias
 	
 	tell application "Finder"
 		set modelFileFolder to folder of modelFileAlias
-		set modelFileName to name of modelFileAlias
-		set modelSrcFolderName to text 1 thru -13 of modelFileName -- pull off the .xcdatamodel extension
-		if not (exists folder modelSrcFolderName of modelFileFolder) then
-			make folder at modelFileFolder with properties {name:modelSrcFolderName}
+		
+		set isModelBundle to name of modelFileFolder ends with ".xcdatamodeld"
+		if isModelBundle then
+			set modelFileAlias to (folder of modelFileAlias) as alias -- it's a bundle, go up one folder
+			set modelFileFolder to folder of modelFileAlias
 		end if
-		set modelSrcFolder to folder modelSrcFolderName of modelFileFolder
+		
+		set modelFileName to name of modelFileAlias
+		if isModelBundle then
+			set extensionLength to length of ".xcdatamodeld"
+		else
+			set extensionLength to length of ".xcdatamodel"
+		end if
+		
+		set modelName to text 1 thru -(extensionLength + 1) of modelFileName -- pull off the extension
+		if not (exists folder modelName of modelFileFolder) then
+			make folder at modelFileFolder with properties {name:modelName}
+		end if
+		set modelSrcFolder to folder modelName of modelFileFolder
 	end tell
-	return text 1 thru -2 of (POSIX path of (modelSrcFolder as alias)) -- kill the trailing slash
-end modelSrcDirPath
+	set srcDirPath to text 1 thru -2 of (POSIX path of (modelSrcFolder as alias)) -- kill the trailing slash
+	return {name:modelName, isBundle:isModelBundle, srcDirPath:srcDirPath}
+end getModelInfo
 
 on logger(msg)
 	do shell script "logger '" & msg & "'"

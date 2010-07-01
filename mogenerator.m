@@ -19,8 +19,7 @@ NSString	*gCustomBaseClass;
 {
 	NSMutableDictionary *fetchedPropertiesByName = [NSMutableDictionary dictionary];
 	
-	for (NSPropertyDescription *property in [self properties])
-	{
+	nsenumerate ([self properties], NSPropertyDescription, property) {
 		if([property isKindOfClass:[NSFetchedPropertyDescription class]])
 			[fetchedPropertiesByName setObject:property forKey:[property name]];
 	}
@@ -405,7 +404,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     }
     
     if (_version) {
-        printf("mogenerator 1.17. By Jonathan 'Wolf' Rentzsch + friends.\n");
+        printf("mogenerator 1.18. By Jonathan 'Wolf' Rentzsch + friends.\n");
         return EXIT_SUCCESS;
     }
     
