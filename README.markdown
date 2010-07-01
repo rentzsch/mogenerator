@@ -14,19 +14,22 @@ Xmo'd works by noticing when your `*.xcdatamodel` is saved. If the model file's 
 
 ## Version History
 
+* **1.18** Thu 1 Jun 2010 [download](http://github.com/downloads/rentzsch/mogenerator/mogenerator-1.18.dmg)
+
+	* [NEW] Xmo'd works with versioned data models. ([rentzsch](http://github.com/rentzsch/mogenerator/commit/5195153e8ffce08eb82a63c8fde6aea20b0e6d34))
+
+	* [NEW] Support for fetched properties ([Nikita Zhuk](http://github.com/rentzsch/mogenerator/commit/7481add810ef798c0f678d782d7d8fb9e6ff4d46))
+	
+	* [NEW] `NSParameterAssert(moc)` in fetch request wrappers. ([rentzsch](http://github.com/rentzsch/mogenerator/commit/015aa0bec7dae21058c057bfa6b4f6748e444e00))
+
 * **1.17** Sat 27 Mar 2010 [download](http://github.com/downloads/rentzsch/mogenerator/mogenerator-1.17.dmg)
 
 	* [NEW] `+[Machine entityName]` (for [@drance](http://twitter.com/drance/status/11157708725)) and `+[Machine entityInManagedObjectContext:]` ([Michael Dales](http://github.com/rentzsch/mogenerator/commit/8902305650c68d7ba7550acb7f3c21ce42c02d93)).
 
-	* [NEW] Add `--orphaned` option. ([rentzsch](http://github.com/rentzsch/mogenerator/commit/b64370f7532bcaf709fc8e0da8561306fa09a412))
-
-		Couple it with `--model` to get a listing of source files that no longer 
-have corresponding entities in the model.
-
-		The intent is to be able to pipe its output to xargs + git to remove 
-deleted and renamed entities in one command, something like:
-
-			$ mogenerator --model ../MyModel.xcdatamodel --orphaned | xargs git rm
+	* [NEW] Add `--orphaned` option. ([rentzsch](http://github.com/rentzsch/mogenerator/commit/b64370f7532bcaf709fc8e0da8561306fa09a412))  
+	Couple it with `--model` to get a listing of source files that no longer have corresponding entities in the model.  
+The intent is to be able to pipe its output to xargs + git to remove deleted and renamed entities in one command, something like:  
+`$ mogenerator --model ../MyModel.xcdatamodel --orphaned | xargs git rm`
 
 	* [NEW] `--list-source-files` option, which lists model-related source files. ([rentzsch](http://github.com/rentzsch/mogenerator/commit/19fe5be5d9c0e13721cda4cdb18f8209222657f6))
 
