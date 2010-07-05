@@ -362,7 +362,34 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
            "Inspired by eogenerator.\n");
 }
 
-- (void) setModel: (NSString *) path;
+- (NSString*)currentXcodePath {
+	NSMutableString *result = @"";
+	
+	@try {
+		NSTask *task = [[[NSTask alloc] init] autorelease];
+		[task setLaunchPath:@"/usr/bin/xcode-select"];
+		
+		[task setArguments:[NSArray arrayWithObject:@"-print-path"]];
+		
+		NSPipe *pipe = [NSPipe pipe];
+		[task setStandardOutput:pipe];
+		
+		NSFileHandle *file = [pipe fileHandleForReading];
+		
+		[task launch];
+		
+		NSData *data = [file readDataToEndOfFile];
+		
+		NSMutableString *result = [[[NSMutableString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
+		[result deleteCharactersInRange:NSMakeRange([result length]-1, 1)]; // trim newline
+	} @catch(NSException *ex) {
+		ddprintf(@"WARNING couldn't launch /usr/bin/xcode-select\n");
+	}
+	
+	return result;
+}
+
+- (void)setModel:(NSString*)path;
 {
     assert(!model); // Currently we only can load one model.
 
@@ -377,12 +404,17 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
         //	We've been handed a .xcdatamodel data model, transparently compile it into a .mom managed object model.
         
         //  Find where Xcode installed momc this week.
+        NSFileManager *fm = [NSFileManager defaultManager];
         NSString *momc = nil;
-        if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Developer/usr/bin/momc"]) { // Xcode 3.1 installs it here.
+        NSString *defaultLocation = [NSString stringWithFormat:@"%@/usr/bin/momc", [self currentXcodePath]];
+        
+        if([fm fileExistsAtPath:defaultLocation]) {
+            momc = defaultLocation;
+        } else if ([fm fileExistsAtPath:@"/Developer/usr/bin/momc"]) { // Xcode 3.1 installs it here.
             momc = @"/Developer/usr/bin/momc";
-        } else if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/Application Support/Apple/Developer Tools/Plug-ins/XDCoreDataModel.xdplugin/Contents/Resources/momc"]) { // Xcode 3.0.
+        } else if ([fm fileExistsAtPath:@"/Library/Application Support/Apple/Developer Tools/Plug-ins/XDCoreDataModel.xdplugin/Contents/Resources/momc"]) { // Xcode 3.0.
             momc = @"/Library/Application Support/Apple/Developer Tools/Plug-ins/XDCoreDataModel.xdplugin/Contents/Resources/momc";
-        } else if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Developer/Library/Xcode/Plug-ins/XDCoreDataModel.xdplugin/Contents/Resources/momc"]) { // Xcode 2.4.
+        } else if ([fm fileExistsAtPath:@"/Developer/Library/Xcode/Plug-ins/XDCoreDataModel.xdplugin/Contents/Resources/momc"]) { // Xcode 2.4.
             momc = @"/Developer/Library/Xcode/Plug-ins/XDCoreDataModel.xdplugin/Contents/Resources/momc";
         }
         assert(momc && "momc not found");
