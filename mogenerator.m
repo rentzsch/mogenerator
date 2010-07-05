@@ -436,7 +436,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     }
     
     if (_version) {
-        printf("mogenerator 1.18. By Jonathan 'Wolf' Rentzsch + friends.\n");
+        printf("mogenerator 1.19. By Jonathan 'Wolf' Rentzsch + friends.\n");
         return EXIT_SUCCESS;
     }
     
