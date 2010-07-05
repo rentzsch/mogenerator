@@ -14,7 +14,13 @@ Xmo'd works by noticing when your `*.xcdatamodel` is saved. If the model file's 
 
 ## Version History
 
-### v1.18: Thu 1 Jun 2010 [download](http://github.com/downloads/rentzsch/mogenerator/mogenerator-1.18.dmg)
+### v1.19: Sun 4 Jul 2010 [download](http://github.com/downloads/rentzsch/mogenerator/mogenerator-1.19.dmg)
+
+* [NEW] Use `xcode-select` to dynamically discover our way to `momc` instead of only hard-coding `/Developer`. ([Josh Abernathy](http://github.com/rentzsch/mogenerator/commit/93b4c6bfcde93701875174040e76ed192643bc87))
+
+
+
+### v1.18: Thu 1 Jul 2010 [download](http://github.com/downloads/rentzsch/mogenerator/mogenerator-1.18.dmg)
 
 * [NEW] Xmo'd works with versioned data models. ([rentzsch](http://github.com/rentzsch/mogenerator/commit/5195153e8ffce08eb82a63c8fde6aea20b0e6d34))
 
