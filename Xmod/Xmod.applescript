@@ -13,7 +13,9 @@ on updateProjectXmod(_project)
 		-- Iterate over every .xcdatamodel in the project.
 		set modelList to every file reference of _project whose file kind is "wrapper.xcdatamodel"
 		repeat with modelItr in modelList
-			if comments of modelItr contains "xmod" then
+			set theComments to the comments of modelItr
+			if theComments contains "xmod" then
+				
 				set modelInfo to my getModelInfo(full path of modelItr)
 				
 				-- Figure out the model's parent group.
@@ -35,8 +37,20 @@ on updateProjectXmod(_project)
 				set modelSrcGroup to item 1 of (every item reference of modelGroupRef whose full path is (srcDirPath of modelInfo))
 				tell modelSrcGroup to delete every item reference -- clear it out for population in case we didn't just create it
 				
+				-- Create the do shell script string and append any custom per model options to it
+				set theScript to "/usr/bin/mogenerator --model '" & full path of modelItr & "' --output-dir '" & (srcDirPath of modelInfo) & "'"
+				set theParagraphs to every paragraph of theComments
+				repeat with theParagraph in theParagraphs
+					if (length of the characters of theParagraph) is greater than 2 then
+						set theToken to the first character of theParagraph & the second character of theParagraph
+						if theToken is "--" then
+							set theScript to theScript & " " & the text of theParagraph
+						end if
+					end if
+				end repeat
+				
 				--	Meat.
-				do shell script "/usr/bin/mogenerator --model '" & full path of modelItr & "' --output-dir '" & (srcDirPath of modelInfo) & "'"
+				do shell script theScript
 				
 				--	Build a list of resulting source files.
 				tell application "System Events"
