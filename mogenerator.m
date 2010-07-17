@@ -380,7 +380,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 		
 		NSData *data = [file readDataToEndOfFile];
 		
-		NSMutableString *result = [[[NSMutableString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
+		result = [[[NSMutableString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
 		[result deleteCharactersInRange:NSMakeRange([result length]-1, 1)]; // trim newline
 	} @catch(NSException *ex) {
 		ddprintf(@"WARNING couldn't launch /usr/bin/xcode-select\n");
