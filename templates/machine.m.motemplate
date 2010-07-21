@@ -35,13 +35,21 @@
 
 - (<$Attribute.scalarAttributeType$>)<$Attribute.name$>Value {
 	NSNumber *result = [self <$Attribute.name$>];
-	return result ? [result <$Attribute.scalarAttributeType.camelCaseString$>Value] : 0;
+	return [result <$Attribute.scalarAttributeType.camelCaseString$>Value];
 }
 
 - (void)set<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_ {
 	[self set<$Attribute.name.initialCapitalString$>:[NSNumber numberWith<$Attribute.scalarAttributeType.camelCaseString.initialCapitalString$>:value_]];
 }
 
+- (<$Attribute.scalarAttributeType$>)primitive<$Attribute.name.initialCapitalString$>Value {
+	NSNumber *result = [self primitive<$Attribute.name.initialCapitalString$>];
+	return [result <$Attribute.scalarAttributeType.camelCaseString$>Value];
+}
+
+- (void)setPrimitive<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_ {
+	[self setPrimitive<$Attribute.name.initialCapitalString$>:[NSNumber numberWith<$Attribute.scalarAttributeType.camelCaseString.initialCapitalString$>:value_]];
+}
 <$endif$>
 <$endif$>
 <$endforeach do$>

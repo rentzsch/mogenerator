@@ -38,16 +38,6 @@
     return whiteSet;
 }
 
-+ (NSCharacterSet *)newlineCharacterSet
-{
-    static NSCharacterSet *newlineSet = nil;
-
-    if (newlineSet == nil)
-        newlineSet = [[NSCharacterSet characterSetWithCharactersInString:@"\n\r"] retain];
-
-    return newlineSet;
-}
-
 @end
 
 

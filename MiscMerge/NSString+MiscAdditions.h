@@ -26,7 +26,6 @@ enum
 @interface NSCharacterSet (MiscAdditions)
 
 + (NSCharacterSet *)allWhitespaceCharacterSet;
-+ (NSCharacterSet *)newlineCharacterSet;
 
 @end
 

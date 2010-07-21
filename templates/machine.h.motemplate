@@ -6,6 +6,8 @@
 
 <$foreach Relationship noninheritedRelationships do$>@class <$Relationship.destinationEntity.managedObjectClassName$>;
 <$endforeach do$>
+<$foreach Attribute noninheritedAttributes do$><$if Attribute.hasTransformableAttributeType$>@class <$Attribute.objectAttributeType$>;<$endif$>
+<$endforeach do$>
 @interface <$managedObjectClassName$>ID : NSManagedObjectID {}
 @end
 
@@ -53,4 +55,24 @@
 - (void)add<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_;
 - (void)remove<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_;
 <$endif$><$endforeach do$>
+@end
+
+@interface _<$managedObjectClassName$> (CoreDataGeneratedPrimitiveAccessors)
+<$foreach Attribute noninheritedAttributes do$>
+- (<$Attribute.objectAttributeType$>*)primitive<$Attribute.name.initialCapitalString$>;
+- (void)setPrimitive<$Attribute.name.initialCapitalString$>:(<$Attribute.objectAttributeType$>*)value;
+<$if Attribute.hasScalarAttributeType$>
+- (<$Attribute.scalarAttributeType$>)primitive<$Attribute.name.initialCapitalString$>Value;
+- (void)setPrimitive<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_;
+<$endif$>
+<$endforeach do$>
+<$foreach Relationship noninheritedRelationships do$>
+<$if Relationship.isToMany$>
+- (NSMutableSet*)primitive<$Relationship.name.initialCapitalString$>;
+- (void)setPrimitive<$Relationship.name.initialCapitalString$>:(NSMutableSet*)value;
+<$else$>
+- (<$Relationship.destinationEntity.managedObjectClassName$>*)primitive<$Relationship.name.initialCapitalString$>;
+- (void)setPrimitive<$Relationship.name.initialCapitalString$>:(<$Relationship.destinationEntity.managedObjectClassName$>*)value;
+<$endif$>
+<$endforeach do$>
 @end

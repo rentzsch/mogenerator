@@ -111,6 +111,6 @@ int DDCliAppRunWithClass(Class delegateClass)
     // Initialize singleton/global
     DDCliApplication * app = [DDCliApplication sharedApplication];
     int result = [app runWithClass: delegateClass];
-    [pool release];
+    [pool drain];
     return result;
 }
