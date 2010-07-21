@@ -33,6 +33,7 @@
 - (NSString*)scalarAttributeType;
 - (BOOL)hasDefinedAttributeType;
 - (NSString*)objectAttributeType;
+- (BOOL)hasTransformableAttributeType;
 @end
 
 @interface NSString (camelCaseString)

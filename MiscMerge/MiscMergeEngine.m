@@ -584,7 +584,7 @@ static NSMutableDictionary *globalSymbols = nil;
     }
 
     [commandStack removeLastObject];
-    [localPool release];
+    [localPool drain];
     return exitCode;
 }
 

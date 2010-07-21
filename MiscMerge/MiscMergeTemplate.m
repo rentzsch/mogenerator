@@ -548,7 +548,7 @@
         [self _addBetweenString:[[accumString copy] autorelease]];
     }
 
-    [localPool release];
+    [localPool drain];
 }
 
 @end
