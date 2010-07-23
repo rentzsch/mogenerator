@@ -86,11 +86,15 @@
 	NSError *error = nil;
 	
 	NSManagedObjectModel *model = [[moc_ persistentStoreCoordinator] managedObjectModel];
+	<$if FetchRequest.hasBindings$>
 	NSDictionary *substitutionVariables = [NSDictionary dictionaryWithObjectsAndKeys:
 														<$foreach Binding FetchRequest.bindings do2$>
 														<$Binding.name$>_, @"<$Binding.name$>",
 														<$endforeach do2$>
 														nil];
+	<$else$>
+	NSDictionary *substitutionVariables = nil;
+	<$endif$>
 	NSFetchRequest *fetchRequest = [model fetchRequestFromTemplateWithName:@"<$FetchRequest.name$>"
 													 substitutionVariables:substitutionVariables];
 	NSAssert(fetchRequest, @"Can't find fetch request named \"<$FetchRequest.name$>\".");
@@ -135,13 +139,17 @@
 	NSError *error = nil;
 	
 	NSManagedObjectModel *model = [[moc_ persistentStoreCoordinator] managedObjectModel];
-	NSFetchRequest *fetchRequest = [model fetchRequestFromTemplateWithName:@"<$FetchRequest.name$>"
-													 substitutionVariables:[NSDictionary dictionaryWithObjectsAndKeys:
+	<$if FetchRequest.hasBindings$>
+	NSDictionary *substitutionVariables = [NSDictionary dictionaryWithObjectsAndKeys:
 														<$foreach Binding FetchRequest.bindings do2$>
 														<$Binding.name$>_, @"<$Binding.name$>",
 														<$endforeach do2$>
-														nil]
-													 ];
+														nil];
+	<$else$>
+	NSDictionary *substitutionVariables = nil;
+	<$endif$>									
+	NSFetchRequest *fetchRequest = [model fetchRequestFromTemplateWithName:@"<$FetchRequest.name$>"
+													 substitutionVariables:substitutionVariables];
 	NSAssert(fetchRequest, @"Can't find fetch request named \"<$FetchRequest.name$>\".");
 	
 	NSArray *result = [moc_ executeFetchRequest:fetchRequest error:&error];
