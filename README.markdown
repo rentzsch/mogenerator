@@ -14,7 +14,7 @@ Xmo'd works by noticing when your `*.xcdatamodel` is saved. If the model file's 
 
 ## Version History
 
-### v1.20:  [download](http://github.com/downloads/rentzsch/mogenerator/mogenerator-1.20.dmg)
+### v1.20: Thu Aug 12 2010 [download](http://github.com/downloads/rentzsch/mogenerator/mogenerator-1.20.dmg)
 
 * [NEW] Xmo'd: model comments that start with `--` are passed as args to mogenerator. This allows accessing command-line options such as `--base-class`. ([David LeBer](http://github.com/rentzsch/mogenerator/commit/5c0c3790d0b872962391abffc7ea82d9b643d0f1))
 
