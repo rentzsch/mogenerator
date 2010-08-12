@@ -14,6 +14,22 @@ Xmo'd works by noticing when your `*.xcdatamodel` is saved. If the model file's 
 
 ## Version History
 
+### v1.20:  [download](http://github.com/downloads/rentzsch/mogenerator/mogenerator-1.20.dmg)
+
+* [NEW] Xmo'd: model comments that start with `--` are passed as args to mogenerator. This allows accessing command-line options such as `--base-class`. ([David LeBer](http://github.com/rentzsch/mogenerator/commit/5c0c3790d0b872962391abffc7ea82d9b643d0f1))
+
+* [NEW] Forward-declare transformable attribute class types. [bug 11](http://github.com/rentzsch/mogenerator/issues/issue/11) ([seanm](http://github.com/rentzsch/mogenerator/commit/f711fc5705e8891b41ce0364b24ff495db1a4856))
+
+* [CHANGE] Generated accessors that return `BOOL`s now return `NO` instead of `0`, avoiding LLVM Static Analyzer warnings. [bug 8](http://github.com/rentzsch/mogenerator/issues/issue/8) ([seanm](http://github.com/rentzsch/mogenerator/commit/f711fc5705e8891b41ce0364b24ff495db1a4856))
+
+* [CHANGE] Generated value accessors that return `int`s no longer needlessly check for nil. [bug 10](http://github.com/rentzsch/mogenerator/issues/issue/10) ([seanm](http://github.com/rentzsch/mogenerator/commit/f711fc5705e8891b41ce0364b24ff495db1a4856))
+
+* [CHANGE] LLVM 2/Xcode 4 doesn't like `[NSDictionary dictionaryWithObjectsAndKeys:nil]`, issuing a "missing sentinel in method dispatch" warning. Add `hasBindings` to `prettyFetchRequests` so we can just generate `NSDictionary *substitutionVariables = nil` in that case. ([Anthony Mittaz](http://github.com/rentzsch/mogenerator/commit/8369f7108e3eb3d73e10583fe3f4248c914583c7))
+
+* [FIX] Variable shadowing bug which would cause v1.19's `xcode-select` functionality to always fail. ([Nikita Zhuk](http://github.com/rentzsch/mogenerator/commit/93b4c6bfcde93701875174040e76ed192643bc87#commitcomment-108156))
+
+
+
 ### v1.19: Sun 4 Jul 2010 [download](http://github.com/downloads/rentzsch/mogenerator/mogenerator-1.19.dmg)
 
 * [NEW] Use `xcode-select` to dynamically discover our way to `momc` instead of only hard-coding `/Developer`. ([Josh Abernathy](http://github.com/rentzsch/mogenerator/commit/93b4c6bfcde93701875174040e76ed192643bc87))
