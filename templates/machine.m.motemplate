@@ -93,7 +93,7 @@
 														<$endforeach do2$>
 														nil];
 	<$else$>
-	NSDictionary *substitutionVariables = nil;
+	NSDictionary *substitutionVariables = [NSDictionary dictionary];
 	<$endif$>
 	NSFetchRequest *fetchRequest = [model fetchRequestFromTemplateWithName:@"<$FetchRequest.name$>"
 													 substitutionVariables:substitutionVariables];
@@ -146,7 +146,7 @@
 														<$endforeach do2$>
 														nil];
 	<$else$>
-	NSDictionary *substitutionVariables = nil;
+	NSDictionary *substitutionVariables = [NSDictionary dictionary];
 	<$endif$>									
 	NSFetchRequest *fetchRequest = [model fetchRequestFromTemplateWithName:@"<$FetchRequest.name$>"
 													 substitutionVariables:substitutionVariables];
