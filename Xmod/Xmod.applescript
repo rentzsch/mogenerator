@@ -1,3 +1,5 @@
+property kExplicitlyProcessedOptions : {"--human-dir ", "--machine-dir ", "--output-dir ", "--log-command"}
+
 tell application "Xcode"
 	if not (exists active project document) then Â
 		error "No active project. Please open an Xcode project and re-run the script."
@@ -60,20 +62,28 @@ on updateProjectXmod(_project)
 				end if
 				
 				-- Create the do shell script string and append any custom per model options to it, skipping the ones we've already parsed out
+				set logCommand to false
 				set theScript to "/usr/bin/mogenerator --model '" & full path of modelItr & "' --human-dir '" & (humanDirPath of modelInfo) & "' --machine-dir '" & (machineDirPath of modelInfo) & "'"
 				set theParagraphs to every paragraph of theComments
 				repeat with theParagraph in theParagraphs
-					if (length of the characters of theParagraph) is greater than 2 then
-						set theToken to the first character of theParagraph & the second character of theParagraph
-						if theToken is "--" then
-							if ((offset of "--human-dir " in theParagraph) = 0) and ((offset of "--machine-dir " in theParagraph) = 0) and ((offset of "--output-dir " in theParagraph) = 0) then
-								set theScript to theScript & " " & the text of theParagraph
-							end if
+					if theParagraph starts with "--" then
+						set isExplicitlyProcessedOption to false
+						repeat with explicitlyProcessedOption in kExplicitlyProcessedOptions
+							if theParagraph starts with explicitlyProcessedOption then set isExplicitlyProcessedOption to true
+						end repeat
+						if not isExplicitlyProcessedOption then
+							set theScript to theScript & " " & the text of theParagraph
+						end if
+						if theParagraph starts with "--log-command" then
+							set logCommand to true
 						end if
 					end if
 				end repeat
 				
 				--	Meat.
+				if logCommand then
+					my logger(theScript)
+				end if
 				do shell script theScript
 				
 				my addFilesFromPathToGroup(_project, modelItr, humanGroupRef)
