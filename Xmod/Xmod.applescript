@@ -274,5 +274,3 @@ on addFilesFromPathToGroup(_project, modelItr, groupRef)
 		end repeat
 	end tell
 end addFilesFromPathToGroup
-
-property ASDScriptUniqueIdentifier : "Xmod.applescript"
