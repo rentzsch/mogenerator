@@ -14,6 +14,16 @@ Xmo'd works by noticing when your `*.xcdatamodel` is saved. If the model file's 
 
 ## Version History
 
+### v1.21: Mon Nov 1 2010 [download](http://github.com/downloads/rentzsch/mogenerator/mogenerator-1.21.dmg)
+
+* [NEW] Machine templates now include fetched properties by default. ([Jonathan del Strother](http://github.com/rentzsch/mogenerator/commit/d0f28ab3354af852d3470adccaf392fbd7c6129c))
+
+* [NEW] Xmo'd: better support for `--(machine|human|output)-dir` model option path: now they can be full or relative to the model file. Xcode group and file references are no longer deleted/re-added with every save. ([John Turnipseed](http://github.com/rentzsch/mogenerator/commit/0894c56ed471b4c5d0d30cb312f1d8970a0dd216))
+
+* [NEW] Xmo'd: `--log-command` model option. When enabled, Xmo'd will log (to Console.app) the generated+executed `mogenerator` invocation. Good for automation debugging and also can provide training wheels for using mogenerator directly. ([rentzsch](http://github.com/rentzsch/mogenerator/commit/9d7101c774d71f82da68f2ef91982e9a8f956ebb))
+
+* [FIX] Avoid `nil` substitution dictionary in generated fetch request wrapper code, which resulted in an `NSInvalidArgumentException` reason "Cannot substitute a nil substitution dictionary." ([Anthony Mittaz](http://github.com/rentzsch/mogenerator/commit/03d005036bb6bfa6a7c88d3d3ac7e877d48eea61))
+
 ### v1.20: Thu Aug 12 2010 [download](http://github.com/downloads/rentzsch/mogenerator/mogenerator-1.20.dmg)
 
 * [NEW] Xmo'd: model comments that start with `--` are passed as args to mogenerator. This allows accessing command-line options such as `--base-class`. ([David LeBer](http://github.com/rentzsch/mogenerator/commit/5c0c3790d0b872962391abffc7ea82d9b643d0f1))
