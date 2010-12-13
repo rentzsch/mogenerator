@@ -2,9 +2,13 @@
 
 Visit the [project's pretty homepage](http://rentzsch.github.com/mogenerator).
 
-Read the [project's backgrounder](http://rentzsch.com/code/mogenerator). Or, for the impatient:
+Here's mogenerator's elevator pitch:
 
 > `mogenerator` is a command-line tool that, given an `.xcdatamodel` file, will generate *two classes per entity*. The first class, `_MyEntity`, is intended solely for machine consumption and will be continuously overwritten to stay in sync with your data model. The second class, `MyEntity`, subclasses `_MyEntity`, won't ever be overwritten and is a great place to put your custom logic.
+
+## Using mogenerator
+
+Senseful wrote up a [nice summary of mogenerator's command-line options](http://stackoverflow.com/questions/3589247/how-do-the-mogenerator-parameters-work-which-can-i-send-via-xcode).
 
 ## Using Xmo'd
 
