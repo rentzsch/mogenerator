@@ -191,6 +191,8 @@ on getModelInfo(modelFileUnixPath, theComments)
 		
 		-- if we didn't find any directory specifiers in the comments, then make theOutputDir the folder containg the model file
 		if ((length of theOutputDir) = 0) and ((length of theHumanDir) = 0) and ((length of theMachineDir) = 0) then
+			if not (exists folder modelName of modelFileFolder) then Â
+				make folder at modelFileFolder with properties {name:modelName}
 			set modelSrcFolder to folder modelName of modelFileFolder
 			set theOutputDir to text 1 thru -2 of (POSIX path of (modelSrcFolder as alias))
 			-- otherwise, if theOutputDir isn't a full path itself already, set theOutputDir to a full path relative to the model file
