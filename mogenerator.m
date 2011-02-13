@@ -351,7 +351,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
            "  -m, --model MODEL             Path to model\n"
            "      --base-class CLASS        Custom base class\n"
            "      --includem FILE           Generate aggregate include file\n"
-           "      --template-path PATH      Path to templates\n"
+           "      --template-path PATH      Path to templates (absolute or relative to model path)\n"
            "      --template-group NAME     Name of template group\n"
            "  -O, --output-dir DIR          Output directory\n"
            "  -M, --machine-dir DIR         Output directory for machine files\n"
@@ -396,6 +396,8 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 {
     assert(!model); // Currently we only can load one model.
 
+	origModelBasePath = [path stringByDeletingLastPathComponent];
+	
     if( ![[NSFileManager defaultManager] fileExistsAtPath:path]){
         NSString * reason = [NSString stringWithFormat: @"error loading file at %@: no such file exists", path];
         DDCliParseException * e = [DDCliParseException parseExceptionWithReason: reason
@@ -484,6 +486,28 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 		}
 		
 		return EXIT_SUCCESS;
+	}
+	
+	if (templatePath) {
+		
+		NSString* absoluteTemplatePath = nil;
+		
+		if (![templatePath isAbsolutePath]) {
+			absoluteTemplatePath = [[origModelBasePath stringByAppendingPathComponent:templatePath] stringByStandardizingPath];
+			
+			// Be kind and try a relative Path of the parent xcdatamodeld folder of the model, if it exists
+			if ((![fm fileExistsAtPath:absoluteTemplatePath]) && ([[origModelBasePath pathExtension] isEqualToString:@"xcdatamodeld"])) {
+				absoluteTemplatePath = [[[origModelBasePath stringByDeletingLastPathComponent] stringByAppendingPathComponent:templatePath] stringByStandardizingPath];
+			}
+		} else {
+			absoluteTemplatePath = templatePath;
+		}
+
+		
+		// if the computed absoluteTemplatePath exists, use it.
+		if ([fm fileExistsAtPath:absoluteTemplatePath]) {
+			templatePath = absoluteTemplatePath;
+		}
 	}
     
 	int machineFilesGenerated = 0;        
