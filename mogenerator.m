@@ -504,7 +504,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 		}
 
 		
-		// the the computed absoluteTemplatePath exists, use it.
+		// if the computed absoluteTemplatePath exists, use it.
 		if ([fm fileExistsAtPath:absoluteTemplatePath]) {
 			templatePath = absoluteTemplatePath;
 		}
