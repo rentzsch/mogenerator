@@ -17,6 +17,14 @@ on updateProjectXmod(_project)
 		repeat with modelItr in modelList
 			set theComments to the comments of modelItr
 			if theComments contains "xmod" then
+				my updateModel(_projet, modelItr, theComments)
+			end if
+		end repeat
+	end tell
+end updateProjectXmod
+
+on updateModel(_project, modelItr, theComments)
+	tell application "Xcode"
 				
 				set modelInfo to my getModelInfo(full path of modelItr, theComments)
 				set humanGroupRef to null
@@ -90,10 +98,8 @@ on updateProjectXmod(_project)
 				if machineGroupRef is not null then
 					my addFilesFromPathToGroup(_project, modelItr, machineGroupRef)
 				end if
-			end if
-		end repeat
 	end tell
-end updateProjectXmod
+end updateModel
 
 on everyTargetWithBuildFilePath(_project, _buildFilePath)
 	set theResult to {}
