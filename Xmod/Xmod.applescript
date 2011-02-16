@@ -13,12 +13,9 @@ end tell
 on updateProjectXmod(_project)
 	tell application "Xcode"
 		-- Iterate over every .xcdatamodel in the project.
-		set modelList to every file reference of _project whose file kind is "wrapper.xcdatamodel"
+		set modelList to every file reference of _project whose file kind is "wrapper.xcdatamodel" and comments contains "xmod"
 		repeat with modelItr in modelList
-			set theComments to the comments of modelItr
-			if theComments contains "xmod" then
-				my updateModel(_projet, modelItr, theComments)
-			end if
+			my updateModel(_project, modelItr, comments of modelItr)
 		end repeat
 	end tell
 end updateProjectXmod
