@@ -13,10 +13,29 @@ end tell
 on updateProjectXmod(_project)
 	tell application "Xcode"
 		-- Iterate over every .xcdatamodel in the project.
-		set modelList to every file reference of _project whose file kind is "wrapper.xcdatamodel"
+		set modelList to every file reference of _project whose file kind is "wrapper.xcdatamodel" and comments contains "xmod"
 		repeat with modelItr in modelList
-			set theComments to the comments of modelItr
-			if theComments contains "xmod" then
+			my updateModel(_project, modelItr, comments of modelItr)
+		end repeat
+		-- Iterate over every .xcdatamodeld (notice the 'd') in the project.
+		set modeldList to every group of _project whose name contains ".xcdatamodeld" and comments contains "xmod"
+		repeat with modeldIt in modeldList
+			-- Find the 'active' model version
+			set currentVersionFile to full path of modeldIt & "/.xccurrentversion"
+			tell application "System Events"
+				set currentVersionPlist to contents of property list file currentVersionFile
+				set activeModelVersionFilename to value of property list item "_XCCurrentVersionName" of currentVersionPlist
+			end tell
+			set activeModelVersion to full path of modeldIt & "/" & activeModelVersionFilename
+			set modelItr to item 1 of (every file reference of modeldIt whose name is activeModelVersionFilename)
+			-- Then update it
+			my updateModel(_project, modelItr, comments of modeldIt)
+		end repeat
+	end tell
+end updateProjectXmod
+
+on updateModel(_project, modelItr, theComments)
+	tell application "Xcode"
 				
 				set modelInfo to my getModelInfo(full path of modelItr, theComments)
 				set humanGroupRef to null
@@ -90,10 +109,8 @@ on updateProjectXmod(_project)
 				if machineGroupRef is not null then
 					my addFilesFromPathToGroup(_project, modelItr, machineGroupRef)
 				end if
-			end if
-		end repeat
 	end tell
-end updateProjectXmod
+end updateModel
 
 on everyTargetWithBuildFilePath(_project, _buildFilePath)
 	set theResult to {}
