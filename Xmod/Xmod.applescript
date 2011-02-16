@@ -17,6 +17,17 @@ on updateProjectXmod(_project)
 		repeat with modelItr in modelList
 			my updateModel(_project, modelItr, comments of modelItr)
 		end repeat
+		-- Iterate over every .xcdatamodeld (notice the 'd') in the project.
+		set modeldList to every group of _project whose name contains ".xcdatamodeld" and comments contains "xmod"
+		repeat with modeldIt in modeldList
+			-- Find the 'active' model version
+			set currentVersionFile to full path of modeldIt & "/.xccurrentversion"
+			set activeModelVersionFilename to do shell script "/usr/libexec/PlistBuddy -c 'print _XCCurrentVersionName' " & currentVersionFile
+			set activeModelVersion to full path of modeldIt & "/" & activeModelVersionFilename
+			set modelItr to item 1 of (every file reference of modeldIt whose name is activeModelVersionFilename)
+			-- Then update it
+			my updateModel(_project, modelItr, comments of modeldIt)
+		end repeat
 	end tell
 end updateProjectXmod
 
