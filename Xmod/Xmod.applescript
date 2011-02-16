@@ -22,7 +22,10 @@ on updateProjectXmod(_project)
 		repeat with modeldIt in modeldList
 			-- Find the 'active' model version
 			set currentVersionFile to full path of modeldIt & "/.xccurrentversion"
-			set activeModelVersionFilename to do shell script "/usr/libexec/PlistBuddy -c 'print _XCCurrentVersionName' " & currentVersionFile
+			tell application "System Events"
+				set currentVersionPlist to contents of property list file currentVersionFile
+				set activeModelVersionFilename to value of property list item "_XCCurrentVersionName" of currentVersionPlist
+			end tell
 			set activeModelVersion to full path of modeldIt & "/" & activeModelVersionFilename
 			set modelItr to item 1 of (every file reference of modeldIt whose name is activeModelVersionFilename)
 			-- Then update it
