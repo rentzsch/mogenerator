@@ -18,6 +18,20 @@ Xmo'd works by noticing when your `*.xcdatamodel` is saved. If the model file's 
 
 ## Version History
 
+### v1.22: Wed Mar 2 2011 [download](http://github.com/downloads/rentzsch/mogenerator/mogenerator-1.22.dmg)
+
+* [FIX] Xmo'd 1.21 introduced a bug where it would no longer create a source folder for your data model (it would work fine it one already existed). [bug 43](https://github.com/rentzsch/mogenerator/issues/43) ([rentzsch](https://github.com/rentzsch/mogenerator/commit/462a485f0686b44fbaabad875ee8a21e3e0f61bc))
+
+* [NEW] `-keyPathsForValuesAffectingValueForKey:` is now generated in machine.m files, populated by your entity's scalar attributes. The idea is code like `myObject.myIntAttributeValue++` tells Core Data that `myIntAttribute` has changed (handy when you're KVO-observing `myIntAttribute`). ([Tony Arnold](https://github.com/rentzsch/mogenerator/commit/fdc4a02c2180493d24a68fddc98ddd35b1fc1277))
+
+* [NEW] When a model file has multiple versions (`.xcdatamodeld` files) Xmo'd now uses the "current" version of the model (set the "xmod" command on the xcdatamodeld group). ([Vincent Guerci](https://github.com/rentzsch/mogenerator/commit/09b0d8ea40688fef7780f8bb99ba797bc0e81aaf))
+
+* [NEW] Support [undefined attribute types](http://developer.apple.com/library/ios/#documentation/Cocoa/Conceptual/CoreData/Articles/cdNSAttributes.html%23//apple_ref/doc/uid/TP40001919-SW12). ([Brian Doig](https://github.com/rentzsch/mogenerator/commit/12298a8d622321c211839d6016bce72f7fcf8d59))
+
+* [NEW] mogenerator and Xmo'd now supports model-relative paths for the `--template-path` argument. ([tonklon](https://github.com/rentzsch/mogenerator/commit/fff9f12a15186877e780cb01cc8a925cc59768cf))
+
+
+
 ### v1.21: Mon Nov 1 2010 [download](http://github.com/downloads/rentzsch/mogenerator/mogenerator-1.21.dmg)
 
 * [NEW] Machine templates now include fetched properties by default. ([Jonathan del Strother](http://github.com/rentzsch/mogenerator/commit/d0f28ab3354af852d3470adccaf392fbd7c6129c))
@@ -27,6 +41,8 @@ Xmo'd works by noticing when your `*.xcdatamodel` is saved. If the model file's 
 * [NEW] Xmo'd: `--log-command` model option. When enabled, Xmo'd will log (to Console.app) the generated+executed `mogenerator` invocation. Good for automation debugging and also can provide training wheels for using mogenerator directly. ([rentzsch](http://github.com/rentzsch/mogenerator/commit/9d7101c774d71f82da68f2ef91982e9a8f956ebb))
 
 * [FIX] Avoid `nil` substitution dictionary in generated fetch request wrapper code, which resulted in an `NSInvalidArgumentException` reason "Cannot substitute a nil substitution dictionary." ([Anthony Mittaz](http://github.com/rentzsch/mogenerator/commit/03d005036bb6bfa6a7c88d3d3ac7e877d48eea61))
+
+
 
 ### v1.20: Thu Aug 12 2010 [download](http://github.com/downloads/rentzsch/mogenerator/mogenerator-1.20.dmg)
 
