@@ -6,6 +6,10 @@
 
 @class NSManagedObject;
 
+
+
+
+
 @interface HumanMOID : NSManagedObjectID {}
 @end
 
@@ -52,8 +56,33 @@
 + (NSArray*)fetchAllHumans:(NSManagedObjectContext*)moc_ error:(NSError**)error_;
 
 
+
 @end
 
 @interface _HumanMO (CoreDataGeneratedAccessors)
+
+@end
+
+@interface _HumanMO (CoreDataGeneratedPrimitiveAccessors)
+
+
+- (NSData*)primitiveHairColorStorage;
+- (void)setPrimitiveHairColorStorage:(NSData*)value;
+
+
+
+
+- (NSString*)primitiveHumanName;
+- (void)setPrimitiveHumanName:(NSString*)value;
+
+
+
+
+
+
+
+- (NSManagedObject*)primitiveMeaninglessRelationship;
+- (void)setPrimitiveMeaninglessRelationship:(NSManagedObject*)value;
+
 
 @end

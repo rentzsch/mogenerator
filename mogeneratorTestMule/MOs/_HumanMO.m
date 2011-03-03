@@ -19,11 +19,18 @@
 
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	NSParameterAssert(moc_);
-	return [NSEntityDescription entityForName: @"Human" inManagedObjectContext: moc_];
+	return [NSEntityDescription entityForName:@"Human" inManagedObjectContext:moc_];
 }
 
 - (HumanMOID*)objectID {
 	return (HumanMOID*)[super objectID];
+}
+
++ (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)key {
+	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
+	
+
+	return keyPaths;
 }
 
 
@@ -52,6 +59,8 @@
 
 
 
+
+
 + (NSArray*)fetchByHumanName:(NSManagedObjectContext*)moc_ humanName:(NSString*)humanName_ {
 	NSError *error = nil;
 	NSArray *result = [self fetchByHumanName:moc_ humanName:humanName_ error:&error];
@@ -65,16 +74,19 @@
 	return result;
 }
 + (NSArray*)fetchByHumanName:(NSManagedObjectContext*)moc_ humanName:(NSString*)humanName_ error:(NSError**)error_ {
+	NSParameterAssert(moc_);
 	NSError *error = nil;
 	
 	NSManagedObjectModel *model = [[moc_ persistentStoreCoordinator] managedObjectModel];
-	NSFetchRequest *fetchRequest = [model fetchRequestFromTemplateWithName:@"byHumanName"
-													 substitutionVariables:[NSDictionary dictionaryWithObjectsAndKeys:
+	
+	NSDictionary *substitutionVariables = [NSDictionary dictionaryWithObjectsAndKeys:
 														
 														humanName_, @"humanName",
 														
-														nil]
-													 ];
+														nil];
+										
+	NSFetchRequest *fetchRequest = [model fetchRequestFromTemplateWithName:@"byHumanName"
+													 substitutionVariables:substitutionVariables];
 	NSAssert(fetchRequest, @"Can't find fetch request named \"byHumanName\".");
 	
 	NSArray *result = [moc_ executeFetchRequest:fetchRequest error:&error];
@@ -97,14 +109,17 @@
 	return result;
 }
 + (id)fetchOneByHumanName:(NSManagedObjectContext*)moc_ humanName:(NSString*)humanName_ error:(NSError**)error_ {
+	NSParameterAssert(moc_);
 	NSError *error = nil;
 	
 	NSManagedObjectModel *model = [[moc_ persistentStoreCoordinator] managedObjectModel];
+	
 	NSDictionary *substitutionVariables = [NSDictionary dictionaryWithObjectsAndKeys:
 														
 														humanName_, @"humanName",
 														
 														nil];
+	
 	NSFetchRequest *fetchRequest = [model fetchRequestFromTemplateWithName:@"oneByHumanName"
 													 substitutionVariables:substitutionVariables];
 	NSAssert(fetchRequest, @"Can't find fetch request named \"oneByHumanName\".");
@@ -147,14 +162,15 @@
 	return result;
 }
 + (NSArray*)fetchAllHumans:(NSManagedObjectContext*)moc_ error:(NSError**)error_ {
+	NSParameterAssert(moc_);
 	NSError *error = nil;
 	
 	NSManagedObjectModel *model = [[moc_ persistentStoreCoordinator] managedObjectModel];
+	
+	NSDictionary *substitutionVariables = [NSDictionary dictionary];
+										
 	NSFetchRequest *fetchRequest = [model fetchRequestFromTemplateWithName:@"allHumans"
-													 substitutionVariables:[NSDictionary dictionaryWithObjectsAndKeys:
-														
-														nil]
-													 ];
+													 substitutionVariables:substitutionVariables];
 	NSAssert(fetchRequest, @"Can't find fetch request named \"allHumans\".");
 	
 	NSArray *result = [moc_ executeFetchRequest:fetchRequest error:&error];

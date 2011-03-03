@@ -19,11 +19,18 @@
 
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	NSParameterAssert(moc_);
-	return [NSEntityDescription entityForName: @"Child" inManagedObjectContext: moc_];
+	return [NSEntityDescription entityForName:@"Child" inManagedObjectContext:moc_];
 }
 
 - (ChildMOID*)objectID {
 	return (ChildMOID*)[super objectID];
+}
+
++ (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)key {
+	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
+	
+
+	return keyPaths;
 }
 
 
@@ -43,6 +50,8 @@
 
 
 
+
+
 + (NSArray*)fetchByParent:(NSManagedObjectContext*)moc_ parent:(ParentMO*)parent_ {
 	NSError *error = nil;
 	NSArray *result = [self fetchByParent:moc_ parent:parent_ error:&error];
@@ -56,16 +65,19 @@
 	return result;
 }
 + (NSArray*)fetchByParent:(NSManagedObjectContext*)moc_ parent:(ParentMO*)parent_ error:(NSError**)error_ {
+	NSParameterAssert(moc_);
 	NSError *error = nil;
 	
 	NSManagedObjectModel *model = [[moc_ persistentStoreCoordinator] managedObjectModel];
-	NSFetchRequest *fetchRequest = [model fetchRequestFromTemplateWithName:@"byParent"
-													 substitutionVariables:[NSDictionary dictionaryWithObjectsAndKeys:
+	
+	NSDictionary *substitutionVariables = [NSDictionary dictionaryWithObjectsAndKeys:
 														
 														parent_, @"parent",
 														
-														nil]
-													 ];
+														nil];
+										
+	NSFetchRequest *fetchRequest = [model fetchRequestFromTemplateWithName:@"byParent"
+													 substitutionVariables:substitutionVariables];
 	NSAssert(fetchRequest, @"Can't find fetch request named \"byParent\".");
 	
 	NSArray *result = [moc_ executeFetchRequest:fetchRequest error:&error];

@@ -6,6 +6,8 @@
 
 @class ParentMO;
 
+
+
 @interface ChildMOID : NSManagedObjectID {}
 @end
 
@@ -34,8 +36,25 @@
 + (NSArray*)fetchByParent:(NSManagedObjectContext*)moc_ parent:(ParentMO*)parent_ error:(NSError**)error_;
 
 
+
 @end
 
 @interface _ChildMO (CoreDataGeneratedAccessors)
+
+@end
+
+@interface _ChildMO (CoreDataGeneratedPrimitiveAccessors)
+
+
+- (NSString*)primitiveChildName;
+- (void)setPrimitiveChildName:(NSString*)value;
+
+
+
+
+
+- (ParentMO*)primitiveParent;
+- (void)setPrimitiveParent:(ParentMO*)value;
+
 
 @end

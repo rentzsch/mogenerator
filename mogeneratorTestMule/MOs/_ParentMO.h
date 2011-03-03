@@ -6,6 +6,21 @@
 
 @class ChildMO;
 
+
+
+@class NSObject;
+
+
+@class NSColor;
+
+
+
+
+
+
+
+
+
 @interface ParentMOID : NSManagedObjectID {}
 @end
 
@@ -135,6 +150,7 @@
 
 
 
+
 @end
 
 @interface _ParentMO (CoreDataGeneratedAccessors)
@@ -143,5 +159,120 @@
 - (void)removeChildren:(NSSet*)value_;
 - (void)addChildrenObject:(ChildMO*)value_;
 - (void)removeChildrenObject:(ChildMO*)value_;
+
+@end
+
+@interface _ParentMO (CoreDataGeneratedPrimitiveAccessors)
+
+
+- (NSNumber*)primitiveMyInt16Transient;
+- (void)setPrimitiveMyInt16Transient:(NSNumber*)value;
+
+- (short)primitiveMyInt16TransientValue;
+- (void)setPrimitiveMyInt16TransientValue:(short)value_;
+
+
+
+
+- (NSString*)primitiveParentName;
+- (void)setPrimitiveParentName:(NSString*)value;
+
+
+
+
+- (NSObject*)primitiveMyTransformableSansClassName;
+- (void)setPrimitiveMyTransformableSansClassName:(NSObject*)value;
+
+
+
+
+- (NSDecimalNumber*)primitiveMyDecimal;
+- (void)setPrimitiveMyDecimal:(NSDecimalNumber*)value;
+
+
+
+
+- (NSDate*)primitiveMyDate;
+- (void)setPrimitiveMyDate:(NSDate*)value;
+
+
+
+
+- (NSColor*)primitiveMyTransformableWithClassName;
+- (void)setPrimitiveMyTransformableWithClassName:(NSColor*)value;
+
+
+
+
+- (NSNumber*)primitiveMyBoolean;
+- (void)setPrimitiveMyBoolean:(NSNumber*)value;
+
+- (BOOL)primitiveMyBooleanValue;
+- (void)setPrimitiveMyBooleanValue:(BOOL)value_;
+
+
+
+
+- (NSNumber*)primitiveMyInt64;
+- (void)setPrimitiveMyInt64:(NSNumber*)value;
+
+- (long long)primitiveMyInt64Value;
+- (void)setPrimitiveMyInt64Value:(long long)value_;
+
+
+
+
+- (NSNumber*)primitiveMyDouble;
+- (void)setPrimitiveMyDouble:(NSNumber*)value;
+
+- (double)primitiveMyDoubleValue;
+- (void)setPrimitiveMyDoubleValue:(double)value_;
+
+
+
+
+- (NSNumber*)primitiveMyInt16;
+- (void)setPrimitiveMyInt16:(NSNumber*)value;
+
+- (short)primitiveMyInt16Value;
+- (void)setPrimitiveMyInt16Value:(short)value_;
+
+
+
+
+- (NSNumber*)primitiveMyFloat;
+- (void)setPrimitiveMyFloat:(NSNumber*)value;
+
+- (float)primitiveMyFloatValue;
+- (void)setPrimitiveMyFloatValue:(float)value_;
+
+
+
+
+- (NSData*)primitiveMyBinaryData;
+- (void)setPrimitiveMyBinaryData:(NSData*)value;
+
+
+
+
+- (NSString*)primitiveMyString;
+- (void)setPrimitiveMyString:(NSString*)value;
+
+
+
+
+- (NSNumber*)primitiveMyInt32;
+- (void)setPrimitiveMyInt32:(NSNumber*)value;
+
+- (int)primitiveMyInt32Value;
+- (void)setPrimitiveMyInt32Value:(int)value_;
+
+
+
+
+
+- (NSMutableSet*)primitiveChildren;
+- (void)setPrimitiveChildren:(NSMutableSet*)value;
+
 
 @end
