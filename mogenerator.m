@@ -376,6 +376,8 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 		
 		NSPipe *pipe = [NSPipe pipe];
 		[task setStandardOutput:pipe];
+		//	Ensures that the current tasks output doesn't get hijacked
+		[task setStandardInput:[NSPipe pipe]];
 		
 		NSFileHandle *file = [pipe fileHandleForReading];
 		
