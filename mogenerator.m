@@ -376,6 +376,8 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 		
 		NSPipe *pipe = [NSPipe pipe];
 		[task setStandardOutput:pipe];
+		//	Ensures that the current tasks output doesn't get hijacked
+		[task setStandardInput:[NSPipe pipe]];
 		
 		NSFileHandle *file = [pipe fileHandleForReading];
 		
@@ -432,6 +434,39 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     assert(model);
 }
 
+- (void)validateOutputPath:(NSString *)path forType:(NSString *)type
+{
+	//	Ignore nil ones
+	if (path == nil) {
+		return;
+	}
+	
+	NSString		*errorString = nil;
+	NSError			*error = nil;
+	NSFileManager	*fm = [NSFileManager defaultManager];
+	BOOL			isDir = NO;
+	
+	//	Test to see if the path exists
+	if ([fm fileExistsAtPath:path isDirectory:&isDir]) {
+		if (!isDir) {
+			errorString = [NSString stringWithFormat:@"%@ Directory path (%@) exists as a file.", type, path];
+		}
+	}
+	//	Try to create path
+	else {
+		if (![fm createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:&error]) {
+			errorString = [NSString stringWithFormat:@"Couldn't create %@ Directory (%@):%@", type, path, [error localizedDescription]];
+		}
+	}
+	
+	if (errorString != nil) {
+
+		//	Print error message and exit with IO error
+        ddprintf(errorString);
+		exit(EX_IOERR);
+	}
+}
+
 - (int) application: (DDCliApplication *) app
    runWithArguments: (NSArray *) arguments;
 {
@@ -444,10 +479,15 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
         printf("mogenerator 1.22. By Jonathan 'Wolf' Rentzsch + friends.\n");
         return EXIT_SUCCESS;
     }
-    
+	
     gCustomBaseClass = [baseClass retain];
     NSString * mfilePath = includem;
 	NSMutableString * mfileContent = [NSMutableString stringWithString:@""];
+	
+	[self validateOutputPath:outputDir forType:@"Output"];
+	[self validateOutputPath:machineDir forType:@"Machine Output"];
+	[self validateOutputPath:humanDir forType:@"Human Output"];
+
     if (outputDir == nil)
         outputDir = @"";
     if (machineDir == nil)
