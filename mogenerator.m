@@ -641,7 +641,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 				}
 			}
 			
-			[mfileContent appendFormat:@"#include \"%@\"\n#include \"%@\"\n",
+			[mfileContent appendFormat:@"#import \"%@\"\n#import \"%@\"\n",
                 [humanMFileName lastPathComponent], [machineMFileName lastPathComponent]];
 		}
 		
