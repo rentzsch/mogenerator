@@ -525,7 +525,7 @@ static NSNumber *FALSE_VALUE;
     NSEnumerator *enumerator = [expressions objectEnumerator];
     MiscMergeExpression *expression;
     
-    while ( expression = (MiscMergeExpression *)[enumerator nextObject] ) {
+    while (( expression = (MiscMergeExpression *)[enumerator nextObject] )) {
         [array addObject:[expression evaluateWithEngine:anEngine]];
     }
 
