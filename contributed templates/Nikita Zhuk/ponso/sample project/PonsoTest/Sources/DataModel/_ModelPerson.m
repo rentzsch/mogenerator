@@ -51,11 +51,11 @@
 {
 	if((self = [super initWithDictionaryRepresentation:dictionary]))
 	{
+		self.birthDate = [dictionary objectForKey:@"ModelPerson.birthDate"];
 		self.firstName = [dictionary objectForKey:@"ModelPerson.firstName"];
 		self.id = [dictionary objectForKey:@"ModelPerson.id"];
-		self.lastName = [dictionary objectForKey:@"ModelPerson.lastName"];
 		self.isOnVacation = [dictionary objectForKey:@"ModelPerson.isOnVacation"];
-		self.birthDate = [dictionary objectForKey:@"ModelPerson.birthDate"];
+		self.lastName = [dictionary objectForKey:@"ModelPerson.lastName"];
 		
 		
 	}
@@ -66,11 +66,11 @@
 - (NSDictionary *)dictionaryRepresentation
 {
 	NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[super dictionaryRepresentation]];
+	[dict setObjectIfNotNil:self.birthDate forKey:@"ModelPerson.birthDate"];
 	[dict setObjectIfNotNil:self.firstName forKey:@"ModelPerson.firstName"];
 	[dict setObjectIfNotNil:self.id forKey:@"ModelPerson.id"];
-	[dict setObjectIfNotNil:self.lastName forKey:@"ModelPerson.lastName"];
 	[dict setObjectIfNotNil:self.isOnVacation forKey:@"ModelPerson.isOnVacation"];
-	[dict setObjectIfNotNil:self.birthDate forKey:@"ModelPerson.birthDate"];
+	[dict setObjectIfNotNil:self.lastName forKey:@"ModelPerson.lastName"];
 	
 	
 	
@@ -103,11 +103,11 @@
 
 - (void)dealloc
 {
+	self.birthDate = nil;
 	self.firstName = nil;
 	self.id = nil;
-	self.lastName = nil;
 	self.isOnVacation = nil;
-	self.birthDate = nil;
+	self.lastName = nil;
 	
 	self.company = nil;
 	self.department = nil;
@@ -117,11 +117,11 @@
 
 #pragma mark Synthesizes
 
+@synthesize birthDate;
 @synthesize firstName;
 @synthesize id;
-@synthesize lastName;
 @synthesize isOnVacation;
-@synthesize birthDate;
+@synthesize lastName;
 
 @synthesize company;
 @synthesize department;

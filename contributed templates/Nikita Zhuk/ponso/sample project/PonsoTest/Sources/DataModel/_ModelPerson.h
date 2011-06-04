@@ -22,11 +22,11 @@
 
 @interface _ModelPerson : ModelObject
 {
+	NSDate *birthDate;
 	NSString *firstName;
 	NSString *id;
-	NSString *lastName;
 	NSNumber *isOnVacation;
-	NSDate *birthDate;
+	NSString *lastName;
 	
 	
 	ModelCompany *company;
@@ -35,12 +35,12 @@
 	
 }
 
+@property (nonatomic, retain, readwrite) NSDate *birthDate;
 @property (nonatomic, retain, readwrite) NSString *firstName;
 @property (nonatomic, retain, readwrite) NSString *id;
-@property (nonatomic, retain, readwrite) NSString *lastName;
 @property (nonatomic, retain, readwrite) NSNumber *isOnVacation;
 @property (nonatomic, assign, readwrite) BOOL isOnVacationValue;
-@property (nonatomic, retain, readwrite) NSDate *birthDate;
+@property (nonatomic, retain, readwrite) NSString *lastName;
 
 @property (nonatomic, assign, readwrite) ModelCompany *company;
 

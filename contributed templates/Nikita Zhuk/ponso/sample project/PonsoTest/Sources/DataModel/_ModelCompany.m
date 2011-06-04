@@ -9,13 +9,13 @@
 
 #import "_ModelCompany.h"
 
-#import "ModelPerson.h"
 #import "ModelDepartment.h"
+#import "ModelPerson.h"
 
 
 @interface _ModelCompany()
-@property (nonatomic, retain, readwrite) NSArray *people;
 @property (nonatomic, retain, readwrite) NSArray *departments;
+@property (nonatomic, retain, readwrite) NSArray *people;
 
 @end
 
@@ -57,15 +57,15 @@
 		self.yearFounded = [dictionary objectForKey:@"ModelCompany.yearFounded"];
 		
 		
-		for(id objectRepresentationForDict in [dictionary objectForKey:@"ModelCompany.people"])
-		{
-			ModelPerson *peopleObj = [[[ModelPerson alloc] initWithDictionaryRepresentation:objectRepresentationForDict] autorelease];
-			[self addPeopleObject:peopleObj];
-		}
 		for(id objectRepresentationForDict in [dictionary objectForKey:@"ModelCompany.departments"])
 		{
 			ModelDepartment *departmentsObj = [[[ModelDepartment alloc] initWithDictionaryRepresentation:objectRepresentationForDict] autorelease];
 			[self addDepartmentsObject:departmentsObj];
+		}
+		for(id objectRepresentationForDict in [dictionary objectForKey:@"ModelCompany.people"])
+		{
+			ModelPerson *peopleObj = [[[ModelPerson alloc] initWithDictionaryRepresentation:objectRepresentationForDict] autorelease];
+			[self addPeopleObject:peopleObj];
 		}
 	}
 	
@@ -78,18 +78,6 @@
 	[dict setObjectIfNotNil:self.name forKey:@"ModelCompany.name"];
 	[dict setObjectIfNotNil:self.yearFounded forKey:@"ModelCompany.yearFounded"];
 	
-	if([self.people count] > 0)
-	{
-		
-		NSMutableArray *peopleRepresentationsForDictionary = [NSMutableArray arrayWithCapacity:[self.people count]];
-		for(ModelPerson *obj in self.people)
-		{
-			[peopleRepresentationsForDictionary addObject:[obj dictionaryRepresentation]];
-		}
-		[dict setObjectIfNotNil:peopleRepresentationsForDictionary forKey:@"ModelCompany.people"];
-		
-	}
-	
 	if([self.departments count] > 0)
 	{
 		
@@ -99,6 +87,18 @@
 			[departmentsRepresentationsForDictionary addObject:[obj dictionaryRepresentation]];
 		}
 		[dict setObjectIfNotNil:departmentsRepresentationsForDictionary forKey:@"ModelCompany.departments"];
+		
+	}
+	
+	if([self.people count] > 0)
+	{
+		
+		NSMutableArray *peopleRepresentationsForDictionary = [NSMutableArray arrayWithCapacity:[self.people count]];
+		for(ModelPerson *obj in self.people)
+		{
+			[peopleRepresentationsForDictionary addObject:[obj dictionaryRepresentation]];
+		}
+		[dict setObjectIfNotNil:peopleRepresentationsForDictionary forKey:@"ModelCompany.people"];
 		
 	}
 	
@@ -132,29 +132,6 @@
 #pragma mark Direct access
 
 
-- (void)addPeopleObject:(ModelPerson*)value_
-{
-	if(self.people == nil)
-	{
-		self.people = [NSMutableArray array];
-	}
-		
-	[(NSMutableArray *)self.people addObject:value_];
-	value_.company = (ModelCompany*)self;
-}
-
-- (void)removePeopleObjects
-{
-	self.people = [NSMutableArray array];
-}
-
-- (void)removePeopleObject:(ModelPerson*)value_
-{
-	value_.company = nil;
-	[(NSMutableArray *)self.people removeObject:value_];
-}
-
-
 - (void)addDepartmentsObject:(ModelDepartment*)value_
 {
 	if(self.departments == nil)
@@ -178,14 +155,37 @@
 }
 
 
+- (void)addPeopleObject:(ModelPerson*)value_
+{
+	if(self.people == nil)
+	{
+		self.people = [NSMutableArray array];
+	}
+		
+	[(NSMutableArray *)self.people addObject:value_];
+	value_.company = (ModelCompany*)self;
+}
+
+- (void)removePeopleObjects
+{
+	self.people = [NSMutableArray array];
+}
+
+- (void)removePeopleObject:(ModelPerson*)value_
+{
+	value_.company = nil;
+	[(NSMutableArray *)self.people removeObject:value_];
+}
+
+
 
 - (void)dealloc
 {
 	self.name = nil;
 	self.yearFounded = nil;
 	
-	self.people = nil;
 	self.departments = nil;
+	self.people = nil;
 	
 	[super dealloc];
 }
@@ -195,7 +195,7 @@
 @synthesize name;
 @synthesize yearFounded;
 
-@synthesize people;
 @synthesize departments;
+@synthesize people;
 
 @end
