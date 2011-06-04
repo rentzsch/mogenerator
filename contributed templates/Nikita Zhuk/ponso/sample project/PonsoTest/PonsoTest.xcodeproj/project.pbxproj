@@ -1,0 +1,305 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		457C268D1399FAC600BF00DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 457C268C1399FAC600BF00DD /* Foundation.framework */; };
+		457C26901399FAC600BF00DD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C268F1399FAC600BF00DD /* main.m */; };
+		457C26BC139A18A000BF00DD /* _ModelCompany.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C26B1139A18A000BF00DD /* _ModelCompany.m */; };
+		457C26BD139A18A000BF00DD /* _ModelDepartment.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C26B3139A18A000BF00DD /* _ModelDepartment.m */; };
+		457C26BE139A18A000BF00DD /* _ModelPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C26B5139A18A000BF00DD /* _ModelPerson.m */; };
+		457C26BF139A18A000BF00DD /* ModelCompany.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C26B7139A18A000BF00DD /* ModelCompany.m */; };
+		457C26C0139A18A000BF00DD /* ModelDepartment.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C26B9139A18A000BF00DD /* ModelDepartment.m */; };
+		457C26C1139A18A000BF00DD /* ModelPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C26BB139A18A000BF00DD /* ModelPerson.m */; };
+		457C26C5139A18CE00BF00DD /* ModelObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C26C4139A18CE00BF00DD /* ModelObject.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		457C26861399FAC600BF00DD /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		457C26881399FAC600BF00DD /* PonsoTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PonsoTest; sourceTree = BUILT_PRODUCTS_DIR; };
+		457C268C1399FAC600BF00DD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		457C268F1399FAC600BF00DD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		457C26921399FAC600BF00DD /* PonsoTest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PonsoTest-Prefix.pch"; sourceTree = "<group>"; };
+		457C269A1399FB1E00BF00DD /* MyModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyModel.xcdatamodel; sourceTree = "<group>"; };
+		457C26B0139A18A000BF00DD /* _ModelCompany.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _ModelCompany.h; path = "../../../sample project/PonsoTest/Sources/DataModel/_ModelCompany.h"; sourceTree = "<group>"; };
+		457C26B1139A18A000BF00DD /* _ModelCompany.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _ModelCompany.m; path = "../../../sample project/PonsoTest/Sources/DataModel/_ModelCompany.m"; sourceTree = "<group>"; };
+		457C26B2139A18A000BF00DD /* _ModelDepartment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _ModelDepartment.h; path = "../../../sample project/PonsoTest/Sources/DataModel/_ModelDepartment.h"; sourceTree = "<group>"; };
+		457C26B3139A18A000BF00DD /* _ModelDepartment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _ModelDepartment.m; path = "../../../sample project/PonsoTest/Sources/DataModel/_ModelDepartment.m"; sourceTree = "<group>"; };
+		457C26B4139A18A000BF00DD /* _ModelPerson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _ModelPerson.h; path = "../../../sample project/PonsoTest/Sources/DataModel/_ModelPerson.h"; sourceTree = "<group>"; };
+		457C26B5139A18A000BF00DD /* _ModelPerson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _ModelPerson.m; path = "../../../sample project/PonsoTest/Sources/DataModel/_ModelPerson.m"; sourceTree = "<group>"; };
+		457C26B6139A18A000BF00DD /* ModelCompany.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModelCompany.h; path = "../../../sample project/PonsoTest/Sources/DataModel/ModelCompany.h"; sourceTree = "<group>"; };
+		457C26B7139A18A000BF00DD /* ModelCompany.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModelCompany.m; path = "../../../sample project/PonsoTest/Sources/DataModel/ModelCompany.m"; sourceTree = "<group>"; };
+		457C26B8139A18A000BF00DD /* ModelDepartment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModelDepartment.h; path = "../../../sample project/PonsoTest/Sources/DataModel/ModelDepartment.h"; sourceTree = "<group>"; };
+		457C26B9139A18A000BF00DD /* ModelDepartment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModelDepartment.m; path = "../../../sample project/PonsoTest/Sources/DataModel/ModelDepartment.m"; sourceTree = "<group>"; };
+		457C26BA139A18A000BF00DD /* ModelPerson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModelPerson.h; path = "../../../sample project/PonsoTest/Sources/DataModel/ModelPerson.h"; sourceTree = "<group>"; };
+		457C26BB139A18A000BF00DD /* ModelPerson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModelPerson.m; path = "../../../sample project/PonsoTest/Sources/DataModel/ModelPerson.m"; sourceTree = "<group>"; };
+		457C26C3139A18CE00BF00DD /* ModelObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModelObject.h; path = ../../../code/ModelObject.h; sourceTree = "<group>"; };
+		457C26C4139A18CE00BF00DD /* ModelObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModelObject.m; path = ../../../code/ModelObject.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		457C26851399FAC600BF00DD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				457C268D1399FAC600BF00DD /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		457C267D1399FAC600BF00DD = {
+			isa = PBXGroup;
+			children = (
+				457C26991399FB1E00BF00DD /* MyModel.xcdatamodeld */,
+				457C268E1399FAC600BF00DD /* PonsoTest */,
+				457C268B1399FAC600BF00DD /* Frameworks */,
+				457C26891399FAC600BF00DD /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		457C26891399FAC600BF00DD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				457C26881399FAC600BF00DD /* PonsoTest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		457C268B1399FAC600BF00DD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				457C268C1399FAC600BF00DD /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		457C268E1399FAC600BF00DD /* PonsoTest */ = {
+			isa = PBXGroup;
+			children = (
+				457C268F1399FAC600BF00DD /* main.m */,
+				457C26C3139A18CE00BF00DD /* ModelObject.h */,
+				457C26C4139A18CE00BF00DD /* ModelObject.m */,
+				457C26AF139A188D00BF00DD /* Data Model */,
+				457C26911399FAC600BF00DD /* Supporting Files */,
+			);
+			path = PonsoTest;
+			sourceTree = "<group>";
+		};
+		457C26911399FAC600BF00DD /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				457C26921399FAC600BF00DD /* PonsoTest-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		457C26AF139A188D00BF00DD /* Data Model */ = {
+			isa = PBXGroup;
+			children = (
+				457C26B0139A18A000BF00DD /* _ModelCompany.h */,
+				457C26B1139A18A000BF00DD /* _ModelCompany.m */,
+				457C26B2139A18A000BF00DD /* _ModelDepartment.h */,
+				457C26B3139A18A000BF00DD /* _ModelDepartment.m */,
+				457C26B4139A18A000BF00DD /* _ModelPerson.h */,
+				457C26B5139A18A000BF00DD /* _ModelPerson.m */,
+				457C26B6139A18A000BF00DD /* ModelCompany.h */,
+				457C26B7139A18A000BF00DD /* ModelCompany.m */,
+				457C26B8139A18A000BF00DD /* ModelDepartment.h */,
+				457C26B9139A18A000BF00DD /* ModelDepartment.m */,
+				457C26BA139A18A000BF00DD /* ModelPerson.h */,
+				457C26BB139A18A000BF00DD /* ModelPerson.m */,
+			);
+			name = "Data Model";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		457C26871399FAC600BF00DD /* PonsoTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 457C26961399FAC600BF00DD /* Build configuration list for PBXNativeTarget "PonsoTest" */;
+			buildPhases = (
+				457C269C1399FC7000BF00DD /* ShellScript */,
+				457C26841399FAC600BF00DD /* Sources */,
+				457C26851399FAC600BF00DD /* Frameworks */,
+				457C26861399FAC600BF00DD /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PonsoTest;
+			productName = PonsoTest;
+			productReference = 457C26881399FAC600BF00DD /* PonsoTest */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		457C267F1399FAC600BF00DD /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = "@nzhuk";
+			};
+			buildConfigurationList = 457C26821399FAC600BF00DD /* Build configuration list for PBXProject "PonsoTest" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 457C267D1399FAC600BF00DD;
+			productRefGroup = 457C26891399FAC600BF00DD /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				457C26871399FAC600BF00DD /* PonsoTest */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		457C269C1399FC7000BF00DD /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "### Settings\n\nDATA_MODEL_FILE=\"$PROJECT_DIR/MyModel.xcdatamodeld/MyModel.xcdatamodel\"\nDATA_MODEL_SOURCE_DIR=\"$PROJECT_DIR/Sources/DataModel\"\n\nBASE_CLASS=\"ModelObject\"\n\nMOGENERATOR_DIR=\"$PROJECT_DIR/../../../../../\"\nMOGENERATOR_BIN=\"$MOGENERATOR_DIR/mogenerator\"\nMOGENERATOR_TEMPLATES=\"$MOGENERATOR_DIR/contributed templates/Nikita Zhuk/ponso/templates\"\n\n### Logic\n\nsource \"$MOGENERATOR_DIR/contributed templates/Nikita Zhuk/ponso/generate.sh\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		457C26841399FAC600BF00DD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				457C26901399FAC600BF00DD /* main.m in Sources */,
+				457C26BC139A18A000BF00DD /* _ModelCompany.m in Sources */,
+				457C26BD139A18A000BF00DD /* _ModelDepartment.m in Sources */,
+				457C26BE139A18A000BF00DD /* _ModelPerson.m in Sources */,
+				457C26BF139A18A000BF00DD /* ModelCompany.m in Sources */,
+				457C26C0139A18A000BF00DD /* ModelDepartment.m in Sources */,
+				457C26C1139A18A000BF00DD /* ModelPerson.m in Sources */,
+				457C26C5139A18CE00BF00DD /* ModelObject.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		457C26941399FAC600BF00DD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		457C26951399FAC600BF00DD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		457C26971399FAC600BF00DD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PonsoTest/PonsoTest-Prefix.pch";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		457C26981399FAC600BF00DD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PonsoTest/PonsoTest-Prefix.pch";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		457C26821399FAC600BF00DD /* Build configuration list for PBXProject "PonsoTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				457C26941399FAC600BF00DD /* Debug */,
+				457C26951399FAC600BF00DD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		457C26961399FAC600BF00DD /* Build configuration list for PBXNativeTarget "PonsoTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				457C26971399FAC600BF00DD /* Debug */,
+				457C26981399FAC600BF00DD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		457C26991399FB1E00BF00DD /* MyModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				457C269A1399FB1E00BF00DD /* MyModel.xcdatamodel */,
+			);
+			currentVersion = 457C269A1399FB1E00BF00DD /* MyModel.xcdatamodel */;
+			path = MyModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 457C267F1399FAC600BF00DD /* Project object */;
+}
