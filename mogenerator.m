@@ -426,7 +426,19 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
         assert(momc && "momc not found");
         
         tempMOMPath = [[NSTemporaryDirectory() stringByAppendingPathComponent:[[NSProcessInfo processInfo] globallyUniqueString]] stringByAppendingPathExtension:@"mom"];
-        system([[NSString stringWithFormat:@"\"%@\" \"%@\" \"%@\"", momc, path, tempMOMPath] UTF8String]); // Ignored system's result -- momc doesn't return any relevent error codes.
+		
+		NSArray *supportedMomcOptions = [NSArray arrayWithObjects:@"MOMC_NO_WARNINGS", @"MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS", @"MOMC_SUPPRESS_INVERSE_TRANSIENT_ERROR", nil];
+		NSMutableString *momcOptions = [NSMutableString string];
+		
+		for (NSString *momcOption in supportedMomcOptions)
+		{
+			if([[[NSProcessInfo processInfo] environment] objectForKey:momcOption] != nil)
+			{
+				[momcOptions appendFormat:@" -%@ ", momcOption];
+			}
+		}
+		
+	    system([[NSString stringWithFormat:@"\"%@\" %@ \"%@\" \"%@\"", momc, momcOptions, path, tempMOMPath] UTF8String]); // Ignored system's result -- momc doesn't return any relevent error codes.
         path = tempMOMPath;
     }
     model = [[[NSManagedObjectModel alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path]] autorelease];
