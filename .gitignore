@@ -18,3 +18,5 @@ dist
 *.xcodeproj/*.pbxuser
 **/*.xcodeproj/*
 !**/*.xcodeproj/project.pbxproj
+/mogenerator.xcodeproj/project.xcworkspace/
+/mogenerator.xcodeproj/xcuserdata/
