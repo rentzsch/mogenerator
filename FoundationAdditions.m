@@ -38,7 +38,7 @@
 void ErrVPrintf(NSString *format, va_list arguments)
 {
     NSString *logString = [[NSString alloc] initWithFormat:format arguments:arguments];
-    fwrite([logString cString], 1, [logString cStringLength], stderr);
+    fwrite([logString cStringUsingEncoding:NSUTF8StringEncoding], 1, [logString lengthOfBytesUsingEncoding:NSUTF8StringEncoding], stderr);
     if (![logString hasSuffix:@"\n"]) fputc('\n', stdout);
     [logString release];
 }
@@ -55,7 +55,7 @@ void ErrPrintf(NSString *format, ...)
 void VPrintf(NSString *format, va_list arguments)
 {
     NSString *logString = [[NSString alloc] initWithFormat:format arguments:arguments];
-    fwrite([logString cString], 1, [logString cStringLength], stdout);
+    fwrite([logString cStringUsingEncoding:NSUTF8StringEncoding], 1, [logString lengthOfBytesUsingEncoding:NSUTF8StringEncoding], stdout);
     if (![logString hasSuffix:@"\n"]) fputc('\n', stdout);
     [logString release];
 }
