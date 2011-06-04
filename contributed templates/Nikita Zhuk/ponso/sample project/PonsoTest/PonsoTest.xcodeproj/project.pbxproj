@@ -217,7 +217,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "### Settings\n\nDATA_MODEL_FILE=\"$PROJECT_DIR/MyModel.xcdatamodeld/MyModel.xcdatamodel\"\nDATA_MODEL_SOURCE_DIR=\"$PROJECT_DIR/Sources/DataModel\"\n\nBASE_CLASS=\"ModelObject\"\n\nMOGENERATOR_DIR=\"$PROJECT_DIR/../../../../../\"\nMOGENERATOR_BIN=\"$MOGENERATOR_DIR/mogenerator\"\nMOGENERATOR_TEMPLATES=\"$MOGENERATOR_DIR/contributed templates/Nikita Zhuk/ponso/templates\"\n\n### Logic\n\nsource \"$MOGENERATOR_DIR/ponso/generate.sh\"\n";
+			shellScript = "### Settings\n\nDATA_MODEL_FILE=\"$PROJECT_DIR/MyModel.xcdatamodeld/MyModel.xcdatamodel\"\nDATA_MODEL_SOURCE_DIR=\"$PROJECT_DIR/Sources/DataModel\"\n\nBASE_CLASS=\"ModelObject\"\n\nMOGENERATOR_DIR=\"$PROJECT_DIR/../../../../../\"\nMOGENERATOR_BIN=\"$MOGENERATOR_DIR/mogenerator\" ## Adjust this so that it points to a compiled mogenerator binary.\nMOGENERATOR_TEMPLATES=\"$MOGENERATOR_DIR/contributed templates/Nikita Zhuk/ponso/templates\"\n\n### Logic\n\nsource \"$MOGENERATOR_DIR/ponso/generate.sh\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
