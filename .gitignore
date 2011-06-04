@@ -20,3 +20,4 @@ dist
 !**/*.xcodeproj/project.pbxproj
 /mogenerator.xcodeproj/project.xcworkspace/
 /mogenerator.xcodeproj/xcuserdata/
+/contributed templates/Nikita Zhuk/ponso/sample project/PonsoTest/PonsoTest.xcodeproj/project.xcworkspace/xcuserdata/
