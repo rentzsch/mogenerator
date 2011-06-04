@@ -123,11 +123,11 @@
     return [self letterAtIndex:0];
 }
 
-- (unsigned)letterCount
+- (NSUInteger)letterCount
 {
-    unsigned count = 0;
-    unsigned selfLength = [self length];
-    unsigned currIndex = 0;
+    NSUInteger count = 0;
+    NSUInteger selfLength = [self length];
+    NSUInteger currIndex = 0;
     NSRange letterRange;
 
     while (currIndex < selfLength)
@@ -227,7 +227,7 @@
 }
 
 static NSRange _nextSearchRange(NSString *string, unsigned mask,
-                                NSRange *foundRange, unsigned lastIndex, unsigned firstIndex)
+                                NSRange *foundRange, NSUInteger lastIndex, NSUInteger firstIndex)
 {
     /*
      * The char range stuff is if we want to use
@@ -241,7 +241,7 @@ static NSRange _nextSearchRange(NSString *string, unsigned mask,
 
     if (mask & NSBackwardsSearch)
     {
-        unsigned endLocation;
+        NSUInteger endLocation;
 
         if (mask & MiscOverlappingSearch)
         {
@@ -282,7 +282,7 @@ static NSRange _nextSearchRange(NSString *string, unsigned mask,
     NSRange foundRange;
     NSRange betweenRange;
     unsigned searchOptions = (mask & (NSCaseInsensitiveSearch|NSLiteralSearch));
-    unsigned selfLength = [self length];
+    NSUInteger selfLength = [self length];
     NSMutableString *newString = [NSMutableString stringWithCapacity:selfLength];
 
     mask &= ~NSBackwardsSearch;
@@ -347,7 +347,7 @@ static NSRange _nextSearchRange(NSString *string, unsigned mask,
 
         if ([scanner scanCharactersFromSet:aSet intoString:&betweenString])
         {
-            int i, count = [betweenString length];
+            NSInteger i, count = [betweenString length];
             //			int i, count = [betweenString letterCount];
 
             for (i=0;i<count;i++)
@@ -376,7 +376,7 @@ static NSRange _nextSearchRange(NSString *string, unsigned mask,
         if ([scanner scanCharactersFromSet:aSet intoString:&betweenString])
         {
             // int i, count = [betweenString length];
-            int i, count = [betweenString letterCount];
+            NSInteger i, count = [betweenString letterCount];
 
             for (i=0;i<count;i++)
                 [stringArray addObject:replaceString];
@@ -403,7 +403,7 @@ static NSRange _nextSearchRange(NSString *string, unsigned mask,
 
 - (unsigned)numOfString:(NSString *)aString options:(unsigned)mask range:(NSRange)range
 {
-    unsigned lastIndex = NSMaxRange(range);
+    NSUInteger lastIndex = NSMaxRange(range);
     unsigned stringCount = 0;
     unsigned searchOptions = (mask & (NSCaseInsensitiveSearch|NSLiteralSearch));
     NSRange searchRange;
@@ -441,7 +441,7 @@ static NSRange _nextSearchRange(NSString *string, unsigned mask,
 - (NSRange)rangeOfString:(NSString *)aString options:(unsigned)mask
                                        occurrenceNum:(int)n range:(NSRange)range
 {
-    unsigned lastIndex = NSMaxRange(range);
+    NSUInteger lastIndex = NSMaxRange(range);
     unsigned count = 0;
     unsigned searchOptions = (mask & (~NSAnchoredSearch));
     NSRange searchRange;
@@ -467,7 +467,7 @@ static NSRange _nextSearchRange(NSString *string, unsigned mask,
 
 - (unsigned)numOfCharactersFromSet:(NSCharacterSet *)aSet range:(NSRange)range
 {
-    unsigned lastIndex = NSMaxRange(range);
+    NSUInteger lastIndex = NSMaxRange(range);
     NSRange searchRange = {range.location, lastIndex};
     NSRange foundRange;
     unsigned characterCount = 0;
@@ -487,7 +487,7 @@ static NSRange _nextSearchRange(NSString *string, unsigned mask,
 
 - (NSArray *)componentsSeparatedByCharactersFromSet:(NSCharacterSet *)aSet
 {
-    unsigned selfLength = [self length];
+    NSUInteger selfLength = [self length];
     NSRange searchRange = {0, selfLength};
     NSRange betweenRange = {0, 0};
     NSRange foundRange;

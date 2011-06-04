@@ -61,7 +61,7 @@ typedef enum _ArgTypes {
     [self eatKeyWord:@"procedure" fromScanner:aScanner isOptional:NO];
     procedureName = [[self getArgumentStringFromScanner:aScanner toEnd:NO] retain];
 
-    while (argName = [self getArgumentStringFromScanner:aScanner toEnd:NO]) {
+    while ((argName = [self getArgumentStringFromScanner:aScanner toEnd:NO])) {
         if ( [argName hasSuffix:@"?"] ) {
             optArgProcessing = YES;
             argName = [argName substringToIndex:([argName length] - 1)];
@@ -104,9 +104,9 @@ typedef enum _ArgTypes {
 /* The *real* execute; messaged from the call command */
 - (MiscMergeCommandExitType)executeForMerge:(MiscMergeEngine *)aMerger arguments:(NSArray *)passedArgArray
 {
-    int argumentIndex = 0, argumentCount = [argumentArray count];
-    int passedIndex = 0, passedCount = [passedArgArray count];
-    int addToArgIndex = 0;
+    NSInteger argumentIndex = 0, argumentCount = [argumentArray count];
+    NSInteger passedIndex = 0, passedCount = [passedArgArray count];
+    NSInteger addToArgIndex = 0;
     NSMutableDictionary *procedureContext = [NSMutableDictionary dictionary];
 
     for ( ; passedIndex < passedCount; passedIndex++ ) {

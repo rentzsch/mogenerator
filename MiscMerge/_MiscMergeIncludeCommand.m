@@ -53,7 +53,7 @@
     resolvedFilename = [template resolveTemplateFilename:filename];
 
     if ([resolvedFilename length] > 0)
-        fileString = [[NSString alloc] initWithContentsOfFile:resolvedFilename];
+        fileString = [[[NSString alloc] initWithContentsOfFile:resolvedFilename] autorelease];
 
     if (fileString)
     {

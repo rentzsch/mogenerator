@@ -38,7 +38,7 @@
 
 - (MiscMergeCommandExitType)executeForMerge:(MiscMergeEngine *)aMerger
 {
-    fwrite([theText cString], 1, [theText cStringLength], stderr);
+    fwrite([theText cStringUsingEncoding:NSUTF8StringEncoding], 1, [theText lengthOfBytesUsingEncoding:NSUTF8StringEncoding], stderr);
     if (![theText hasSuffix:@"\n"])
         fputc('\n', stderr);
 

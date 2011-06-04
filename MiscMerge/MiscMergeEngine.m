@@ -427,7 +427,7 @@ static NSMutableDictionary *globalSymbols = nil;
         [contextStack removeObjectIdenticalTo:anObject];
 
         if ( anObject == localSymbols ) {
-            int i;
+            NSInteger i;
 
             localSymbols = nil;
 
@@ -466,7 +466,7 @@ static NSMutableDictionary *globalSymbols = nil;
 "*/
 - (void)setMainObject:(id)anObject
 {
-    unsigned oldIndex = NSNotFound;
+    NSUInteger oldIndex = NSNotFound;
 
     if (currentObject != nil)
     {
@@ -569,7 +569,7 @@ static NSMutableDictionary *globalSymbols = nil;
 {
     NSAutoreleasePool *localPool = [[NSAutoreleasePool alloc] init];
     NSArray *commandArray = [block commandArray];
-    int i, count = [commandArray count];
+    NSInteger i, count = [commandArray count];
     MiscMergeCommandExitType exitCode = MiscMergeCommandExitNormal;
     /*
      * Maintain the execution stack.  This stack isn't being used at the
@@ -603,7 +603,7 @@ static NSMutableDictionary *globalSymbols = nil;
 "*/
 - (id)valueForField:(NSString *)fieldName quoted:(int)quoted
 {
-    int  i;
+    NSInteger  i;
     id   value = nil;
     id   prevValue = nil;
     id   returnValue = nil;

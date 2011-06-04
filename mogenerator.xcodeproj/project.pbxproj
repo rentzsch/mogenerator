@@ -3,10 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		457C26CD139A1EF900BF00DD /* MKCDAGNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C26C8139A1EF900BF00DD /* MKCDAGNode.m */; };
+		457C26CE139A1EF900BF00DD /* MKCNSEntityDescriptionAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C26CA139A1EF900BF00DD /* MKCNSEntityDescriptionAdditions.m */; };
+		457C26CF139A1EF900BF00DD /* MKCNSManagedObjectModelAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C26CC139A1EF900BF00DD /* MKCNSManagedObjectModelAdditions.m */; };
 		55200E960C49FEEA00018A42 /* DDCliApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 55200E900C49FEEA00018A42 /* DDCliApplication.m */; };
 		55200E970C49FEEA00018A42 /* DDCliUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 55200E920C49FEEA00018A42 /* DDCliUtil.m */; };
 		55200E980C49FEEA00018A42 /* DDGetoptLongParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 55200E950C49FEEA00018A42 /* DDGetoptLongParser.m */; };
@@ -62,6 +65,12 @@
 		08FB7796FE84155DC02AAC07 /* mogenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mogenerator.m; sourceTree = "<group>"; usesTabs = 1; };
 		08FB779EFE84155DC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32A70AAB03705E1F00C91783 /* mogenerator_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mogenerator_Prefix.pch; sourceTree = "<group>"; };
+		457C26C7139A1EF900BF00DD /* MKCDAGNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKCDAGNode.h; sourceTree = "<group>"; };
+		457C26C8139A1EF900BF00DD /* MKCDAGNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKCDAGNode.m; sourceTree = "<group>"; };
+		457C26C9139A1EF900BF00DD /* MKCNSEntityDescriptionAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKCNSEntityDescriptionAdditions.h; sourceTree = "<group>"; };
+		457C26CA139A1EF900BF00DD /* MKCNSEntityDescriptionAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKCNSEntityDescriptionAdditions.m; sourceTree = "<group>"; };
+		457C26CB139A1EF900BF00DD /* MKCNSManagedObjectModelAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKCNSManagedObjectModelAdditions.h; sourceTree = "<group>"; };
+		457C26CC139A1EF900BF00DD /* MKCNSManagedObjectModelAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKCNSManagedObjectModelAdditions.m; sourceTree = "<group>"; };
 		55200E8F0C49FEEA00018A42 /* DDCliApplication.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DDCliApplication.h; sourceTree = "<group>"; };
 		55200E900C49FEEA00018A42 /* DDCliApplication.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DDCliApplication.m; sourceTree = "<group>"; };
 		55200E910C49FEEA00018A42 /* DDCliUtil.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DDCliUtil.h; sourceTree = "<group>"; };
@@ -148,7 +157,7 @@
 		79D2BF970ACFB51A00F3F141 /* MiscMergeFunctions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MiscMergeFunctions.m; path = ../MiscMerge/MiscMergeFunctions.m; sourceTree = "<group>"; };
 		79D2BF980ACFB51A00F3F141 /* MiscMergeSpike_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MiscMergeSpike_Prefix.pch; path = ../MiscMerge/MiscMergeSpike_Prefix.pch; sourceTree = "<group>"; };
 		79D2BF990ACFB51A00F3F141 /* MiscMergeTemplate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MiscMergeTemplate.h; path = ../MiscMerge/MiscMergeTemplate.h; sourceTree = "<group>"; };
-		79D2BF9A0ACFB51A00F3F141 /* MiscMergeTemplate.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MiscMergeTemplate.m; path = ../MiscMerge/MiscMergeTemplate.m; sourceTree = "<group>"; };
+		79D2BF9A0ACFB51A00F3F141 /* MiscMergeTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MiscMergeTemplate.m; path = ../MiscMerge/MiscMergeTemplate.m; sourceTree = "<group>"; };
 		79D2BF9B0ACFB51A00F3F141 /* NSNull.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = NSNull.h; path = ../MiscMerge/NSNull.h; sourceTree = "<group>"; };
 		79D2BF9C0ACFB51A00F3F141 /* NSNull.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = NSNull.m; path = ../MiscMerge/NSNull.m; sourceTree = "<group>"; };
 		79D2BF9D0ACFB51A00F3F141 /* NSScanner+MiscMerge.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "NSScanner+MiscMerge.h"; path = "../MiscMerge/NSScanner+MiscMerge.h"; sourceTree = "<group>"; };
@@ -180,6 +189,7 @@
 			children = (
 				08FB7795FE84155DC02AAC07 /* Source */,
 				79D2BF510ACFB51000F3F141 /* MiscMerge */,
+				457C26C6139A1EF900BF00DD /* ponso */,
 				55200E8E0C49FEEA00018A42 /* ddcli */,
 				08FB779DFE84155DC02AAC07 /* External Frameworks and Libraries */,
 				1AB674ADFE9D54B511CA2CBB /* Products */,
@@ -218,6 +228,19 @@
 				8DD76FA10486AA7600D96B5E /* mogenerator */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		457C26C6139A1EF900BF00DD /* ponso */ = {
+			isa = PBXGroup;
+			children = (
+				457C26C7139A1EF900BF00DD /* MKCDAGNode.h */,
+				457C26C8139A1EF900BF00DD /* MKCDAGNode.m */,
+				457C26C9139A1EF900BF00DD /* MKCNSEntityDescriptionAdditions.h */,
+				457C26CA139A1EF900BF00DD /* MKCNSEntityDescriptionAdditions.m */,
+				457C26CB139A1EF900BF00DD /* MKCNSManagedObjectModelAdditions.h */,
+				457C26CC139A1EF900BF00DD /* MKCNSManagedObjectModelAdditions.m */,
+			);
+			path = ponso;
 			sourceTree = "<group>";
 		};
 		55200E8E0C49FEEA00018A42 /* ddcli */ = {
@@ -348,8 +371,12 @@
 		08FB7793FE84155DC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 1DEB927808733DD40010E9CD /* Build configuration list for PBXProject "mogenerator" */;
-			compatibilityVersion = "Xcode 2.4";
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				en,
+			);
 			mainGroup = 08FB7794FE84155DC02AAC07 /* mogenerator */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -410,6 +437,9 @@
 				55200E980C49FEEA00018A42 /* DDGetoptLongParser.m in Sources */,
 				55200F9D0C4A2CA800018A42 /* DDCliParseException.m in Sources */,
 				7931E67B10FE984F00175784 /* RegexKitLite.m in Sources */,
+				457C26CD139A1EF900BF00DD /* MKCDAGNode.m in Sources */,
+				457C26CE139A1EF900BF00DD /* MKCNSEntityDescriptionAdditions.m in Sources */,
+				457C26CF139A1EF900BF00DD /* MKCNSManagedObjectModelAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -423,57 +453,44 @@
 				DEPLOYMENT_LOCATION = YES;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = mogenerator_Prefix.pch;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				INSTALL_PATH = "$(HOME)/bin";
 				PRODUCT_NAME = mogenerator;
-				ZERO_LINK = YES;
+				WARNING_CFLAGS = "-Wall";
 			};
 			name = Debug;
 		};
 		1DEB927608733DD40010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
 				DEPLOYMENT_LOCATION = NO;
 				DEPLOYMENT_POSTPROCESSING = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = mogenerator_Prefix.pch;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				INSTALL_PATH = "$(HOME)/bin";
 				PRODUCT_NAME = mogenerator;
+				WARNING_CFLAGS = "-Wall";
 			};
 			name = Release;
 		};
 		1DEB927908733DD40010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_VERSION = 4.0;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				PREBINDING = NO;
-				SDKROOT = "";
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 			};
 			name = Debug;
 		};
 		1DEB927A08733DD40010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_VERSION = 4.0;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				PREBINDING = NO;
-				SDKROOT = "";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 			};
 			name = Release;
 		};
