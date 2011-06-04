@@ -9,13 +9,19 @@
 /* Begin PBXBuildFile section */
 		457C268D1399FAC600BF00DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 457C268C1399FAC600BF00DD /* Foundation.framework */; };
 		457C26901399FAC600BF00DD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C268F1399FAC600BF00DD /* main.m */; };
-		457C26BC139A18A000BF00DD /* _ModelCompany.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C26B1139A18A000BF00DD /* _ModelCompany.m */; };
-		457C26BD139A18A000BF00DD /* _ModelDepartment.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C26B3139A18A000BF00DD /* _ModelDepartment.m */; };
-		457C26BE139A18A000BF00DD /* _ModelPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C26B5139A18A000BF00DD /* _ModelPerson.m */; };
-		457C26BF139A18A000BF00DD /* ModelCompany.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C26B7139A18A000BF00DD /* ModelCompany.m */; };
-		457C26C0139A18A000BF00DD /* ModelDepartment.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C26B9139A18A000BF00DD /* ModelDepartment.m */; };
-		457C26C1139A18A000BF00DD /* ModelPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C26BB139A18A000BF00DD /* ModelPerson.m */; };
 		457C26C5139A18CE00BF00DD /* ModelObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C26C4139A18CE00BF00DD /* ModelObject.m */; };
+		4584D411139A9D360035BCA5 /* _ModelAssistant.m in Sources */ = {isa = PBXBuildFile; fileRef = 4584D3FA139A9D360035BCA5 /* _ModelAssistant.m */; };
+		4584D412139A9D360035BCA5 /* _ModelCompany.m in Sources */ = {isa = PBXBuildFile; fileRef = 4584D3FC139A9D360035BCA5 /* _ModelCompany.m */; };
+		4584D413139A9D360035BCA5 /* _ModelDepartment.m in Sources */ = {isa = PBXBuildFile; fileRef = 4584D3FE139A9D360035BCA5 /* _ModelDepartment.m */; };
+		4584D414139A9D360035BCA5 /* _ModelDepartmentAssistant.m in Sources */ = {isa = PBXBuildFile; fileRef = 4584D400139A9D360035BCA5 /* _ModelDepartmentAssistant.m */; };
+		4584D415139A9D360035BCA5 /* _ModelDepartmentEmployee.m in Sources */ = {isa = PBXBuildFile; fileRef = 4584D402139A9D360035BCA5 /* _ModelDepartmentEmployee.m */; };
+		4584D416139A9D360035BCA5 /* _ModelEmployee.m in Sources */ = {isa = PBXBuildFile; fileRef = 4584D404139A9D360035BCA5 /* _ModelEmployee.m */; };
+		4584D417139A9D360035BCA5 /* ModelAssistant.m in Sources */ = {isa = PBXBuildFile; fileRef = 4584D406139A9D360035BCA5 /* ModelAssistant.m */; };
+		4584D418139A9D360035BCA5 /* ModelCompany.m in Sources */ = {isa = PBXBuildFile; fileRef = 4584D408139A9D360035BCA5 /* ModelCompany.m */; };
+		4584D419139A9D360035BCA5 /* ModelDepartment.m in Sources */ = {isa = PBXBuildFile; fileRef = 4584D40A139A9D360035BCA5 /* ModelDepartment.m */; };
+		4584D41A139A9D360035BCA5 /* ModelDepartmentAssistant.m in Sources */ = {isa = PBXBuildFile; fileRef = 4584D40C139A9D360035BCA5 /* ModelDepartmentAssistant.m */; };
+		4584D41B139A9D360035BCA5 /* ModelDepartmentEmployee.m in Sources */ = {isa = PBXBuildFile; fileRef = 4584D40E139A9D360035BCA5 /* ModelDepartmentEmployee.m */; };
+		4584D41C139A9D360035BCA5 /* ModelEmployee.m in Sources */ = {isa = PBXBuildFile; fileRef = 4584D410139A9D360035BCA5 /* ModelEmployee.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -36,20 +42,32 @@
 		457C268F1399FAC600BF00DD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		457C26921399FAC600BF00DD /* PonsoTest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PonsoTest-Prefix.pch"; sourceTree = "<group>"; };
 		457C269A1399FB1E00BF00DD /* MyModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyModel.xcdatamodel; sourceTree = "<group>"; };
-		457C26B0139A18A000BF00DD /* _ModelCompany.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _ModelCompany.h; path = "../../../sample project/PonsoTest/Sources/DataModel/_ModelCompany.h"; sourceTree = "<group>"; };
-		457C26B1139A18A000BF00DD /* _ModelCompany.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _ModelCompany.m; path = "../../../sample project/PonsoTest/Sources/DataModel/_ModelCompany.m"; sourceTree = "<group>"; };
-		457C26B2139A18A000BF00DD /* _ModelDepartment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _ModelDepartment.h; path = "../../../sample project/PonsoTest/Sources/DataModel/_ModelDepartment.h"; sourceTree = "<group>"; };
-		457C26B3139A18A000BF00DD /* _ModelDepartment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _ModelDepartment.m; path = "../../../sample project/PonsoTest/Sources/DataModel/_ModelDepartment.m"; sourceTree = "<group>"; };
-		457C26B4139A18A000BF00DD /* _ModelPerson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _ModelPerson.h; path = "../../../sample project/PonsoTest/Sources/DataModel/_ModelPerson.h"; sourceTree = "<group>"; };
-		457C26B5139A18A000BF00DD /* _ModelPerson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _ModelPerson.m; path = "../../../sample project/PonsoTest/Sources/DataModel/_ModelPerson.m"; sourceTree = "<group>"; };
-		457C26B6139A18A000BF00DD /* ModelCompany.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModelCompany.h; path = "../../../sample project/PonsoTest/Sources/DataModel/ModelCompany.h"; sourceTree = "<group>"; };
-		457C26B7139A18A000BF00DD /* ModelCompany.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModelCompany.m; path = "../../../sample project/PonsoTest/Sources/DataModel/ModelCompany.m"; sourceTree = "<group>"; };
-		457C26B8139A18A000BF00DD /* ModelDepartment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModelDepartment.h; path = "../../../sample project/PonsoTest/Sources/DataModel/ModelDepartment.h"; sourceTree = "<group>"; };
-		457C26B9139A18A000BF00DD /* ModelDepartment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModelDepartment.m; path = "../../../sample project/PonsoTest/Sources/DataModel/ModelDepartment.m"; sourceTree = "<group>"; };
-		457C26BA139A18A000BF00DD /* ModelPerson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModelPerson.h; path = "../../../sample project/PonsoTest/Sources/DataModel/ModelPerson.h"; sourceTree = "<group>"; };
-		457C26BB139A18A000BF00DD /* ModelPerson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModelPerson.m; path = "../../../sample project/PonsoTest/Sources/DataModel/ModelPerson.m"; sourceTree = "<group>"; };
 		457C26C3139A18CE00BF00DD /* ModelObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModelObject.h; path = ../../../code/ModelObject.h; sourceTree = "<group>"; };
 		457C26C4139A18CE00BF00DD /* ModelObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModelObject.m; path = ../../../code/ModelObject.m; sourceTree = "<group>"; };
+		4584D3F9139A9D360035BCA5 /* _ModelAssistant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _ModelAssistant.h; path = Sources/DataModel/_ModelAssistant.h; sourceTree = SOURCE_ROOT; };
+		4584D3FA139A9D360035BCA5 /* _ModelAssistant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _ModelAssistant.m; path = Sources/DataModel/_ModelAssistant.m; sourceTree = SOURCE_ROOT; };
+		4584D3FB139A9D360035BCA5 /* _ModelCompany.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _ModelCompany.h; path = Sources/DataModel/_ModelCompany.h; sourceTree = SOURCE_ROOT; };
+		4584D3FC139A9D360035BCA5 /* _ModelCompany.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _ModelCompany.m; path = Sources/DataModel/_ModelCompany.m; sourceTree = SOURCE_ROOT; };
+		4584D3FD139A9D360035BCA5 /* _ModelDepartment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _ModelDepartment.h; path = Sources/DataModel/_ModelDepartment.h; sourceTree = SOURCE_ROOT; };
+		4584D3FE139A9D360035BCA5 /* _ModelDepartment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _ModelDepartment.m; path = Sources/DataModel/_ModelDepartment.m; sourceTree = SOURCE_ROOT; };
+		4584D3FF139A9D360035BCA5 /* _ModelDepartmentAssistant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _ModelDepartmentAssistant.h; path = Sources/DataModel/_ModelDepartmentAssistant.h; sourceTree = SOURCE_ROOT; };
+		4584D400139A9D360035BCA5 /* _ModelDepartmentAssistant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _ModelDepartmentAssistant.m; path = Sources/DataModel/_ModelDepartmentAssistant.m; sourceTree = SOURCE_ROOT; };
+		4584D401139A9D360035BCA5 /* _ModelDepartmentEmployee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _ModelDepartmentEmployee.h; path = Sources/DataModel/_ModelDepartmentEmployee.h; sourceTree = SOURCE_ROOT; };
+		4584D402139A9D360035BCA5 /* _ModelDepartmentEmployee.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _ModelDepartmentEmployee.m; path = Sources/DataModel/_ModelDepartmentEmployee.m; sourceTree = SOURCE_ROOT; };
+		4584D403139A9D360035BCA5 /* _ModelEmployee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _ModelEmployee.h; path = Sources/DataModel/_ModelEmployee.h; sourceTree = SOURCE_ROOT; };
+		4584D404139A9D360035BCA5 /* _ModelEmployee.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _ModelEmployee.m; path = Sources/DataModel/_ModelEmployee.m; sourceTree = SOURCE_ROOT; };
+		4584D405139A9D360035BCA5 /* ModelAssistant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModelAssistant.h; path = Sources/DataModel/ModelAssistant.h; sourceTree = SOURCE_ROOT; };
+		4584D406139A9D360035BCA5 /* ModelAssistant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModelAssistant.m; path = Sources/DataModel/ModelAssistant.m; sourceTree = SOURCE_ROOT; };
+		4584D407139A9D360035BCA5 /* ModelCompany.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModelCompany.h; path = Sources/DataModel/ModelCompany.h; sourceTree = SOURCE_ROOT; };
+		4584D408139A9D360035BCA5 /* ModelCompany.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModelCompany.m; path = Sources/DataModel/ModelCompany.m; sourceTree = SOURCE_ROOT; };
+		4584D409139A9D360035BCA5 /* ModelDepartment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModelDepartment.h; path = Sources/DataModel/ModelDepartment.h; sourceTree = SOURCE_ROOT; };
+		4584D40A139A9D360035BCA5 /* ModelDepartment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModelDepartment.m; path = Sources/DataModel/ModelDepartment.m; sourceTree = SOURCE_ROOT; };
+		4584D40B139A9D360035BCA5 /* ModelDepartmentAssistant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModelDepartmentAssistant.h; path = Sources/DataModel/ModelDepartmentAssistant.h; sourceTree = SOURCE_ROOT; };
+		4584D40C139A9D360035BCA5 /* ModelDepartmentAssistant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModelDepartmentAssistant.m; path = Sources/DataModel/ModelDepartmentAssistant.m; sourceTree = SOURCE_ROOT; };
+		4584D40D139A9D360035BCA5 /* ModelDepartmentEmployee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModelDepartmentEmployee.h; path = Sources/DataModel/ModelDepartmentEmployee.h; sourceTree = SOURCE_ROOT; };
+		4584D40E139A9D360035BCA5 /* ModelDepartmentEmployee.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModelDepartmentEmployee.m; path = Sources/DataModel/ModelDepartmentEmployee.m; sourceTree = SOURCE_ROOT; };
+		4584D40F139A9D360035BCA5 /* ModelEmployee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModelEmployee.h; path = Sources/DataModel/ModelEmployee.h; sourceTree = SOURCE_ROOT; };
+		4584D410139A9D360035BCA5 /* ModelEmployee.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModelEmployee.m; path = Sources/DataModel/ModelEmployee.m; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,18 +131,30 @@
 		457C26AF139A188D00BF00DD /* Data Model */ = {
 			isa = PBXGroup;
 			children = (
-				457C26B0139A18A000BF00DD /* _ModelCompany.h */,
-				457C26B1139A18A000BF00DD /* _ModelCompany.m */,
-				457C26B2139A18A000BF00DD /* _ModelDepartment.h */,
-				457C26B3139A18A000BF00DD /* _ModelDepartment.m */,
-				457C26B4139A18A000BF00DD /* _ModelPerson.h */,
-				457C26B5139A18A000BF00DD /* _ModelPerson.m */,
-				457C26B6139A18A000BF00DD /* ModelCompany.h */,
-				457C26B7139A18A000BF00DD /* ModelCompany.m */,
-				457C26B8139A18A000BF00DD /* ModelDepartment.h */,
-				457C26B9139A18A000BF00DD /* ModelDepartment.m */,
-				457C26BA139A18A000BF00DD /* ModelPerson.h */,
-				457C26BB139A18A000BF00DD /* ModelPerson.m */,
+				4584D3F9139A9D360035BCA5 /* _ModelAssistant.h */,
+				4584D3FA139A9D360035BCA5 /* _ModelAssistant.m */,
+				4584D3FB139A9D360035BCA5 /* _ModelCompany.h */,
+				4584D3FC139A9D360035BCA5 /* _ModelCompany.m */,
+				4584D3FD139A9D360035BCA5 /* _ModelDepartment.h */,
+				4584D3FE139A9D360035BCA5 /* _ModelDepartment.m */,
+				4584D3FF139A9D360035BCA5 /* _ModelDepartmentAssistant.h */,
+				4584D400139A9D360035BCA5 /* _ModelDepartmentAssistant.m */,
+				4584D401139A9D360035BCA5 /* _ModelDepartmentEmployee.h */,
+				4584D402139A9D360035BCA5 /* _ModelDepartmentEmployee.m */,
+				4584D403139A9D360035BCA5 /* _ModelEmployee.h */,
+				4584D404139A9D360035BCA5 /* _ModelEmployee.m */,
+				4584D405139A9D360035BCA5 /* ModelAssistant.h */,
+				4584D406139A9D360035BCA5 /* ModelAssistant.m */,
+				4584D407139A9D360035BCA5 /* ModelCompany.h */,
+				4584D408139A9D360035BCA5 /* ModelCompany.m */,
+				4584D409139A9D360035BCA5 /* ModelDepartment.h */,
+				4584D40A139A9D360035BCA5 /* ModelDepartment.m */,
+				4584D40B139A9D360035BCA5 /* ModelDepartmentAssistant.h */,
+				4584D40C139A9D360035BCA5 /* ModelDepartmentAssistant.m */,
+				4584D40D139A9D360035BCA5 /* ModelDepartmentEmployee.h */,
+				4584D40E139A9D360035BCA5 /* ModelDepartmentEmployee.m */,
+				4584D40F139A9D360035BCA5 /* ModelEmployee.h */,
+				4584D410139A9D360035BCA5 /* ModelEmployee.m */,
 			);
 			name = "Data Model";
 			sourceTree = "<group>";
@@ -197,13 +227,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				457C26901399FAC600BF00DD /* main.m in Sources */,
-				457C26BC139A18A000BF00DD /* _ModelCompany.m in Sources */,
-				457C26BD139A18A000BF00DD /* _ModelDepartment.m in Sources */,
-				457C26BE139A18A000BF00DD /* _ModelPerson.m in Sources */,
-				457C26BF139A18A000BF00DD /* ModelCompany.m in Sources */,
-				457C26C0139A18A000BF00DD /* ModelDepartment.m in Sources */,
-				457C26C1139A18A000BF00DD /* ModelPerson.m in Sources */,
 				457C26C5139A18CE00BF00DD /* ModelObject.m in Sources */,
+				4584D411139A9D360035BCA5 /* _ModelAssistant.m in Sources */,
+				4584D412139A9D360035BCA5 /* _ModelCompany.m in Sources */,
+				4584D413139A9D360035BCA5 /* _ModelDepartment.m in Sources */,
+				4584D414139A9D360035BCA5 /* _ModelDepartmentAssistant.m in Sources */,
+				4584D415139A9D360035BCA5 /* _ModelDepartmentEmployee.m in Sources */,
+				4584D416139A9D360035BCA5 /* _ModelEmployee.m in Sources */,
+				4584D417139A9D360035BCA5 /* ModelAssistant.m in Sources */,
+				4584D418139A9D360035BCA5 /* ModelCompany.m in Sources */,
+				4584D419139A9D360035BCA5 /* ModelDepartment.m in Sources */,
+				4584D41A139A9D360035BCA5 /* ModelDepartmentAssistant.m in Sources */,
+				4584D41B139A9D360035BCA5 /* ModelDepartmentEmployee.m in Sources */,
+				4584D41C139A9D360035BCA5 /* ModelEmployee.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,6 +321,7 @@
 				457C26981399FAC600BF00DD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
