@@ -40,7 +40,7 @@ enum
 /*" "Letter" manipulation "*/
 - (NSString *)letterAtIndex:(unsigned)anIndex;
 - (NSString *)firstLetter;
-- (unsigned)letterCount;
+- (NSUInteger)letterCount;
 
 /*" Getting "words" "*/
 - (NSArray *)wordArray;

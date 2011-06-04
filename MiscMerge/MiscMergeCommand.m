@@ -112,7 +112,7 @@
         isOptional:(BOOL)optional
 {
     NSCharacterSet *letterSet = [NSCharacterSet letterCharacterSet];
-    int  origLocation = [scanner scanLocation];
+    NSUInteger origLocation = [scanner scanLocation];
     BOOL isAlphaKeyword = [aKeyWord length] > 0 && [letterSet characterIsMember:[aKeyWord characterAtIndex:0]];
     BOOL wasCaseSensitive = [scanner caseSensitive];
     BOOL foundKeyword;
@@ -124,7 +124,7 @@
     if (foundKeyword && isAlphaKeyword)
     {
         NSString *string = [scanner string];
-        int currLocation = [scanner scanLocation];
+        NSUInteger currLocation = [scanner scanLocation];
 
         /* If we're at the end of the string, or the next char is not a letter, we're good. Otherwise abort. */
         if (currLocation < [string length] &&

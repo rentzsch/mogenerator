@@ -1,0 +1,174 @@
+//
+//  <$managedObjectClassName$>.m
+//
+//  $Id$
+//
+// DO NOT EDIT. This file is machine-generated and constantly overwritten.
+// Make changes to <$managedObjectClassName$>.h instead.
+//
+
+#import "_<$managedObjectClassName$>.h"
+
+<$foreach Relationship noninheritedRelationships do$>#import "<$Relationship.destinationEntity.managedObjectClassName$>.h"
+<$endforeach do$>
+
+@interface _<$managedObjectClassName$>()
+<$foreach Relationship noninheritedRelationships do$><$if Relationship.isToMany$>@property (nonatomic, retain, readwrite) NSArray *<$Relationship.name$>;
+<$endif$><$endforeach do$>
+@end
+
+/** \ingroup DataModel */
+
+@implementation _<$managedObjectClassName$>
+
+- (id)init
+{
+	if((self = [super init]))
+	{
+		<$foreach Attribute noninheritedAttributes do$><$if Attribute.hasDefinedAttributeType$><$if Attribute.hasScalarAttributeType$><$if ! Attribute.isOptional$><$if Attribute.defaultValue$>self.<$Attribute.name$> = [NSNumber numberWith<$Attribute.scalarAttributeType.camelCaseString.initialCapitalString$>:<$Attribute.defaultValue$>];
+		<$else$>self.<$Attribute.name$> = [NSNumber numberWith<$Attribute.scalarAttributeType.camelCaseString.initialCapitalString$>:0];
+		<$endif$><$endif$><$endif$><$endif$><$endforeach do$>
+	}
+	
+	return self;
+}
+
+#pragma mark Scalar values
+<$foreach Attribute noninheritedAttributes do$><$if Attribute.hasDefinedAttributeType$><$if Attribute.hasScalarAttributeType$>
+- (<$Attribute.scalarAttributeType$>)<$Attribute.name$>Value
+{
+	return [self.<$Attribute.name$> <$Attribute.scalarAttributeType.camelCaseString$>Value];
+}
+
+- (void)set<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_
+{
+	self.<$Attribute.name$> = [NSNumber numberWith<$Attribute.scalarAttributeType.camelCaseString.initialCapitalString$>:value_];
+}
+<$endif$><$endif$><$endforeach do$>
+
+
+#pragma mark Dictionary representation
+
+- (id)initWithDictionaryRepresentation:(NSDictionary *)dictionary
+{
+	if((self = [super initWithDictionaryRepresentation:dictionary]))
+	{
+		<$foreach Attribute noninheritedAttributes do$><$if Attribute.hasDefinedAttributeType$>self.<$Attribute.name$> = [dictionary objectForKey:@"<$managedObjectClassName$>.<$Attribute.name$>"];
+		<$endif$><$endforeach do$>
+		<$foreach Relationship noninheritedRelationships do$><$if ! Relationship.userInfo.destinationEntityIDKeyPath $><$if ! Relationship.isTransient$><$if Relationship.isToMany$>
+		for(id objectRepresentationForDict in [dictionary objectForKey:@"<$managedObjectClassName$>.<$Relationship.name$>"])
+		{
+			<$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>Obj = [[[<$Relationship.destinationEntity.managedObjectClassName$> alloc] initWithDictionaryRepresentation:objectRepresentationForDict] autorelease];
+			[self add<$Relationship.name.initialCapitalString$>Object:<$Relationship.name$>Obj];
+		}<$else$>NSDictionary *<$Relationship.name$>Dict = [dictionary objectForKey:@"<$managedObjectClassName$>.<$Relationship.name$>"];
+		if(<$Relationship.name$>Dict != nil)
+		{
+			<$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>Obj = [[<$Relationship.destinationEntity.managedObjectClassName$> alloc] initWithDictionaryRepresentation:<$Relationship.name$>Dict];
+			self.<$Relationship.name$> = <$Relationship.name$>Obj;
+			[<$Relationship.name$>Obj release];
+		}<$endif$><$endif$><$endif$><$endforeach do$>
+	}
+	
+	return self;
+}
+
+- (NSDictionary *)dictionaryRepresentation
+{
+	NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[super dictionaryRepresentation]];
+	<$foreach Attribute noninheritedAttributes do$><$if Attribute.hasDefinedAttributeType$>[dict setObjectIfNotNil:self.<$Attribute.name$> forKey:@"<$managedObjectClassName$>.<$Attribute.name$>"];
+	<$endif$><$endforeach do$>
+	<$foreach Relationship noninheritedRelationships do$><$if Relationship.isToMany$>if([self.<$Relationship.name$> count] > 0)
+	{
+		<$if (! Relationship.isTransient) or (Relationship.userInfo.destinationEntityIDKeyPath) $>
+		NSMutableArray *<$Relationship.name$>RepresentationsForDictionary = [NSMutableArray arrayWithCapacity:[self.<$Relationship.name$> count]];
+		for(<$Relationship.destinationEntity.managedObjectClassName$> *obj in self.<$Relationship.name$>)
+		{
+			<$if Relationship.userInfo.destinationEntityIDKeyPath $>[<$Relationship.name$>RepresentationsForDictionary addObject:[obj valueForKeyPath:@"<$Relationship.userInfo.destinationEntityIDKeyPath$>"]];
+			<$else$>[<$Relationship.name$>RepresentationsForDictionary addObject:[obj dictionaryRepresentation]];<$endif$>
+		}
+		[dict setObjectIfNotNil:<$Relationship.name$>RepresentationsForDictionary forKey:@"<$managedObjectClassName$>.<$Relationship.name$>"];
+		<$endif$>
+	}
+	<$else$>
+	<$if Relationship.userInfo.destinationEntityIDKeyPath $>[dict setObjectIfNotNil:[self.<$Relationship.name$> valueForKeyPath:@"<$Relationship.userInfo.destinationEntityIDKeyPath$>"] forKey:@"<$managedObjectClassName$>.<$Relationship.name$>"];
+	<$else$><$if ! Relationship.isTransient $>[dict setObjectIfNotNil:[self.<$Relationship.name$> dictionaryRepresentation] forKey:@"<$managedObjectClassName$>.<$Relationship.name$>"];
+	<$endif$>
+	<$endif$>
+	<$endif$>
+	<$endforeach do$>
+	return dict;
+}
+
+- (void)awakeFromDictionaryRepresentationInit
+{
+	if(self.sourceDictionaryRepresentation == nil)
+		return; // awakeFromDictionaryRepresentationInit has been already executed on this object.
+	
+	<$foreach Relationship noninheritedRelationshipsInIDKeyPathTopologicalOrder do$><$if Relationship.userInfo.destinationEntityIDKeyPath $><$if Relationship.isToMany$>NSArray *<$managedObjectClassName$>_<$Relationship.name$>IDs = [self.sourceDictionaryRepresentation objectForKey:@"<$managedObjectClassName$>.<$Relationship.name$>"];
+	for(id <$managedObjectClassName$>_<$Relationship.name$>ID in <$managedObjectClassName$>_<$Relationship.name$>IDs)
+	{
+		<$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>Obj = [(_<$managedObjectClassName$><_<$managedObjectClassName$>> *)self fetch<$Relationship.destinationEntity.name$>ObjectWithIDFor<$Relationship.name.initialCapitalString$>Relationship:<$managedObjectClassName$>_<$Relationship.name$>ID];
+		if(<$Relationship.name$>Obj != nil)
+			[self add<$Relationship.name.initialCapitalString$>Object:<$Relationship.name$>Obj];
+	}
+	<$else$>self.<$Relationship.name$> = [(_<$managedObjectClassName$><_<$managedObjectClassName$>> *)self fetch<$Relationship.destinationEntity.name$>ObjectWithIDFor<$Relationship.name.initialCapitalString$>Relationship:[self.sourceDictionaryRepresentation objectForKey:@"<$managedObjectClassName$>.<$Relationship.name$>"]];
+	<$if ! Relationship.inverseRelationship.isToMany$>self.<$Relationship.name$>.<$Relationship.inverseRelationship.name$> = (<$managedObjectClassName$>*)self;
+	<$else$>[self.<$Relationship.name$> add<$Relationship.inverseRelationship.name.initialCapitalString$>Object:(<$managedObjectClassName$>*)self];<$endif$>
+	
+	<$endif$><$endif$><$endforeach do$>
+
+
+	<$foreach Relationship noninheritedRelationshipsInIDKeyPathTopologicalOrder do$><$if ! Relationship.isTransient$><$if Relationship.destinationEntity != Relationship.entity $><$if Relationship.isToMany$>
+	for(<$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>Obj in self.<$Relationship.name$>)
+	{
+		[<$Relationship.name$>Obj awakeFromDictionaryRepresentationInit];
+	}
+	<$else$>[self.<$Relationship.name$> awakeFromDictionaryRepresentationInit];
+	<$endif$><$endif$><$endif$><$endforeach do$>
+	
+	[super awakeFromDictionaryRepresentationInit];
+}
+
+#pragma mark Direct access
+
+<$foreach Relationship noninheritedRelationships do$><$if Relationship.isToMany$>
+- (void)add<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_
+{
+	if(self.<$Relationship.name$> == nil)
+	{
+		self.<$Relationship.name$> = [NSMutableArray array];
+	}
+		
+	[(NSMutableArray *)self.<$Relationship.name$> addObject:value_];
+	<$if Relationship.inverseRelationship$><$if ! Relationship.inverseRelationship.isToMany$>value_.<$Relationship.inverseRelationship.name$> = (<$managedObjectClassName$>*)self;<$endif$><$endif$>
+}
+
+- (void)remove<$Relationship.name.initialCapitalString$>Objects
+{
+	self.<$Relationship.name$> = [NSMutableArray array];
+}
+
+- (void)remove<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_
+{
+	<$if Relationship.inverseRelationship$><$if ! Relationship.inverseRelationship.isToMany$>value_.<$Relationship.inverseRelationship.name$> = nil;<$endif$><$endif$>
+	[(NSMutableArray *)self.<$Relationship.name$> removeObject:value_];
+}
+
+<$endif$><$endforeach do$>
+
+- (void)dealloc
+{
+	<$foreach Attribute noninheritedAttributes do$><$if Attribute.hasDefinedAttributeType$>self.<$Attribute.name$> = nil;
+	<$endif$><$endforeach do$>
+	<$foreach Relationship noninheritedRelationships do$>self.<$Relationship.name$> = nil;
+	<$endforeach do$>
+	[super dealloc];
+}
+
+#pragma mark Synthesizes
+
+<$foreach Attribute noninheritedAttributes do$>@synthesize <$Attribute.name$>;
+<$endforeach do$>
+<$foreach Relationship noninheritedRelationships do$>@synthesize <$Relationship.name$>;
+<$endforeach do$>
+@end

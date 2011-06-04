@@ -74,35 +74,38 @@ NSString	*gCustomBaseClass;
 }
 /** @TypeInfo NSAttributeDescription */
 - (NSArray*)noninheritedAttributes {
+	NSArray *sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
 	NSEntityDescription *superentity = [self superentity];
 	if (superentity) {
 		NSMutableArray *result = [[[[self attributesByName] allValues] mutableCopy] autorelease];
 		[result removeObjectsInArray:[[superentity attributesByName] allValues]];
-		return result;
+		return [result sortedArrayUsingDescriptors:sortDescriptors];
 	} else {
-		return [[self attributesByName] allValues];
+		return [[[self attributesByName] allValues] sortedArrayUsingDescriptors:sortDescriptors];
 	}
 }
 /** @TypeInfo NSAttributeDescription */
 - (NSArray*)noninheritedRelationships {
+	NSArray *sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
 	NSEntityDescription *superentity = [self superentity];
 	if (superentity) {
 		NSMutableArray *result = [[[[self relationshipsByName] allValues] mutableCopy] autorelease];
 		[result removeObjectsInArray:[[superentity relationshipsByName] allValues]];
-		return result;
+		return [result sortedArrayUsingDescriptors:sortDescriptors];
 	} else {
-		return [[self relationshipsByName] allValues];
+		return [[[self relationshipsByName] allValues] sortedArrayUsingDescriptors:sortDescriptors];
 	}
 }
 /** @TypeInfo NSFetchedPropertyDescription */
 - (NSArray*)noninheritedFetchedProperties {
+	NSArray *sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
 	NSEntityDescription *superentity = [self superentity];
 	if (superentity) {
 		NSMutableArray *result = [[[[self fetchedPropertiesByName] allValues] mutableCopy] autorelease];
 		[result removeObjectsInArray:[[superentity fetchedPropertiesByName] allValues]];
-		return result;
+		return [result sortedArrayUsingDescriptors:sortDescriptors];
 	} else {
-		return [[self fetchedPropertiesByName] allValues];
+		return [[[self fetchedPropertiesByName] allValues]  sortedArrayUsingDescriptors:sortDescriptors];
 	}
 }
 
@@ -260,7 +263,7 @@ NSString	*gCustomBaseClass;
 @implementation NSString (camelCaseString)
 - (NSString*)camelCaseString {
 	NSArray *lowerCasedWordArray = [[self wordArray] arrayByMakingObjectsPerformSelector:@selector(lowercaseString)];
-	unsigned wordIndex = 1, wordCount = [lowerCasedWordArray count];
+	NSUInteger wordIndex = 1, wordCount = [lowerCasedWordArray count];
 	NSMutableArray *camelCasedWordArray = [NSMutableArray arrayWithCapacity:wordCount];
 	if (wordCount)
 		[camelCasedWordArray addObject:[lowerCasedWordArray objectAtIndex:0]];
@@ -366,7 +369,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 }
 
 - (NSString*)currentXcodePath {
-	NSMutableString *result = @"";
+	NSString *result = @"";
 	
 	@try {
 		NSTask *task = [[[NSTask alloc] init] autorelease];
@@ -384,9 +387,8 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 		[task launch];
 		
 		NSData *data = [file readDataToEndOfFile];
-		
-		result = [[[NSMutableString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
-		[result deleteCharactersInRange:NSMakeRange([result length]-1, 1)]; // trim newline
+		result = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
+		result = [result substringToIndex:[result length]-1]; // trim newline
 	} @catch(NSException *ex) {
 		ddprintf(@"WARNING couldn't launch /usr/bin/xcode-select\n");
 	}
@@ -426,8 +428,20 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
         }
         assert(momc && "momc not found");
         
-        tempMOMPath = [[NSTemporaryDirectory() stringByAppendingPathComponent:[(id)CFUUIDCreateString(kCFAllocatorDefault, CFUUIDCreate(kCFAllocatorDefault)) autorelease]] stringByAppendingPathExtension:@"mom"];
-        system([[NSString stringWithFormat:@"\"%@\" \"%@\" \"%@\"", momc, path, tempMOMPath] UTF8String]); // Ignored system's result -- momc doesn't return any relevent error codes.
+        tempMOMPath = [[NSTemporaryDirectory() stringByAppendingPathComponent:[[NSProcessInfo processInfo] globallyUniqueString]] stringByAppendingPathExtension:@"mom"];
+		
+		NSArray *supportedMomcOptions = [NSArray arrayWithObjects:@"MOMC_NO_WARNINGS", @"MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS", @"MOMC_SUPPRESS_INVERSE_TRANSIENT_ERROR", nil];
+		NSMutableString *momcOptions = [NSMutableString string];
+		
+		for (NSString *momcOption in supportedMomcOptions)
+		{
+			if([[[NSProcessInfo processInfo] environment] objectForKey:momcOption] != nil)
+			{
+				[momcOptions appendFormat:@" -%@ ", momcOption];
+			}
+		}
+		
+	    system([[NSString stringWithFormat:@"\"%@\" %@ \"%@\" \"%@\"", momc, momcOptions, path, tempMOMPath] UTF8String]); // Ignored system's result -- momc doesn't return any relevent error codes.
         path = tempMOMPath;
     }
     model = [[[NSManagedObjectModel alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path]] autorelease];
@@ -583,9 +597,9 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 			if (_listSourceFiles) {
 				[machineHFiles addObject:machineHFileName];
 			} else {
-				if (![fm regularFileExistsAtPath:machineHFileName] || ![generatedMachineH isEqualToString:[NSString stringWithContentsOfFile:machineHFileName]]) {
+				if (![fm regularFileExistsAtPath:machineHFileName] || ![generatedMachineH isEqualToString:[NSString stringWithContentsOfFile:machineHFileName encoding:NSUTF8StringEncoding error:nil]]) {
 					//	If the file doesn't exist or is different than what we just generated, write it out.
-					[generatedMachineH writeToFile:machineHFileName atomically:NO];
+					[generatedMachineH writeToFile:machineHFileName atomically:NO encoding:NSUTF8StringEncoding error:nil];
 					machineDirtied = YES;
 					machineFilesGenerated++;
 				}
@@ -597,9 +611,9 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 			if (_listSourceFiles) {
 				[machineMFiles addObject:machineMFileName];
 			} else {
-				if (![fm regularFileExistsAtPath:machineMFileName] || ![generatedMachineM isEqualToString:[NSString stringWithContentsOfFile:machineMFileName]]) {
+				if (![fm regularFileExistsAtPath:machineMFileName] || ![generatedMachineM isEqualToString:[NSString stringWithContentsOfFile:machineMFileName encoding:NSUTF8StringEncoding error:nil]]) {
 					//	If the file doesn't exist or is different than what we just generated, write it out.
-					[generatedMachineM writeToFile:machineMFileName atomically:NO];
+					[generatedMachineM writeToFile:machineMFileName atomically:NO encoding:NSUTF8StringEncoding error:nil];
 					machineDirtied = YES;
 					machineFilesGenerated++;
 				}
@@ -615,7 +629,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 					if (machineDirtied)
 						[fm touchPath:humanHFileName];
 				} else {
-					[generatedHumanH writeToFile:humanHFileName atomically:NO];
+					[generatedHumanH writeToFile:humanHFileName atomically:NO encoding:NSUTF8StringEncoding error:nil];
 					humanFilesGenerated++;
 				}
 			}
@@ -636,7 +650,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 					if (machineDirtied)
 						[fm touchPath:humanMFileName];
 				} else {
-					[generatedHumanM writeToFile:humanMFileName atomically:NO];
+					[generatedHumanM writeToFile:humanMFileName atomically:NO encoding:NSUTF8StringEncoding error:nil];
 					humanFilesGenerated++;
 				}
 			}
@@ -656,11 +670,11 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 	}
 	
 	if (tempMOMPath) {
-		[fm removeFileAtPath:tempMOMPath handler:nil];
+		[fm removeItemAtPath:tempMOMPath error:nil];
 	}
 	bool mfileGenerated = NO;
 	if (mfilePath && ![mfileContent isEqualToString:@""]) {
-		[mfileContent writeToFile:mfilePath atomically:NO];
+		[mfileContent writeToFile:mfilePath atomically:NO encoding:NSUTF8StringEncoding error:nil];
 		mfileGenerated = YES;
 	}
 	
