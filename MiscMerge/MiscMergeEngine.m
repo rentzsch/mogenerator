@@ -466,7 +466,7 @@ static NSMutableDictionary *globalSymbols = nil;
 "*/
 - (void)setMainObject:(id)anObject
 {
-    unsigned oldIndex = NSNotFound;
+    NSUInteger oldIndex = NSNotFound;
 
     if (currentObject != nil)
     {
