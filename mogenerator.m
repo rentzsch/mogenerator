@@ -366,7 +366,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 }
 
 - (NSString*)currentXcodePath {
-	NSMutableString *result = @"";
+	NSString *result = @"";
 	
 	@try {
 		NSTask *task = [[[NSTask alloc] init] autorelease];
@@ -384,9 +384,8 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 		[task launch];
 		
 		NSData *data = [file readDataToEndOfFile];
-		
-		result = [[[NSMutableString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
-		[result deleteCharactersInRange:NSMakeRange([result length]-1, 1)]; // trim newline
+		result = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
+		result = [result substringToIndex:[result length]-1]; // trim newline
 	} @catch(NSException *ex) {
 		ddprintf(@"WARNING couldn't launch /usr/bin/xcode-select\n");
 	}
