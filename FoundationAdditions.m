@@ -92,7 +92,7 @@ void Printf(NSString *format, ...)
         return [[self reversedArray] valueForKeyPath:key];
 }
 
-static int sortByName(id obj1, id obj2, void *context)
+static NSInteger sortByName(id obj1, id obj2, void *context)
 {
     return [(NSString *)[obj1 valueForKey:@"name"] compare:[obj2 valueForKey:@"name"]];
 }
@@ -243,22 +243,8 @@ static int sortByName(id obj1, id obj2, void *context)
 
     attributes = [[NSMutableDictionary alloc] initWithCapacity:1];
     [attributes setObject:[NSDate date] forKey:NSFileModificationDate];
-    [self changeFileAttributes:attributes atPath:filePath];
+    [self setAttributes:attributes ofItemAtPath:filePath error:nil];
     [attributes release];
-}
-
-- (BOOL)deepCreateDirectoryAtPath:(NSString *)path attributes:(NSDictionary *)attributes
-{
-    NSString *parent = [path stringByDeletingLastPathComponent];
-
-    if ([parent length] > 0 && ![self directoryExistsAtPath:parent])
-    {
-        // May want to ensure owner write permissions here...
-        if (![self deepCreateDirectoryAtPath:parent attributes:attributes])
-            return NO;
-    }
-
-    return [self createDirectoryAtPath:path attributes:attributes];
 }
 
 @end

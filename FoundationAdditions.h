@@ -39,6 +39,5 @@ extern void Printf(NSString *format, ...);
 - (BOOL)regularFileExistsAtPath:(NSString *)path;
 - (NSString *)findFile:(NSString *)filename inSearchPath:(NSArray *)paths;
 - (void)touchPath:(NSString *)filePath;
-- (BOOL)deepCreateDirectoryAtPath:(NSString *)path attributes:(NSDictionary *)attributes;
 
 @end
