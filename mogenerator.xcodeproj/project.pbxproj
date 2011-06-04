@@ -431,6 +431,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = mogenerator_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				INSTALL_PATH = "$(HOME)/bin";
 				PRODUCT_NAME = mogenerator;
 				WARNING_CFLAGS = "-Wall";
@@ -446,6 +447,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = mogenerator_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				INSTALL_PATH = "$(HOME)/bin";
 				PRODUCT_NAME = mogenerator;
 				WARNING_CFLAGS = "-Wall";

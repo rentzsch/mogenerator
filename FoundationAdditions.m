@@ -143,7 +143,7 @@ static NSInteger sortByName(id obj1, id obj2, void *context)
 - (NSArray *)arrayByMakingObjectsPerformSelector:(SEL)aSelector withObject:anObject
                                       withObject:anObject2
 {
-    unsigned		i, count = [self count];
+    NSUInteger		i, count = [self count];
     NSMutableArray	*array = [NSMutableArray arrayWithCapacity:count];
 
     for(i=0; i<count; i++)
@@ -223,7 +223,7 @@ static NSInteger sortByName(id obj1, id obj2, void *context)
 
 - (NSString *)findFile:(NSString *)filename inSearchPath:(NSArray *)paths
 {
-    int i, count = [paths count];
+    NSInteger i, count = [paths count];
 
     for (i=0; i<count; i++)
     {

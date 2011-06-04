@@ -104,9 +104,9 @@ typedef enum _ArgTypes {
 /* The *real* execute; messaged from the call command */
 - (MiscMergeCommandExitType)executeForMerge:(MiscMergeEngine *)aMerger arguments:(NSArray *)passedArgArray
 {
-    int argumentIndex = 0, argumentCount = [argumentArray count];
-    int passedIndex = 0, passedCount = [passedArgArray count];
-    int addToArgIndex = 0;
+    NSInteger argumentIndex = 0, argumentCount = [argumentArray count];
+    NSInteger passedIndex = 0, passedCount = [passedArgArray count];
+    NSInteger addToArgIndex = 0;
     NSMutableDictionary *procedureContext = [NSMutableDictionary dictionary];
 
     for ( ; passedIndex < passedCount; passedIndex++ ) {

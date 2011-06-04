@@ -63,7 +63,7 @@
 {
     NSString *symbolName = [NSString stringWithFormat:@"_MiscMergeProcedure%@", procedureName];
     _MiscMergeProcedureCommand *procCommand = [[aMerger userInfo] objectForKey:symbolName];
-    int i, count = [argumentArray count];
+    NSInteger i, count = [argumentArray count];
     NSMutableArray *realArgArray = [NSMutableArray arrayWithCapacity:count];
 
     if (procCommand == nil)

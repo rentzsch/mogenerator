@@ -51,7 +51,7 @@
 "*/
 - (NSRange)remainingRange
 {
-    unsigned location = [self scanLocation];
+    NSUInteger location = [self scanLocation];
     return NSMakeRange(location, [[self string] length] - location);
 }
 
@@ -84,7 +84,7 @@
 
 - (BOOL)scanCharacter:(unichar)targetCharacter
 {
-    unsigned scanLocation = [self scanLocation];
+    NSUInteger scanLocation = [self scanLocation];
     NSString *myString = [self string];
 
     [self skipPastSkipCharacters];
@@ -104,7 +104,7 @@
 
 - (unichar)peekNextCharacter
 {
-    unsigned scanLocation;
+    NSUInteger scanLocation;
     NSString *myString;
 
     [self skipPastSkipCharacters];

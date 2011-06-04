@@ -441,7 +441,7 @@ static NSNumber *FALSE_VALUE;
 
 - (NSString *)description
 {
-    int index, count = [expressions count];
+    NSInteger index, count = [expressions count];
     NSMutableString *string = [NSMutableString stringWithFormat:@"%@(", [self nameDescription]];
     
     for ( index = 0; index < count; index++ ) {

@@ -42,12 +42,12 @@
 
 @implementation DDGetoptLongParser
 
-+ (DDGetoptLongParser *) optionsWithTarget: (id) target;
++ (DDGetoptLongParser *) optionsWithTarget: (id) target
 {
     return [[[self alloc] initWithTarget: target] autorelease];
 }
 
-- (id) initWithTarget: (id) target;
+- (id) initWithTarget: (id) target
 {
     self = [super init];
     if (self == nil)
@@ -170,7 +170,7 @@
 - (NSArray *) parseOptionsWithArguments: (NSArray *) arguments
                                 command: (NSString *) command;
 {
-    int argc = [arguments count];
+    NSUInteger argc = [arguments count];
     char ** argv = alloca(sizeof(char *) * argc);
     int i;
     for (i = 0; i < argc; i++)
@@ -193,7 +193,7 @@
     opterr = 1;
     
     int longOptionIndex = -1;
-    while ((ch = mGetoptFunction(argc, argv, optionString, options, &longOptionIndex)) != -1)
+    while ((ch = mGetoptFunction((int)argc, argv, optionString, options, &longOptionIndex)) != -1)
     {
         NSString * last_argv = [NSString stringWithUTF8String: argv[optind-1]];
         if (ch == ':')
