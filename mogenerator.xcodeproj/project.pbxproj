@@ -433,6 +433,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INSTALL_PATH = "$(HOME)/bin";
 				PRODUCT_NAME = mogenerator;
+				WARNING_CFLAGS = "-Wall";
 			};
 			name = Debug;
 		};
@@ -447,6 +448,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INSTALL_PATH = "$(HOME)/bin";
 				PRODUCT_NAME = mogenerator;
+				WARNING_CFLAGS = "-Wall";
 			};
 			name = Release;
 		};
