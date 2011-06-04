@@ -1,0 +1,39 @@
+{
+	name = <$name$>,
+	managedObjectClassName = <$managedObjectClassName$>,
+	renamingIdentifier = <$renamingIdentifier$>,
+	isAbstract = <$isAbstract$>,
+	userInfo = <$userInfo$>,
+	relationships = (
+		<$foreach Relationship noninheritedRelationships do$>
+		{
+			name = <$Relationship.name$>,
+			isIndexed = <$Relationship.isIndexed$>,
+			isTransient = <$Relationship.isTransient$>,
+			isOptional = <$Relationship.isOptional$>,
+			userInfo = <$Relationship.userInfo$>,
+			destinationEntity = <$Relationship.destinationEntity.name$>,
+			inverseRelationship = <$Relationship.inverseRelationship.name$>,
+			deleteRule = <$Relationship.deleteRule$>,
+			maxCount = <$Relationship.maxCount$>,
+			minCount = <$Relationship.minCount$>,
+			isToMany = <$Relationship.isToMany$>
+		}
+		<$endforeach do$>
+	)
+	attributes = (
+		<$foreach Attribute noninheritedAttributes do$>
+		{
+			name = <$Attribute.name$>,
+			isIndexed = <$Attribute.isIndexed$>,
+			isTransient = <$Attribute.isTransient$>,
+			isOptional = <$Attribute.isOptional$>,
+			userInfo = <$Attribute.userInfo$>,
+			attributeType = <$Attribute.attributeType$>,
+			attributeValueClassName = <$Attribute.attributeValueClassName$>,
+			defaultValue = <$Attribute.defaultValue$>,
+			valueTransformerName = <$Attribute.valueTransformerName$>
+		}
+		<$end>
+	)
+}
