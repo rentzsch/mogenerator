@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		457C26CD139A1EF900BF00DD /* MKCDAGNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C26C8139A1EF900BF00DD /* MKCDAGNode.m */; };
+		457C26CE139A1EF900BF00DD /* MKCNSEntityDescriptionAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C26CA139A1EF900BF00DD /* MKCNSEntityDescriptionAdditions.m */; };
+		457C26CF139A1EF900BF00DD /* MKCNSManagedObjectModelAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C26CC139A1EF900BF00DD /* MKCNSManagedObjectModelAdditions.m */; };
 		55200E960C49FEEA00018A42 /* DDCliApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 55200E900C49FEEA00018A42 /* DDCliApplication.m */; };
 		55200E970C49FEEA00018A42 /* DDCliUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 55200E920C49FEEA00018A42 /* DDCliUtil.m */; };
 		55200E980C49FEEA00018A42 /* DDGetoptLongParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 55200E950C49FEEA00018A42 /* DDGetoptLongParser.m */; };
@@ -62,6 +65,12 @@
 		08FB7796FE84155DC02AAC07 /* mogenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mogenerator.m; sourceTree = "<group>"; usesTabs = 1; };
 		08FB779EFE84155DC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32A70AAB03705E1F00C91783 /* mogenerator_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mogenerator_Prefix.pch; sourceTree = "<group>"; };
+		457C26C7139A1EF900BF00DD /* MKCDAGNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKCDAGNode.h; sourceTree = "<group>"; };
+		457C26C8139A1EF900BF00DD /* MKCDAGNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKCDAGNode.m; sourceTree = "<group>"; };
+		457C26C9139A1EF900BF00DD /* MKCNSEntityDescriptionAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKCNSEntityDescriptionAdditions.h; sourceTree = "<group>"; };
+		457C26CA139A1EF900BF00DD /* MKCNSEntityDescriptionAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKCNSEntityDescriptionAdditions.m; sourceTree = "<group>"; };
+		457C26CB139A1EF900BF00DD /* MKCNSManagedObjectModelAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKCNSManagedObjectModelAdditions.h; sourceTree = "<group>"; };
+		457C26CC139A1EF900BF00DD /* MKCNSManagedObjectModelAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKCNSManagedObjectModelAdditions.m; sourceTree = "<group>"; };
 		55200E8F0C49FEEA00018A42 /* DDCliApplication.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DDCliApplication.h; sourceTree = "<group>"; };
 		55200E900C49FEEA00018A42 /* DDCliApplication.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DDCliApplication.m; sourceTree = "<group>"; };
 		55200E910C49FEEA00018A42 /* DDCliUtil.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DDCliUtil.h; sourceTree = "<group>"; };
@@ -180,6 +189,7 @@
 			children = (
 				08FB7795FE84155DC02AAC07 /* Source */,
 				79D2BF510ACFB51000F3F141 /* MiscMerge */,
+				457C26C6139A1EF900BF00DD /* ponso */,
 				55200E8E0C49FEEA00018A42 /* ddcli */,
 				08FB779DFE84155DC02AAC07 /* External Frameworks and Libraries */,
 				1AB674ADFE9D54B511CA2CBB /* Products */,
@@ -218,6 +228,19 @@
 				8DD76FA10486AA7600D96B5E /* mogenerator */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		457C26C6139A1EF900BF00DD /* ponso */ = {
+			isa = PBXGroup;
+			children = (
+				457C26C7139A1EF900BF00DD /* MKCDAGNode.h */,
+				457C26C8139A1EF900BF00DD /* MKCDAGNode.m */,
+				457C26C9139A1EF900BF00DD /* MKCNSEntityDescriptionAdditions.h */,
+				457C26CA139A1EF900BF00DD /* MKCNSEntityDescriptionAdditions.m */,
+				457C26CB139A1EF900BF00DD /* MKCNSManagedObjectModelAdditions.h */,
+				457C26CC139A1EF900BF00DD /* MKCNSManagedObjectModelAdditions.m */,
+			);
+			path = ponso;
 			sourceTree = "<group>";
 		};
 		55200E8E0C49FEEA00018A42 /* ddcli */ = {
@@ -414,6 +437,9 @@
 				55200E980C49FEEA00018A42 /* DDGetoptLongParser.m in Sources */,
 				55200F9D0C4A2CA800018A42 /* DDCliParseException.m in Sources */,
 				7931E67B10FE984F00175784 /* RegexKitLite.m in Sources */,
+				457C26CD139A1EF900BF00DD /* MKCDAGNode.m in Sources */,
+				457C26CE139A1EF900BF00DD /* MKCNSEntityDescriptionAdditions.m in Sources */,
+				457C26CF139A1EF900BF00DD /* MKCNSManagedObjectModelAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
