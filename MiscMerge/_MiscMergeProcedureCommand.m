@@ -61,7 +61,7 @@ typedef enum _ArgTypes {
     [self eatKeyWord:@"procedure" fromScanner:aScanner isOptional:NO];
     procedureName = [[self getArgumentStringFromScanner:aScanner toEnd:NO] retain];
 
-    while (argName = [self getArgumentStringFromScanner:aScanner toEnd:NO]) {
+    while ((argName = [self getArgumentStringFromScanner:aScanner toEnd:NO])) {
         if ( [argName hasSuffix:@"?"] ) {
             optArgProcessing = YES;
             argName = [argName substringToIndex:([argName length] - 1)];

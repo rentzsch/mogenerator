@@ -50,7 +50,7 @@
     [self eatKeyWord:@"call" fromScanner:aScanner isOptional:NO];
     procedureName = [[self getArgumentStringFromScanner:aScanner toEnd:NO] retain];
 
-    while (argName = [self getArgumentStringFromScanner:aScanner toEnd:NO quotes:&quotes])
+    while ((argName = [self getArgumentStringFromScanner:aScanner toEnd:NO quotes:&quotes]))
     {
         [argumentArray addObject:argName];
         [quotedArray addObject:[NSNumber numberWithInt:quotes]];
