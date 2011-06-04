@@ -74,35 +74,38 @@ NSString	*gCustomBaseClass;
 }
 /** @TypeInfo NSAttributeDescription */
 - (NSArray*)noninheritedAttributes {
+	NSArray *sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
 	NSEntityDescription *superentity = [self superentity];
 	if (superentity) {
 		NSMutableArray *result = [[[[self attributesByName] allValues] mutableCopy] autorelease];
 		[result removeObjectsInArray:[[superentity attributesByName] allValues]];
-		return result;
+		return [result sortedArrayUsingDescriptors:sortDescriptors];
 	} else {
-		return [[self attributesByName] allValues];
+		return [[[self attributesByName] allValues] sortedArrayUsingDescriptors:sortDescriptors];
 	}
 }
 /** @TypeInfo NSAttributeDescription */
 - (NSArray*)noninheritedRelationships {
+	NSArray *sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
 	NSEntityDescription *superentity = [self superentity];
 	if (superentity) {
 		NSMutableArray *result = [[[[self relationshipsByName] allValues] mutableCopy] autorelease];
 		[result removeObjectsInArray:[[superentity relationshipsByName] allValues]];
-		return result;
+		return [result sortedArrayUsingDescriptors:sortDescriptors];
 	} else {
-		return [[self relationshipsByName] allValues];
+		return [[[self relationshipsByName] allValues] sortedArrayUsingDescriptors:sortDescriptors];
 	}
 }
 /** @TypeInfo NSFetchedPropertyDescription */
 - (NSArray*)noninheritedFetchedProperties {
+	NSArray *sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
 	NSEntityDescription *superentity = [self superentity];
 	if (superentity) {
 		NSMutableArray *result = [[[[self fetchedPropertiesByName] allValues] mutableCopy] autorelease];
 		[result removeObjectsInArray:[[superentity fetchedPropertiesByName] allValues]];
-		return result;
+		return [result sortedArrayUsingDescriptors:sortDescriptors];
 	} else {
-		return [[self fetchedPropertiesByName] allValues];
+		return [[[self fetchedPropertiesByName] allValues]  sortedArrayUsingDescriptors:sortDescriptors];
 	}
 }
 
