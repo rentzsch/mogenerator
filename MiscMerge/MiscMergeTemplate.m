@@ -75,7 +75,7 @@
     /* This works better for whatever reason. Due to some unknown pecularities,
     a constant NSString doesn't work under Windows with Apple's
     implementation. */
-    return [NSString stringWithCString:"«"];
+    return [NSString stringWithCString:"«" encoding:NSUTF8StringEncoding];
 }
 
 /*"
@@ -87,7 +87,7 @@
     //	return @")";
     //	return @"»";
     /* This works better than a constant NSString for whatever reason.  See above. */
-    return [NSString stringWithCString:"»"];
+    return [NSString stringWithCString:"»" encoding:NSUTF8StringEncoding];
 }
 
 /*" Creates a new, autoreleased MiscMergeTemplate. "*/
