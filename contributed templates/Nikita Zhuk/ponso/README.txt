@@ -1,11 +1,12 @@
 PONSO - Plain Old NSObjects
----------------------------
+===========================
 
 What is PONSO?
-
+--------------
 The idea is to use mogenerator to generate lightweight, memory-only, type-safe ObjC data model classes from Xcode data models. 
 
-Features:
+Features
+--------
 - Type-safe attributes
 - Supports one-to-one and one-to-many relationships
 - Relationships are always ordered - implemented with NSArrays
@@ -18,6 +19,14 @@ Features:
 - Cycles between weak relationships are found automatically and are warned about during code generation.
 
 
+How to use
+----------
+- The only additional source code you need to compile into your application for PONSO is ModelObject class found in "contributed templates/Nikita Zhuk/ponso/code"
+- See "contributed templates/Nikita Zhuk/ponso/sample project/PonsoTest" project for sample setup
+
+
+TODO
+-----
 PONSO is a work in progress and can be enchanced in a various ways. 
 
 Some missing features include:
@@ -29,5 +38,9 @@ Some missing features include:
 
 Feel free to fork & contribute.
 
+
+Contact info
+-------------
 Nikita Zhuk, 2011
 Twitter: @nzhuk
+
