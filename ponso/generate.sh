@@ -20,6 +20,6 @@ MOMC_SUPPRESS_INVERSE_TRANSIENT_ERROR=YES \
 --base-class "$BASE_CLASS" \
 --includeh "$AGGREGATE_HEADER" \
 --template-path "$MOGENERATOR_TEMPLATES" \
--O "$DATA_MODEL_SOURCE_DIR"
+-O "$DATA_MODEL_SOURCE_DIR" || exit 1
 
 echo "Generated Data Model Classes to $DATA_MODEL_SOURCE_DIR"
