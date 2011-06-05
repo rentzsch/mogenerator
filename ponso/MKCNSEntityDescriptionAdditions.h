@@ -25,4 +25,8 @@
 /** @TypeInfo NSAttributeDescription */
 @property(nonatomic, readonly) NSArray *noninheritedRelationshipsInIDKeyPathTopologicalOrder;
 
+// Checks if the managed object model of the receiver contains cycles in non-transient relationships.
+// If cycles are found, an exception is raised.
+- (void)checkNonTransientRelationshipCycles;
+
 @end

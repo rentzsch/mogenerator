@@ -330,6 +330,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     // For compatibility:
     {@"baseClass",			0,      DDGetoptRequiredArgument},
     {@"includem",			0,      DDGetoptRequiredArgument},
+	{@"includeh",			0,      DDGetoptRequiredArgument},
     {@"template-path",		0,      DDGetoptRequiredArgument},
     // For compatibility:
     {@"templatePath",		0,      DDGetoptRequiredArgument},
@@ -353,7 +354,8 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     printf("\n"
            "  -m, --model MODEL             Path to model\n"
            "      --base-class CLASS        Custom base class\n"
-           "      --includem FILE           Generate aggregate include file\n"
+           "      --includem FILE           Generate aggregate include file for .m files for both human and machine generated source files\n"
+           "      --includeh FILE           Generate aggregate include file for .h files for human generated source files only\n"
            "      --template-path PATH      Path to templates (absolute or relative to model path)\n"
            "      --template-group NAME     Name of template group\n"
            "  -O, --output-dir DIR          Output directory\n"
@@ -496,7 +498,10 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 	
     gCustomBaseClass = [baseClass retain];
     NSString * mfilePath = includem;
+	NSString * hfilePath = includeh;
+	
 	NSMutableString * mfileContent = [NSMutableString stringWithString:@""];
+	NSMutableString * hfileContent = [NSMutableString stringWithString:@""];
 	
 	[self validateOutputPath:outputDir forType:@"Output"];
 	[self validateOutputPath:machineDir forType:@"Machine Output"];
@@ -657,6 +662,8 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 			
 			[mfileContent appendFormat:@"#import \"%@\"\n#import \"%@\"\n",
                 [humanMFileName lastPathComponent], [machineMFileName lastPathComponent]];
+			
+			[hfileContent appendFormat:@"#import \"%@\"\n", [humanHFileName lastPathComponent]];
 		}
 		
 		if (_listSourceFiles) {
@@ -677,10 +684,20 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 		[mfileContent writeToFile:mfilePath atomically:NO encoding:NSUTF8StringEncoding error:nil];
 		mfileGenerated = YES;
 	}
-	
+
+	bool hfileGenerated = NO;
+	if (hfilePath && ![hfileContent isEqualToString:@""]) {
+		[hfileContent writeToFile:hfilePath atomically:NO encoding:NSUTF8StringEncoding error:nil];
+		hfileGenerated = YES;
+	}
+
 	if (!_listSourceFiles) {
 		printf("%d machine files%s %d human files%s generated.\n", machineFilesGenerated,
 			   (mfileGenerated ? "," : " and"), humanFilesGenerated, (mfileGenerated ? " and one include.m file" : ""));
+
+		if(hfileGenerated) {
+			printf("Aggregate header file was also generated to %s.\n", [hfilePath fileSystemRepresentation]);
+		}
 	}
     
     return EXIT_SUCCESS;
