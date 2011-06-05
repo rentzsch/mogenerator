@@ -33,7 +33,6 @@ Some missing features include:
 - Automatic setting of inverse one-to-one relationships in setters
 - Support for many-to-many relationships
 - Implementations of to-many relationships as ordered sets instead of arrays
-- Cycle detection of strong relationships
 - Detection of retain cycles caused by both relationship directions being non-transient
 
 Feel free to fork & contribute.
