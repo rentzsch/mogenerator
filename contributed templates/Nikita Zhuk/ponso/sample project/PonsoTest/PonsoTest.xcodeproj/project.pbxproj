@@ -68,6 +68,7 @@
 		4584D40E139A9D360035BCA5 /* ModelDepartmentEmployee.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModelDepartmentEmployee.m; path = Sources/DataModel/ModelDepartmentEmployee.m; sourceTree = SOURCE_ROOT; };
 		4584D40F139A9D360035BCA5 /* ModelEmployee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModelEmployee.h; path = Sources/DataModel/ModelEmployee.h; sourceTree = SOURCE_ROOT; };
 		4584D410139A9D360035BCA5 /* ModelEmployee.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModelEmployee.m; path = Sources/DataModel/ModelEmployee.m; sourceTree = SOURCE_ROOT; };
+		45F78872139BAA1900010BD3 /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Model.h; path = Sources/DataModel/Model.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +132,7 @@
 		457C26AF139A188D00BF00DD /* Data Model */ = {
 			isa = PBXGroup;
 			children = (
+				45F78872139BAA1900010BD3 /* Model.h */,
 				4584D3F9139A9D360035BCA5 /* _ModelAssistant.h */,
 				4584D3FA139A9D360035BCA5 /* _ModelAssistant.m */,
 				4584D3FB139A9D360035BCA5 /* _ModelCompany.h */,
@@ -217,7 +219,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "### Settings\n\nDATA_MODEL_FILE=\"$PROJECT_DIR/MyModel.xcdatamodeld/MyModel.xcdatamodel\"\nDATA_MODEL_SOURCE_DIR=\"$PROJECT_DIR/Sources/DataModel\"\n\nBASE_CLASS=\"ModelObject\"\n\nMOGENERATOR_DIR=\"$PROJECT_DIR/../../../../../\"\nMOGENERATOR_BIN=\"$MOGENERATOR_DIR/mogenerator\" ## Adjust this so that it points to a compiled mogenerator binary.\nMOGENERATOR_TEMPLATES=\"$MOGENERATOR_DIR/contributed templates/Nikita Zhuk/ponso/templates\"\n\n### Logic\n\nsource \"$MOGENERATOR_DIR/ponso/generate.sh\"\n";
+			shellScript = "### Settings\n\nDATA_MODEL_FILE=\"$PROJECT_DIR/MyModel.xcdatamodeld/MyModel.xcdatamodel\"\nDATA_MODEL_SOURCE_DIR=\"$PROJECT_DIR/Sources/DataModel\"\n\nBASE_CLASS=\"ModelObject\"\nAGGREGATE_HEADER=\"$DATA_MODEL_SOURCE_DIR/Model.h\"\n\nMOGENERATOR_DIR=\"$PROJECT_DIR/../../../../../\"\nMOGENERATOR_BIN=\"$MOGENERATOR_DIR/mogenerator\" ## Adjust this so that it points to a compiled mogenerator binary.\nMOGENERATOR_TEMPLATES=\"$MOGENERATOR_DIR/contributed templates/Nikita Zhuk/ponso/templates\"\n\n### Logic\n\nsource \"$MOGENERATOR_DIR/ponso/generate.sh\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

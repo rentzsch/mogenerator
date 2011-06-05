@@ -10,7 +10,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ModelObject.h"
-
+<$checkNonTransientRelationshipCycles $>
 <$foreach Relationship noninheritedRelationships do$>@class <$Relationship.destinationEntity.managedObjectClassName$>;
 <$endforeach do$>
 

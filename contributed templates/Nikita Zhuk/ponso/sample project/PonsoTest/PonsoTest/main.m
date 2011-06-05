@@ -19,12 +19,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "ModelCompany.h"
-#import "ModelDepartment.h"
-#import "ModelDepartmentAssistant.h"
-#import "ModelDepartmentEmployee.h"
-#import "ModelEmployee.h"
-#import "ModelAssistant.h"
+#import "Model.h"
 
 int main (int argc, const char * argv[])
 {

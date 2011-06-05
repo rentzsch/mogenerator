@@ -38,6 +38,22 @@
 
 @end
 
+@interface MKCNSRelationshipDescriptionNonTransientDependencyFilter : NSObject <MKCNSRelationshipDescriptionDependencyFilter> @end
+@implementation MKCNSRelationshipDescriptionNonTransientDependencyFilter
+
+- (BOOL)includeRelationship:(NSRelationshipDescription *)relationship
+{
+	if([[relationship entity] isEqual:[relationship destinationEntity]])
+		return NO;
+    
+    if([relationship isTransient])
+        return NO;
+    
+    return YES;
+}
+
+@end
+
 @implementation NSEntityDescription(MKCNSEntityDescriptionAdditions)
 
 /** @TypeInfo NSAttributeDescription */
@@ -78,6 +94,19 @@
 	}
 	
 	return sortedRelationships;
+}
+
+- (void)checkNonTransientRelationshipCycles
+{
+    id dependencyFilter = [[[MKCNSRelationshipDescriptionNonTransientDependencyFilter alloc] init] autorelease];
+    NSArray *entities = [[self managedObjectModel] entitiesInTopologicalOrderUsingDependencyFilter:dependencyFilter];
+    
+    if(entities == nil)
+    {
+        NSString *desc = @"Cycles were found in non-transient relationships.";
+        
+        [[NSException exceptionWithName:@"StrongRelationshipCyclesFoundException" reason:desc userInfo:nil] raise];
+    }
 }
 
 @end

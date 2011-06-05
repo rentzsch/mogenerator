@@ -46,6 +46,7 @@
 	NSManagedObjectModel	*model;
 	NSString				*baseClass;
 	NSString				*includem;
+	NSString				*includeh;
 	NSString				*templatePath;
 	NSString				*outputDir;
 	NSString				*machineDir;

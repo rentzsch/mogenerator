@@ -5,7 +5,6 @@
 //
 
 #import "ModelEmployee.h"
-#import "ModelCompany.h"
 
 @implementation ModelEmployee
 
