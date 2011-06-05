@@ -5,8 +5,6 @@
 //
 
 #import "ModelDepartmentAssistant.h"
-#import "ModelDepartment.h"
-#import "ModelCompany.h"
 
 @implementation ModelDepartmentAssistant
 
