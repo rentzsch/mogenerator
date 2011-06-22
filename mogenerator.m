@@ -8,6 +8,7 @@
 #import "mogenerator.h"
 #import "RegexKitLite.h"
 
+static NSString *kTemplateVar = @"TemplateVar";
 NSString	*gCustomBaseClass;
 
 @interface NSEntityDescription (fetchedPropertiesAdditions)
@@ -595,6 +596,12 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 		assert(humanH);
 		MiscMergeEngine *humanM = engineWithTemplatePath([self appSupportFileNamed:@"human.m.motemplate"]);
 		assert(humanM);
+		
+		// Add the template var dictionary to each of the merge engines
+		[machineH setEngineValue:templateVar forKey:kTemplateVar];
+		[machineM setEngineValue:templateVar forKey:kTemplateVar];
+		[humanH setEngineValue:templateVar forKey:kTemplateVar];
+		[humanM setEngineValue:templateVar forKey:kTemplateVar];
 		
 		NSMutableArray	*humanMFiles = [NSMutableArray array],
 						*humanHFiles = [NSMutableArray array],
