@@ -373,6 +373,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
            "      --includeh FILE           Generate aggregate include file for .h files for human generated source files only\n"
            "      --template-path PATH      Path to templates (absolute or relative to model path)\n"
            "      --template-group NAME     Name of template group\n"
+		   "      --template-var KEY=VALUE  A key-value pair to pass to the template file. There can be many of these.\n"
            "  -O, --output-dir DIR          Output directory\n"
            "  -M, --machine-dir DIR         Output directory for machine files\n"
            "  -H, --human-dir DIR           Output directory for human files\n"
