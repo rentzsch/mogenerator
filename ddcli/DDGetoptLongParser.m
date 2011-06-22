@@ -120,7 +120,7 @@
     
     struct option * option = [self currentOption];
     option->name = utf8String;
-    option->has_arg = argumentOptions;
+    option->has_arg = argumentOptions == DDGetoptKeyValueArgument ? DDGetoptRequiredArgument : argumentOptions;
     option->flag = NULL;
 
     int shortOptionValue;
@@ -128,7 +128,7 @@
     {
         shortOptionValue = shortOption;
         option->val = shortOption;
-        if (argumentOptions == DDGetoptRequiredArgument)
+        if (argumentOptions == DDGetoptRequiredArgument || argumentOptions == DDGetoptKeyValueArgument)
             [mOptionString appendFormat: @"%c:", shortOption];
         else if (argumentOptions == DDGetoptOptionalArgument)
             [mOptionString appendFormat: @"%c::", shortOption];
@@ -220,6 +220,36 @@
             int argumentOptions = [[optionInfo objectAtIndex: 1] intValue];
             if (argumentOptions == DDGetoptNoArgument)
                 [mTarget setValue: [NSNumber numberWithBool: YES] forKey: key];
+            else if (argumentOptions == DDGetoptKeyValueArgument)
+            {
+                // Split the arguement on the '=' sign
+                NSArray *pair = [nsoptarg componentsSeparatedByString:@"="];
+                // Build a keypath from the argument and the new key
+                NSString *keypath = [NSString stringWithFormat:@"%@.%@", key, [pair objectAtIndex:0]];
+                
+                // If it is a number or a boolean, we'll parse that out
+                NSString *value = [pair objectAtIndex:1];
+                id parsedValue = value;
+                // Looks like a boolean?
+                if ([value isCaseInsensitiveLike:@"true"] || [value isCaseInsensitiveLike:@"false"])
+                {
+                    parsedValue = [NSNumber numberWithBool:[value boolValue]];
+                }
+                else
+                {
+                    // Looks like a number?
+                    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+                    [formatter setAllowsFloats:YES];
+                    NSNumber *numberValue = [formatter numberFromString:value];
+                    if (numberValue)
+                    {
+                        parsedValue = numberValue;
+                    }
+                    [formatter release];
+                }
+                
+                [mTarget setValue:parsedValue forKeyPath:keypath];
+            }
             else
                 [mTarget setValue: nsoptarg forKey: key];
         }

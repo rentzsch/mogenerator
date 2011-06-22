@@ -8,6 +8,7 @@
 #import "mogenerator.h"
 #import "RegexKitLite.h"
 
+static NSString *kTemplateVar = @"TemplateVar";
 NSString	*gCustomBaseClass;
 
 @interface NSEntityDescription (fetchedPropertiesAdditions)
@@ -284,6 +285,19 @@ static MiscMergeEngine* engineWithTemplatePath(NSString *templatePath_) {
 
 @implementation MOGeneratorApp
 
+- (id)init {
+    self = [super init];
+    if (self) {
+        templateVar = [[NSMutableDictionary alloc] init];
+    }
+    return self;
+}
+
+- (void)dealloc {
+    [templateVar release];
+    [super dealloc];
+}
+
 NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 - (NSString*)appSupportFileNamed:(NSString*)fileName_ {
 	NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -343,6 +357,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 
     {@"help",				'h',    DDGetoptNoArgument},
     {@"version",			0,      DDGetoptNoArgument},
+	{@"template-var",		0,      DDGetoptKeyValueArgument},
     {nil,					0,      0},
     };
     [optionsParser addOptionsFromTable: optionTable];
@@ -358,6 +373,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
            "      --includeh FILE           Generate aggregate include file for .h files for human generated source files only\n"
            "      --template-path PATH      Path to templates (absolute or relative to model path)\n"
            "      --template-group NAME     Name of template group\n"
+		   "      --template-var KEY=VALUE  A key-value pair to pass to the template file. There can be many of these.\n"
            "  -O, --output-dir DIR          Output directory\n"
            "  -M, --machine-dir DIR         Output directory for machine files\n"
            "  -H, --human-dir DIR           Output directory for human files\n"
@@ -581,6 +597,12 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 		assert(humanH);
 		MiscMergeEngine *humanM = engineWithTemplatePath([self appSupportFileNamed:@"human.m.motemplate"]);
 		assert(humanM);
+		
+		// Add the template var dictionary to each of the merge engines
+		[machineH setEngineValue:templateVar forKey:kTemplateVar];
+		[machineM setEngineValue:templateVar forKey:kTemplateVar];
+		[humanH setEngineValue:templateVar forKey:kTemplateVar];
+		[humanM setEngineValue:templateVar forKey:kTemplateVar];
 		
 		NSMutableArray	*humanMFiles = [NSMutableArray array],
 						*humanHFiles = [NSMutableArray array],
