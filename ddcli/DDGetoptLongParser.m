@@ -226,7 +226,29 @@
                 NSArray *pair = [nsoptarg componentsSeparatedByString:@"="];
                 // Build a keypath from the argument and the new key
                 NSString *keypath = [NSString stringWithFormat:@"%@.%@", key, [pair objectAtIndex:0]];
-                [mTarget setValue:[pair objectAtIndex:1] forKeyPath:keypath];
+                
+                // If it is a number or a boolean, we'll parse that out
+                NSString *value = [pair objectAtIndex:1];
+                id parsedValue = value;
+                // Looks like a boolean?
+                if ([value isCaseInsensitiveLike:@"true"] || [value isCaseInsensitiveLike:@"false"])
+                {
+                    parsedValue = [NSNumber numberWithBool:[value boolValue]];
+                }
+                else
+                {
+                    // Looks like a number?
+                    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+                    [formatter setAllowsFloats:YES];
+                    NSNumber *numberValue = [formatter numberFromString:value];
+                    if (numberValue)
+                    {
+                        parsedValue = numberValue;
+                    }
+                    [formatter release];
+                }
+                
+                [mTarget setValue:parsedValue forKeyPath:keypath];
             }
             else
                 [mTarget setValue: nsoptarg forKey: key];
