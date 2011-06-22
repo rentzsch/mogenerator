@@ -19,7 +19,7 @@
 
 <$foreach Attribute noninheritedAttributes do$>
 <$if Attribute.hasDefinedAttributeType$>
-<$if useARCQualifiers$>
+<$if TemplateVar.arc$>
 @property (nonatomic, strong) <$Attribute.objectAttributeType$> *<$Attribute.name$>;
 <$else$>
 @property (nonatomic, retain) <$Attribute.objectAttributeType$> *<$Attribute.name$>;
@@ -34,14 +34,14 @@
 <$endforeach do$>
 <$foreach Relationship noninheritedRelationships do$>
 <$if Relationship.isToMany$>
-<$if useARCQualifiers$>
+<$if TemplateVar.arc$>
 @property (nonatomic, strong) NSSet* <$Relationship.name$>;
 <$else$>
 @property (nonatomic, retain) NSSet* <$Relationship.name$>;
 <$endif$>
 - (NSMutableSet*)<$Relationship.name$>Set;
 <$else$>
-<$if useARCQualifiers$>
+<$if TemplateVar.arc$>
 @property (nonatomic, strong) <$Relationship.destinationEntity.managedObjectClassName$>* <$Relationship.name$>;
 <$else$>
 @property (nonatomic, retain) <$Relationship.destinationEntity.managedObjectClassName$>* <$Relationship.name$>;
