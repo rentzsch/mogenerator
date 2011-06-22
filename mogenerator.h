@@ -56,6 +56,7 @@
 	BOOL					_version;
 	BOOL					_listSourceFiles;
     BOOL					_orphaned;
+    NSMutableDictionary     *templateVar;
 }
 
 - (NSString*)appSupportFileNamed:(NSString*)fileName_;
