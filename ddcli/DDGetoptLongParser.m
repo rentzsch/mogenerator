@@ -120,7 +120,7 @@
     
     struct option * option = [self currentOption];
     option->name = utf8String;
-    option->has_arg = argumentOptions;
+    option->has_arg = argumentOptions == DDGetoptKeyValueArgument ? DDGetoptRequiredArgument : argumentOptions;
     option->flag = NULL;
 
     int shortOptionValue;
@@ -128,7 +128,7 @@
     {
         shortOptionValue = shortOption;
         option->val = shortOption;
-        if (argumentOptions == DDGetoptRequiredArgument)
+        if (argumentOptions == DDGetoptRequiredArgument || argumentOptions == DDGetoptKeyValueArgument)
             [mOptionString appendFormat: @"%c:", shortOption];
         else if (argumentOptions == DDGetoptOptionalArgument)
             [mOptionString appendFormat: @"%c::", shortOption];
@@ -220,6 +220,14 @@
             int argumentOptions = [[optionInfo objectAtIndex: 1] intValue];
             if (argumentOptions == DDGetoptNoArgument)
                 [mTarget setValue: [NSNumber numberWithBool: YES] forKey: key];
+            else if (argumentOptions == DDGetoptKeyValueArgument)
+            {
+                // Split the arguement on the '=' sign
+                NSArray *pair = [nsoptarg componentsSeparatedByString:@"="];
+                // Build a keypath from the argument and the new key
+                NSString *keypath = [NSString stringWithFormat:@"%@.%@", key, [pair objectAtIndex:0]];
+                [mTarget setValue:[pair objectAtIndex:1] forKeyPath:keypath];
+            }
             else
                 [mTarget setValue: nsoptarg forKey: key];
         }
