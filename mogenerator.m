@@ -284,6 +284,19 @@ static MiscMergeEngine* engineWithTemplatePath(NSString *templatePath_) {
 
 @implementation MOGeneratorApp
 
+- (id)init {
+    self = [super init];
+    if (self) {
+        templateVar = [[NSMutableDictionary alloc] init];
+    }
+    return self;
+}
+
+- (void)dealloc {
+    [templateVar release];
+    [super dealloc];
+}
+
 NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 - (NSString*)appSupportFileNamed:(NSString*)fileName_ {
 	NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -343,6 +356,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 
     {@"help",				'h',    DDGetoptNoArgument},
     {@"version",			0,      DDGetoptNoArgument},
+	{@"template-var",		0,      DDGetoptKeyValueArgument},
     {nil,					0,      0},
     };
     [optionsParser addOptionsFromTable: optionTable];
