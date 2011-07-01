@@ -26,11 +26,11 @@
 	return (<$managedObjectClassName$>ID*)[super objectID];
 }
 
-+ (<$Relationship.immutableCollectionClassName$> *)keyPathsForValuesAffectingValueForKey:(NSString *)key {
-	<$Relationship.immutableCollectionClassName$> *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
++ (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)key {
+	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 	<$foreach Attribute noninheritedAttributes do$><$if Attribute.hasDefinedAttributeType$><$if Attribute.hasScalarAttributeType$>
 	if ([key isEqualToString:@"<$Attribute.name$>Value"]) {
-		<$Relationship.immutableCollectionClassName$> *affectingKey = [<$Relationship.immutableCollectionClassName$> setWithObject:@"<$Attribute.name$>"];
+		NSSet *affectingKey = [NSSet setWithObject:@"<$Attribute.name$>"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 	}<$endif$><$endif$><$endforeach do$>
 
