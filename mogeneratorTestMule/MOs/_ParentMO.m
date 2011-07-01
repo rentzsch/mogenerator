@@ -300,7 +300,7 @@
 	
 - (NSMutableOrderedSet*)childrenSet {
 	[self willAccessValueForKey:@"children"];
-	NSMutableOrderedSet *result = [self mutableSetValueForKey:@"children"];
+	NSMutableOrderedSet *result = (NSMutableOrderedSet*)[self mutableSetValueForKey:@"children"];
 	[self didAccessValueForKey:@"children"];
 	return result;
 }
