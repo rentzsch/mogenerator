@@ -26,11 +26,11 @@
 	return (<$managedObjectClassName$>ID*)[super objectID];
 }
 
-+ (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)key {
-	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
++ (<$Relationship.immutableCollectionClassName$> *)keyPathsForValuesAffectingValueForKey:(NSString *)key {
+	<$Relationship.immutableCollectionClassName$> *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 	<$foreach Attribute noninheritedAttributes do$><$if Attribute.hasDefinedAttributeType$><$if Attribute.hasScalarAttributeType$>
 	if ([key isEqualToString:@"<$Attribute.name$>Value"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"<$Attribute.name$>"];
+		<$Relationship.immutableCollectionClassName$> *affectingKey = [<$Relationship.immutableCollectionClassName$> setWithObject:@"<$Attribute.name$>"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 	}<$endif$><$endif$><$endforeach do$>
 
@@ -69,9 +69,9 @@
 @dynamic <$Relationship.name$>;
 
 	<$if Relationship.isToMany$>
-- (NSMutableSet*)<$Relationship.name$>Set {
+- (<$Relationship.mutableCollectionClassName$>*)<$Relationship.name$>Set {
 	[self willAccessValueForKey:@"<$Relationship.name$>"];
-	NSMutableSet *result = [self mutableSetValueForKey:@"<$Relationship.name$>"];
+	<$Relationship.mutableCollectionClassName$> *result = [self mutableSetValueForKey:@"<$Relationship.name$>"];
 	[self didAccessValueForKey:@"<$Relationship.name$>"];
 	return result;
 }
