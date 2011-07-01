@@ -71,7 +71,7 @@
 	<$if Relationship.isToMany$>
 - (<$Relationship.mutableCollectionClassName$>*)<$Relationship.name$>Set {
 	[self willAccessValueForKey:@"<$Relationship.name$>"];
-	<$Relationship.mutableCollectionClassName$> *result = [self mutableSetValueForKey:@"<$Relationship.name$>"];
+	<$Relationship.mutableCollectionClassName$> *result = (<$Relationship.mutableCollectionClassName$>*)[self mutableSetValueForKey:@"<$Relationship.name$>"];
 	[self didAccessValueForKey:@"<$Relationship.name$>"];
 	return result;
 }
