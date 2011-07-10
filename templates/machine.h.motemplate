@@ -35,11 +35,11 @@
 <$foreach Relationship noninheritedRelationships do$>
 <$if Relationship.isToMany$>
 <$if TemplateVar.arc$>
-@property (nonatomic, strong) NSSet* <$Relationship.name$>;
+@property (nonatomic, strong) <$Relationship.immutableCollectionClassName$>* <$Relationship.name$>;
 <$else$>
-@property (nonatomic, retain) NSSet* <$Relationship.name$>;
+@property (nonatomic, retain) <$Relationship.immutableCollectionClassName$>* <$Relationship.name$>;
 <$endif$>
-- (NSMutableSet*)<$Relationship.name$>Set;
+- (<$Relationship.mutableCollectionClassName$>*)<$Relationship.name$>Set;
 <$else$>
 <$if TemplateVar.arc$>
 @property (nonatomic, strong) <$Relationship.destinationEntity.managedObjectClassName$>* <$Relationship.name$>;
@@ -65,8 +65,8 @@
 
 @interface _<$managedObjectClassName$> (CoreDataGeneratedAccessors)
 <$foreach Relationship noninheritedRelationships do$><$if Relationship.isToMany$>
-- (void)add<$Relationship.name.initialCapitalString$>:(NSSet*)value_;
-- (void)remove<$Relationship.name.initialCapitalString$>:(NSSet*)value_;
+- (void)add<$Relationship.name.initialCapitalString$>:(<$Relationship.immutableCollectionClassName$>*)value_;
+- (void)remove<$Relationship.name.initialCapitalString$>:(<$Relationship.immutableCollectionClassName$>*)value_;
 - (void)add<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_;
 - (void)remove<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_;
 <$endif$><$endforeach do$>
@@ -85,8 +85,8 @@
 <$endforeach do$>
 <$foreach Relationship noninheritedRelationships do$>
 <$if Relationship.isToMany$>
-- (NSMutableSet*)primitive<$Relationship.name.initialCapitalString$>;
-- (void)setPrimitive<$Relationship.name.initialCapitalString$>:(NSMutableSet*)value;
+- (<$Relationship.mutableCollectionClassName$>*)primitive<$Relationship.name.initialCapitalString$>;
+- (void)setPrimitive<$Relationship.name.initialCapitalString$>:(<$Relationship.mutableCollectionClassName$>*)value;
 <$else$>
 - (<$Relationship.destinationEntity.managedObjectClassName$>*)primitive<$Relationship.name.initialCapitalString$>;
 - (void)setPrimitive<$Relationship.name.initialCapitalString$>:(<$Relationship.destinationEntity.managedObjectClassName$>*)value;

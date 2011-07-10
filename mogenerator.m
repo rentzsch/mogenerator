@@ -261,6 +261,26 @@ NSString	*gCustomBaseClass;
 
 @end
 
+@implementation NSRelationshipDescription (collectionClassName)
+
+- (NSString*)mutableCollectionClassName {
+	return [self _jr_isOrdered] ? @"NSMutableOrderedSet" : @"NSMutableSet";
+}
+
+- (NSString*)immutableCollectionClassName {
+	return [self _jr_isOrdered] ? @"NSOrderedSet" : @"NSSet";
+}
+
+- (BOOL)_jr_isOrdered {
+	if ([self respondsToSelector:@selector(isOrdered)]) {
+        return [self isOrdered];
+    } else {
+        return NO;
+    }
+}
+
+@end
+
 @implementation NSString (camelCaseString)
 - (NSString*)camelCaseString {
 	NSArray *lowerCasedWordArray = [[self wordArray] arrayByMakingObjectsPerformSelector:@selector(lowercaseString)];
