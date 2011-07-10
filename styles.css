@@ -56,21 +56,34 @@ dd p {
     margin-top: .7em;
     width: 100%;
 }
-#actions a {
+#actions > div {
     font-size: 80%;
     font-weight: bold;
     text-align: center;
-    width: 16em;
+    width: 18em;
     margin-left: 180px;
     display: inline;
     float: left;
 }
-#actions .title, #actions .subtitle {
+#actions .title, #actions .subtitle, #actions .homebrew, #actions .command {
     display: block;
 }
 #actions .title {
     margin: .7em 0 .3em 0;
 }
-#actions .subtitle {
+#actions .subtitle, #actions .homebrew {
     color: #999;
+}
+
+#actions .homebrew {
+    margin-top: 1.5em;
+}
+#actions .homebrew a {
+    color: #6c8aab;
+}
+#actions .command {
+	font-family: Menlo; Courier, mono;
+	font-weight: normal;
+	font-size: 11px;
+	white-space: nowrap;
 }
