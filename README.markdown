@@ -18,6 +18,36 @@ Xmo'd works by noticing when your `*.xcdatamodel` is saved. If the model file's 
 
 ## Version History
 
+### v1.23: Sun Jul 10 2011 [download](http://github.com/downloads/rentzsch/mogenerator/mogenerator-1.23.dmg)
+
+* [NEW] Support for Mac OS X 10.7 Lion's ordered relationships (generated relationship code uses `NSOrderedSet` and `NSMutableOrderedSet`). (rentzsch [1](https://github.com/rentzsch/mogenerator/commit/4e9a045dcbf5af2eefed2ca9cb5fbac8394f9df2) [2](https://github.com/rentzsch/mogenerator/commit/a716c87b88b4614520175694d6e910bd38114602) [3](https://github.com/rentzsch/mogenerator/commit/932c4b382ab086faf76e167d3051bafa087321ae))
+
+* [NEW] Optional support for ARC: pass `--template-var arc=true` to mogenerator. [bug 63](https://github.com/rentzsch/mogenerator/issues/63) ([Adam Cox](https://github.com/rentzsch/mogenerator/pull/64))
+
+* [NEW] New template that dumps a binary .xcdatamodel into a pseudo-ASCII-plist format perfect for diffing. A great way to compare two versions of a data model. ([Brian Webster](https://github.com/rentzsch/mogenerator/pull/61))
+
+* [NEW] Attributes and relationships are now sorted for generation. This should eliminate spurious changes to source files when unrelated model entities are changed. After upgrading to 1.23 you probably want to regenerate all your source files without a model change, just to let things settle in before your next real model change. ([Nikita Zhuk](https://github.com/nzhuk/mogenerator/commit/61450726028585633b93274269eb5c77c7b5c83e))
+
+* [NEW] Support for generation of PONSOs: Plain Old NSObjects. These are in-memory, typesafe non-CoreData classes generated from your Xcode data models. Generate reams of ObjC classes from a single data model. Supports relationships and basic serialization. See `contributed templates/Nikita Zhuk/ponso/README.txt` for details. ([Nikita Zhuk](https://github.com/rentzsch/mogenerator/pull/60))
+
+* [NEW] Support for `momc` error-reporting options: `MOMC_NO_WARNINGS`, `MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS` and  `MOMC_SUPPRESS_INVERSE_TRANSIENT_ERROR`. ([Nikita Zhuk](https://github.com/nzhuk/mogenerator/commit/96786d4caf78ea6988ac430191e555350ca468c5))
+
+* [NEW] Now generates output directories if they don't already exist or presents an error message if they cannot be created. ([Scott Little](https://github.com/rentzsch/mogenerator/pull/51))
+
+* [CHANGE] Change `#include` to `#import` in `include.m`. ([Zac Bowling](https://github.com/rentzsch/mogenerator/pull/59))
+
+* [NEW] You can now use `--template-var` to pass arbitrary command-line options through to templates. ([Adam Cox](https://github.com/rentzsch/mogenerator/pull/64))
+
+* [NEW] Update MiscMerge to NS(U)Integer for 64-bit compatibility. ([Nikita Zhuk](https://github.com/nzhuk/mogenerator/commit/a4aa3b943285fd5aaece9a417c5d36d3d1723127))
+
+* [FIX] Memory leaks in MiscMerge. ([Nikita Zhuk](https://github.com/nzhuk/mogenerator/commit/4716a9c43e656ea2fc38e3d9096b8e2f273de109))
+
+* [CHANGE] mogeneratorTestMule's `mogenerate.command` upgraded to use double-dash option names. ([rentzsch](https://github.com/rentzsch/mogenerator/commit/b78d7611dc8819782541fe65e50050173a040d92))
+
+* [FIX] Set mogeneratorTestMule's `mogenerate.command` executable bit. ([rentzsch](https://github.com/rentzsch/mogenerator/commit/83182682d39c3b1f96ac28df5a3ae326418dbfe8))
+
+
+
 ### v1.22: Wed Mar 2 2011 [download](http://github.com/downloads/rentzsch/mogenerator/mogenerator-1.22.dmg)
 
 * [FIX] Xmo'd 1.21 introduced a bug where it would no longer create a source folder for your data model (it would work fine it one already existed). [bug 43](https://github.com/rentzsch/mogenerator/issues/43) ([rentzsch](https://github.com/rentzsch/mogenerator/commit/462a485f0686b44fbaabad875ee8a21e3e0f61bc))

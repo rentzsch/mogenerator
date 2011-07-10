@@ -261,6 +261,26 @@ NSString	*gCustomBaseClass;
 
 @end
 
+@implementation NSRelationshipDescription (collectionClassName)
+
+- (NSString*)mutableCollectionClassName {
+	return [self _jr_isOrdered] ? @"NSMutableOrderedSet" : @"NSMutableSet";
+}
+
+- (NSString*)immutableCollectionClassName {
+	return [self _jr_isOrdered] ? @"NSOrderedSet" : @"NSSet";
+}
+
+- (BOOL)_jr_isOrdered {
+	if ([self respondsToSelector:@selector(isOrdered)]) {
+        return [self isOrdered];
+    } else {
+        return NO;
+    }
+}
+
+@end
+
 @implementation NSString (camelCaseString)
 - (NSString*)camelCaseString {
 	NSArray *lowerCasedWordArray = [[self wordArray] arrayByMakingObjectsPerformSelector:@selector(lowercaseString)];
@@ -508,7 +528,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     }
     
     if (_version) {
-        printf("mogenerator 1.22. By Jonathan 'Wolf' Rentzsch + friends.\n");
+        printf("mogenerator 1.23. By Jonathan 'Wolf' Rentzsch + friends.\n");
         return EXIT_SUCCESS;
     }
 	
