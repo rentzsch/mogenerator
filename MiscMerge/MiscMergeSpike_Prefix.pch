@@ -1,7 +1,0 @@
-//
-// Prefix header for all source files of the 'MiscMergeSpike' target in the 'MiscMergeSpike' project
-//
-
-#ifdef __OBJC__
-    #import <Cocoa/Cocoa.h>
-#endif
