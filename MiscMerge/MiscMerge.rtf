@@ -1,0 +1,1284 @@
+{\rtf1\mac\ansicpg10000\cocoartf102
+{\fonttbl\f0\froman\fcharset77 Times-Roman;\f1\ftech\fcharset2 Symbol;\f2\froman\fcharset77 Times-Italic;
+\f3\fswiss\fcharset77 Helvetica-Bold;\f4\froman\fcharset77 Times-Bold;\f5\fmodern\fcharset77 Courier;
+\f6\fswiss\fcharset77 Helvetica;\f7\fswiss\fcharset77 Helvetica-Oblique;\f8\froman\fcharset77 Times-BoldItalic;
+}
+{\colortbl;\red255\green255\blue255;}
+\margl120\margr120\vieww19800\viewh13860\viewkind0
+\pard\ql\qnatural
+
+\f0\fs24 \cf0 Release 2.0.6  Copyright 
+\f1 2000
+\f0  by Don Yacktman and Carl Lindberg.  All Rights Reserved.\
+\
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+
+\fs28 \
+
+\fs16 \
+
+\fs28 \
+
+\fs16 \
+\pard\ql\qnatural
+
+\f2\i\fs88 \cf0 The MiscMergeKit\
+
+\fs16 \
+\
+\
+\
+\
+\
+\
+\pard\li100\ql\qnatural
+
+\f3\i0\b\fs52 \cf0 Introduction\
+
+\fs16 \
+\
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 The MiscMergeKit implements a generic engine which may be used to combine data records and template files.  A template file is defined using a ``merge language'' (described below) and contains ``blanks''.  The blanks are filled in with data taken from a data record, which is any object.  The name of the blank is used to make a -valueForKey: call on the data record.  Other merge commands allow conditional text, comments, and other features.  The engine itself is meant to be embedded in a program and is flexible to be used for many purposes:\
+
+\fs16 \
+\pard\tx2480\tx2860\tx3240\li2480\fi-380\ql\qnatural
+
+\fs28 \cf0 \'a5	Document merge capability (inside word processors or other user apps). \
+
+\fs16 \
+
+\fs28 \'a5	Programmatic generation of code in C, Objective C, or other languages. \
+
+\fs16 \
+
+\fs28 \'a5	Programmatic generation of documentation. \
+
+\fs16 \
+
+\fs28 \'a5	Programmatic generation of Web pages. \
+
+\fs16 \
+
+\fs28 \'a5	Anything else you can imagine\'c9 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\li2100\ql\qnatural
+
+\f3\b \cf0 \
+\
+\
+\
+
+\fs48 MiscMergeKit Classes and Protocols
+\f0\b0\fs16 \
+\
+
+\f3\b\fs36 Basic Merging \
+
+\fs16 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 The MiscMergeEngine class is the starting point for a basic, one-shot merge.  All you have to do is:\
+\
+1.  Initialize a MiscMergeTemplate instance for the template you wish to use\
+2.  Get the data record object\
+3.  Pass the MiscMergeTemplate and data object to the MiscMergeEngine\
+4.  Start the merge\
+5.  Do something with the results, an NSString instance, that the MiscMergeEngine returns to you.\
+\
+If there is more than one data record, then a MiscMergeDriver instance should be used to perform the merge.  You pass it an initialized MiscMergeTemplate and an NSArray filled with a data object for each merge.  You get back a new NSArray filled with NSStrings, the results of the individual merges.  The NSStrings are in the same order as the objects on the input side, so it is easy to correlate the output to the input.\
+
+\fs16 \
+\pard\li2100\ql\qnatural
+
+\f3\b \cf0 \
+\
+
+\fs36 Advanced Features\
+
+\fs16 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 If you need to actually modify the merge language, it is possible to do so.  The API to the MiscMergeCommand class is provided to allow you to add commands or override existing commands.  Since all new commands are subclasses of MiscMergeCommand, there is a rich set of functions available to aid in parsing and writing the behavior of new commands via inheritance.  There are methods available to aid in creating commands that use an if/else/endif semantic or some other type of conditional.  The MiscMergeDriver informal protocol is provided to aid in creating custom MiscMergeDriver style classes if the provided class is inadequate for any reason.  The current driver is flexible with choice of engine, so in most applications it works well.  If you are interested in any of these features, you should consult the applicable class documentation, which describes the details of these features.  Be sure to read the class documentation since there are many more options and hooks to allow customization of the engine to fit your needs.  Become especially familiar with some of the esoteric MiscMergeEngine methods.  Each command is sent the id of the MiscMergeTemplate when parsing and the id of the MiscMergeEngine that invoked it when executing so that callbacks to the engine (or template) are possible.  Many of the built-in commands use these callbacks to detect and alter the engine's state.\
+
+\fs16 \
+\pard\li2100\ql\qnatural
+
+\f3\b \cf0 \
+\
+
+\fs48 MiscMergeKit Merge Language\
+
+\fs16 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 The merge language is quite simple.  Two delimiters are used to tell the template parser when a merge command begins and ends.  By default, commands are expected to be enclosed in pairs of ``\'c7'' and ``\'c8'', but you can change this to brackets (``\{'' and ``\}''), double arrows (``<<'' and ``>>''), or any other pair of arbitrary-length strings.  The same string can be used as the opening and closing delimiter, though this defeats the delayed-parse feature (not necessarily a bad thing).  The first word after the opening delimiter is used as the command name.  It is used to look up a command class.  If the class is not found, then the word is taken to be a key of the data object and the merge command will substitute the value returned by the object for the merge command on the output.  So the simplest example would be:\
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+
+\f4\fs28 	Template:
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li3600\ql\qnatural
+
+\f5 \cf0 This is a sample template for \{name\}.
+\f0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+
+\f4\fs28 	Dictionary:
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li3600\ql\qnatural
+
+\f5 \cf0 name = "Don Yacktman"
+\f0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 Since there is no ``name'' command, the value of the key ``name'' will be substituted into the output, to give the following output:\
+
+\fs16 \
+\pard\tx2480\tx2860\tx3240\li3600\ql\qnatural
+
+\f5\fs28 \cf0 This is a sample template for Don Yacktman.
+\f0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 When searching for keys, the MiscMergeEngine can be configured to resolve the values as far as it can, though this is off by default since it can cause some unexpected problems.  So, for example, one value in the object could be another object in the dictionary--causing an indirection to take place.  If keys aren't found in the data object, an engine-specific dictionary is consulted, and then a global dictionary.  If still not found, then the key is returned as a literal value to be inserted into the template.  Here are some examples:\
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+
+\f4\fs28 	Template:
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li3600\ql\qnatural
+
+\f5 \cf0 This is a sample template for <#name#>.
+\f0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+
+\f4\fs28 	Dictionary:
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li3600\ql\qnatural
+
+\f5 \cf0 <empty>
+\f0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+
+\f4\fs28 	Output:
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li3600\ql\qnatural
+
+\f5 \cf0 This is a sample template for name.
+\f0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+
+\f4\fs28 	Dictionary:
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li3600\ql\qnatural
+
+\f5 \cf0 name = "fullName"
+\f0 \
+
+\f5 fullName = "Don Yacktman"
+\f0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+
+\f4\fs28 	Output:
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li3600\ql\qnatural
+
+\f5 \cf0 This is a sample template for Don Yacktman.
+\f0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+\
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 If an actual command is found, then that command will be executed.  What does or doesn't get placed into the output of the merge depends upon the command used.  In fact, the syntax of the command itself depends upon the command.  The command descriptions below detail what parameters (if any) are expected to follow a particular command.  Obviously, any commands you create will have the syntax you specify.  If a command contains nested merge commands, then it will not be parsed until merge time.  In fact, a special MiscMergeEngine will be created to merge the command and 
+\f2\i then
+\f0\i0  it will be parsed.  Although this considerably slows performance, it allows the merge commands to 
+\f2\i change
+\f0\i0  depending upon the input data!  This ability turns out to be sometimes useful\'c9but it can be dangerous if you aren't careful.  (I have used this feature primarily with custom commands I have created, where the parameters come from values in the data object for the merge.)\
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 Finally, note that the command keywords are case insensitive.  Thus, ``Copy'', ``copy'', and ``COPY'' all refer to the same command as far as the MiscMergeTemplate parsing machinery is concerned.  For those who remember, many of the commands are similar to the merging commands used by the WriteNow.app distributed with NEXTSTEP 2.1 and earlier since that language was used as an example when this language was created.  This language is both richer and extensible, however.\
+
+\fs16 \
+\pard\li2100\ql\qnatural
+
+\f3\b \cf0 \
+\
+
+\fs48 MiscMergeKit Expressions\
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 \
+The MiscMergeKit allows complex expressions, just like C or Java for various arguments to its commands.  Full precedence rules are in effect.  This list describes the precedence order of commands for expressions.  Precedence is evaluated top to bottom, and left to right.\
+\
+\pard\tx3240\li2880\ql\qnatural
+\cf0 () 
+\f2\i key
+\f0\i0 \
+- !\
+* / %\
++ -\
+<= =< le >= => ge < lt > gt\
+<> >< != neq ne == = eq\
+&& and\
+|| or\
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\li2100\ql\qnatural
+\cf0 \
+
+\f3\b\fs36 Key Value \
+
+\fs16 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 The 
+\f2\i key
+\f0\i0  value above is a string that is normally interpreted by the MiscMergeEngine to determine if there is some value that has been stored under the name. Otherwise the 
+\f2\i key
+\f0\i0  name is taken as the value itself.  However, there are two options for the key itself.  You can single-quote a string, and it will prevent the MiscMergeEngine from attempting to evaluate the string for a value, it will just be treated as a literal.  You can also double-quote a string.  Double quoted strings will be evaluated.  Typically, you would use a double quoted string to be able to access a variable with a space in the name. Normally, if 
+\f2\i key
+\f0\i0  does not evaluate to an object, a blank string will be returned.  However, with the 
+\f4\b option nilLookupResult key
+\f0\b0  command, the return value can be made to be the 
+\f2\i key
+\f0\i0  string itself.\
+
+\fs16 \
+\pard\li2100\ql\qnatural
+
+\f3\b \cf0 \
+\
+
+\fs36 Primary Expressions\
+
+\fs16 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 Primary expressions are the only kind of expressions that can be specified for a number of arguments to commands.  Primary expressions are unique in that they can be uniquely identified where they start and end\
+
+\fs16 \
+\pard\li2100\ql\qnatural
+
+\f3\b \cf0 \
+\
+
+\fs48 MiscMergeKit Commands\
+
+\fs16 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 Following is a list of all the MiscMerge commands that come with the kit by default.  Each command name is listed in bold, followed by a list of the arguments that and follow it.  The syntax for the arguments is as follows:\
+\
+\pard\tx3960\li3960\fi-1440\ql\qnatural
+\cf0 str	A string is a series of alphanumeric characters with no spaces.\
+text	A string is a series of alphanumeric characters.\
+key	A key is a string that is used to either store or retrieve a value from the merge context dictionary.\
+exp	This is represented by a full expression, as defined in the expression section above.\
+pexp	This is represented by a primary expression, as defined in the expression section above.\
+name:type	The 
+\f2\i name
+\f0\i0  portion just represents a descriptive name for what the argument is and 
+\f2\i type
+\f0\i0  will be one of the five argument types above which defines what the argument should be.\
+[ arg ... ]	Defines an optional argument, and ... means the previous argument can be repeated.\
+\pard\tx3420\li3420\fi-900\ql\qnatural
+\cf0 \
+\pard\tx3240\li2520\ql\qnatural
+
+\fs16 \cf0 \
+\pard\li2100\ql\qnatural
+
+\f3\b \cf0 \
+\
+
+\fs36 break\
+
+\fs16 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 Immediately exits a block command, ie: foreach, loop, while.\
+
+\fs16 \
+\pard\li2100\ql\qnatural
+
+\f3\b \cf0 \
+\
+
+\fs36 continue\
+
+\fs16 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 Jumps to the end of a block command, ie: foreach, loop, while. The conditional code for that block will be then executed and it will proceed as normal.\
+
+\fs16 \
+\pard\li2100\ql\qnatural
+
+\f3\b \cf0 \
+\
+
+\fs36 copy
+\f6\b0  text
+\f3\b \
+
+\fs16 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 Copies all the text following the ``copy'' keyword to the merge output.  Plain text in the template is turned into ``copy'' commands internally by the MiscMergeTemplate parsing mechanism.  You'll probably never use this as a command\'d1but should remember to avoid using the word ``copy'' as a key in the merge dictionary, since that would invoke this command!\
+
+\fs16 \
+\pard\li2100\ql\qnatural
+
+\f3\b \cf0 \
+\
+
+\fs36 comment 
+\f6\b0 text
+\f3\b \
+
+\fs16 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 This command is a no-op.  Anything following the ``comment'' keyword is ignored and discarded.  Nothing is inserted in the merge output.\
+
+\fs16 \
+\pard\li2100\ql\qnatural
+
+\f3\b \cf0 \
+\
+
+\fs36 date\
+
+\fs16 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 Places the current date in the merge output.  It takes one optional parameter, an NSCalendarDate calendarFormat which is used to format the date.  By default, this is of the form ``Month day, year'' (i.e. "%B %d, %Y") which will format as ``July 21, 1995''.\
+
+\fs16 \
+\pard\li2100\ql\qnatural
+
+\f3\b \cf0 \
+\
+
+\fs36 debug
+\f6\b0  text
+\f3\b \
+
+\fs16 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 Copies all the text following the ``debug'' keyword to the standard error output.  This can be used to try to debug a template file.\
+
+\fs16 \
+\pard\li2100\ql\qnatural
+
+\f3\b \cf0 \
+\
+
+\fs36 field 
+\f6\b0 exp
+\f3\b \
+
+\fs16 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 The text following the keyword ``field'' is parsed and processed as a full expression, evaluated, and the results of the expression are placed in the merge output.  This is the long form and can be used to get around problems with keys that have the same names as commands.  For example, ``$<copy>$'' won't work for retrieving the value for ``copy'' from the data object, but ``$<field copy>$'' 
+\f2\i will
+\f0\i0  work.  \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0 \cf0 \
+\pard\li2100\ql\qnatural
+
+\f3\b \cf0 \
+\
+
+\fs36 foreach
+\f6\b0  item:key array:key [ label:str ]
+\f3\b \
+endforeach
+\f6\b0  [ label:str ]
+\f3\b \
+
+\fs16 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 These commands implement a loop.  The ``foreach'' command requires three parameters.  The first parameter is a variable name to be used as an iterator.  Each time through the loop, this variable will take on a new value.  A variable using the same name but with "Index" appended is also available in the context of the loop, and will contain the current loop iteration number (starting with 0).  When the second item evaluates as a NSDictionary, an additional name with with "Key" appended is also available in the context of the loop, and will contain the key that the item value was found at.  The second parameter is the name of a variable which contains an instance of the NSArray or NSDictionary class (or one of their subclasses).  The final parameter is a special tag.  The ``endforeach'' command can take a single parameter, again a tag.  The tags for each set of matching ``foreach''/``endforeach'' commands are expected to match.  If they do not, then the template is assumed to be incorrectly constructed and the merge is aborted with an error message.  If the array is empty, then no iterations are performed and nothing appears in the output.\
+
+\fs16 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f4\b\fs28 \cf0 	Template:
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li3600\ql\qnatural
+
+\f5 \cf0 <tr>[foreach value theRow row1]<td>[value],[valueIndex]</td>[endforeach row1]</tr>
+\f0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+
+\f4\fs28 	Dictionary:
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li3600\ql\qnatural
+
+\f5 \cf0 theRow = ("5", "10", "20", "30")
+\f0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+
+\f4\fs28 	Output:
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li3600\ql\qnatural
+
+\f5 \cf0 <tr><td>5,0</td><td>10,1</td><td>20,2</td><td>30,3</td></tr>
+\f0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0 \cf0 \
+\
+\pard\li2100\ql\qnatural
+
+\f3\b \cf0 \
+\
+
+\fs36 if
+\f6\b0  exp
+\f3\b \
+elseif
+\f6\b0  exp
+\f3\b \
+else\
+endif\
+
+\fs16 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 These four commands allow conditional text output with a merge.  Here would be a way to print out a different string of text based upon the value of the key ``salary'':\
+
+\fs16 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f4\b\fs28 \cf0 	Template:
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li3600\ql\qnatural
+
+\f5 \cf0 Congratulations!  You qualify for our offer for a free\
+Visa [$if salary > 35000$]Gold[$else$]Classic[$endif$] card!
+\f0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+
+\f4\fs28 	Dictionary:
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li3600\ql\qnatural
+
+\f5 \cf0 salary = "20000"
+\f0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+
+\f4\fs28 	Output:
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li3600\ql\qnatural
+
+\f5 \cf0 Congratulations!  You qualify for our offer for a free\
+Visa Classic card!
+\f0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+
+\f4\fs28 	Dictionary:
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li3600\ql\qnatural
+
+\f5 \cf0 salary = "40000"
+\f0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+
+\f4\fs28 	Output:
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li3600\ql\qnatural
+
+\f5 \cf0 Congratulations!  You qualify for our offer for a free\
+Visa Gold card!
+\f0 \
+\pard\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 The expression is evaluated to see if it is true.  A true value is defined by a non-zero number, a non-zero length string, or a non-null object. \
+
+\fs16 \
+\pard\li2100\ql\qnatural
+
+\f3\b \cf0 \
+\
+
+\fs36 setlocal
+\f6\b0  key
+\f7\i  
+\f6\i0 =
+\f3\b  
+\f6\b0 exp
+\f3\b \
+setmerge
+\f6\b0  key
+\f7\i  
+\f6\i0 =
+\f3\b  
+\f6\b0 exp
+\f3\b \
+setengine
+\f6\b0  key
+\f7\i  
+\f6\i0 =
+\f3\b  
+\f6\b0 exp
+\f3\b \
+[set | setglobal]
+\f6\b0  key =
+\f3\b  
+\f6\b0 exp
+\f3\b \
+
+\fs16 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 This allows a value for a key to be determined.  For example, ``<<identify name = f0>>'' will make the key ``name'' return ``f0''.  Depending on how the merge engine is configured, the key ``f0'' may then be searched for.  If not found, the text ``f0'' would be returned, otherwise the value of the key ``f0'' would be returned.  This allows aliases for key names to be created as well as simple setting the values of keys.  Note that the statement requires an ``='' operator for it to be parsed correctly.\
+\
+The three commands operate on different context dictionaries and allow for differing levels of locality of reference.  The 
+\f4\b set
+\f0\b0  command saves it's value into the global dictionary which is used for all merges. This dictionary will be searched last to determine a value. The 
+\f4\b setmerge
+\f0\b0  command saves it's value into a merge's dictionary. Values at this level will only be retained until the end of the current merge. This dictionary will be searched 
+\f8\i\b before
+\f0\i0\b0  the data object, so settings done in this manner can mask values in the main data object.  The 
+\f4\b setlocal
+\f0\b0  command saves it's value into the first context dictionary that is on the dictionary stack. In normal use, this operates the same as the 
+\f4\b setmerge
+\f0\b0  command.  However, when a 
+\f4\b procedure
+\f0\b0  is invoked via the 
+\f4\b call
+\f0\b0  command, a new dictionary is placed on the context stack.  Using the 
+\f4\b setlocal
+\f0\b0  command from within a procedure allows for that procedure to have truly local variables that do not affect the rest of the merge.\
+
+\fs16 \
+\pard\li2100\ql\qnatural
+
+\f3\b \cf0 \
+\
+
+\fs36 include
+\f7\i\b0  
+\f6\i0 filename:str [ startdelim:str enddelim:str ]
+\f3\b \
+
+\fs16 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 This allows an external template file to be inlined into the current template.  It takes one parameter, the path to the template to be loaded, and two optional arguments, strings that define the start or end delimiter.  Internally, a separate MiscMergeTemplate instance is used to load and parse the template.  The included file is expected to have the same delimiters by default, but you can specify what delimiters it should use.  The path can be an absolute path or relative to the current directory.  The MiscMergeTemplate class allows a delegate to be set to provide other processing to find the file.  Typically this would be to define a standard file location to find files.\
+
+\fs16 \
+\pard\li2100\ql\qnatural
+
+\f3\b \cf0 \
+\
+
+\fs36 index
+\f7\i\b0  
+\f6\i0 array:key index:pexp
+\f3\b \
+
+\fs16 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 If one of the dictionary values is actually an instance of NSArray or one of its subclasses, then this command can be used to access a single value from the array.  Two parameters are required.  The first is the variable name and the second is the index (starting with zero) of the string to use.  As an example:\
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+
+\f4\fs28 	Template:
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li3600\ql\qnatural
+
+\f5 \cf0 Please hand me that $$index theList 1$$.
+\f0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+
+\f4\fs28 	Dictionary:
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li3600\ql\qnatural
+
+\f5 \cf0 theList = ("apple", "bananna", "orange")
+\f0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+
+\f4\fs28 	Output:
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li3600\ql\qnatural
+
+\f5 \cf0 Please hand me that bananna.
+\f0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\li2100\ql\qnatural
+
+\f3\b \cf0 \
+\
+
+\fs36 loop
+\f6\b0  item:key start:pexp end:pexp increment:pexp [ label:str ]
+\f3\b \
+endloop
+\f7\i\b0  
+\f6\i0 [ label:str ]
+\f3\b \
+
+\fs16 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 These commands implement a loop.  The ``loop'' command requires four parameters and an optional fifth.  The first parameter is a variable name to be used as an iterator.  Each time through the loop, this variable will take on a new value.  The second parameter is a start value, while the third parameter is an end value.  The fourth parameter is a step value.  The second, third, and fourth parameters are all integers; no floating point math is supported.  The final parameter is a special tag.  The ``endloop'' command takes a single parameter, again a tag.  The tags for each set of matching ``loop''/``endloop'' commands are expected to match.  If they do not, then the template is assumed to be incorrectly constructed and the merge is aborted with an error message.\
+
+\fs16 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f4\b\fs28 \cf0 	Template:
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li3600\ql\qnatural
+
+\f5 \cf0 He ate \{loop value 10 50 10 loop1\}\{value\} \{endloop loop1 \}times.
+\f0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+
+\f4\fs28 	Dictionary:
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li3600\ql\qnatural
+
+\f5 \cf0 <empty>
+\f0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+
+\f4\fs28 	Output:
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li3600\ql\qnatural
+
+\f5 \cf0 He ate 10 20 30 40 50 times.
+\f0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0 \cf0 \
+\pard\li2100\ql\qnatural
+
+\f3\b \cf0 \
+\
+
+\fs36 procedure
+\f7\i\b0  
+\f6\i0 name:str [ var:str ... ] [ var?:str ... ] [ var...:str ]
+\f3\b \
+endprocedure\
+call
+\f7\i\b0  
+\f6\i0 name:str [ pexp [ pexp ... ]]
+\f3\b \
+
+\fs16 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 This set of commands allows an internal "procedure" to be defined inside the template directly, and then called with different arguments.  The 
+\f4\b procedure
+\f0\b0  command has one required parameter, the procedure name.  Any other parameters are names of variables expected to be passed to the procedure, and can be used as keys in the context of the procedure definition.  An ``endprocedure'' command (no parameters) ends the procedure definition.  A procedure can call itself recursively.\
+\
+A 
+\f4\b call
+\f0\b0  command is used to call a previously-defined procedure.  It takes one mandatory argument, the procedure name to call, plus any number of arguments to pass to the procedure.  These arguments can be key names that will be resolved via the data object or raw values.  Naturally, the number of arguments in the call command should match up with the number of arguments the procedure is expecting.\
+\
+The variable names in the procedure command have some options as far as naming and affect what happens when the 
+\f4\b call
+\f0\b0  command is used.  Any variable name with a '
+\f4\b ?
+\f0\b0 ' at the end of the name will considered an optional argument.  Optional arguments must come after non-optional ones.  If a procedure is executed but no value exists in the spot for a optional command, it will be assigned a blank string value.  The '
+\f4\b ?
+\f0\b0 ' will not be used as part of the key name of which the value is saved under.  One other variable can be listed in the procedure's argument list and that has a '
+\f4\b ...
+\f0\b0 ' at the end of the variable name.  This defines a variable argument list and must be at the very end of the procedure command.  Any arguments in a call command that start at that arguments position and afterwards are added to an array that is saved to the variable name, without the '
+\f4\b ...
+\f0\b0 ' extension.\
+
+\fs16 \
+\pard\li2100\ql\qnatural
+
+\f3\b \cf0 \
+\
+
+\fs36 next\
+
+\fs16 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 If a MiscMergeDriver initiated the merge, then the 
+\f4\b next
+\f0\b0  command will cause the next data object to be loaded.  This allows merges for multiple records to be placed into a single output merge.  Note that the MiscMergeDriver will add in empty output strings as placeholders for the output NSArray, since the merge for the next record will not be performed.  This command might be used, for example, in creating pages of address labels.  You could put several labels on one page this way.\
+
+\fs16 \
+\pard\li2100\ql\qnatural
+
+\f3\b \cf0 \
+\
+
+\fs36 omit\
+
+\fs16 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 Causes the merge to be aborted.  The output string will be empty.  This command can be used in an 
+\f4\b if
+\f0\b0  statement to conditionally abort merges depending upon values of keys in the merge dictionary.\
+
+\fs16 \
+\pard\li2100\ql\qnatural
+
+\f3\b \cf0 \
+\
+\
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0 \cf0 \
+\pard\li2100\ql\qnatural
+
+\f3\b \cf0 \
+
+\fs48 For Advanced Users - The option Command\
+
+\fs16 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 Their is one final command, 
+\f4\b option
+\f0\b0 , that can be used in a template file. This command is used to alter the behavior of the MiscMerge processing and is generally only recommended for advanced users.  The 
+\f4\b option
+\f0\b0  command is followed by one of the following arguments:\
+\pard\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+\
+
+\fs36 delimiters\
+
+\fs16 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 This option is followed by two parameters, which specify a starting and ending delimiter. The rest of the template will be processed using these delimiters. Be aware that the command itself must end with the delimiter that was in use before this command was called.  For instance if \{ and \} are the starting and stopping delimiters, ie:\
+\pard\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f5\b0\fs28 \cf0 	\{option delimiters ( )\}\
+\pard\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+\
+\
+
+\fs36 betweenWhitespace\
+
+\fs16 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 This option is used to determine how MiscMerge processes whitespace that surrounds any text between commands. It is most useful to be able to create procedures with nice indenting without ending up with lots of excess whitespace. This option takes one of four keywords.\
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+\pard\tx2860\tx3240\li2480\ql\qnatural
+
+\fs28 \cf0 keep\
+
+\fs16 \
+\pard\tx2860\tx3240\li2480\ql\qnatural
+
+\f0\b0\fs28 \cf0 This option is just the default mechanism of MiscMerge. No processing happens.\
+\pard\tx2860\tx3240\li2480\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+\
+
+\fs28 trim\
+
+\fs16 \
+\pard\tx2860\tx3240\li2480\ql\qnatural
+
+\f0\b0\fs28 \cf0 Any whitespace at the beginning or end of a block of whitespace is trimmed off.\
+\pard\tx2860\tx3240\li2480\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+\pard\tx3240\li2860\ql\qnatural
+
+\f4\fs28 \cf0 Example Template:\
+\pard\tx2860\tx3240\li2480\ql\qnatural
+
+\f3\fs16 \cf0 \
+\pard\tx3600\li3240\ql\qnatural
+
+\f5\b0\fs28 \cf0 '\{foreach item array do\}\
+\pard\tx3600\tx3960\li3240\ql\qnatural
+\cf0 	\{if itemIndex gt 0\}\
+		,\
+	\{endif\}\
+\pard\tx3600\li3240\ql\qnatural
+\cf0 	\{item\}\
+\{endforeach do\}'\
+\pard\tx3600\li3240\ql\qnatural
+
+\f0 \cf0 \
+\pard\tx3240\li2860\ql\qnatural
+
+\f4\b \cf0 Output for values (doug, jon, carl):\
+\pard\tx2860\tx3240\li2480\ql\qnatural
+
+\f3\fs16 \cf0 \
+\pard\tx3600\li3240\ql\qnatural
+
+\f5\b0\fs28 \cf0 'doug,jon,carl'\
+\pard\tx2860\tx3240\li2480\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+\pard\tx2860\tx3240\li2480\ql\qnatural
+
+\f0\b0\fs28 \cf0 As can be seen, the template is easy to read versus the alternative:\
+\pard\tx2860\tx3240\li2480\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+\pard\tx3240\li2860\ql\qnatural
+
+\f4\fs28 \cf0 Non Trim Template:\
+\pard\tx2860\tx3240\li2480\ql\qnatural
+
+\f3\fs16 \cf0 \
+\pard\tx3600\li3240\ql\qnatural
+
+\f5\b0\fs28 \cf0 \{foreach item array do\}\{\
+	if itemIndex gt 0\},\{\
+	endif\}\{item\}\{\
+endforeach do\}\
+\pard\tx2860\tx3240\li2480\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+\
+\
+
+\fs28 keepNonBlank\
+
+\fs16 \
+\pard\tx2860\tx3240\li2480\ql\qnatural
+
+\f0\b0\fs28 \cf0 Only text that includes non-whitespace text will be output.\
+\pard\tx2860\tx3240\li2480\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+\pard\tx3240\li2860\ql\qnatural
+
+\f4\fs28 \cf0 Example Template:\
+\pard\tx2860\tx3240\li2480\ql\qnatural
+
+\f3\fs16 \cf0 \
+\pard\tx3600\li3240\ql\qnatural
+
+\f5\b0\fs28 \cf0 '\{foreach item array do\}\
+\pard\tx3600\tx3960\li3240\ql\qnatural
+\cf0 	\{if itemIndex gt 0\} , \{endif\}\
+\pard\tx3600\li3240\ql\qnatural
+\cf0 	\{item\}\
+\{endforeach do\}'\
+\pard\tx3600\li3240\ql\qnatural
+
+\f0 \cf0 \
+\pard\tx3240\li2860\ql\qnatural
+
+\f4\b \cf0 Output for values (doug, jon, carl):\
+\pard\tx2860\tx3240\li2480\ql\qnatural
+
+\f3\fs16 \cf0 \
+\pard\tx3600\li3240\ql\qnatural
+
+\f5\b0\fs28 \cf0 'doug , jon , carl'\
+\pard\tx2860\tx3240\li2480\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+\
+\
+
+\fs28 ignoreCommandSpaces\
+
+\fs16 \
+\pard\tx2860\tx3240\li2480\ql\qnatural
+
+\f0\b0\fs28 \cf0 This option was designed to be able to have templates that output C code. It will remove any whitespace plus a newline that follows the ending delimiter of a command and remove whitespace before the start of a command up to but not including the last newline.\
+\pard\tx2860\tx3240\li2480\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+\pard\tx3240\li2860\ql\qnatural
+
+\f4\fs28 \cf0 Example Template:\
+\pard\tx2860\tx3240\li2480\ql\qnatural
+
+\f3\fs16 \cf0 \
+\pard\tx3600\li3240\ql\qnatural
+
+\f5\b0\fs28 \cf0 \{foreach item array do\}\
+	int \{item\};\
+\{endforeach do\}\
+\
+\{foreach item array do\}\
+	if ( \{item\} == 0 )\
+\pard\tx3600\tx3960\li3240\ql\qnatural
+\cf0 		NSLog(@"\{item\} must be not equal to zero");\
+\
+\{endforeach do\}\
+...\
+\pard\tx3600\li3240\ql\qnatural
+
+\f0 \cf0 \
+\pard\tx3240\li2860\ql\qnatural
+
+\f4\b \cf0 Output for values (doug, jon, carl):\
+\pard\tx2860\tx3240\li2480\ql\qnatural
+
+\f3\fs16 \cf0 \
+\pard\tx3600\tx3960\li3240\ql\qnatural
+
+\f5\b0\fs28 \cf0 	int arg1;\
+	int arg2;\
+\
+	if ( arg1 == 0 )\
+		NSLog(@"arg1 must be not equal to zero");\
+\
+	if ( arg2 == 0 )\
+		NSLog(@"arg2 must be not equal to zero");\
+\
+...\
+\pard\tx2860\tx3240\li2480\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+\pard\tx2860\tx3240\li2480\ql\qnatural
+
+\f0\b0\fs28 \cf0 Note how while there is one newline before the if statement, no newline is output, but at the end of NSLog there is two newlines and they are both output.
+\fs16 \
+\pard\li2100\ql\qnatural
+
+\f3\b \cf0 \
+\
+\
+
+\fs36 failedLookupResult\
+
+\fs16 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 This option is used to determine how MiscMerge handles a failure to lookup a key path.  MiscMerge will attempt to determine if the first part of a key path exists in one of the contexts that it resolves.  If the key path is a complex multi-part path, the first portion is still the only portion that is evaluated. Consider:\
+\pard\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f4\fs28 \cf0 	Template:
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li3600\ql\qnatural
+
+\f5 \cf0 '\{user\} \{user.name\}'
+\f0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+
+\f4\fs28 	Dictionary:
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li3600\ql\qnatural
+
+\f5 \cf0 <empty>
+\f0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+
+\f4\fs28 	Output:
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li3600\ql\qnatural
+
+\f5 \cf0 user user.name\
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+
+\f4\fs28 	Dictionary:
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li3600\ql\qnatural
+
+\f5 \cf0 user = \{\};
+\f0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+
+\f4\fs28 	Output:
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li3600\ql\qnatural
+
+\f5 \cf0 '\{\} '\
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+
+\f4\fs28 	Dictionary:
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li3600\ql\qnatural
+
+\f5 \cf0 user = nil; <- This must come from a Objective-C method
+\f0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+
+\f4\fs28 	Output:
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li3600\ql\qnatural
+
+\f5 \cf0 ' '\
+\pard\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 Normally, if the first part of the path is found, whatever the full key path returns is returned in the output. If the first part of the key isn't found, the full key path is returned.  Note in the second and third examples, only 'user' exists, while 'user.name' does not.  MiscMerge was designed with the expectation that the user would provide all the correct data to the engine.\
+\pard\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 However, in the case of procedure calls, this can cause some unexpected behavior.  For example:\
+\pard\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f4\fs28 \cf0 	Template:
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li3600\ql\qnatural
+
+\f5 \cf0 \{procedure printorblank item\}\{if item ne ''\}\{item\}\{else\}isBlank\{endif\}\{endprocedure\}\
+'\{call printorblank user\} \{call printorblank user.name\}'
+\f0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+
+\f4\fs28 	Dictionary:
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li3600\ql\qnatural
+
+\f5 \cf0 <empty>
+\f0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+
+\f4\fs28 	Output:
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li3600\ql\qnatural
+
+\f5 \cf0 'user isBlank'\
+\pard\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 This may be what you want, but you may really want to know that 'user' does or doesn't actually exist. This option allows this behavior to be changed.  The following keywords will affect what happens when MiscMerge does not find the first part of a key.\
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+\pard\tx2860\tx3240\li2480\ql\qnatural
+
+\fs28 \cf0 key\
+
+\fs16 \
+\pard\tx2860\tx3240\li2480\ql\qnatural
+
+\f0\b0\fs28 \cf0 This is the default behavior in that the full key path is returned if the initial part of the key path is not found.\
+\pard\tx2860\tx3240\li2480\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+\
+
+\fs28 keyWithDelims\
+
+\fs16 \
+\pard\tx2860\tx3240\li2480\ql\qnatural
+
+\f0\b0\fs28 \cf0 This is the same as the previous except it returns the key path with the current delimiters surrounding it.
+\f3\b\fs16 \
+\
+\
+\pard\tx2860\tx3240\li2480\ql\qnatural
+
+\fs28 \cf0 nil\
+
+\fs16 \
+\pard\tx2860\tx3240\li2480\ql\qnatural
+
+\f0\b0\fs28 \cf0 Return nil if the initial part of the key path is not found.\
+\pard\tx2860\tx3240\li2480\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+\
+
+\fs28 keyIfNumeric\
+
+\fs16 \
+\pard\tx2860\tx3240\li2480\ql\qnatural
+
+\f0\b0\fs28 \cf0 Return the key path if the initial part of the key path is not found if it is a numeric value, or nil otherwise. This allows you to use numbers in conditionals without having to enclose them in single quotes to ensure that they are treated as literals.\
+\pard\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+\
+\
+
+\fs36 nilLookupResult\
+
+\fs16 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 This option is similar to the 'failedLookupResult' option, but controls what happens when the initial key path is found, but the evaluation of that key path returns nil. The following keywords will affect what happens when this happens.\
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+\pard\tx2860\tx3240\li2480\ql\qnatural
+
+\fs28 \cf0 nil\
+
+\fs16 \
+\pard\tx2860\tx3240\li2480\ql\qnatural
+
+\f0\b0\fs28 \cf0 This is the default behavior in that nil is just returned.\
+\pard\tx2860\tx3240\li2480\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+\
+
+\fs28 keyIfQuoted\
+
+\fs16 \
+\pard\tx2860\tx3240\li2480\ql\qnatural
+
+\f0\b0\fs28 \cf0 If the key path resulted in nil, but the key was double quoted, then return the key path.  This allows you to have key path lookups, but default to a key path if it did not evaluate to anything. This can be handy for debugging purposes or places where you might want a default value for some output but not for other lookups.
+\f3\b\fs16 \
+\
+\
+\pard\tx2860\tx3240\li2480\ql\qnatural
+
+\fs28 \cf0 key\
+
+\fs16 \
+\pard\tx2860\tx3240\li2480\ql\qnatural
+
+\f0\b0\fs28 \cf0 This just returns the key path if the value was nil.\
+\pard\tx2860\tx3240\li2480\ql\qnatural
+
+\f3\b\fs16 \cf0 \
+\
+
+\fs28 keyWithDelims\
+
+\fs16 \
+\pard\tx2860\tx3240\li2480\ql\qnatural
+
+\f0\b0\fs28 \cf0 This is the same as the previous except it returns the key path with the current delimiters surrounding it.
+\f3\b\fs16 \
+\pard\li2100\ql\qnatural
+\cf0 \
+\
+\
+
+\fs36 recursiveLookups\
+
+\fs16 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 This allows a template designer to turn on recursive lookups in a template.  Because recursive lookups are dangerous in that they can end up wandering around to places you might not expect, this allows a template designer to turn it on at individual places. This option takes one of three parameters: yes, no, or a number. The parameter yes will tell MiscMerge to attempt a recursive lookup until it hits a recursion limit which is set at 100 by default. It is presumed that if a recursive lookup happens more than 100 times (and really, it is doubtful a recursion past 10 or so times is valid), then the something is  wrong in the template.  The last value that it found will be returned.  The template designer can also specify a number which is then used to turn recursion on and specify what the recursion limit is.\
+\pard\tx2480\tx2860\tx3240\li2480\fi-380\ql\qnatural
+
+\fs16 \cf0 \
+\pard\li2100\ql\qnatural
+
+\f3\b \cf0 \
+\
+\pard\tx2480\tx2860\tx3240\li2480\fi-380\ql\qnatural
+
+\f0\b0 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 \
+\
+\
+
+\fs16 All trademarks used herin are owned by their respective owners.  We're just borrowing them to give you a frame of reference by which you can understand what the MiscKit does.\
+
+\fs28 \
+}
