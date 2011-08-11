@@ -10,6 +10,8 @@
 
 #import <Foundation/Foundation.h>
 #import "ModelObject.h"
+<$if hasCustomSuperentity$>#import "<$customSuperentity$>.h"<$endif$>
+
 <$checkNonTransientRelationshipCycles $>
 <$foreach Relationship noninheritedRelationships do$>@class <$Relationship.destinationEntity.managedObjectClassName$>;
 <$endforeach do$>
