@@ -53,6 +53,7 @@
 	NSString				*tempMOMPath;
 	NSManagedObjectModel	*model;
 	NSString				*baseClass;
+	NSString				*baseClassForce;
 	NSString				*includem;
 	NSString				*includeh;
 	NSString				*templatePath;
