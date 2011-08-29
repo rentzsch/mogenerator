@@ -10,6 +10,7 @@
 
 static NSString *kTemplateVar = @"TemplateVar";
 NSString	*gCustomBaseClass;
+NSString	*gCustomBaseClassForced;
 
 @interface NSEntityDescription (fetchedPropertiesAdditions)
 - (NSDictionary *)fetchedPropertiesByName;
@@ -66,11 +67,15 @@ NSString	*gCustomBaseClass;
 	}
 }
 - (NSString*)customSuperentity {
-	NSEntityDescription *superentity = [self superentity];
-	if (superentity) {
-		return [superentity managedObjectClassName];
+	if(!gCustomBaseClassForced) {
+		NSEntityDescription *superentity = [self superentity];
+		if (superentity) {
+			return [superentity managedObjectClassName];
+		} else {
+			return gCustomBaseClass ? gCustomBaseClass : @"NSManagedObject";
+		}
 	} else {
-		return gCustomBaseClass ? gCustomBaseClass : @"NSManagedObject";
+		return gCustomBaseClassForced;
 	}
 }
 /** @TypeInfo NSAttributeDescription */
@@ -361,6 +366,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     // Long					Short   Argument options
     {@"model",				'm',    DDGetoptRequiredArgument},
     {@"base-class",			0,     DDGetoptRequiredArgument},
+	{@"base-class-force",	0,     DDGetoptRequiredArgument},
     // For compatibility:
     {@"baseClass",			0,      DDGetoptRequiredArgument},
     {@"includem",			0,      DDGetoptRequiredArgument},
@@ -389,6 +395,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     printf("\n"
            "  -m, --model MODEL             Path to model\n"
            "      --base-class CLASS        Custom base class\n"
+		   "      --base-class-force CLASS  Same as --base-class except will force all entities to have the specified base class. Even if a super entity exists\n"
            "      --includem FILE           Generate aggregate include file for .m files for both human and machine generated source files\n"
            "      --includeh FILE           Generate aggregate include file for .h files for human generated source files only\n"
            "      --template-path PATH      Path to templates (absolute or relative to model path)\n"
@@ -531,8 +538,14 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
         printf("mogenerator 1.23. By Jonathan 'Wolf' Rentzsch + friends.\n");
         return EXIT_SUCCESS;
     }
-	
-    gCustomBaseClass = [baseClass retain];
+
+	if(baseClassForce) {
+		gCustomBaseClassForced = [baseClassForce retain];
+		gCustomBaseClass = gCustomBaseClassForced;
+	} else {
+		gCustomBaseClass = [baseClass retain];
+	}
+
     NSString * mfilePath = includem;
 	NSString * hfilePath = includeh;
 	

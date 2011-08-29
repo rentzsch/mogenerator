@@ -486,6 +486,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -493,6 +494,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
