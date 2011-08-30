@@ -4,6 +4,17 @@
 #import <CoreData/CoreData.h>
 #import "HumanMO.h"
 
+extern const struct ChildMOAttributes {
+	 NSString *childName;
+} ChildMOAttributes;
+
+extern const struct ChildMORelationships {
+	 NSString *parent;
+} ChildMORelationships;
+
+extern const struct ChildMOFetchedProperties {
+} ChildMOFetchedProperties;
+
 @class ParentMO;
 
 

@@ -3,6 +3,19 @@
 
 #import "_HumanMO.h"
 
+const struct HumanMOAttributes HumanMOAttributes = {
+	.hairColor = @"hairColor",
+	.hairColorStorage = @"hairColorStorage",
+	.humanName = @"humanName",
+};
+
+const struct HumanMORelationships HumanMORelationships = {
+	.meaninglessRelationship = @"meaninglessRelationship",
+};
+
+const struct HumanMOFetchedProperties HumanMOFetchedProperties = {
+};
+
 @implementation HumanMOID
 @end
 

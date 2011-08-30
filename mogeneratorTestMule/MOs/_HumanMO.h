@@ -4,6 +4,19 @@
 #import <CoreData/CoreData.h>
 #import "MyBaseClass.h"
 
+extern const struct HumanMOAttributes {
+	 NSString *hairColor;
+	 NSString *hairColorStorage;
+	 NSString *humanName;
+} HumanMOAttributes;
+
+extern const struct HumanMORelationships {
+	 NSString *meaninglessRelationship;
+} HumanMORelationships;
+
+extern const struct HumanMOFetchedProperties {
+} HumanMOFetchedProperties;
+
 @class NSManagedObject;
 
 
