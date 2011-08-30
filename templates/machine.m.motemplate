@@ -3,6 +3,18 @@
 
 #import "_<$managedObjectClassName$>.h"
 
+const struct <$managedObjectClassName$>Attributes <$managedObjectClassName$>Attributes = {<$foreach Attribute noninheritedAttributes do$>
+	.<$Attribute.name$> = @"<$Attribute.name$>",<$endforeach do$>
+};
+
+const struct <$managedObjectClassName$>Relationships <$managedObjectClassName$>Relationships = {<$foreach Relationship noninheritedRelationships do$>
+	.<$Relationship.name$> = @"<$Relationship.name$>",<$endforeach do$>
+};
+
+const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassName$>FetchedProperties = {<$foreach FetchedProperty noninheritedFetchedProperties do$>
+	.<$FetchedProperty.name$> = @"<$FetchedProperty.name$>",<$endforeach do$>
+};
+
 @implementation <$managedObjectClassName$>ID
 @end
 

@@ -4,6 +4,18 @@
 #import <CoreData/CoreData.h>
 <$if hasCustomSuperentity$>#import "<$customSuperentity$>.h"<$endif$>
 
+extern const struct <$managedObjectClassName$>Attributes {<$foreach Attribute noninheritedAttributes do$>
+	<$if TemplateVar.arc$>__unsafe_unretained<$endif$> NSString *<$Attribute.name$>;<$endforeach do$>
+} <$managedObjectClassName$>Attributes;
+
+extern const struct <$managedObjectClassName$>Relationships {<$foreach Relationship noninheritedRelationships do$>
+	<$if TemplateVar.arc$>__unsafe_unretained<$endif$> NSString *<$Relationship.name$>;<$endforeach do$>
+} <$managedObjectClassName$>Relationships;
+
+extern const struct <$managedObjectClassName$>FetchedProperties {<$foreach FetchedProperty noninheritedFetchedProperties do$>
+	<$if TemplateVar.arc$>__unsafe_unretained<$endif$> NSString *<$FetchedProperty.name$>;<$endforeach do$>
+} <$managedObjectClassName$>FetchedProperties;
+
 <$foreach Relationship noninheritedRelationships do$>@class <$Relationship.destinationEntity.managedObjectClassName$>;
 <$endforeach do$>
 <$foreach Attribute noninheritedAttributes do$><$if Attribute.hasTransformableAttributeType$>@class <$Attribute.objectAttributeType$>;<$endif$>
