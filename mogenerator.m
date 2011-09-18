@@ -380,6 +380,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     {@"template-group",		0,      DDGetoptRequiredArgument},
     {@"list-source-files",	0,      DDGetoptNoArgument},
     {@"orphaned",			0,      DDGetoptNoArgument},
+	{@"use-pbx-vars",		0,		DDGetoptNoArgument},
 
     {@"help",				'h',    DDGetoptNoArgument},
     {@"version",			0,      DDGetoptNoArgument},
@@ -406,6 +407,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
            "  -H, --human-dir DIR           Output directory for human files\n"
 		   "      --list-source-files		Only list model-related source files\n"
            "      --orphaned                Only list files whose entities no longer exist\n"
+		   "      --use-pbx-vars			Pass Xcode PBXCustomTemplateMacroDefinitions key-value pairs to the template file\n"
            "      --version                 Display version and exit\n"
            "  -h, --help                    Display this help and exit\n"
            "\n"
@@ -439,6 +441,25 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 	}
 	
 	return result;
+}
+
+-(void)setUsePbxVars:(BOOL)val
+{
+	NSDictionary *pbxPrefs = (NSDictionary*)CFPreferencesCopyValue(CFSTR("PBXCustomTemplateMacroDefinitions"), 
+																   CFSTR("com.apple.Xcode"), 
+																   kCFPreferencesCurrentUser, 
+																   kCFPreferencesAnyHost);
+	[templateVar addEntriesFromDictionary:pbxPrefs];
+	time_t curTime = time(NULL);
+	struct tm *tm = localtime(&curTime);
+	[templateVar setObject:[NSString stringWithFormat:@"%ld", 1900 + tm->tm_year] forKey:@"YEAR"];
+	NSDateFormatter *df = [[[NSDateFormatter alloc] init] autorelease];
+	[df setDateStyle:NSDateFormatterShortStyle];
+	[df setTimeStyle:NSDateFormatterNoStyle];
+	[templateVar setObject:[df stringFromDate:[NSDate date]] forKey:@"DATE"];
+	[templateVar setObject:NSFullUserName() forKey:@"FULLUSERNAME"];
+	[pbxPrefs release];
+	NSLog(@"using pbx vars: %@", templateVar);
 }
 
 - (void)setModel:(NSString*)path;
