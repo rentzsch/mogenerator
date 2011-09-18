@@ -1,0 +1,12 @@
+//
+//  <$managedObjectClassName$>.m
+//
+//  Created by <$TemplateVar.FULLUSERNAME$> on <$TemplateVar.DATE$>.
+//  Copyright (c) <$TemplateVar.YEAR$> <$TemplateVar.ORGANIZATIONNAME$>. All rights reserved.
+//
+
+#import "<$managedObjectClassName$>.h"
+
+@implementation <$managedObjectClassName$>
+
+@end
