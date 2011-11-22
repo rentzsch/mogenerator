@@ -52,8 +52,9 @@
 
     resolvedFilename = [template resolveTemplateFilename:filename];
 
+    NSError *error = nil;
     if ([resolvedFilename length] > 0)
-        fileString = [[[NSString alloc] initWithContentsOfFile:resolvedFilename] autorelease];
+        fileString = [NSString stringWithContentsOfFile:resolvedFilename encoding:NSASCIIStringEncoding error:&error];
 
     if (fileString)
     {
@@ -72,7 +73,7 @@
     }
     else
     {
-        [template reportParseError:@"%@: Could not load from file '%@'", [self class], resolvedFilename];
+        [template reportParseError:@"%@: Could not load from file '%@' because %@", [self class], resolvedFilename, [error localizedDescription]];
     }
 
     return YES;
