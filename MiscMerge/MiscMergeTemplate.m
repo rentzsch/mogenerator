@@ -129,13 +129,25 @@
     return self;
 }
 
+/* helper method to load string contents of filenames */
+- (NSString *) contentsOfFileWithName:(NSString *)filename {
+    NSError *error = nil;
+    NSString *fileString = [NSString stringWithContentsOfFile:filename
+                                                     encoding:NSASCIIStringEncoding
+                                                        error:&error];
+    
+    if (error != nil) {
+        NSLog(@"%@: Could not read template file %@ because %@", [self class], filename, [error localizedDescription]);   
+    }
+    return fileString;
+}
+
 /*"
  * Loads the contents of filename, then calls -#initWithString:.
 "*/
 - initWithContentsOfFile:(NSString *)filename
 {
-    NSString *fileString = [[[NSString alloc] initWithContentsOfFile:filename] autorelease];
-    if (fileString == nil) NSLog(@"%@: Could not read template file %@", [self class], filename);
+    NSString *fileString = [self contentsOfFileWithName:filename];
     return [self initWithString:fileString];
 }
 
@@ -432,8 +444,7 @@
 "*/
 - (void)parseContentsOfFile:(NSString *)filename
 {
-    NSString *string = [[NSString alloc] initWithContentsOfFile:filename];
-    if (string == nil) NSLog(@"%@: Could not read template file %@", [self class], filename);
+    NSString *string = [self contentsOfFileWithName:filename];
     [self setFilename:filename];
     [self parseString:string];
     [string release];
