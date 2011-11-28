@@ -1,0 +1,15 @@
+//
+//  <$managedObjectClassName$>.h
+//  <#ProjectName#>
+//
+//  Created by <#ModelAuthor#> on <#GenerateDate#>.
+//  Copyright (c) <#GenerateYear#> Speedwell eBusiness Solutions Pty Ltd. All rights reserved.
+//
+//  $Id$
+//
+
+#import "_<$managedObjectClassName$>.h"
+
+@interface <$managedObjectClassName$> : _<$managedObjectClassName$> <_<$managedObjectClassName$>, NSCoding>
+// Custom logic goes here.
+@end
