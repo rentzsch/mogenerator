@@ -184,7 +184,7 @@
 <$foreach Relationship noninheritedRelationships do$><$if ! Relationship.isToMany$>
 - (void) set<$Relationship.name.initialCapitalString$>: (<$Relationship.destinationEntity.managedObjectClassName$>*) <$Relationship.name$>_ settingInverse: (BOOL) setInverse
 {
-    <$if Relationship.inverseRelationship$><$if Relationship.inverseRelationship.isToMany$>if (<$Relationship.name$>_ == nil && setInverse == YES) {
+	<$if Relationship.inverseRelationship$><$if Relationship.inverseRelationship.isToMany$>if ((<$Relationship.name$>_ == nil || ![<$Relationship.name$>_ isEqual: <$Relationship.name$>]) && setInverse == YES) {
         [<$Relationship.name$> remove<$Relationship.inverseRelationship.name.initialCapitalString$>Object: (<$managedObjectClassName$>*)self settingInverse: NO];
     }<$else$>if (<$Relationship.name$>_ == nil && setInverse == YES) {
         [<$Relationship.name$> set<$Relationship.inverseRelationship.name.initialCapitalString$>: nil settingInverse: NO];
