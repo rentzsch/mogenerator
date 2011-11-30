@@ -13,7 +13,7 @@
 <$endforeach do$>
 
 @interface _<$managedObjectClassName$>()
-<$foreach Relationship noninheritedRelationships do$><$if Relationship.isToMany$>@property (nonatomic, retain, readwrite) NSArray *<$Relationship.name$>;
+<$foreach Relationship noninheritedRelationships do$><$if Relationship.isToMany$>@property (nonatomic, retain, readwrite) NSSet *<$Relationship.name$>;
 <$endif$><$endforeach do$>
 @end
 
@@ -80,7 +80,7 @@
 	<$foreach Relationship noninheritedRelationships do$><$if Relationship.isToMany$>if([self.<$Relationship.name$> count] > 0)
 	{
 		<$if (! Relationship.isTransient) or (Relationship.userInfo.destinationEntityIDKeyPath) $>
-		NSMutableArray *<$Relationship.name$>RepresentationsForDictionary = [NSMutableArray arrayWithCapacity:[self.<$Relationship.name$> count]];
+		NSMutableSet *<$Relationship.name$>RepresentationsForDictionary = [NSMutableSet setWithCapacity:[self.<$Relationship.name$> count]];
 		for(<$Relationship.destinationEntity.managedObjectClassName$> *obj in self.<$Relationship.name$>)
 		{
 			<$if Relationship.userInfo.destinationEntityIDKeyPath $>[<$Relationship.name$>RepresentationsForDictionary addObject:[obj valueForKeyPath:@"<$Relationship.userInfo.destinationEntityIDKeyPath$>"]];
@@ -104,7 +104,7 @@
 	if(self.sourceDictionaryRepresentation == nil)
 		return; // awakeFromDictionaryRepresentationInit has been already executed on this object.
 	
-	<$foreach Relationship noninheritedRelationshipsInIDKeyPathTopologicalOrder do$><$if Relationship.userInfo.destinationEntityIDKeyPath $><$if Relationship.isToMany$>NSArray *<$managedObjectClassName$>_<$Relationship.name$>IDs = [self.sourceDictionaryRepresentation objectForKey:@"<$managedObjectClassName$>.<$Relationship.name$>"];
+	<$foreach Relationship noninheritedRelationshipsInIDKeyPathTopologicalOrder do$><$if Relationship.userInfo.destinationEntityIDKeyPath $><$if Relationship.isToMany$>NSSet *<$managedObjectClassName$>_<$Relationship.name$>IDs = [self.sourceDictionaryRepresentation objectForKey:@"<$managedObjectClassName$>.<$Relationship.name$>"];
 	for(id <$managedObjectClassName$>_<$Relationship.name$>ID in <$managedObjectClassName$>_<$Relationship.name$>IDs)
 	{
 		<$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>Obj = [(_<$managedObjectClassName$><_<$managedObjectClassName$>> *)self fetch<$Relationship.destinationEntity.name$>ObjectWithIDFor<$Relationship.name.initialCapitalString$>Relationship:<$managedObjectClassName$>_<$Relationship.name$>ID];
@@ -137,14 +137,14 @@
     if(self.<$Relationship.name$> == nil)
 	{
 	    <$if Relationship.isTransient$>
-	    CFArrayCallBacks callbacks = {0, NULL, NULL, CFCopyDescription, CFEqual};
-	    self.<$Relationship.name$> = [(NSMutableArray*) CFArrayCreateMutable(0, 0, &callbacks) autorelease];
+	    CFSetCallBacks callbacks = {0, NULL, NULL, CFCopyDescription, CFEqual, CFHash};
+	    self.<$Relationship.name$> = [(NSMutableSet*) CFSetCreateMutable(0, 0, &callbacks) autorelease];
 	    <$else$>
-		self.<$Relationship.name$> = [NSMutableArray array];
+		self.<$Relationship.name$> = [NSMutableSet set];
 		<$endif$>
 	}
 		
-	[(NSMutableArray *)self.<$Relationship.name$> addObject:value_];
+	[(NSMutableSet *)self.<$Relationship.name$> addObject:value_];
 	<$if Relationship.inverseRelationship$><$if ! Relationship.inverseRelationship.isToMany$>if (setInverse == YES) {
 	    [value_ set<$Relationship.inverseRelationship.name.initialCapitalString$>: (<$managedObjectClassName$>*)self settingInverse: NO];
 	}<$endif$><$endif$>
@@ -157,10 +157,10 @@
 - (void)remove<$Relationship.name.initialCapitalString$>Objects
 {
 	<$if Relationship.isTransient$>
-    CFArrayCallBacks callbacks = {0, NULL, NULL, CFCopyDescription, CFEqual};
-    self.<$Relationship.name$> = [(NSMutableArray*) CFArrayCreateMutable(0, 0, &callbacks) autorelease];
+    CFSetCallBacks callbacks = {0, NULL, NULL, CFCopyDescription, CFEqual, CFHash};
+    self.<$Relationship.name$> = [(NSMutableSet*) CFSetCreateMutable(0, 0, &callbacks) autorelease];
     <$else$>
-	self.<$Relationship.name$> = [NSMutableArray array];
+	self.<$Relationship.name$> = [NSMutableSet set];
 	<$endif$>
 }
 
@@ -169,7 +169,9 @@
     <$if Relationship.inverseRelationship$><$if ! Relationship.inverseRelationship.isToMany$>if (setInverse == YES) {
         [value_ set<$Relationship.inverseRelationship.name.initialCapitalString$>: nil settingInverse: NO];
     }<$endif$><$endif$>
-    [(NSMutableArray *)self.<$Relationship.name$> removeObject:value_];
+    if (value_ != nil) {
+        [(NSMutableSet *)self.<$Relationship.name$> removeObject:value_];
+    }
 }
 
 - (void)remove<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_
@@ -182,12 +184,13 @@
 <$foreach Relationship noninheritedRelationships do$><$if ! Relationship.isToMany$>
 - (void) set<$Relationship.name.initialCapitalString$>: (<$Relationship.destinationEntity.managedObjectClassName$>*) <$Relationship.name$>_ settingInverse: (BOOL) setInverse
 {
-    <$if Relationship.inverseRelationship$><$if Relationship.inverseRelationship.isToMany$>if ((<$Relationship.name$>_ == nil || ![<$Relationship.name$>_ isEqual: <$Relationship.name$>]) && setInverse == YES) {
+	<$if Relationship.inverseRelationship$><$if Relationship.inverseRelationship.isToMany$>if ((<$Relationship.name$>_ == nil || ![<$Relationship.name$>_ isEqual: <$Relationship.name$>]) && setInverse == YES) {
         [<$Relationship.name$> remove<$Relationship.inverseRelationship.name.initialCapitalString$>Object: (<$managedObjectClassName$>*)self settingInverse: NO];
     }<$else$>if (<$Relationship.name$>_ == nil && setInverse == YES) {
         [<$Relationship.name$> set<$Relationship.inverseRelationship.name.initialCapitalString$>: nil settingInverse: NO];
     }
-    <$endif$><$endif$><$if Relationship.isTransient$><$Relationship.name$> = <$Relationship.name$>_;<$else$>if (<$Relationship.name$> != <$Relationship.name$>_) {
+    <$endif$><$endif$>
+    <$if Relationship.isTransient$><$Relationship.name$> = <$Relationship.name$>_;<$else$>if (<$Relationship.name$> != <$Relationship.name$>_) {
         [<$Relationship.name$> release];
         <$Relationship.name$> = [<$Relationship.name$>_ retain];
     }<$endif$>

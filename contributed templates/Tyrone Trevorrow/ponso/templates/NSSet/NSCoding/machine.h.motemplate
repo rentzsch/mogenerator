@@ -1,5 +1,5 @@
 //
-//  <$managedObjectClassName$>.h
+//  _<$managedObjectClassName$>.h
 //
 //  $Id$
 //
@@ -22,19 +22,19 @@
 @end
 
 
-@interface _<$managedObjectClassName$> : <$customSuperentity$>
+@interface _<$managedObjectClassName$> : <$customSuperentity$> <NSCoding>
 {
 	<$foreach Attribute noninheritedAttributes do$><$if Attribute.hasDefinedAttributeType$><$Attribute.objectAttributeType$> *<$Attribute.name$>;<$endif$>
 	<$endforeach do$>
 	<$foreach Relationship noninheritedRelationships do$>
-	<$if Relationship.isToMany$>NSArray *<$Relationship.name$>;<$else$><$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>;<$endif$>
+	<$if Relationship.isToMany$>NSSet *<$Relationship.name$>;<$else$><$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>;<$endif$>
 	<$endforeach do$>
 }
 
 <$foreach Attribute noninheritedAttributes do$><$if Attribute.hasDefinedAttributeType$>@property (nonatomic, retain, readwrite) <$Attribute.objectAttributeType$> *<$Attribute.name$>;
 <$if Attribute.hasScalarAttributeType$>@property (nonatomic, assign, readwrite) <$Attribute.scalarAttributeType$> <$Attribute.name$>Value;
 <$endif$><$endif$><$endforeach do$>
-<$foreach Relationship noninheritedRelationships do$><$if Relationship.isToMany$>@property (nonatomic, retain, readonly) NSArray *<$Relationship.name$>;
+<$foreach Relationship noninheritedRelationships do$><$if Relationship.isToMany$>@property (nonatomic, retain, readonly) NSSet *<$Relationship.name$>;
 <$else$><$if Relationship.isTransient $>@property (nonatomic, assign, readwrite) <$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>;
 <$else$>@property (nonatomic, retain, readwrite) <$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>;<$endif$>
 <$endif$><$endforeach do$>
