@@ -10,7 +10,6 @@
 
 #import <Foundation/Foundation.h>
 #import "ModelObject.h"
-#import "ModelObject.h"
 
 @class ModelAssistant;
 @class ModelDepartment;
@@ -22,17 +21,17 @@
 @end
 
 
-@interface _ModelCompany : ModelObject <NSCoding>
+@interface _ModelCompany : ModelObject
 {
 	NSString *name;
 	NSNumber *yearFounded;
 	
 	
-	NSSet *assistants;
+	NSArray *assistants;
 	
-	NSSet *departments;
+	NSArray *departments;
 	
-	NSSet *employees;
+	NSArray *employees;
 	
 }
 
@@ -40,29 +39,22 @@
 @property (nonatomic, retain, readwrite) NSNumber *yearFounded;
 @property (nonatomic, assign, readwrite) int yearFoundedValue;
 
-@property (nonatomic, retain, readonly) NSSet *assistants;
-@property (nonatomic, retain, readonly) NSSet *departments;
-@property (nonatomic, retain, readonly) NSSet *employees;
+@property (nonatomic, retain, readonly) NSArray *assistants;
+@property (nonatomic, retain, readonly) NSArray *departments;
+@property (nonatomic, retain, readonly) NSArray *employees;
 
 
-- (void)addAssistantsObject:(ModelAssistant*)value_ settingInverse: (BOOL) setInverse;
 - (void)addAssistantsObject:(ModelAssistant*)value_;
 - (void)removeAssistantsObjects;
-- (void)removeAssistantsObject:(ModelAssistant*)value_ settingInverse: (BOOL) setInverse;
 - (void)removeAssistantsObject:(ModelAssistant*)value_;
 
-- (void)addDepartmentsObject:(ModelDepartment*)value_ settingInverse: (BOOL) setInverse;
 - (void)addDepartmentsObject:(ModelDepartment*)value_;
 - (void)removeDepartmentsObjects;
-- (void)removeDepartmentsObject:(ModelDepartment*)value_ settingInverse: (BOOL) setInverse;
 - (void)removeDepartmentsObject:(ModelDepartment*)value_;
 
-- (void)addEmployeesObject:(ModelEmployee*)value_ settingInverse: (BOOL) setInverse;
 - (void)addEmployeesObject:(ModelEmployee*)value_;
 - (void)removeEmployeesObjects;
-- (void)removeEmployeesObject:(ModelEmployee*)value_ settingInverse: (BOOL) setInverse;
 - (void)removeEmployeesObject:(ModelEmployee*)value_;
-
 
 
 @end

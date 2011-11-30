@@ -10,7 +10,6 @@
 
 #import <Foundation/Foundation.h>
 #import "ModelObject.h"
-#import "ModelObject.h"
 
 @class ModelDepartment;
 @class ModelEmployee;
@@ -23,7 +22,7 @@
 @end
 
 
-@interface _ModelDepartmentEmployee : ModelObject <NSCoding>
+@interface _ModelDepartmentEmployee : ModelObject
 {
 	NSDate *startedWorking;
 	
@@ -42,11 +41,6 @@
 
 
 
-
-
-- (void) setDepartment: (ModelDepartment*) department_ settingInverse: (BOOL) setInverse;
-
-- (void) setEmployee: (ModelEmployee*) employee_ settingInverse: (BOOL) setInverse;
 
 
 @end

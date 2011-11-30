@@ -188,7 +188,6 @@
 		457C267F1399FAC600BF00DD /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
 				ORGANIZATIONNAME = "@nzhuk";
 			};
 			buildConfigurationList = 457C26821399FAC600BF00DD /* Build configuration list for PBXProject "PonsoTest" */;
@@ -220,7 +219,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "### Settings\n\nDATA_MODEL_FILE=\"$PROJECT_DIR/MyModel.xcdatamodeld/MyModel.xcdatamodel\"\nDATA_MODEL_SOURCE_DIR=\"$PROJECT_DIR/Sources/DataModel\"\n\nBASE_CLASS=\"ModelObject\"\nAGGREGATE_HEADER=\"$DATA_MODEL_SOURCE_DIR/Model.h\"\n\nMOGENERATOR_DIR=\"$PROJECT_DIR/../../../../../\"\nMOGENERATOR_BIN=`type -P mogenerator` ## Adjust this so that it points to a compiled mogenerator binary.\nMOGENERATOR_TEMPLATES=\"$MOGENERATOR_DIR/contributed templates/Nikita Zhuk/ponso/templates/NSSet/NSCoding\"\n\n### Logic\n\nsource \"$MOGENERATOR_DIR/ponso/generate.sh\"\n";
+			shellScript = "### Settings\n\nDATA_MODEL_FILE=\"$PROJECT_DIR/MyModel.xcdatamodeld/MyModel.xcdatamodel\"\nDATA_MODEL_SOURCE_DIR=\"$PROJECT_DIR/Sources/DataModel\"\n\nBASE_CLASS=\"ModelObject\"\nAGGREGATE_HEADER=\"$DATA_MODEL_SOURCE_DIR/Model.h\"\n\nMOGENERATOR_DIR=\"$PROJECT_DIR/../../../../../\"\nMOGENERATOR_BIN=\"$MOGENERATOR_DIR/mogenerator\" ## Adjust this so that it points to a compiled mogenerator binary.\nMOGENERATOR_TEMPLATES=\"$MOGENERATOR_DIR/contributed templates/Nikita Zhuk/ponso/templates\"\n\n### Logic\n\nsource \"$MOGENERATOR_DIR/ponso/generate.sh\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

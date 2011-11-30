@@ -10,7 +10,6 @@
 
 #import <Foundation/Foundation.h>
 #import "ModelObject.h"
-#import "ModelObject.h"
 
 @class ModelAssistant;
 @class ModelCompany;
@@ -24,7 +23,7 @@
 @end
 
 
-@interface _ModelEmployee : ModelObject <NSCoding>
+@interface _ModelEmployee : ModelObject
 {
 	NSDate *birthDate;
 	NSNumber *isOnVacation;
@@ -35,7 +34,7 @@
 	
 	ModelCompany *company;
 	
-	NSSet *departments;
+	NSArray *departments;
 	
 }
 
@@ -47,21 +46,14 @@
 @property (nonatomic, retain, readwrite) ModelAssistant *assistant;
 @property (nonatomic, assign, readwrite) ModelCompany *company;
 
-@property (nonatomic, retain, readonly) NSSet *departments;
+@property (nonatomic, retain, readonly) NSArray *departments;
 
 
 
 
-- (void)addDepartmentsObject:(ModelDepartmentEmployee*)value_ settingInverse: (BOOL) setInverse;
 - (void)addDepartmentsObject:(ModelDepartmentEmployee*)value_;
 - (void)removeDepartmentsObjects;
-- (void)removeDepartmentsObject:(ModelDepartmentEmployee*)value_ settingInverse: (BOOL) setInverse;
 - (void)removeDepartmentsObject:(ModelDepartmentEmployee*)value_;
-
-
-- (void) setAssistant: (ModelAssistant*) assistant_ settingInverse: (BOOL) setInverse;
-
-- (void) setCompany: (ModelCompany*) company_ settingInverse: (BOOL) setInverse;
 
 
 @end
