@@ -3,6 +3,17 @@
 
 #import "_ChildMO.h"
 
+const struct ChildMOAttributes ChildMOAttributes = {
+	.childName = @"childName",
+};
+
+const struct ChildMORelationships ChildMORelationships = {
+	.parent = @"parent",
+};
+
+const struct ChildMOFetchedProperties ChildMOFetchedProperties = {
+};
+
 @implementation ChildMOID
 @end
 

@@ -20,7 +20,6 @@
 - (NSArray*)entitiesWithACustomSubclassVerbose:(BOOL)verbose_;
 @end
 
-
 @interface NSEntityDescription (customBaseClass)
 - (BOOL)hasCustomSuperentity;
 - (NSString*)customSuperentity;
@@ -36,6 +35,15 @@
 - (BOOL)hasTransformableAttributeType;
 @end
 
+@interface NSRelationshipDescription (collectionClassName)
+- (NSString*)mutableCollectionClassName;
+- (NSString*)immutableCollectionClassName;
+- (BOOL)_jr_isOrdered;
+@end
+@interface NSObject (JustHereToSuppressIsOrderedNotImplementedCompilerWarning)
+- (BOOL)isOrdered;
+@end
+
 @interface NSString (camelCaseString)
 - (NSString*)camelCaseString;
 @end
@@ -45,6 +53,7 @@
 	NSString				*tempMOMPath;
 	NSManagedObjectModel	*model;
 	NSString				*baseClass;
+	NSString				*baseClassForce;
 	NSString				*includem;
 	NSString				*includeh;
 	NSString				*templatePath;
@@ -56,6 +65,7 @@
 	BOOL					_version;
 	BOOL					_listSourceFiles;
     BOOL					_orphaned;
+    NSMutableDictionary     *templateVar;
 }
 
 - (NSString*)appSupportFileNamed:(NSString*)fileName_;

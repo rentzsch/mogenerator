@@ -4,6 +4,19 @@
 #import <CoreData/CoreData.h>
 #import "MyBaseClass.h"
 
+extern const struct HumanMOAttributes {
+	 NSString *hairColor;
+	 NSString *hairColorStorage;
+	 NSString *humanName;
+} HumanMOAttributes;
+
+extern const struct HumanMORelationships {
+	 NSString *meaninglessRelationship;
+} HumanMORelationships;
+
+extern const struct HumanMOFetchedProperties {
+} HumanMOFetchedProperties;
+
 @class NSManagedObject;
 
 
@@ -21,13 +34,19 @@
 
 
 
+
+
+
 @property (nonatomic, retain) NSData *hairColorStorage;
+
 
 //- (BOOL)validateHairColorStorage:(id*)value_ error:(NSError**)error_;
 
 
 
+
 @property (nonatomic, retain) NSString *humanName;
+
 
 //- (BOOL)validateHumanName:(id*)value_ error:(NSError**)error_;
 
@@ -35,15 +54,10 @@
 
 
 
-
 @property (nonatomic, retain) NSManagedObject* meaninglessRelationship;
+
 //- (BOOL)validateMeaninglessRelationship:(id*)value_ error:(NSError**)error_;
 
-
-
-
-+ (NSArray*)fetchByHumanName:(NSManagedObjectContext*)moc_ humanName:(NSString*)humanName_ ;
-+ (NSArray*)fetchByHumanName:(NSManagedObjectContext*)moc_ humanName:(NSString*)humanName_ error:(NSError**)error_;
 
 
 
@@ -57,6 +71,11 @@
 
 
 
++ (NSArray*)fetchByHumanName:(NSManagedObjectContext*)moc_ humanName:(NSString*)humanName_ ;
++ (NSArray*)fetchByHumanName:(NSManagedObjectContext*)moc_ humanName:(NSString*)humanName_ error:(NSError**)error_;
+
+
+
 @end
 
 @interface _HumanMO (CoreDataGeneratedAccessors)
@@ -64,6 +83,8 @@
 @end
 
 @interface _HumanMO (CoreDataGeneratedPrimitiveAccessors)
+
+
 
 
 - (NSData*)primitiveHairColorStorage;
@@ -74,8 +95,6 @@
 
 - (NSString*)primitiveHumanName;
 - (void)setPrimitiveHumanName:(NSString*)value;
-
-
 
 
 

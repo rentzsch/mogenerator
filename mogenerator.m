@@ -8,7 +8,9 @@
 #import "mogenerator.h"
 #import "RegexKitLite.h"
 
+static NSString *kTemplateVar = @"TemplateVar";
 NSString	*gCustomBaseClass;
+NSString	*gCustomBaseClassForced;
 
 @interface NSEntityDescription (fetchedPropertiesAdditions)
 - (NSDictionary *)fetchedPropertiesByName;
@@ -65,11 +67,15 @@ NSString	*gCustomBaseClass;
 	}
 }
 - (NSString*)customSuperentity {
-	NSEntityDescription *superentity = [self superentity];
-	if (superentity) {
-		return [superentity managedObjectClassName];
+	if(!gCustomBaseClassForced) {
+		NSEntityDescription *superentity = [self superentity];
+		if (superentity) {
+			return [superentity managedObjectClassName];
+		} else {
+			return gCustomBaseClass ? gCustomBaseClass : @"NSManagedObject";
+		}
 	} else {
-		return gCustomBaseClass ? gCustomBaseClass : @"NSManagedObject";
+		return gCustomBaseClassForced;
 	}
 }
 /** @TypeInfo NSAttributeDescription */
@@ -260,6 +266,26 @@ NSString	*gCustomBaseClass;
 
 @end
 
+@implementation NSRelationshipDescription (collectionClassName)
+
+- (NSString*)mutableCollectionClassName {
+	return [self _jr_isOrdered] ? @"NSMutableOrderedSet" : @"NSMutableSet";
+}
+
+- (NSString*)immutableCollectionClassName {
+	return [self _jr_isOrdered] ? @"NSOrderedSet" : @"NSSet";
+}
+
+- (BOOL)_jr_isOrdered {
+	if ([self respondsToSelector:@selector(isOrdered)]) {
+        return [self isOrdered];
+    } else {
+        return NO;
+    }
+}
+
+@end
+
 @implementation NSString (camelCaseString)
 - (NSString*)camelCaseString {
 	NSArray *lowerCasedWordArray = [[self wordArray] arrayByMakingObjectsPerformSelector:@selector(lowercaseString)];
@@ -283,6 +309,19 @@ static MiscMergeEngine* engineWithTemplatePath(NSString *templatePath_) {
 }
 
 @implementation MOGeneratorApp
+
+- (id)init {
+    self = [super init];
+    if (self) {
+        templateVar = [[NSMutableDictionary alloc] init];
+    }
+    return self;
+}
+
+- (void)dealloc {
+    [templateVar release];
+    [super dealloc];
+}
 
 NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 - (NSString*)appSupportFileNamed:(NSString*)fileName_ {
@@ -327,6 +366,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     // Long					Short   Argument options
     {@"model",				'm',    DDGetoptRequiredArgument},
     {@"base-class",			0,     DDGetoptRequiredArgument},
+	{@"base-class-force",	0,     DDGetoptRequiredArgument},
     // For compatibility:
     {@"baseClass",			0,      DDGetoptRequiredArgument},
     {@"includem",			0,      DDGetoptRequiredArgument},
@@ -343,6 +383,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 
     {@"help",				'h',    DDGetoptNoArgument},
     {@"version",			0,      DDGetoptNoArgument},
+	{@"template-var",		0,      DDGetoptKeyValueArgument},
     {nil,					0,      0},
     };
     [optionsParser addOptionsFromTable: optionTable];
@@ -354,10 +395,12 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     printf("\n"
            "  -m, --model MODEL             Path to model\n"
            "      --base-class CLASS        Custom base class\n"
+		   "      --base-class-force CLASS  Same as --base-class except will force all entities to have the specified base class. Even if a super entity exists\n"
            "      --includem FILE           Generate aggregate include file for .m files for both human and machine generated source files\n"
            "      --includeh FILE           Generate aggregate include file for .h files for human generated source files only\n"
            "      --template-path PATH      Path to templates (absolute or relative to model path)\n"
            "      --template-group NAME     Name of template group\n"
+		   "      --template-var KEY=VALUE  A key-value pair to pass to the template file. There can be many of these.\n"
            "  -O, --output-dir DIR          Output directory\n"
            "  -M, --machine-dir DIR         Output directory for machine files\n"
            "  -H, --human-dir DIR           Output directory for human files\n"
@@ -492,11 +535,17 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     }
     
     if (_version) {
-        printf("mogenerator 1.22. By Jonathan 'Wolf' Rentzsch + friends.\n");
+        printf("mogenerator 1.23. By Jonathan 'Wolf' Rentzsch + friends.\n");
         return EXIT_SUCCESS;
     }
-	
-    gCustomBaseClass = [baseClass retain];
+
+	if(baseClassForce) {
+		gCustomBaseClassForced = [baseClassForce retain];
+		gCustomBaseClass = gCustomBaseClassForced;
+	} else {
+		gCustomBaseClass = [baseClass retain];
+	}
+
     NSString * mfilePath = includem;
 	NSString * hfilePath = includeh;
 	
@@ -581,6 +630,12 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 		assert(humanH);
 		MiscMergeEngine *humanM = engineWithTemplatePath([self appSupportFileNamed:@"human.m.motemplate"]);
 		assert(humanM);
+		
+		// Add the template var dictionary to each of the merge engines
+		[machineH setEngineValue:templateVar forKey:kTemplateVar];
+		[machineM setEngineValue:templateVar forKey:kTemplateVar];
+		[humanH setEngineValue:templateVar forKey:kTemplateVar];
+		[humanM setEngineValue:templateVar forKey:kTemplateVar];
 		
 		NSMutableArray	*humanMFiles = [NSMutableArray array],
 						*humanHFiles = [NSMutableArray array],

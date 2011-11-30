@@ -3,6 +3,18 @@
 
 #import "_<$managedObjectClassName$>.h"
 
+const struct <$managedObjectClassName$>Attributes <$managedObjectClassName$>Attributes = {<$foreach Attribute noninheritedAttributes do$>
+	.<$Attribute.name$> = @"<$Attribute.name$>",<$endforeach do$>
+};
+
+const struct <$managedObjectClassName$>Relationships <$managedObjectClassName$>Relationships = {<$foreach Relationship noninheritedRelationships do$>
+	.<$Relationship.name$> = @"<$Relationship.name$>",<$endforeach do$>
+};
+
+const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassName$>FetchedProperties = {<$foreach FetchedProperty noninheritedFetchedProperties do$>
+	.<$FetchedProperty.name$> = @"<$FetchedProperty.name$>",<$endforeach do$>
+};
+
 @implementation <$managedObjectClassName$>ID
 @end
 
@@ -69,9 +81,13 @@
 @dynamic <$Relationship.name$>;
 
 	<$if Relationship.isToMany$>
-- (NSMutableSet*)<$Relationship.name$>Set {
+- (<$Relationship.mutableCollectionClassName$>*)<$Relationship.name$>Set {
 	[self willAccessValueForKey:@"<$Relationship.name$>"];
-	NSMutableSet *result = [self mutableSetValueForKey:@"<$Relationship.name$>"];
+  <$if Relationship.isOrdered$>
+	<$Relationship.mutableCollectionClassName$> *result = (<$Relationship.mutableCollectionClassName$>*)[self mutableOrderedSetValueForKey:@"<$Relationship.name$>"];
+  <$else$>
+	<$Relationship.mutableCollectionClassName$> *result = (<$Relationship.mutableCollectionClassName$>*)[self mutableSetValueForKey:@"<$Relationship.name$>"];
+  <$endif$>
 	[self didAccessValueForKey:@"<$Relationship.name$>"];
 	return result;
 }

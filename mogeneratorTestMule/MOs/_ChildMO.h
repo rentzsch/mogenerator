@@ -4,6 +4,17 @@
 #import <CoreData/CoreData.h>
 #import "HumanMO.h"
 
+extern const struct ChildMOAttributes {
+	 NSString *childName;
+} ChildMOAttributes;
+
+extern const struct ChildMORelationships {
+	 NSString *parent;
+} ChildMORelationships;
+
+extern const struct ChildMOFetchedProperties {
+} ChildMOFetchedProperties;
+
 @class ParentMO;
 
 
@@ -19,14 +30,18 @@
 
 
 
+
 @property (nonatomic, retain) NSString *childName;
+
 
 //- (BOOL)validateChildName:(id*)value_ error:(NSError**)error_;
 
 
 
 
+
 @property (nonatomic, retain) ParentMO* parent;
+
 //- (BOOL)validateParent:(id*)value_ error:(NSError**)error_;
 
 

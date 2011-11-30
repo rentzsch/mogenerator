@@ -8,17 +8,17 @@
 
 
 
+
+
+
+
+
+
+
+
+
 @class NSObject;
-
-
 @class NSColor;
-
-
-
-
-
-
-
 
 
 @interface ParentMOID : NSManagedObjectID {}
@@ -32,47 +32,17 @@
 
 
 
-@property (nonatomic, retain) NSNumber *myInt16Transient;
 
-@property short myInt16TransientValue;
-- (short)myInt16TransientValue;
-- (void)setMyInt16TransientValue:(short)value_;
-
-//- (BOOL)validateMyInt16Transient:(id*)value_ error:(NSError**)error_;
+@property (nonatomic, retain) NSData *myBinaryData;
 
 
+//- (BOOL)validateMyBinaryData:(id*)value_ error:(NSError**)error_;
 
-@property (nonatomic, retain) NSString *parentName;
-
-//- (BOOL)validateParentName:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSObject *myTransformableSansClassName;
-
-//- (BOOL)validateMyTransformableSansClassName:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSDecimalNumber *myDecimal;
-
-//- (BOOL)validateMyDecimal:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSDate *myDate;
-
-//- (BOOL)validateMyDate:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSColor *myTransformableWithClassName;
-
-//- (BOOL)validateMyTransformableWithClassName:(id*)value_ error:(NSError**)error_;
 
 
 
 @property (nonatomic, retain) NSNumber *myBoolean;
+
 
 @property BOOL myBooleanValue;
 - (BOOL)myBooleanValue;
@@ -82,17 +52,25 @@
 
 
 
-@property (nonatomic, retain) NSNumber *myInt64;
 
-@property long long myInt64Value;
-- (long long)myInt64Value;
-- (void)setMyInt64Value:(long long)value_;
+@property (nonatomic, retain) NSDate *myDate;
 
-//- (BOOL)validateMyInt64:(id*)value_ error:(NSError**)error_;
+
+//- (BOOL)validateMyDate:(id*)value_ error:(NSError**)error_;
+
+
+
+
+@property (nonatomic, retain) NSDecimalNumber *myDecimal;
+
+
+//- (BOOL)validateMyDecimal:(id*)value_ error:(NSError**)error_;
+
 
 
 
 @property (nonatomic, retain) NSNumber *myDouble;
+
 
 @property double myDoubleValue;
 - (double)myDoubleValue;
@@ -102,17 +80,9 @@
 
 
 
-@property (nonatomic, retain) NSNumber *myInt16;
-
-@property short myInt16Value;
-- (short)myInt16Value;
-- (void)setMyInt16Value:(short)value_;
-
-//- (BOOL)validateMyInt16:(id*)value_ error:(NSError**)error_;
-
-
 
 @property (nonatomic, retain) NSNumber *myFloat;
+
 
 @property float myFloatValue;
 - (float)myFloatValue;
@@ -122,19 +92,33 @@
 
 
 
-@property (nonatomic, retain) NSData *myBinaryData;
 
-//- (BOOL)validateMyBinaryData:(id*)value_ error:(NSError**)error_;
-
+@property (nonatomic, retain) NSNumber *myInt16;
 
 
-@property (nonatomic, retain) NSString *myString;
+@property short myInt16Value;
+- (short)myInt16Value;
+- (void)setMyInt16Value:(short)value_;
 
-//- (BOOL)validateMyString:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateMyInt16:(id*)value_ error:(NSError**)error_;
+
+
+
+
+@property (nonatomic, retain) NSNumber *myInt16Transient;
+
+
+@property short myInt16TransientValue;
+- (short)myInt16TransientValue;
+- (void)setMyInt16TransientValue:(short)value_;
+
+//- (BOOL)validateMyInt16Transient:(id*)value_ error:(NSError**)error_;
+
 
 
 
 @property (nonatomic, retain) NSNumber *myInt32;
+
 
 @property int myInt32Value;
 - (int)myInt32Value;
@@ -145,8 +129,54 @@
 
 
 
-@property (nonatomic, retain) NSSet* children;
-- (NSMutableSet*)childrenSet;
+@property (nonatomic, retain) NSNumber *myInt64;
+
+
+@property long long myInt64Value;
+- (long long)myInt64Value;
+- (void)setMyInt64Value:(long long)value_;
+
+//- (BOOL)validateMyInt64:(id*)value_ error:(NSError**)error_;
+
+
+
+
+@property (nonatomic, retain) NSString *myString;
+
+
+//- (BOOL)validateMyString:(id*)value_ error:(NSError**)error_;
+
+
+
+
+@property (nonatomic, retain) NSObject *myTransformableSansClassName;
+
+
+//- (BOOL)validateMyTransformableSansClassName:(id*)value_ error:(NSError**)error_;
+
+
+
+
+@property (nonatomic, retain) NSColor *myTransformableWithClassName;
+
+
+//- (BOOL)validateMyTransformableWithClassName:(id*)value_ error:(NSError**)error_;
+
+
+
+
+@property (nonatomic, retain) NSString *parentName;
+
+
+//- (BOOL)validateParentName:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, retain) NSOrderedSet* children;
+
+- (NSMutableOrderedSet*)childrenSet;
 
 
 
@@ -155,8 +185,8 @@
 
 @interface _ParentMO (CoreDataGeneratedAccessors)
 
-- (void)addChildren:(NSSet*)value_;
-- (void)removeChildren:(NSSet*)value_;
+- (void)addChildren:(NSOrderedSet*)value_;
+- (void)removeChildren:(NSOrderedSet*)value_;
 - (void)addChildrenObject:(ChildMO*)value_;
 - (void)removeChildrenObject:(ChildMO*)value_;
 
@@ -165,41 +195,8 @@
 @interface _ParentMO (CoreDataGeneratedPrimitiveAccessors)
 
 
-- (NSNumber*)primitiveMyInt16Transient;
-- (void)setPrimitiveMyInt16Transient:(NSNumber*)value;
-
-- (short)primitiveMyInt16TransientValue;
-- (void)setPrimitiveMyInt16TransientValue:(short)value_;
-
-
-
-
-- (NSString*)primitiveParentName;
-- (void)setPrimitiveParentName:(NSString*)value;
-
-
-
-
-- (NSObject*)primitiveMyTransformableSansClassName;
-- (void)setPrimitiveMyTransformableSansClassName:(NSObject*)value;
-
-
-
-
-- (NSDecimalNumber*)primitiveMyDecimal;
-- (void)setPrimitiveMyDecimal:(NSDecimalNumber*)value;
-
-
-
-
-- (NSDate*)primitiveMyDate;
-- (void)setPrimitiveMyDate:(NSDate*)value;
-
-
-
-
-- (NSColor*)primitiveMyTransformableWithClassName;
-- (void)setPrimitiveMyTransformableWithClassName:(NSColor*)value;
+- (NSData*)primitiveMyBinaryData;
+- (void)setPrimitiveMyBinaryData:(NSData*)value;
 
 
 
@@ -213,11 +210,14 @@
 
 
 
-- (NSNumber*)primitiveMyInt64;
-- (void)setPrimitiveMyInt64:(NSNumber*)value;
+- (NSDate*)primitiveMyDate;
+- (void)setPrimitiveMyDate:(NSDate*)value;
 
-- (long long)primitiveMyInt64Value;
-- (void)setPrimitiveMyInt64Value:(long long)value_;
+
+
+
+- (NSDecimalNumber*)primitiveMyDecimal;
+- (void)setPrimitiveMyDecimal:(NSDecimalNumber*)value;
 
 
 
@@ -231,15 +231,6 @@
 
 
 
-- (NSNumber*)primitiveMyInt16;
-- (void)setPrimitiveMyInt16:(NSNumber*)value;
-
-- (short)primitiveMyInt16Value;
-- (void)setPrimitiveMyInt16Value:(short)value_;
-
-
-
-
 - (NSNumber*)primitiveMyFloat;
 - (void)setPrimitiveMyFloat:(NSNumber*)value;
 
@@ -249,14 +240,20 @@
 
 
 
-- (NSData*)primitiveMyBinaryData;
-- (void)setPrimitiveMyBinaryData:(NSData*)value;
+- (NSNumber*)primitiveMyInt16;
+- (void)setPrimitiveMyInt16:(NSNumber*)value;
+
+- (short)primitiveMyInt16Value;
+- (void)setPrimitiveMyInt16Value:(short)value_;
 
 
 
 
-- (NSString*)primitiveMyString;
-- (void)setPrimitiveMyString:(NSString*)value;
+- (NSNumber*)primitiveMyInt16Transient;
+- (void)setPrimitiveMyInt16Transient:(NSNumber*)value;
+
+- (short)primitiveMyInt16TransientValue;
+- (void)setPrimitiveMyInt16TransientValue:(short)value_;
 
 
 
@@ -270,9 +267,42 @@
 
 
 
+- (NSNumber*)primitiveMyInt64;
+- (void)setPrimitiveMyInt64:(NSNumber*)value;
 
-- (NSMutableSet*)primitiveChildren;
-- (void)setPrimitiveChildren:(NSMutableSet*)value;
+- (long long)primitiveMyInt64Value;
+- (void)setPrimitiveMyInt64Value:(long long)value_;
+
+
+
+
+- (NSString*)primitiveMyString;
+- (void)setPrimitiveMyString:(NSString*)value;
+
+
+
+
+- (NSObject*)primitiveMyTransformableSansClassName;
+- (void)setPrimitiveMyTransformableSansClassName:(NSObject*)value;
+
+
+
+
+- (NSColor*)primitiveMyTransformableWithClassName;
+- (void)setPrimitiveMyTransformableWithClassName:(NSColor*)value;
+
+
+
+
+- (NSString*)primitiveParentName;
+- (void)setPrimitiveParentName:(NSString*)value;
+
+
+
+
+
+- (NSMutableOrderedSet*)primitiveChildren;
+- (void)setPrimitiveChildren:(NSMutableOrderedSet*)value;
 
 
 @end

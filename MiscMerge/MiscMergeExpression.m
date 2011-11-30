@@ -418,7 +418,7 @@ static NSNumber *FALSE_VALUE;
 {
     self = [super init];
     if ( self ) {
-        expressions = [list retain];
+        expressions = [list mutableCopy];
     }
     return self;
 }
