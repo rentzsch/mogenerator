@@ -23,3 +23,4 @@ MOMC_SUPPRESS_INVERSE_TRANSIENT_ERROR=YES \
 -O "$DATA_MODEL_SOURCE_DIR" || exit 1
 
 echo "Generated Data Model Classes to $DATA_MODEL_SOURCE_DIR"
+

@@ -22,22 +22,6 @@
 
 @implementation ModelObject
 
-- (id) initWithCoder: (NSCoder*) aDecoder
-{
-    self = [super init];
-    if (self) {
-        // Superclass implementation:
-        // If we add ivars/properties, here's where we'll load them
-    }
-    return self;
-}
-
-- (void) encodeWithCoder: (NSCoder*) aCoder
-{
-    // Superclass implementation:
-    // If we add ivars/properties, here's where we'll save them
-}
-
 + (id)createModelObjectFromFile:(NSString *)filePath
 {
 	if(![[NSFileManager defaultManager] fileExistsAtPath:filePath])

@@ -24,7 +24,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ModelObject : NSObject <NSCopying, NSCoding>
+@interface ModelObject : NSObject <NSCopying>
 {
 	NSDictionary *sourceDictionaryRepresentation;
 }
