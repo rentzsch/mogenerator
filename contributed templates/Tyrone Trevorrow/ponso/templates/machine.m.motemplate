@@ -182,12 +182,12 @@
 <$foreach Relationship noninheritedRelationships do$><$if ! Relationship.isToMany$>
 - (void) set<$Relationship.name.initialCapitalString$>: (<$Relationship.destinationEntity.managedObjectClassName$>*) <$Relationship.name$>_ settingInverse: (BOOL) setInverse
 {
-    <$if Relationship.inverseRelationship$><$if Relationship.inverseRelationship.isToMany$>if ((<$Relationship.name$>_ == nil || ![<$Relationship.name$>_ isEqual: <$Relationship.name$>]) && setInverse == YES) {
+    <$if Relationship.inverseRelationship$><$if Relationship.inverseRelationship.isToMany$>if (<$Relationship.name$>_ == nil) {
         [<$Relationship.name$> remove<$Relationship.inverseRelationship.name.initialCapitalString$>Object: (<$managedObjectClassName$>*)self settingInverse: NO];
-    }<$else$>if (<$Relationship.name$>_ == nil && setInverse == YES) {
+    }<$else$>if (<$Relationship.name$>_ == nil) {
         [<$Relationship.name$> set<$Relationship.inverseRelationship.name.initialCapitalString$>: nil settingInverse: NO];
     }
-    <$endif$><$endif$><$if Relationship.isTransient$><$Relationship.name$> = <$Relationship.name$>_;<$else$>if (<$Relationship.name$> != <$Relationship.name$>_) {
+    <$endif$><$if Relationship.isTransient$><$Relationship.name$> = <$Relationship.name$>_;<$else$>if (<$Relationship.name$> != <$Relationship.name$>_) {
         [<$Relationship.name$> release];
         <$Relationship.name$> = [<$Relationship.name$>_ retain];
     }<$endif$>
@@ -214,8 +214,8 @@
 {
 	<$foreach Attribute noninheritedAttributes do$><$if Attribute.hasDefinedAttributeType$>self.<$Attribute.name$> = nil;
 	<$endif$><$endforeach do$>
-	<$foreach Relationship noninheritedRelationships do$><$if ! Relationship.isTransient$>self.<$Relationship.name$> = nil;
-	<$endif$><$endforeach do$>
+	<$foreach Relationship noninheritedRelationships do$>self.<$Relationship.name$> = nil;
+	<$endforeach do$>
 	[super dealloc];
 }
 
