@@ -3,6 +3,30 @@
 
 #import "_ParentMO.h"
 
+const struct ParentMOAttributes ParentMOAttributes = {
+	.myBinaryData = @"myBinaryData",
+	.myBoolean = @"myBoolean",
+	.myDate = @"myDate",
+	.myDecimal = @"myDecimal",
+	.myDouble = @"myDouble",
+	.myFloat = @"myFloat",
+	.myInt16 = @"myInt16",
+	.myInt16Transient = @"myInt16Transient",
+	.myInt32 = @"myInt32",
+	.myInt64 = @"myInt64",
+	.myString = @"myString",
+	.myTransformableSansClassName = @"myTransformableSansClassName",
+	.myTransformableWithClassName = @"myTransformableWithClassName",
+	.parentName = @"parentName",
+};
+
+const struct ParentMORelationships ParentMORelationships = {
+	.children = @"children",
+};
+
+const struct ParentMOFetchedProperties ParentMOFetchedProperties = {
+};
+
 @implementation ParentMOID
 @end
 
@@ -300,7 +324,9 @@
 	
 - (NSMutableOrderedSet*)childrenSet {
 	[self willAccessValueForKey:@"children"];
-	NSMutableOrderedSet *result = (NSMutableOrderedSet*)[self mutableSetValueForKey:@"children"];
+  
+	NSMutableOrderedSet *result = (NSMutableOrderedSet*)[self mutableOrderedSetValueForKey:@"children"];
+  
 	[self didAccessValueForKey:@"children"];
 	return result;
 }

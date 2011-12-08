@@ -4,6 +4,30 @@
 #import <CoreData/CoreData.h>
 #import "HumanMO.h"
 
+extern const struct ParentMOAttributes {
+	 NSString *myBinaryData;
+	 NSString *myBoolean;
+	 NSString *myDate;
+	 NSString *myDecimal;
+	 NSString *myDouble;
+	 NSString *myFloat;
+	 NSString *myInt16;
+	 NSString *myInt16Transient;
+	 NSString *myInt32;
+	 NSString *myInt64;
+	 NSString *myString;
+	 NSString *myTransformableSansClassName;
+	 NSString *myTransformableWithClassName;
+	 NSString *parentName;
+} ParentMOAttributes;
+
+extern const struct ParentMORelationships {
+	 NSString *children;
+} ParentMORelationships;
+
+extern const struct ParentMOFetchedProperties {
+} ParentMOFetchedProperties;
+
 @class ChildMO;
 
 
