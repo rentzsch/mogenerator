@@ -83,7 +83,7 @@ const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassNam
 	<$if Relationship.isToMany$>
 - (<$Relationship.mutableCollectionClassName$>*)<$Relationship.name$>Set {
 	[self willAccessValueForKey:@"<$Relationship.name$>"];
-  <$if Relationship.isOrdered$>
+  <$if Relationship.jr_isOrdered$>
 	<$Relationship.mutableCollectionClassName$> *result = (<$Relationship.mutableCollectionClassName$>*)[self mutableOrderedSetValueForKey:@"<$Relationship.name$>"];
   <$else$>
 	<$Relationship.mutableCollectionClassName$> *result = (<$Relationship.mutableCollectionClassName$>*)[self mutableSetValueForKey:@"<$Relationship.name$>"];

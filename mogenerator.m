@@ -269,14 +269,14 @@ NSString	*gCustomBaseClassForced;
 @implementation NSRelationshipDescription (collectionClassName)
 
 - (NSString*)mutableCollectionClassName {
-	return [self _jr_isOrdered] ? @"NSMutableOrderedSet" : @"NSMutableSet";
+	return [self jr_isOrdered] ? @"NSMutableOrderedSet" : @"NSMutableSet";
 }
 
 - (NSString*)immutableCollectionClassName {
-	return [self _jr_isOrdered] ? @"NSOrderedSet" : @"NSSet";
+	return [self jr_isOrdered] ? @"NSOrderedSet" : @"NSSet";
 }
 
-- (BOOL)_jr_isOrdered {
+- (BOOL)jr_isOrdered {
 	if ([self respondsToSelector:@selector(isOrdered)]) {
         return [self isOrdered];
     } else {

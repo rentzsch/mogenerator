@@ -38,7 +38,7 @@
 @interface NSRelationshipDescription (collectionClassName)
 - (NSString*)mutableCollectionClassName;
 - (NSString*)immutableCollectionClassName;
-- (BOOL)_jr_isOrdered;
+- (BOOL)jr_isOrdered;
 @end
 @interface NSObject (JustHereToSuppressIsOrderedNotImplementedCompilerWarning)
 - (BOOL)isOrdered;
