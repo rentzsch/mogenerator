@@ -447,7 +447,6 @@
     NSString *string = [self contentsOfFileWithName:filename];
     [self setFilename:filename];
     [self parseString:string];
-    [string release];
 }
 
 /*"
