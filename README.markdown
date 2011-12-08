@@ -12,11 +12,25 @@ Senseful wrote up a [nice summary of mogenerator's command-line options](http://
 
 ## Using Xmo'd
 
-Xmo'd (pronounced *ex-mowed*) is an Xcode plugin that integrates mogenerator into Xcode. It saves you the hassle of having to write a *Run Script Build Phase* and/or manually adding+removing source files from your project as you add+remove entities.
+Xmo'd (pronounced *ex-mowed*) is an Xcode 3 (Xcode 4 support is planned) plugin that integrates mogenerator into Xcode. It saves you the hassle of having to write a *Run Script Build Phase* and/or manually adding+removing source files from your project as you add+remove entities.
 
 Xmo'd works by noticing when your `*.xcdatamodel` is saved. If the model file's Xcode project item comment contains `xmod`, an AppleScript is fired that creates a folder based on your model's file name and populates it with derived source code files from your model. It then adds the new folder to your project as a Group Reference and adds all the source files to your project.
 
 ## Version History
+
+### v1.24: Wed Dec 6 2011 [download](http://github.com/downloads/rentzsch/mogenerator/mogenerator-1.24.dmg)
+
+* [FIX] Was incorrectly using `-mutableSetValueForKey:` for ordered relationships instead of `-mutableOrderedSetValueForKey:`. [bug 75](https://github.com/rentzsch/mogenerator/issues/75) ([Martin Schürrer](https://github.com/rentzsch/mogenerator/pull/66))
+
+* [NEW] Now generates [Mike Ash-style constant structures](http://www.mikeash.com/pyblog/friday-qa-2011-08-19-namespaced-constants-and-functions.html) for attributes, relationships and fetched properties. This allows you to write code like `[obj valueForKey:PersonMOAttributes.age]`. Tip: you'll need to enable ARC generation  (`--template-var arc=true`) if you're using ARC. ([Daniel Tull](https://github.com/rentzsch/mogenerator/pull/72))
+
+* [NEW] `--base-class-force` option, for specifying a base class even if the model file's entities don't specify one. ([Joe Carroll](https://github.com/rentzsch/mogenerator/pull/71))
+
+* [NEW] PONSO: NSSet-based templates, improved inverse relationship logic and plug memory leak. ([Tyrone Trevorrow](https://github.com/rentzsch/mogenerator/pull/68))
+
+* [FIX] PONSO: Added import for super entity in machine headers. ([Tyrone Trevorrow](https://github.com/rentzsch/mogenerator/pull/67))
+
+* [FIX] Migrate from deprecated `-[NSString initWithContentsOfFile:]` and fix a MiscMerge warning where an immutable object was assigned to a mutable ivar. ([Joshua Smith](https://github.com/rentzsch/mogenerator/pull/76))
 
 ### v1.23: Sun Jul 10 2011 [download](http://github.com/downloads/rentzsch/mogenerator/mogenerator-1.23.dmg)
 
