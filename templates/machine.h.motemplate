@@ -4,6 +4,18 @@
 #import <CoreData/CoreData.h>
 <$if hasCustomSuperentity$>#import "<$customSuperentity$>.h"<$endif$>
 
+extern const struct <$managedObjectClassName$>Attributes {<$foreach Attribute noninheritedAttributes do$>
+	<$if TemplateVar.arc$>__unsafe_unretained<$endif$> NSString *<$Attribute.name$>;<$endforeach do$>
+} <$managedObjectClassName$>Attributes;
+
+extern const struct <$managedObjectClassName$>Relationships {<$foreach Relationship noninheritedRelationships do$>
+	<$if TemplateVar.arc$>__unsafe_unretained<$endif$> NSString *<$Relationship.name$>;<$endforeach do$>
+} <$managedObjectClassName$>Relationships;
+
+extern const struct <$managedObjectClassName$>FetchedProperties {<$foreach FetchedProperty noninheritedFetchedProperties do$>
+	<$if TemplateVar.arc$>__unsafe_unretained<$endif$> NSString *<$FetchedProperty.name$>;<$endforeach do$>
+} <$managedObjectClassName$>FetchedProperties;
+
 <$foreach Relationship noninheritedRelationships do$>@class <$Relationship.destinationEntity.managedObjectClassName$>;
 <$endforeach do$>
 <$foreach Attribute noninheritedAttributes do$><$if Attribute.hasTransformableAttributeType$>@class <$Attribute.objectAttributeType$>;<$endif$>
@@ -19,7 +31,11 @@
 
 <$foreach Attribute noninheritedAttributes do$>
 <$if Attribute.hasDefinedAttributeType$>
+<$if TemplateVar.arc$>
+@property (nonatomic, strong) <$Attribute.objectAttributeType$> *<$Attribute.name$>;
+<$else$>
 @property (nonatomic, retain) <$Attribute.objectAttributeType$> *<$Attribute.name$>;
+<$endif$>
 <$if Attribute.hasScalarAttributeType$>
 @property <$Attribute.scalarAttributeType$> <$Attribute.name$>Value;
 - (<$Attribute.scalarAttributeType$>)<$Attribute.name$>Value;
@@ -30,10 +46,18 @@
 <$endforeach do$>
 <$foreach Relationship noninheritedRelationships do$>
 <$if Relationship.isToMany$>
-@property (nonatomic, retain) NSSet* <$Relationship.name$>;
-- (NSMutableSet*)<$Relationship.name$>Set;
+<$if TemplateVar.arc$>
+@property (nonatomic, strong) <$Relationship.immutableCollectionClassName$>* <$Relationship.name$>;
+<$else$>
+@property (nonatomic, retain) <$Relationship.immutableCollectionClassName$>* <$Relationship.name$>;
+<$endif$>
+- (<$Relationship.mutableCollectionClassName$>*)<$Relationship.name$>Set;
+<$else$>
+<$if TemplateVar.arc$>
+@property (nonatomic, strong) <$Relationship.destinationEntity.managedObjectClassName$>* <$Relationship.name$>;
 <$else$>
 @property (nonatomic, retain) <$Relationship.destinationEntity.managedObjectClassName$>* <$Relationship.name$>;
+<$endif$>
 //- (BOOL)validate<$Relationship.name.initialCapitalString$>:(id*)value_ error:(NSError**)error_;
 <$endif$>
 <$endforeach do$>
@@ -46,12 +70,15 @@
 + (NSArray*)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>error:(NSError**)error_;
 <$endif$>
 <$endforeach do$>
+<$foreach FetchedProperty noninheritedFetchedProperties do$>
+@property (nonatomic, readonly) NSArray *<$FetchedProperty.name$>;
+<$endforeach do$>
 @end
 
 @interface _<$managedObjectClassName$> (CoreDataGeneratedAccessors)
 <$foreach Relationship noninheritedRelationships do$><$if Relationship.isToMany$>
-- (void)add<$Relationship.name.initialCapitalString$>:(NSSet*)value_;
-- (void)remove<$Relationship.name.initialCapitalString$>:(NSSet*)value_;
+- (void)add<$Relationship.name.initialCapitalString$>:(<$Relationship.immutableCollectionClassName$>*)value_;
+- (void)remove<$Relationship.name.initialCapitalString$>:(<$Relationship.immutableCollectionClassName$>*)value_;
 - (void)add<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_;
 - (void)remove<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_;
 <$endif$><$endforeach do$>
@@ -59,17 +86,19 @@
 
 @interface _<$managedObjectClassName$> (CoreDataGeneratedPrimitiveAccessors)
 <$foreach Attribute noninheritedAttributes do$>
+<$if Attribute.hasDefinedAttributeType$>
 - (<$Attribute.objectAttributeType$>*)primitive<$Attribute.name.initialCapitalString$>;
 - (void)setPrimitive<$Attribute.name.initialCapitalString$>:(<$Attribute.objectAttributeType$>*)value;
 <$if Attribute.hasScalarAttributeType$>
 - (<$Attribute.scalarAttributeType$>)primitive<$Attribute.name.initialCapitalString$>Value;
 - (void)setPrimitive<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_;
 <$endif$>
+<$endif$>
 <$endforeach do$>
 <$foreach Relationship noninheritedRelationships do$>
 <$if Relationship.isToMany$>
-- (NSMutableSet*)primitive<$Relationship.name.initialCapitalString$>;
-- (void)setPrimitive<$Relationship.name.initialCapitalString$>:(NSMutableSet*)value;
+- (<$Relationship.mutableCollectionClassName$>*)primitive<$Relationship.name.initialCapitalString$>;
+- (void)setPrimitive<$Relationship.name.initialCapitalString$>:(<$Relationship.mutableCollectionClassName$>*)value;
 <$else$>
 - (<$Relationship.destinationEntity.managedObjectClassName$>*)primitive<$Relationship.name.initialCapitalString$>;
 - (void)setPrimitive<$Relationship.name.initialCapitalString$>:(<$Relationship.destinationEntity.managedObjectClassName$>*)value;

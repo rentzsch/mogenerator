@@ -1,0 +1,52 @@
+//
+//  <$managedObjectClassName$>.h
+//
+//  $Id$
+//
+// DO NOT EDIT. This file is machine-generated and constantly overwritten.
+// Make changes to <$managedObjectClassName$>.h instead.
+//
+
+
+#import <Foundation/Foundation.h>
+#import "ModelObject.h"
+<$if hasCustomSuperentity$>#import "<$customSuperentity$>.h"<$endif$>
+<$checkNonTransientRelationshipCycles $>
+<$foreach Relationship noninheritedRelationships do$>@class <$Relationship.destinationEntity.managedObjectClassName$>;
+<$endforeach do$>
+
+@protocol _<$managedObjectClassName$>
+<$foreach Relationship noninheritedRelationshipsInIDKeyPathTopologicalOrder do$><$if ! Relationship.isTransient$><$if Relationship.userInfo.destinationEntityIDKeyPath $>
+- (<$Relationship.destinationEntity.managedObjectClassName$> *)fetch<$Relationship.destinationEntity.name$>ObjectWithIDFor<$Relationship.name.initialCapitalString$>Relationship:(id)objectID;
+<$endif$><$endif$><$endforeach do$>
+@end
+
+
+@interface _<$managedObjectClassName$> : <$customSuperentity$>
+{
+	<$foreach Attribute noninheritedAttributes do$><$if Attribute.hasDefinedAttributeType$><$Attribute.objectAttributeType$> *<$Attribute.name$>;<$endif$>
+	<$endforeach do$>
+	<$foreach Relationship noninheritedRelationships do$>
+	<$if Relationship.isToMany$>NSSet *<$Relationship.name$>;<$else$><$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>;<$endif$>
+	<$endforeach do$>
+}
+
+<$foreach Attribute noninheritedAttributes do$><$if Attribute.hasDefinedAttributeType$>@property (nonatomic, retain, readwrite) <$Attribute.objectAttributeType$> *<$Attribute.name$>;
+<$if Attribute.hasScalarAttributeType$>@property (nonatomic, assign, readwrite) <$Attribute.scalarAttributeType$> <$Attribute.name$>Value;
+<$endif$><$endif$><$endforeach do$>
+<$foreach Relationship noninheritedRelationships do$><$if Relationship.isToMany$>@property (nonatomic, retain, readonly) NSSet *<$Relationship.name$>;
+<$else$><$if Relationship.isTransient $>@property (nonatomic, assign, readwrite) <$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>;
+<$else$>@property (nonatomic, retain, readwrite) <$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>;<$endif$>
+<$endif$><$endforeach do$>
+<$foreach Relationship noninheritedRelationships do$>
+<$if Relationship.isToMany$>- (void)add<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_ settingInverse: (BOOL) setInverse;
+- (void)add<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_;
+- (void)remove<$Relationship.name.initialCapitalString$>Objects;
+- (void)remove<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_ settingInverse: (BOOL) setInverse;
+- (void)remove<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_;
+<$endif$><$endforeach do$>
+<$foreach Relationship noninheritedRelationships do$><$if ! Relationship.isToMany$>
+- (void) set<$Relationship.name.initialCapitalString$>: (<$Relationship.destinationEntity.managedObjectClassName$>*) <$Relationship.name$>_ settingInverse: (BOOL) setInverse;
+<$endif$><$endforeach do$>
+
+@end

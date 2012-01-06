@@ -1,6 +1,6 @@
 /*******************************************************************************
 	mogenerator.m - <http://github.com/rentzsch/mogenerator>
-		Copyright (c) 2006-2010 Jonathan 'Wolf' Rentzsch: <http://rentzsch.com>
+		Copyright (c) 2006-2011 Jonathan 'Wolf' Rentzsch: <http://rentzsch.com>
 		Some rights reserved: <http://opensource.org/licenses/mit-license.php>
 
 	***************************************************************************/
@@ -8,7 +8,9 @@
 #import "mogenerator.h"
 #import "RegexKitLite.h"
 
+static NSString *kTemplateVar = @"TemplateVar";
 NSString	*gCustomBaseClass;
+NSString	*gCustomBaseClassForced;
 
 @interface NSEntityDescription (fetchedPropertiesAdditions)
 - (NSDictionary *)fetchedPropertiesByName;
@@ -65,44 +67,51 @@ NSString	*gCustomBaseClass;
 	}
 }
 - (NSString*)customSuperentity {
-	NSEntityDescription *superentity = [self superentity];
-	if (superentity) {
-		return [superentity managedObjectClassName];
+	if(!gCustomBaseClassForced) {
+		NSEntityDescription *superentity = [self superentity];
+		if (superentity) {
+			return [superentity managedObjectClassName];
+		} else {
+			return gCustomBaseClass ? gCustomBaseClass : @"NSManagedObject";
+		}
 	} else {
-		return gCustomBaseClass ? gCustomBaseClass : @"NSManagedObject";
+		return gCustomBaseClassForced;
 	}
 }
 /** @TypeInfo NSAttributeDescription */
 - (NSArray*)noninheritedAttributes {
+	NSArray *sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
 	NSEntityDescription *superentity = [self superentity];
 	if (superentity) {
 		NSMutableArray *result = [[[[self attributesByName] allValues] mutableCopy] autorelease];
 		[result removeObjectsInArray:[[superentity attributesByName] allValues]];
-		return result;
+		return [result sortedArrayUsingDescriptors:sortDescriptors];
 	} else {
-		return [[self attributesByName] allValues];
+		return [[[self attributesByName] allValues] sortedArrayUsingDescriptors:sortDescriptors];
 	}
 }
 /** @TypeInfo NSAttributeDescription */
 - (NSArray*)noninheritedRelationships {
+	NSArray *sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
 	NSEntityDescription *superentity = [self superentity];
 	if (superentity) {
 		NSMutableArray *result = [[[[self relationshipsByName] allValues] mutableCopy] autorelease];
 		[result removeObjectsInArray:[[superentity relationshipsByName] allValues]];
-		return result;
+		return [result sortedArrayUsingDescriptors:sortDescriptors];
 	} else {
-		return [[self relationshipsByName] allValues];
+		return [[[self relationshipsByName] allValues] sortedArrayUsingDescriptors:sortDescriptors];
 	}
 }
 /** @TypeInfo NSFetchedPropertyDescription */
 - (NSArray*)noninheritedFetchedProperties {
+	NSArray *sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
 	NSEntityDescription *superentity = [self superentity];
 	if (superentity) {
 		NSMutableArray *result = [[[[self fetchedPropertiesByName] allValues] mutableCopy] autorelease];
 		[result removeObjectsInArray:[[superentity fetchedPropertiesByName] allValues]];
-		return result;
+		return [result sortedArrayUsingDescriptors:sortDescriptors];
 	} else {
-		return [[self fetchedPropertiesByName] allValues];
+		return [[[self fetchedPropertiesByName] allValues]  sortedArrayUsingDescriptors:sortDescriptors];
 	}
 }
 
@@ -192,6 +201,7 @@ NSString	*gCustomBaseClass;
 		[result addObject:[NSDictionary dictionaryWithObjectsAndKeys:
                            fetchRequestName, @"name",
                            bindings, @"bindings",
+						   [NSNumber numberWithBool:[bindings count] > 0], @"hasBindings",
                            [NSNumber numberWithBool:[fetchRequestName hasPrefix:@"one"]], @"singleResult",
                            nil]];
 	}
@@ -256,10 +266,30 @@ NSString	*gCustomBaseClass;
 
 @end
 
+@implementation NSRelationshipDescription (collectionClassName)
+
+- (NSString*)mutableCollectionClassName {
+	return [self jr_isOrdered] ? @"NSMutableOrderedSet" : @"NSMutableSet";
+}
+
+- (NSString*)immutableCollectionClassName {
+	return [self jr_isOrdered] ? @"NSOrderedSet" : @"NSSet";
+}
+
+- (BOOL)jr_isOrdered {
+	if ([self respondsToSelector:@selector(isOrdered)]) {
+        return [self isOrdered];
+    } else {
+        return NO;
+    }
+}
+
+@end
+
 @implementation NSString (camelCaseString)
 - (NSString*)camelCaseString {
 	NSArray *lowerCasedWordArray = [[self wordArray] arrayByMakingObjectsPerformSelector:@selector(lowercaseString)];
-	unsigned wordIndex = 1, wordCount = [lowerCasedWordArray count];
+	NSUInteger wordIndex = 1, wordCount = [lowerCasedWordArray count];
 	NSMutableArray *camelCasedWordArray = [NSMutableArray arrayWithCapacity:wordCount];
 	if (wordCount)
 		[camelCasedWordArray addObject:[lowerCasedWordArray objectAtIndex:0]];
@@ -279,6 +309,19 @@ static MiscMergeEngine* engineWithTemplatePath(NSString *templatePath_) {
 }
 
 @implementation MOGeneratorApp
+
+- (id)init {
+    self = [super init];
+    if (self) {
+        templateVar = [[NSMutableDictionary alloc] init];
+    }
+    return self;
+}
+
+- (void)dealloc {
+    [templateVar release];
+    [super dealloc];
+}
 
 NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 - (NSString*)appSupportFileNamed:(NSString*)fileName_ {
@@ -323,9 +366,11 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     // Long					Short   Argument options
     {@"model",				'm',    DDGetoptRequiredArgument},
     {@"base-class",			0,     DDGetoptRequiredArgument},
+	{@"base-class-force",	0,     DDGetoptRequiredArgument},
     // For compatibility:
     {@"baseClass",			0,      DDGetoptRequiredArgument},
     {@"includem",			0,      DDGetoptRequiredArgument},
+	{@"includeh",			0,      DDGetoptRequiredArgument},
     {@"template-path",		0,      DDGetoptRequiredArgument},
     // For compatibility:
     {@"templatePath",		0,      DDGetoptRequiredArgument},
@@ -338,6 +383,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 
     {@"help",				'h',    DDGetoptNoArgument},
     {@"version",			0,      DDGetoptNoArgument},
+	{@"template-var",		0,      DDGetoptKeyValueArgument},
     {nil,					0,      0},
     };
     [optionsParser addOptionsFromTable: optionTable];
@@ -349,9 +395,12 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     printf("\n"
            "  -m, --model MODEL             Path to model\n"
            "      --base-class CLASS        Custom base class\n"
-           "      --includem FILE           Generate aggregate include file\n"
-           "      --template-path PATH      Path to templates\n"
+		   "      --base-class-force CLASS  Same as --base-class except will force all entities to have the specified base class. Even if a super entity exists\n"
+           "      --includem FILE           Generate aggregate include file for .m files for both human and machine generated source files\n"
+           "      --includeh FILE           Generate aggregate include file for .h files for human generated source files only\n"
+           "      --template-path PATH      Path to templates (absolute or relative to model path)\n"
            "      --template-group NAME     Name of template group\n"
+		   "      --template-var KEY=VALUE  A key-value pair to pass to the template file. There can be many of these.\n"
            "  -O, --output-dir DIR          Output directory\n"
            "  -M, --machine-dir DIR         Output directory for machine files\n"
            "  -H, --human-dir DIR           Output directory for human files\n"
@@ -365,7 +414,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 }
 
 - (NSString*)currentXcodePath {
-	NSMutableString *result = @"";
+	NSString *result = @"";
 	
 	@try {
 		NSTask *task = [[[NSTask alloc] init] autorelease];
@@ -375,15 +424,16 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 		
 		NSPipe *pipe = [NSPipe pipe];
 		[task setStandardOutput:pipe];
+		//	Ensures that the current tasks output doesn't get hijacked
+		[task setStandardInput:[NSPipe pipe]];
 		
 		NSFileHandle *file = [pipe fileHandleForReading];
 		
 		[task launch];
 		
 		NSData *data = [file readDataToEndOfFile];
-		
-		result = [[[NSMutableString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
-		[result deleteCharactersInRange:NSMakeRange([result length]-1, 1)]; // trim newline
+		result = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
+		result = [result substringToIndex:[result length]-1]; // trim newline
 	} @catch(NSException *ex) {
 		ddprintf(@"WARNING couldn't launch /usr/bin/xcode-select\n");
 	}
@@ -395,6 +445,8 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 {
     assert(!model); // Currently we only can load one model.
 
+	origModelBasePath = [path stringByDeletingLastPathComponent];
+	
     if( ![[NSFileManager defaultManager] fileExistsAtPath:path]){
         NSString * reason = [NSString stringWithFormat: @"error loading file at %@: no such file exists", path];
         DDCliParseException * e = [DDCliParseException parseExceptionWithReason: reason
@@ -421,12 +473,57 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
         }
         assert(momc && "momc not found");
         
-        tempMOMPath = [[NSTemporaryDirectory() stringByAppendingPathComponent:[(id)CFUUIDCreateString(kCFAllocatorDefault, CFUUIDCreate(kCFAllocatorDefault)) autorelease]] stringByAppendingPathExtension:@"mom"];
-        system([[NSString stringWithFormat:@"\"%@\" \"%@\" \"%@\"", momc, path, tempMOMPath] UTF8String]); // Ignored system's result -- momc doesn't return any relevent error codes.
+        tempMOMPath = [[NSTemporaryDirectory() stringByAppendingPathComponent:[[NSProcessInfo processInfo] globallyUniqueString]] stringByAppendingPathExtension:@"mom"];
+		
+		NSArray *supportedMomcOptions = [NSArray arrayWithObjects:@"MOMC_NO_WARNINGS", @"MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS", @"MOMC_SUPPRESS_INVERSE_TRANSIENT_ERROR", nil];
+		NSMutableString *momcOptions = [NSMutableString string];
+		
+		for (NSString *momcOption in supportedMomcOptions)
+		{
+			if([[[NSProcessInfo processInfo] environment] objectForKey:momcOption] != nil)
+			{
+				[momcOptions appendFormat:@" -%@ ", momcOption];
+			}
+		}
+		
+	    system([[NSString stringWithFormat:@"\"%@\" %@ \"%@\" \"%@\"", momc, momcOptions, path, tempMOMPath] UTF8String]); // Ignored system's result -- momc doesn't return any relevent error codes.
         path = tempMOMPath;
     }
     model = [[[NSManagedObjectModel alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path]] autorelease];
     assert(model);
+}
+
+- (void)validateOutputPath:(NSString *)path forType:(NSString *)type
+{
+	//	Ignore nil ones
+	if (path == nil) {
+		return;
+	}
+	
+	NSString		*errorString = nil;
+	NSError			*error = nil;
+	NSFileManager	*fm = [NSFileManager defaultManager];
+	BOOL			isDir = NO;
+	
+	//	Test to see if the path exists
+	if ([fm fileExistsAtPath:path isDirectory:&isDir]) {
+		if (!isDir) {
+			errorString = [NSString stringWithFormat:@"%@ Directory path (%@) exists as a file.", type, path];
+		}
+	}
+	//	Try to create path
+	else {
+		if (![fm createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:&error]) {
+			errorString = [NSString stringWithFormat:@"Couldn't create %@ Directory (%@):%@", type, path, [error localizedDescription]];
+		}
+	}
+	
+	if (errorString != nil) {
+
+		//	Print error message and exit with IO error
+        ddprintf(errorString);
+		exit(EX_IOERR);
+	}
 }
 
 - (int) application: (DDCliApplication *) app
@@ -438,13 +535,27 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     }
     
     if (_version) {
-        printf("mogenerator 1.19. By Jonathan 'Wolf' Rentzsch + friends.\n");
+        printf("mogenerator 1.24. By Jonathan 'Wolf' Rentzsch + friends.\n");
         return EXIT_SUCCESS;
     }
-    
-    gCustomBaseClass = [baseClass retain];
+
+	if(baseClassForce) {
+		gCustomBaseClassForced = [baseClassForce retain];
+		gCustomBaseClass = gCustomBaseClassForced;
+	} else {
+		gCustomBaseClass = [baseClass retain];
+	}
+
     NSString * mfilePath = includem;
+	NSString * hfilePath = includeh;
+	
 	NSMutableString * mfileContent = [NSMutableString stringWithString:@""];
+	NSMutableString * hfileContent = [NSMutableString stringWithString:@""];
+	
+	[self validateOutputPath:outputDir forType:@"Output"];
+	[self validateOutputPath:machineDir forType:@"Machine Output"];
+	[self validateOutputPath:humanDir forType:@"Human Output"];
+
     if (outputDir == nil)
         outputDir = @"";
     if (machineDir == nil)
@@ -484,6 +595,28 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 		
 		return EXIT_SUCCESS;
 	}
+	
+	if (templatePath) {
+		
+		NSString* absoluteTemplatePath = nil;
+		
+		if (![templatePath isAbsolutePath]) {
+			absoluteTemplatePath = [[origModelBasePath stringByAppendingPathComponent:templatePath] stringByStandardizingPath];
+			
+			// Be kind and try a relative Path of the parent xcdatamodeld folder of the model, if it exists
+			if ((![fm fileExistsAtPath:absoluteTemplatePath]) && ([[origModelBasePath pathExtension] isEqualToString:@"xcdatamodeld"])) {
+				absoluteTemplatePath = [[[origModelBasePath stringByDeletingLastPathComponent] stringByAppendingPathComponent:templatePath] stringByStandardizingPath];
+			}
+		} else {
+			absoluteTemplatePath = templatePath;
+		}
+
+		
+		// if the computed absoluteTemplatePath exists, use it.
+		if ([fm fileExistsAtPath:absoluteTemplatePath]) {
+			templatePath = absoluteTemplatePath;
+		}
+	}
     
 	int machineFilesGenerated = 0;        
 	int humanFilesGenerated = 0;
@@ -497,6 +630,12 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 		assert(humanH);
 		MiscMergeEngine *humanM = engineWithTemplatePath([self appSupportFileNamed:@"human.m.motemplate"]);
 		assert(humanM);
+		
+		// Add the template var dictionary to each of the merge engines
+		[machineH setEngineValue:templateVar forKey:kTemplateVar];
+		[machineM setEngineValue:templateVar forKey:kTemplateVar];
+		[humanH setEngineValue:templateVar forKey:kTemplateVar];
+		[humanM setEngineValue:templateVar forKey:kTemplateVar];
 		
 		NSMutableArray	*humanMFiles = [NSMutableArray array],
 						*humanHFiles = [NSMutableArray array],
@@ -518,9 +657,9 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 			if (_listSourceFiles) {
 				[machineHFiles addObject:machineHFileName];
 			} else {
-				if (![fm regularFileExistsAtPath:machineHFileName] || ![generatedMachineH isEqualToString:[NSString stringWithContentsOfFile:machineHFileName]]) {
+				if (![fm regularFileExistsAtPath:machineHFileName] || ![generatedMachineH isEqualToString:[NSString stringWithContentsOfFile:machineHFileName encoding:NSUTF8StringEncoding error:nil]]) {
 					//	If the file doesn't exist or is different than what we just generated, write it out.
-					[generatedMachineH writeToFile:machineHFileName atomically:NO];
+					[generatedMachineH writeToFile:machineHFileName atomically:NO encoding:NSUTF8StringEncoding error:nil];
 					machineDirtied = YES;
 					machineFilesGenerated++;
 				}
@@ -532,9 +671,9 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 			if (_listSourceFiles) {
 				[machineMFiles addObject:machineMFileName];
 			} else {
-				if (![fm regularFileExistsAtPath:machineMFileName] || ![generatedMachineM isEqualToString:[NSString stringWithContentsOfFile:machineMFileName]]) {
+				if (![fm regularFileExistsAtPath:machineMFileName] || ![generatedMachineM isEqualToString:[NSString stringWithContentsOfFile:machineMFileName encoding:NSUTF8StringEncoding error:nil]]) {
 					//	If the file doesn't exist or is different than what we just generated, write it out.
-					[generatedMachineM writeToFile:machineMFileName atomically:NO];
+					[generatedMachineM writeToFile:machineMFileName atomically:NO encoding:NSUTF8StringEncoding error:nil];
 					machineDirtied = YES;
 					machineFilesGenerated++;
 				}
@@ -550,7 +689,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 					if (machineDirtied)
 						[fm touchPath:humanHFileName];
 				} else {
-					[generatedHumanH writeToFile:humanHFileName atomically:NO];
+					[generatedHumanH writeToFile:humanHFileName atomically:NO encoding:NSUTF8StringEncoding error:nil];
 					humanFilesGenerated++;
 				}
 			}
@@ -571,13 +710,15 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 					if (machineDirtied)
 						[fm touchPath:humanMFileName];
 				} else {
-					[generatedHumanM writeToFile:humanMFileName atomically:NO];
+					[generatedHumanM writeToFile:humanMFileName atomically:NO encoding:NSUTF8StringEncoding error:nil];
 					humanFilesGenerated++;
 				}
 			}
 			
-			[mfileContent appendFormat:@"#include \"%@\"\n#include \"%@\"\n",
+			[mfileContent appendFormat:@"#import \"%@\"\n#import \"%@\"\n",
                 [humanMFileName lastPathComponent], [machineMFileName lastPathComponent]];
+			
+			[hfileContent appendFormat:@"#import \"%@\"\n", [humanHFileName lastPathComponent]];
 		}
 		
 		if (_listSourceFiles) {
@@ -591,17 +732,27 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 	}
 	
 	if (tempMOMPath) {
-		[fm removeFileAtPath:tempMOMPath handler:nil];
+		[fm removeItemAtPath:tempMOMPath error:nil];
 	}
 	bool mfileGenerated = NO;
 	if (mfilePath && ![mfileContent isEqualToString:@""]) {
-		[mfileContent writeToFile:mfilePath atomically:NO];
+		[mfileContent writeToFile:mfilePath atomically:NO encoding:NSUTF8StringEncoding error:nil];
 		mfileGenerated = YES;
 	}
-	
+
+	bool hfileGenerated = NO;
+	if (hfilePath && ![hfileContent isEqualToString:@""]) {
+		[hfileContent writeToFile:hfilePath atomically:NO encoding:NSUTF8StringEncoding error:nil];
+		hfileGenerated = YES;
+	}
+
 	if (!_listSourceFiles) {
 		printf("%d machine files%s %d human files%s generated.\n", machineFilesGenerated,
 			   (mfileGenerated ? "," : " and"), humanFilesGenerated, (mfileGenerated ? " and one include.m file" : ""));
+
+		if(hfileGenerated) {
+			printf("Aggregate header file was also generated to %s.\n", [hfilePath fileSystemRepresentation]);
+		}
 	}
     
     return EXIT_SUCCESS;

@@ -4,7 +4,20 @@
 #import <CoreData/CoreData.h>
 #import "HumanMO.h"
 
+extern const struct ChildMOAttributes {
+	 NSString *childName;
+} ChildMOAttributes;
+
+extern const struct ChildMORelationships {
+	 NSString *parent;
+} ChildMORelationships;
+
+extern const struct ChildMOFetchedProperties {
+} ChildMOFetchedProperties;
+
 @class ParentMO;
+
+
 
 @interface ChildMOID : NSManagedObjectID {}
 @end
@@ -17,14 +30,18 @@
 
 
 
+
 @property (nonatomic, retain) NSString *childName;
+
 
 //- (BOOL)validateChildName:(id*)value_ error:(NSError**)error_;
 
 
 
 
+
 @property (nonatomic, retain) ParentMO* parent;
+
 //- (BOOL)validateParent:(id*)value_ error:(NSError**)error_;
 
 
@@ -34,8 +51,25 @@
 + (NSArray*)fetchByParent:(NSManagedObjectContext*)moc_ parent:(ParentMO*)parent_ error:(NSError**)error_;
 
 
+
 @end
 
 @interface _ChildMO (CoreDataGeneratedAccessors)
+
+@end
+
+@interface _ChildMO (CoreDataGeneratedPrimitiveAccessors)
+
+
+- (NSString*)primitiveChildName;
+- (void)setPrimitiveChildName:(NSString*)value;
+
+
+
+
+
+- (ParentMO*)primitiveParent;
+- (void)setPrimitiveParent:(ParentMO*)value;
+
 
 @end

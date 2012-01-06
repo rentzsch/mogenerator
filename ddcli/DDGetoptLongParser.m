@@ -42,12 +42,12 @@
 
 @implementation DDGetoptLongParser
 
-+ (DDGetoptLongParser *) optionsWithTarget: (id) target;
++ (DDGetoptLongParser *) optionsWithTarget: (id) target
 {
     return [[[self alloc] initWithTarget: target] autorelease];
 }
 
-- (id) initWithTarget: (id) target;
+- (id) initWithTarget: (id) target
 {
     self = [super init];
     if (self == nil)
@@ -77,18 +77,18 @@
     [super dealloc];
 }
 
-- (id) target;
+- (id) target
 {
     return mTarget;
 }
 
-- (void) setTarget: (id) target;
+- (void) setTarget: (id) target
 {
     mTarget = target;
 }
 
 
-- (void) setGetoptLongOnly: (BOOL) getoptLongOnly;
+- (void) setGetoptLongOnly: (BOOL) getoptLongOnly
 {
     if (getoptLongOnly)
         mGetoptFunction = getopt_long_only;
@@ -96,7 +96,7 @@
         mGetoptFunction = getopt_long;
 }
 
-- (void) addOptionsFromTable: (DDGetoptOption *) optionTable;
+- (void) addOptionsFromTable: (DDGetoptOption *) optionTable
 {
     DDGetoptOption * currentOption = optionTable;
     while ((currentOption->longOption != nil) ||
@@ -113,14 +113,14 @@
 - (void) addLongOption: (NSString *) longOption
            shortOption: (char) shortOption
                    key: (NSString *) key
-       argumentOptions: (DDGetoptArgumentOptions) argumentOptions;
+       argumentOptions: (DDGetoptArgumentOptions) argumentOptions
 {
     const char * utf8String = [longOption UTF8String];
     NSData * utf8Data = [NSData dataWithBytes: utf8String length: strlen(utf8String)];
     
     struct option * option = [self currentOption];
     option->name = utf8String;
-    option->has_arg = argumentOptions;
+    option->has_arg = argumentOptions == DDGetoptKeyValueArgument ? DDGetoptRequiredArgument : argumentOptions;
     option->flag = NULL;
 
     int shortOptionValue;
@@ -128,7 +128,7 @@
     {
         shortOptionValue = shortOption;
         option->val = shortOption;
-        if (argumentOptions == DDGetoptRequiredArgument)
+        if (argumentOptions == DDGetoptRequiredArgument || argumentOptions == DDGetoptKeyValueArgument)
             [mOptionString appendFormat: @"%c:", shortOption];
         else if (argumentOptions == DDGetoptOptionalArgument)
             [mOptionString appendFormat: @"%c::", shortOption];
@@ -153,13 +153,13 @@
 
 - (void) addLongOption: (NSString *) longOption
                    key: (NSString *) key
-       argumentOptions: (DDGetoptArgumentOptions) argumentOptions;
+       argumentOptions: (DDGetoptArgumentOptions) argumentOptions
 {
     [self addLongOption: longOption shortOption: 0
                     key: key argumentOptions: argumentOptions];
 }
 
-- (NSArray *) parseOptions;
+- (NSArray *) parseOptions
 {
     NSProcessInfo * processInfo = [NSProcessInfo processInfo];
     NSArray * arguments = [processInfo arguments];
@@ -168,11 +168,11 @@
 }
 
 - (NSArray *) parseOptionsWithArguments: (NSArray *) arguments
-                                command: (NSString *) command;
+                                command: (NSString *) command
 {
-    int argc = [arguments count];
+    NSUInteger argc = [arguments count];
     char ** argv = alloca(sizeof(char *) * argc);
-    int i;
+    NSUInteger i;
     for (i = 0; i < argc; i++)
     {
         NSString * argument = [arguments objectAtIndex: i];
@@ -193,7 +193,7 @@
     opterr = 1;
     
     int longOptionIndex = -1;
-    while ((ch = mGetoptFunction(argc, argv, optionString, options, &longOptionIndex)) != -1)
+    while ((ch = mGetoptFunction((int)argc, argv, optionString, options, &longOptionIndex)) != -1)
     {
         NSString * last_argv = [NSString stringWithUTF8String: argv[optind-1]];
         if (ch == ':')
@@ -220,6 +220,36 @@
             int argumentOptions = [[optionInfo objectAtIndex: 1] intValue];
             if (argumentOptions == DDGetoptNoArgument)
                 [mTarget setValue: [NSNumber numberWithBool: YES] forKey: key];
+            else if (argumentOptions == DDGetoptKeyValueArgument)
+            {
+                // Split the arguement on the '=' sign
+                NSArray *pair = [nsoptarg componentsSeparatedByString:@"="];
+                // Build a keypath from the argument and the new key
+                NSString *keypath = [NSString stringWithFormat:@"%@.%@", key, [pair objectAtIndex:0]];
+                
+                // If it is a number or a boolean, we'll parse that out
+                NSString *value = [pair objectAtIndex:1];
+                id parsedValue = value;
+                // Looks like a boolean?
+                if ([value isCaseInsensitiveLike:@"true"] || [value isCaseInsensitiveLike:@"false"])
+                {
+                    parsedValue = [NSNumber numberWithBool:[value boolValue]];
+                }
+                else
+                {
+                    // Looks like a number?
+                    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+                    [formatter setAllowsFloats:YES];
+                    NSNumber *numberValue = [formatter numberFromString:value];
+                    if (numberValue)
+                    {
+                        parsedValue = numberValue;
+                    }
+                    [formatter release];
+                }
+                
+                [mTarget setValue:parsedValue forKeyPath:keypath];
+            }
             else
                 [mTarget setValue: nsoptarg forKey: key];
         }
@@ -233,7 +263,7 @@
 
 @implementation DDGetoptLongParser (Private)
 
-- (NSString *) optionToKey: (NSString *) option;
+- (NSString *) optionToKey: (NSString *) option
 {
     NSScanner * scanner = [NSScanner scannerWithString: option];
     [scanner setCharactersToBeSkipped: [NSCharacterSet characterSetWithCharactersInString: @"-"]];
@@ -250,25 +280,25 @@
     return key;
 }
 
-- (struct option *) firstOption;
+- (struct option *) firstOption
 {
     struct option * options = [mOptionsData mutableBytes];
     return options;
 }
 
-- (struct option *) currentOption;
+- (struct option *) currentOption
 {
     struct option * options = [mOptionsData mutableBytes];
     return &options[mCurrentOption];
 }
 
-- (void) addOption;
+- (void) addOption
 {
     [mOptionsData increaseLengthBy: sizeof(struct option)];
     mCurrentOption++;
 }
 
-- (NSString *) errorOption: (NSString *) option;
+- (NSString *) errorOption: (NSString *) option
 {
     if (![option hasPrefix: @"-"])
         return [NSString stringWithFormat: @"%c", optopt];
@@ -277,7 +307,7 @@
 }
 
 - (void) handleMissingArgument: (NSString *) option
-                       command: (NSString *) command;
+                       command: (NSString *) command
 {
     option = [self errorOption: option];
     
@@ -294,7 +324,7 @@
 }
 
 - (void) handleArgumentNotRecognized: (NSString *) option
-                             command: (NSString *) command;
+                             command: (NSString *) command
 {
     option = [self errorOption: option];
     if ([mTarget respondsToSelector: @selector(optionIsNotRecognized:)])

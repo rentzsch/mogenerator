@@ -3,6 +3,18 @@
 
 #import "_<$managedObjectClassName$>.h"
 
+const struct <$managedObjectClassName$>Attributes <$managedObjectClassName$>Attributes = {<$foreach Attribute noninheritedAttributes do$>
+	.<$Attribute.name$> = @"<$Attribute.name$>",<$endforeach do$>
+};
+
+const struct <$managedObjectClassName$>Relationships <$managedObjectClassName$>Relationships = {<$foreach Relationship noninheritedRelationships do$>
+	.<$Relationship.name$> = @"<$Relationship.name$>",<$endforeach do$>
+};
+
+const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassName$>FetchedProperties = {<$foreach FetchedProperty noninheritedFetchedProperties do$>
+	.<$FetchedProperty.name$> = @"<$FetchedProperty.name$>",<$endforeach do$>
+};
+
 @implementation <$managedObjectClassName$>ID
 @end
 
@@ -24,6 +36,17 @@
 
 - (<$managedObjectClassName$>ID*)objectID {
 	return (<$managedObjectClassName$>ID*)[super objectID];
+}
+
++ (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)key {
+	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
+	<$foreach Attribute noninheritedAttributes do$><$if Attribute.hasDefinedAttributeType$><$if Attribute.hasScalarAttributeType$>
+	if ([key isEqualToString:@"<$Attribute.name$>Value"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"<$Attribute.name$>"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+	}<$endif$><$endif$><$endforeach do$>
+
+	return keyPaths;
 }
 
 <$foreach Attribute noninheritedAttributes do$>
@@ -58,13 +81,21 @@
 @dynamic <$Relationship.name$>;
 
 	<$if Relationship.isToMany$>
-- (NSMutableSet*)<$Relationship.name$>Set {
+- (<$Relationship.mutableCollectionClassName$>*)<$Relationship.name$>Set {
 	[self willAccessValueForKey:@"<$Relationship.name$>"];
-	NSMutableSet *result = [self mutableSetValueForKey:@"<$Relationship.name$>"];
+  <$if Relationship.jr_isOrdered$>
+	<$Relationship.mutableCollectionClassName$> *result = (<$Relationship.mutableCollectionClassName$>*)[self mutableOrderedSetValueForKey:@"<$Relationship.name$>"];
+  <$else$>
+	<$Relationship.mutableCollectionClassName$> *result = (<$Relationship.mutableCollectionClassName$>*)[self mutableSetValueForKey:@"<$Relationship.name$>"];
+  <$endif$>
 	[self didAccessValueForKey:@"<$Relationship.name$>"];
 	return result;
 }
 	<$endif$>
+<$endforeach do$>
+
+<$foreach FetchedProperty noninheritedFetchedProperties do$>
+@dynamic <$FetchedProperty.name$>;
 <$endforeach do$>
 
 <$foreach FetchRequest prettyFetchRequests do$>
@@ -86,11 +117,15 @@
 	NSError *error = nil;
 	
 	NSManagedObjectModel *model = [[moc_ persistentStoreCoordinator] managedObjectModel];
+	<$if FetchRequest.hasBindings$>
 	NSDictionary *substitutionVariables = [NSDictionary dictionaryWithObjectsAndKeys:
 														<$foreach Binding FetchRequest.bindings do2$>
 														<$Binding.name$>_, @"<$Binding.name$>",
 														<$endforeach do2$>
 														nil];
+	<$else$>
+	NSDictionary *substitutionVariables = [NSDictionary dictionary];
+	<$endif$>
 	NSFetchRequest *fetchRequest = [model fetchRequestFromTemplateWithName:@"<$FetchRequest.name$>"
 													 substitutionVariables:substitutionVariables];
 	NSAssert(fetchRequest, @"Can't find fetch request named \"<$FetchRequest.name$>\".");
@@ -135,13 +170,17 @@
 	NSError *error = nil;
 	
 	NSManagedObjectModel *model = [[moc_ persistentStoreCoordinator] managedObjectModel];
-	NSFetchRequest *fetchRequest = [model fetchRequestFromTemplateWithName:@"<$FetchRequest.name$>"
-													 substitutionVariables:[NSDictionary dictionaryWithObjectsAndKeys:
+	<$if FetchRequest.hasBindings$>
+	NSDictionary *substitutionVariables = [NSDictionary dictionaryWithObjectsAndKeys:
 														<$foreach Binding FetchRequest.bindings do2$>
 														<$Binding.name$>_, @"<$Binding.name$>",
 														<$endforeach do2$>
-														nil]
-													 ];
+														nil];
+	<$else$>
+	NSDictionary *substitutionVariables = [NSDictionary dictionary];
+	<$endif$>									
+	NSFetchRequest *fetchRequest = [model fetchRequestFromTemplateWithName:@"<$FetchRequest.name$>"
+													 substitutionVariables:substitutionVariables];
 	NSAssert(fetchRequest, @"Can't find fetch request named \"<$FetchRequest.name$>\".");
 	
 	NSArray *result = [moc_ executeFetchRequest:fetchRequest error:&error];

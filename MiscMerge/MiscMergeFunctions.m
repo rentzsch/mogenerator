@@ -112,8 +112,8 @@ NSString *MMStringByTrimmingCommandSpace(NSString *string)
     else {
         NSCharacterSet *whitespaceSet = [NSCharacterSet whitespaceCharacterSet];
         NSCharacterSet *newlineSet = [NSCharacterSet newlineCharacterSet];
-        int start = 0, end = [string length]-1;
-        int i;
+        NSInteger start = 0, end = [string length]-1;
+        NSInteger i;
 
         for ( i = 0; i <= end; i++ ) {
             unichar character = [string characterAtIndex:i];

@@ -42,6 +42,8 @@ typedef enum DDGetoptArgumentOptions
     DDGetoptOptionalArgument = optional_argument,
     /** Option takes a mandatory argument */
     DDGetoptRequiredArgument = required_argument,
+    /** Option takes a key-value pair argument */
+    DDGetoptKeyValueArgument,
 } DDGetoptArgumentOptions;
 
 /**

@@ -418,7 +418,7 @@ static NSNumber *FALSE_VALUE;
 {
     self = [super init];
     if ( self ) {
-        expressions = [list retain];
+        expressions = [list mutableCopy];
     }
     return self;
 }
@@ -441,7 +441,7 @@ static NSNumber *FALSE_VALUE;
 
 - (NSString *)description
 {
-    int index, count = [expressions count];
+    NSInteger index, count = [expressions count];
     NSMutableString *string = [NSMutableString stringWithFormat:@"%@(", [self nameDescription]];
     
     for ( index = 0; index < count; index++ ) {
@@ -525,7 +525,7 @@ static NSNumber *FALSE_VALUE;
     NSEnumerator *enumerator = [expressions objectEnumerator];
     MiscMergeExpression *expression;
     
-    while ( expression = (MiscMergeExpression *)[enumerator nextObject] ) {
+    while (( expression = (MiscMergeExpression *)[enumerator nextObject] )) {
         [array addObject:[expression evaluateWithEngine:anEngine]];
     }
 

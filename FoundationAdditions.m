@@ -38,7 +38,7 @@
 void ErrVPrintf(NSString *format, va_list arguments)
 {
     NSString *logString = [[NSString alloc] initWithFormat:format arguments:arguments];
-    fwrite([logString cString], 1, [logString cStringLength], stderr);
+    fwrite([logString cStringUsingEncoding:NSUTF8StringEncoding], 1, [logString lengthOfBytesUsingEncoding:NSUTF8StringEncoding], stderr);
     if (![logString hasSuffix:@"\n"]) fputc('\n', stdout);
     [logString release];
 }
@@ -55,7 +55,7 @@ void ErrPrintf(NSString *format, ...)
 void VPrintf(NSString *format, va_list arguments)
 {
     NSString *logString = [[NSString alloc] initWithFormat:format arguments:arguments];
-    fwrite([logString cString], 1, [logString cStringLength], stdout);
+    fwrite([logString cStringUsingEncoding:NSUTF8StringEncoding], 1, [logString lengthOfBytesUsingEncoding:NSUTF8StringEncoding], stdout);
     if (![logString hasSuffix:@"\n"]) fputc('\n', stdout);
     [logString release];
 }
@@ -92,7 +92,7 @@ void Printf(NSString *format, ...)
         return [[self reversedArray] valueForKeyPath:key];
 }
 
-static int sortByName(id obj1, id obj2, void *context)
+static NSInteger sortByName(id obj1, id obj2, void *context)
 {
     return [(NSString *)[obj1 valueForKey:@"name"] compare:[obj2 valueForKey:@"name"]];
 }
@@ -143,7 +143,7 @@ static int sortByName(id obj1, id obj2, void *context)
 - (NSArray *)arrayByMakingObjectsPerformSelector:(SEL)aSelector withObject:anObject
                                       withObject:anObject2
 {
-    unsigned		i, count = [self count];
+    NSUInteger		i, count = [self count];
     NSMutableArray	*array = [NSMutableArray arrayWithCapacity:count];
 
     for(i=0; i<count; i++)
@@ -223,7 +223,7 @@ static int sortByName(id obj1, id obj2, void *context)
 
 - (NSString *)findFile:(NSString *)filename inSearchPath:(NSArray *)paths
 {
-    int i, count = [paths count];
+    NSInteger i, count = [paths count];
 
     for (i=0; i<count; i++)
     {
@@ -243,22 +243,8 @@ static int sortByName(id obj1, id obj2, void *context)
 
     attributes = [[NSMutableDictionary alloc] initWithCapacity:1];
     [attributes setObject:[NSDate date] forKey:NSFileModificationDate];
-    [self changeFileAttributes:attributes atPath:filePath];
+    [self setAttributes:attributes ofItemAtPath:filePath error:nil];
     [attributes release];
-}
-
-- (BOOL)deepCreateDirectoryAtPath:(NSString *)path attributes:(NSDictionary *)attributes
-{
-    NSString *parent = [path stringByDeletingLastPathComponent];
-
-    if ([parent length] > 0 && ![self directoryExistsAtPath:parent])
-    {
-        // May want to ensure owner write permissions here...
-        if (![self deepCreateDirectoryAtPath:parent attributes:attributes])
-            return NO;
-    }
-
-    return [self createDirectoryAtPath:path attributes:attributes];
 }
 
 @end

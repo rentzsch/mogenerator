@@ -75,7 +75,7 @@
     /* This works better for whatever reason. Due to some unknown pecularities,
     a constant NSString doesn't work under Windows with Apple's
     implementation. */
-    return [NSString stringWithCString:"«"];
+    return [NSString stringWithCString:"«" encoding:NSUTF8StringEncoding];
 }
 
 /*"
@@ -87,7 +87,7 @@
     //	return @")";
     //	return @"»";
     /* This works better than a constant NSString for whatever reason.  See above. */
-    return [NSString stringWithCString:"»"];
+    return [NSString stringWithCString:"»" encoding:NSUTF8StringEncoding];
 }
 
 /*" Creates a new, autoreleased MiscMergeTemplate. "*/
@@ -129,13 +129,25 @@
     return self;
 }
 
+/* helper method to load string contents of filenames */
+- (NSString *) contentsOfFileWithName:(NSString *)filename {
+    NSError *error = nil;
+    NSString *fileString = [NSString stringWithContentsOfFile:filename
+                                                     encoding:NSASCIIStringEncoding
+                                                        error:&error];
+    
+    if (error != nil) {
+        NSLog(@"%@: Could not read template file %@ because %@", [self class], filename, [error localizedDescription]);   
+    }
+    return fileString;
+}
+
 /*"
  * Loads the contents of filename, then calls -#initWithString:.
 "*/
 - initWithContentsOfFile:(NSString *)filename
 {
-    NSString *fileString = [[[NSString alloc] initWithContentsOfFile:filename] autorelease];
-    if (fileString == nil) NSLog(@"%@: Could not read template file %@", [self class], filename);
+    NSString *fileString = [self contentsOfFileWithName:filename];
     return [self initWithString:fileString];
 }
 
@@ -432,11 +444,9 @@
 "*/
 - (void)parseContentsOfFile:(NSString *)filename
 {
-    NSString *string = [[NSString alloc] initWithContentsOfFile:filename];
-    if (string == nil) NSLog(@"%@: Could not read template file %@", [self class], filename);
+    NSString *string = [self contentsOfFileWithName:filename];
     [self setFilename:filename];
     [self parseString:string];
-    [string release];
 }
 
 /*"
@@ -444,9 +454,9 @@
 "*/
 - (void)parseString:(NSString *)string
 {
+    NSMutableString *accumString = [[[NSMutableString alloc] init] autorelease];
     NSAutoreleasePool *localPool = [[NSAutoreleasePool alloc] init];
     NSScanner *scanner = [NSScanner scannerWithString:string];
-    NSMutableString *accumString = [[NSMutableString alloc] init];
     NSString *currString;
     int nestingLevel = 0;
     int maxNestingLevel = 0;

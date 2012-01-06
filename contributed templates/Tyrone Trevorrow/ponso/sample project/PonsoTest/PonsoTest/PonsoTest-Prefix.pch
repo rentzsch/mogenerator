@@ -1,0 +1,8 @@
+//
+// Prefix header for all source files of the 'PonsoTest' target in the 'PonsoTest' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+    #import "Model.h"
+#endif
