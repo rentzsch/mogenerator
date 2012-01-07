@@ -334,7 +334,7 @@ NSString	*gCustomBaseClassForced;
 - (NSString*)attributeTypeName {
 	return
 		[[self userInfo] objectForKey:@"attributeValueTypeName"]
-	?:	[self scalarAttributeType]
+	?:	[self scalarAttributeTypeName]
 	?:	[[self objectAttributeType] stringByAppendingString:@"*"];
 }
 
