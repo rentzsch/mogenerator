@@ -56,16 +56,16 @@ const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassNam
 
 <$if Attribute.hasScalarAttributeType$>
 
-- (<$Attribute.attributeTypeName$>)<$Attribute.name$>Value {
+- (<$Attribute.scalarAttributeType$>)<$Attribute.name$>Value {
 	NSNumber *result = [self <$Attribute.name$>];
 	return [result <$Attribute.scalarAccessorMethodName$>];
 }
 
-- (void)set<$Attribute.name.initialCapitalString$>Value:(<$Attribute.attributeTypeName$>)value_ {
+- (void)set<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_ {
 	[self set<$Attribute.name.initialCapitalString$>:[NSNumber <$Attribute.scalarFactoryMethodName$>value_]];
 }
 
-- (<$Attribute.attributeTypeName$>)primitive<$Attribute.name.initialCapitalString$>Value {
+- (<$Attribute.scalarAttributeType$>)primitive<$Attribute.name.initialCapitalString$>Value {
 	NSNumber *result = [self primitive<$Attribute.name.initialCapitalString$>];
 	return [result <$Attribute.scalarAccessorMethodName$>];
 }

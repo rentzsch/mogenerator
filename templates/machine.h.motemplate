@@ -18,7 +18,7 @@ extern const struct <$managedObjectClassName$>FetchedProperties {<$foreach Fetch
 
 <$foreach Relationship noninheritedRelationships do$>@class <$Relationship.destinationEntity.managedObjectClassName$>;
 <$endforeach do$>
-<$foreach Attribute noninheritedAttributes do$><$if Attribute.hasTransformableAttributeType$>@class <$Attribute.objectAttributeType$>;<$endif$>
+<$foreach Attribute noninheritedAttributes do$><$if Attribute.hasTransformableAttributeType$>@class <$Attribute.objectAttributeClassName$>;<$endif$>
 <$endforeach do$>
 @interface <$managedObjectClassName$>ID : NSManagedObjectID {}
 @end
@@ -32,14 +32,14 @@ extern const struct <$managedObjectClassName$>FetchedProperties {<$foreach Fetch
 <$foreach Attribute noninheritedAttributes do$>
 <$if Attribute.hasDefinedAttributeType$>
 <$if TemplateVar.arc$>
-@property (nonatomic, strong) <$Attribute.attributeTypeName$> <$Attribute.name$>;
+@property (nonatomic, strong) <$Attribute.objectAttributeType$><$Attribute.name$>;
 <$else$>
-@property (nonatomic, retain) <$Attribute.attributeTypeName$> <$Attribute.name$>;
+@property (nonatomic, retain) <$Attribute.objectAttributeType$><$Attribute.name$>;
 <$endif$>
 <$if Attribute.hasScalarAttributeType$>
-@property <$Attribute.attributeTypeName$> <$Attribute.name$>Value;
-- (<$Attribute.attributeTypeName$>)<$Attribute.name$>Value;
-- (void)set<$Attribute.name.initialCapitalString$>Value:(<$Attribute.attributeTypeName$>)value_;
+@property <$Attribute.scalarAttributeType$> <$Attribute.name$>Value;
+- (<$Attribute.scalarAttributeType$>)<$Attribute.name$>Value;
+- (void)set<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_;
 <$endif$>
 //- (BOOL)validate<$Attribute.name.initialCapitalString$>:(id*)value_ error:(NSError**)error_;
 <$endif$>
@@ -87,11 +87,11 @@ extern const struct <$managedObjectClassName$>FetchedProperties {<$foreach Fetch
 @interface _<$managedObjectClassName$> (CoreDataGeneratedPrimitiveAccessors)
 <$foreach Attribute noninheritedAttributes do$>
 <$if Attribute.hasDefinedAttributeType$>
-- (<$Attribute.attributeTypeName$>)primitive<$Attribute.name.initialCapitalString$>;
-- (void)setPrimitive<$Attribute.name.initialCapitalString$>:(<$Attribute.attributeTypeName$>)value;
+- (<$Attribute.objectAttributeType$>)primitive<$Attribute.name.initialCapitalString$>;
+- (void)setPrimitive<$Attribute.name.initialCapitalString$>:(<$Attribute.objectAttributeType$>)value;
 <$if Attribute.hasScalarAttributeType$>
-- (<$Attribute.attributeTypeName$>)primitive<$Attribute.name.initialCapitalString$>Value;
-- (void)setPrimitive<$Attribute.name.initialCapitalString$>Value:(<$Attribute.attributeTypeName$>)value_;
+- (<$Attribute.scalarAttributeType$>)primitive<$Attribute.name.initialCapitalString$>Value;
+- (void)setPrimitive<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_;
 <$endif$>
 <$endif$>
 <$endforeach do$>

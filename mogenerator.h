@@ -27,15 +27,14 @@
 - (NSArray*)prettyFetchRequests;
 @end
 
-@interface NSAttributeDescription (scalarAttributeType)
+@interface NSAttributeDescription (typing)
 - (BOOL)hasScalarAttributeType;
 - (NSString*)scalarAttributeType;
-- (NSString*)scalarAttributeTypeName;
 - (NSString*)scalarAccessorMethodName;
 - (NSString*)scalarFactoryMethodName;
 - (BOOL)hasDefinedAttributeType;
+- (NSString*)objectAttributeClassName;
 - (NSString*)objectAttributeType;
-- (NSString*)attributeTypeName;
 - (BOOL)hasTransformableAttributeType;
 @end
 

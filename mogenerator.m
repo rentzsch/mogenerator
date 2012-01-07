@@ -175,7 +175,7 @@ NSString	*gCustomBaseClassForced;
                 
                 NSAttributeDescription *attribute = [[self attributesByName] objectForKey:[lhs keyPath]];
                 if (attribute) {
-                    type = [attribute objectAttributeType];
+                    type = [attribute objectAttributeClassName];
                 } else {
                     type = [self _resolveKeyPathType:[lhs keyPath]];
                 }
@@ -209,7 +209,7 @@ NSString	*gCustomBaseClassForced;
 }
 @end
 
-@implementation NSAttributeDescription (scalarAttributeType)
+@implementation NSAttributeDescription (typing)
 - (BOOL)hasScalarAttributeType {
 	switch ([self attributeType]) {
 		case NSInteger16AttributeType:
@@ -225,30 +225,6 @@ NSString	*gCustomBaseClassForced;
 	}
 }
 - (NSString*)scalarAttributeType {
-	switch ([self attributeType]) {
-		case NSInteger16AttributeType:
-			return @"short";
-			break;
-		case NSInteger32AttributeType:
-			return @"int";
-			break;
-		case NSInteger64AttributeType:
-			return @"long long";
-			break;
-		case NSDoubleAttributeType:
-			return @"double";
-			break;
-		case NSFloatAttributeType:
-			return @"float";
-			break;
-		case NSBooleanAttributeType:
-			return @"BOOL";
-			break;
-		default:
-			return nil;
-	}
-}
-- (NSString*)scalarAttributeTypeName {
 	switch ([self attributeType]) {
 		case NSInteger16AttributeType:
 			return @"int16_t";
@@ -299,22 +275,22 @@ NSString	*gCustomBaseClassForced;
 - (NSString*)scalarFactoryMethodName {
 	switch ([self attributeType]) {
 		case NSInteger16AttributeType:
-			return @"numberWithShortValue:";
+			return @"numberWithShort:";
 			break;
 		case NSInteger32AttributeType:
-			return @"numberWithIntValue:";
+			return @"numberWithInt:";
 			break;
 		case NSInteger64AttributeType:
-			return @"numberWithLongLongValue:";
+			return @"numberWithLongLong:";
 			break;
 		case NSDoubleAttributeType:
-			return @"numberWithDoubleValue:";
+			return @"numberWithDouble:";
 			break;
 		case NSFloatAttributeType:
-			return @"numberWithFloatValue:";
+			return @"numberWithFloat:";
 			break;
 		case NSBooleanAttributeType:
-			return @"numberWithBoolValue:";
+			return @"numberWithBool:";
 			break;
 		default:
 			return nil;
@@ -323,25 +299,29 @@ NSString	*gCustomBaseClassForced;
 - (BOOL)hasDefinedAttributeType {
 	return [self attributeType] != NSUndefinedAttributeType;
 }
-- (NSString*)objectAttributeType {
-    if ([self hasTransformableAttributeType]) {
-        NSString *result = [[self userInfo] objectForKey:@"attributeValueClassName"];
-        return result ? result : @"NSObject";
+- (NSString*)objectAttributeClassName {
+	NSString *result = nil;
+	if ([self hasTransformableAttributeType]) {
+        result = [[self userInfo] objectForKey:@"attributeValueClassName"];
+		if (!result) {
+			result = @"NSObject";
+		}
     } else {
-        return [self attributeValueClassName];
+        result = [self attributeValueClassName];
     }
+	return result;
 }
-- (NSString*)attributeTypeName {
-	return
-		[[self userInfo] objectForKey:@"attributeValueTypeName"]
-	?:	[self scalarAttributeTypeName]
-	?:	[[self objectAttributeType] stringByAppendingString:@"*"];
+- (NSString*)objectAttributeType {
+	NSString *result = [self objectAttributeClassName];
+	result = [result stringByAppendingString:@" *"];
+	if ([result isEqualToString:@"NSObject *"]) {
+		result = @"id";
+	}
+	return result;
 }
-
 - (BOOL)hasTransformableAttributeType {
 	return ([self attributeType] == NSTransformableAttributeType);
 }
-
 @end
 
 @implementation NSRelationshipDescription (collectionClassName)
