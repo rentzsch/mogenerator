@@ -87,14 +87,14 @@ extern const struct HumanMOFetchedProperties {
 
 
 
-- (NSData*)primitiveHairColorStorage;
-- (void)setPrimitiveHairColorStorage:(NSData*)value;
+- (NSData *)primitiveHairColorStorage;
+- (void)setPrimitiveHairColorStorage:(NSData *)value;
 
 
 
 
-- (NSString*)primitiveHumanName;
-- (void)setPrimitiveHumanName:(NSString*)value;
+- (NSString *)primitiveHumanName;
+- (void)setPrimitiveHumanName:(NSString *)value;
 
 
 

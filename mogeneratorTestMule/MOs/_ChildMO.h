@@ -61,8 +61,8 @@ extern const struct ChildMOFetchedProperties {
 @interface _ChildMO (CoreDataGeneratedPrimitiveAccessors)
 
 
-- (NSString*)primitiveChildName;
-- (void)setPrimitiveChildName:(NSString*)value;
+- (NSString *)primitiveChildName;
+- (void)setPrimitiveChildName:(NSString *)value;
 
 
 

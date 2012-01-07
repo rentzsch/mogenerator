@@ -120,9 +120,9 @@ extern const struct ParentMOFetchedProperties {
 @property (nonatomic, retain) NSNumber *myInt16;
 
 
-@property short myInt16Value;
-- (short)myInt16Value;
-- (void)setMyInt16Value:(short)value_;
+@property int16_t myInt16Value;
+- (int16_t)myInt16Value;
+- (void)setMyInt16Value:(int16_t)value_;
 
 //- (BOOL)validateMyInt16:(id*)value_ error:(NSError**)error_;
 
@@ -132,9 +132,9 @@ extern const struct ParentMOFetchedProperties {
 @property (nonatomic, retain) NSNumber *myInt16Transient;
 
 
-@property short myInt16TransientValue;
-- (short)myInt16TransientValue;
-- (void)setMyInt16TransientValue:(short)value_;
+@property int16_t myInt16TransientValue;
+- (int16_t)myInt16TransientValue;
+- (void)setMyInt16TransientValue:(int16_t)value_;
 
 //- (BOOL)validateMyInt16Transient:(id*)value_ error:(NSError**)error_;
 
@@ -144,9 +144,9 @@ extern const struct ParentMOFetchedProperties {
 @property (nonatomic, retain) NSNumber *myInt32;
 
 
-@property int myInt32Value;
-- (int)myInt32Value;
-- (void)setMyInt32Value:(int)value_;
+@property int32_t myInt32Value;
+- (int32_t)myInt32Value;
+- (void)setMyInt32Value:(int32_t)value_;
 
 //- (BOOL)validateMyInt32:(id*)value_ error:(NSError**)error_;
 
@@ -156,9 +156,9 @@ extern const struct ParentMOFetchedProperties {
 @property (nonatomic, retain) NSNumber *myInt64;
 
 
-@property long long myInt64Value;
-- (long long)myInt64Value;
-- (void)setMyInt64Value:(long long)value_;
+@property int64_t myInt64Value;
+- (int64_t)myInt64Value;
+- (void)setMyInt64Value:(int64_t)value_;
 
 //- (BOOL)validateMyInt64:(id*)value_ error:(NSError**)error_;
 
@@ -173,7 +173,7 @@ extern const struct ParentMOFetchedProperties {
 
 
 
-@property (nonatomic, retain) NSObject *myTransformableSansClassName;
+@property (nonatomic, retain) idmyTransformableSansClassName;
 
 
 //- (BOOL)validateMyTransformableSansClassName:(id*)value_ error:(NSError**)error_;
@@ -198,9 +198,9 @@ extern const struct ParentMOFetchedProperties {
 
 
 
-@property (nonatomic, retain) NSOrderedSet* children;
+@property (nonatomic, retain) NSSet* children;
 
-- (NSMutableOrderedSet*)childrenSet;
+- (NSMutableSet*)childrenSet;
 
 
 
@@ -209,8 +209,8 @@ extern const struct ParentMOFetchedProperties {
 
 @interface _ParentMO (CoreDataGeneratedAccessors)
 
-- (void)addChildren:(NSOrderedSet*)value_;
-- (void)removeChildren:(NSOrderedSet*)value_;
+- (void)addChildren:(NSSet*)value_;
+- (void)removeChildren:(NSSet*)value_;
 - (void)addChildrenObject:(ChildMO*)value_;
 - (void)removeChildrenObject:(ChildMO*)value_;
 
@@ -219,14 +219,14 @@ extern const struct ParentMOFetchedProperties {
 @interface _ParentMO (CoreDataGeneratedPrimitiveAccessors)
 
 
-- (NSData*)primitiveMyBinaryData;
-- (void)setPrimitiveMyBinaryData:(NSData*)value;
+- (NSData *)primitiveMyBinaryData;
+- (void)setPrimitiveMyBinaryData:(NSData *)value;
 
 
 
 
-- (NSNumber*)primitiveMyBoolean;
-- (void)setPrimitiveMyBoolean:(NSNumber*)value;
+- (NSNumber *)primitiveMyBoolean;
+- (void)setPrimitiveMyBoolean:(NSNumber *)value;
 
 - (BOOL)primitiveMyBooleanValue;
 - (void)setPrimitiveMyBooleanValue:(BOOL)value_;
@@ -234,20 +234,20 @@ extern const struct ParentMOFetchedProperties {
 
 
 
-- (NSDate*)primitiveMyDate;
-- (void)setPrimitiveMyDate:(NSDate*)value;
+- (NSDate *)primitiveMyDate;
+- (void)setPrimitiveMyDate:(NSDate *)value;
 
 
 
 
-- (NSDecimalNumber*)primitiveMyDecimal;
-- (void)setPrimitiveMyDecimal:(NSDecimalNumber*)value;
+- (NSDecimalNumber *)primitiveMyDecimal;
+- (void)setPrimitiveMyDecimal:(NSDecimalNumber *)value;
 
 
 
 
-- (NSNumber*)primitiveMyDouble;
-- (void)setPrimitiveMyDouble:(NSNumber*)value;
+- (NSNumber *)primitiveMyDouble;
+- (void)setPrimitiveMyDouble:(NSNumber *)value;
 
 - (double)primitiveMyDoubleValue;
 - (void)setPrimitiveMyDoubleValue:(double)value_;
@@ -255,8 +255,8 @@ extern const struct ParentMOFetchedProperties {
 
 
 
-- (NSNumber*)primitiveMyFloat;
-- (void)setPrimitiveMyFloat:(NSNumber*)value;
+- (NSNumber *)primitiveMyFloat;
+- (void)setPrimitiveMyFloat:(NSNumber *)value;
 
 - (float)primitiveMyFloatValue;
 - (void)setPrimitiveMyFloatValue:(float)value_;
@@ -264,69 +264,69 @@ extern const struct ParentMOFetchedProperties {
 
 
 
-- (NSNumber*)primitiveMyInt16;
-- (void)setPrimitiveMyInt16:(NSNumber*)value;
+- (NSNumber *)primitiveMyInt16;
+- (void)setPrimitiveMyInt16:(NSNumber *)value;
 
-- (short)primitiveMyInt16Value;
-- (void)setPrimitiveMyInt16Value:(short)value_;
-
-
-
-
-- (NSNumber*)primitiveMyInt16Transient;
-- (void)setPrimitiveMyInt16Transient:(NSNumber*)value;
-
-- (short)primitiveMyInt16TransientValue;
-- (void)setPrimitiveMyInt16TransientValue:(short)value_;
+- (int16_t)primitiveMyInt16Value;
+- (void)setPrimitiveMyInt16Value:(int16_t)value_;
 
 
 
 
-- (NSNumber*)primitiveMyInt32;
-- (void)setPrimitiveMyInt32:(NSNumber*)value;
+- (NSNumber *)primitiveMyInt16Transient;
+- (void)setPrimitiveMyInt16Transient:(NSNumber *)value;
 
-- (int)primitiveMyInt32Value;
-- (void)setPrimitiveMyInt32Value:(int)value_;
-
-
-
-
-- (NSNumber*)primitiveMyInt64;
-- (void)setPrimitiveMyInt64:(NSNumber*)value;
-
-- (long long)primitiveMyInt64Value;
-- (void)setPrimitiveMyInt64Value:(long long)value_;
+- (int16_t)primitiveMyInt16TransientValue;
+- (void)setPrimitiveMyInt16TransientValue:(int16_t)value_;
 
 
 
 
-- (NSString*)primitiveMyString;
-- (void)setPrimitiveMyString:(NSString*)value;
+- (NSNumber *)primitiveMyInt32;
+- (void)setPrimitiveMyInt32:(NSNumber *)value;
+
+- (int32_t)primitiveMyInt32Value;
+- (void)setPrimitiveMyInt32Value:(int32_t)value_;
 
 
 
 
-- (NSObject*)primitiveMyTransformableSansClassName;
-- (void)setPrimitiveMyTransformableSansClassName:(NSObject*)value;
+- (NSNumber *)primitiveMyInt64;
+- (void)setPrimitiveMyInt64:(NSNumber *)value;
+
+- (int64_t)primitiveMyInt64Value;
+- (void)setPrimitiveMyInt64Value:(int64_t)value_;
 
 
 
 
-- (NSColor*)primitiveMyTransformableWithClassName;
-- (void)setPrimitiveMyTransformableWithClassName:(NSColor*)value;
+- (NSString *)primitiveMyString;
+- (void)setPrimitiveMyString:(NSString *)value;
 
 
 
 
-- (NSString*)primitiveParentName;
-- (void)setPrimitiveParentName:(NSString*)value;
+- (id)primitiveMyTransformableSansClassName;
+- (void)setPrimitiveMyTransformableSansClassName:(id)value;
+
+
+
+
+- (NSColor *)primitiveMyTransformableWithClassName;
+- (void)setPrimitiveMyTransformableWithClassName:(NSColor *)value;
+
+
+
+
+- (NSString *)primitiveParentName;
+- (void)setPrimitiveParentName:(NSString *)value;
 
 
 
 
 
-- (NSMutableOrderedSet*)primitiveChildren;
-- (void)setPrimitiveChildren:(NSMutableOrderedSet*)value;
+- (NSMutableSet*)primitiveChildren;
+- (void)setPrimitiveChildren:(NSMutableSet*)value;
 
 
 @end
