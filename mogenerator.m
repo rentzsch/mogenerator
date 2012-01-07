@@ -259,6 +259,12 @@ NSString	*gCustomBaseClassForced;
         return [self attributeValueClassName];
     }
 }
+- (NSString*)attributeTypeName {
+	return
+		[[self userInfo] objectForKey:@"attributeValueTypeName"]
+	?:	[self scalarAttributeType]
+	?:	[[self objectAttributeType] stringByAppendingString:@"*"];
+}
 
 - (BOOL)hasTransformableAttributeType {
 	return ([self attributeType] == NSTransformableAttributeType);

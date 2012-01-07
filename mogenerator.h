@@ -32,6 +32,7 @@
 - (NSString*)scalarAttributeType;
 - (BOOL)hasDefinedAttributeType;
 - (NSString*)objectAttributeType;
+- (NSString*)attributeTypeName;
 - (BOOL)hasTransformableAttributeType;
 @end
 
