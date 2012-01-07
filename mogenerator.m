@@ -248,6 +248,78 @@ NSString	*gCustomBaseClassForced;
 			return nil;
 	}
 }
+- (NSString*)scalarAttributeTypeName {
+	switch ([self attributeType]) {
+		case NSInteger16AttributeType:
+			return @"int16_t";
+			break;
+		case NSInteger32AttributeType:
+			return @"int32_t";
+			break;
+		case NSInteger64AttributeType:
+			return @"int64_t";
+			break;
+		case NSDoubleAttributeType:
+			return @"double";
+			break;
+		case NSFloatAttributeType:
+			return @"float";
+			break;
+		case NSBooleanAttributeType:
+			return @"BOOL";
+			break;
+		default:
+			return nil;
+	}
+}
+- (NSString*)scalarAccessorMethodName {
+	switch ([self attributeType]) {
+		case NSInteger16AttributeType:
+			return @"shortValue";
+			break;
+		case NSInteger32AttributeType:
+			return @"intValue";
+			break;
+		case NSInteger64AttributeType:
+			return @"longLongValue";
+			break;
+		case NSDoubleAttributeType:
+			return @"doubleValue";
+			break;
+		case NSFloatAttributeType:
+			return @"floatValue";
+			break;
+		case NSBooleanAttributeType:
+			return @"boolValue";
+			break;
+		default:
+			return nil;
+	}
+}
+- (NSString*)scalarFactoryMethodName {
+	switch ([self attributeType]) {
+		case NSInteger16AttributeType:
+			return @"numberWithShortValue:";
+			break;
+		case NSInteger32AttributeType:
+			return @"numberWithIntValue:";
+			break;
+		case NSInteger64AttributeType:
+			return @"numberWithLongLongValue:";
+			break;
+		case NSDoubleAttributeType:
+			return @"numberWithDoubleValue:";
+			break;
+		case NSFloatAttributeType:
+			return @"numberWithFloatValue:";
+			break;
+		case NSBooleanAttributeType:
+			return @"numberWithBoolValue:";
+			break;
+		default:
+			return nil;
+	}
+}
 - (BOOL)hasDefinedAttributeType {
 	return [self attributeType] != NSUndefinedAttributeType;
 }
