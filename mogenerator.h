@@ -30,8 +30,12 @@
 @interface NSAttributeDescription (scalarAttributeType)
 - (BOOL)hasScalarAttributeType;
 - (NSString*)scalarAttributeType;
+- (NSString*)scalarAttributeTypeName;
+- (NSString*)scalarAccessorMethodName;
+- (NSString*)scalarFactoryMethodName;
 - (BOOL)hasDefinedAttributeType;
 - (NSString*)objectAttributeType;
+- (NSString*)attributeTypeName;
 - (BOOL)hasTransformableAttributeType;
 @end
 

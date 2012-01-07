@@ -56,22 +56,22 @@ const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassNam
 
 <$if Attribute.hasScalarAttributeType$>
 
-- (<$Attribute.scalarAttributeType$>)<$Attribute.name$>Value {
+- (<$Attribute.attributeTypeName$>)<$Attribute.name$>Value {
 	NSNumber *result = [self <$Attribute.name$>];
-	return [result <$Attribute.scalarAttributeType.camelCaseString$>Value];
+	return [result <$Attribute.scalarAttributeAccessorMethod$>];
 }
 
-- (void)set<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_ {
-	[self set<$Attribute.name.initialCapitalString$>:[NSNumber numberWith<$Attribute.scalarAttributeType.camelCaseString.initialCapitalString$>:value_]];
+- (void)set<$Attribute.name.initialCapitalString$>Value:(<$Attribute.attributeTypeName$>)value_ {
+	[self set<$Attribute.name.initialCapitalString$>:[NSNumber <$Attribute.scalarAttributeFactoryMethod$>value_]];
 }
 
-- (<$Attribute.scalarAttributeType$>)primitive<$Attribute.name.initialCapitalString$>Value {
+- (<$Attribute.attributeTypeName$>)primitive<$Attribute.name.initialCapitalString$>Value {
 	NSNumber *result = [self primitive<$Attribute.name.initialCapitalString$>];
-	return [result <$Attribute.scalarAttributeType.camelCaseString$>Value];
+	return [result <$Attribute.scalarAttributeAccessorMethod$>];
 }
 
 - (void)setPrimitive<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_ {
-	[self setPrimitive<$Attribute.name.initialCapitalString$>:[NSNumber numberWith<$Attribute.scalarAttributeType.camelCaseString.initialCapitalString$>:value_]];
+	[self setPrimitive<$Attribute.name.initialCapitalString$>:[NSNumber <$Attribute.scalarAttributeFactoryMethod$>value_]];
 }
 <$endif$>
 <$endif$>
