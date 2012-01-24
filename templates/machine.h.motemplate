@@ -73,6 +73,15 @@ extern const struct <$managedObjectClassName$>FetchedProperties {<$foreach Fetch
 <$foreach FetchedProperty noninheritedFetchedProperties do$>
 @property (nonatomic, readonly) NSArray *<$FetchedProperty.name$>;
 <$endforeach do$>
+<$if TemplateVar.frc$>
+#if TARGET_OS_IPHONE
+<$foreach Relationship noninheritedRelationships do$>
+<$if Relationship.isToMany$>
+- (NSFetchedResultsController *)new<$Relationship.name.initialCapitalString$>FetchedResultsControllerWithSortDescriptors:(NSArray *)sortDescriptors;
+<$endif$>
+<$endforeach do$>
+#endif
+<$endif$>
 @end
 
 @interface _<$managedObjectClassName$> (CoreDataGeneratedAccessors)
