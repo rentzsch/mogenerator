@@ -57,6 +57,17 @@ NSString	*gCustomBaseClassForced;
 @end
 
 
+@implementation NSArray (countKeyValueCoding)
+
+- (id)valueForKey:(NSString *)key {
+	
+	if ([key isEqualToString:@"count"])
+		return [NSNumber numberWithUnsignedInteger:[self count]];
+	
+	return [super valueForKey:key];
+}
+@end
+
 @implementation NSEntityDescription (customBaseClass)
 - (BOOL)hasCustomSuperentity {
 	NSEntityDescription *superentity = [self superentity];
