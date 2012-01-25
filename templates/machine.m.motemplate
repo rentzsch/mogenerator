@@ -199,14 +199,14 @@ const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassNam
 	fetchRequest.entity = [NSEntityDescription entityForName:@"<$Relationship.destinationEntity.name$>" inManagedObjectContext:self.managedObjectContext];
 	fetchRequest.predicate = [NSPredicate predicateWithFormat:@"<$Relationship.inverseRelationship.name$> <$if Relationship.inverseRelationship.isToMany$>CONTAINS<$else$>==<$endif$> %@", self];
 	fetchRequest.sortDescriptors = sortDescriptors;
-	<$if indexedNoninheritedAttributes.count > 0$>
+	<$if indexedNoninheritedAttributes.@count > 0$>
 	NSArray *indexedIDs = [NSArray arrayWithObjects:<$foreach Attribute indexedNoninheritedAttributes do$>self.<$Attribute.name$>, <$endforeach do$>nil];
 	NSString *cacheName = [NSString stringWithFormat:@"mogenerator.<$managedObjectClassName$>.%@.<$Relationship.name$>.%@", indexedIDs, sortDescriptors];
 	<$endif$>
 	return [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
 											   managedObjectContext:self.managedObjectContext
 												 sectionNameKeyPath:nil
-														  cacheName:<$if indexedNoninheritedAttributes.count > 0$>cacheName<$else$>nil<$endif$>];
+														  cacheName:<$if indexedNoninheritedAttributes.@count > 0$>cacheName<$else$>nil<$endif$>];
 }
 <$endif$>
 <$endforeach do$>
