@@ -199,14 +199,14 @@ const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassNam
 	fetchRequest.entity = [NSEntityDescription entityForName:@"<$Relationship.destinationEntity.name$>" inManagedObjectContext:self.managedObjectContext];
 	fetchRequest.predicate = [NSPredicate predicateWithFormat:@"<$Relationship.inverseRelationship.name$> <$if Relationship.inverseRelationship.isToMany$>CONTAINS<$else$>==<$endif$> %@", self];
 	fetchRequest.sortDescriptors = sortDescriptors;
-	NSArray *indexedIDs = [NSArray arrayWithObjects:<$foreach Attribute noninheritedAttributes do$><$if Attribute.isIndexed$>self.<$Attribute.name$>, <$endif$><$endforeach do$>nil];
-	NSString *cacheName = nil;
-	if ([indexedIDs count] > 0)
-		cacheName = [NSString stringWithFormat:@"mogenerator.<$managedObjectClassName$>.%@.<$Relationship.name$>.%@", indexedIDs, sortDescriptors];
+	<$if indexedNoninheritedAttributes.count > 0$>
+	NSArray *indexedIDs = [NSArray arrayWithObjects:<$foreach Attribute indexedNoninheritedAttributes do$>self.<$Attribute.name$>, <$endforeach do$>nil];
+	NSString *cacheName = [NSString stringWithFormat:@"mogenerator.<$managedObjectClassName$>.%@.<$Relationship.name$>.%@", indexedIDs, sortDescriptors];
+	<$endif$>
 	return [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
 											   managedObjectContext:self.managedObjectContext
 												 sectionNameKeyPath:nil
-														  cacheName:cacheName];
+														  cacheName:<$if indexedNoninheritedAttributes.count > 0$>cacheName<$else$>nil<$endif$>];
 }
 <$endif$>
 <$endforeach do$>

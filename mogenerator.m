@@ -125,6 +125,11 @@ NSString	*gCustomBaseClassForced;
 		return [[[self fetchedPropertiesByName] allValues]  sortedArrayUsingDescriptors:sortDescriptors];
 	}
 }
+/** @TypeInfo NSAttributeDescription */
+- (NSArray*)indexedNoninheritedAttributes {
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isIndexed == YES"];
+	return [[self noninheritedAttributes] filteredArrayUsingPredicate:predicate];
+}
 
 #pragma mark Fetch Request support
 
