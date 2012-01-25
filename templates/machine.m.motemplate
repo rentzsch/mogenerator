@@ -195,7 +195,7 @@ const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassNam
 <$if Relationship.isToMany$>
 - (NSFetchedResultsController *)new<$Relationship.name.initialCapitalString$>FetchedResultsControllerWithSortDescriptors:(NSArray *)sortDescriptors {
 	NSFetchRequest *fetchRequest = [NSFetchRequest new];
-	<$if !TemplateVar.frc$>[fetchRequest autorelease];<$endif$>
+	<$if !TemplateVar.arc$>[fetchRequest autorelease];<$endif$>
 	fetchRequest.entity = [NSEntityDescription entityForName:@"<$Relationship.destinationEntity.name$>" inManagedObjectContext:self.managedObjectContext];
 	fetchRequest.predicate = [NSPredicate predicateWithFormat:@"<$Relationship.inverseRelationship.name$> <$if Relationship.inverseRelationship.isToMany$>CONTAINS<$else$>==<$endif$> %@", self];
 	fetchRequest.sortDescriptors = sortDescriptors;
