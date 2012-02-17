@@ -20,6 +20,18 @@ Xmo'd works by noticing when your `*.xcdatamodel` is saved. If the model file's 
 
 ## Version History
 
+### v1.25: Thu Feb 16 2012 [download](http://github.com/downloads/rentzsch/mogenerator/mogenerator-1.25.dmg)
+
+* [NEW] Support for Xcode 4.3 and it's relocation of `momc` into its bundle. Only supports /Applications/Xcode.app for now. ([Matt McGlincy](https://github.com/rentzsch/mogenerator/pull/90))
+
+* [CHANGE] Now generates size-specific scalar types (`int16_t`, `int32_t`, `int64_t`) instead of size-variable types (`short`, `int`, `long long`). [bug 2](https://github.com/rentzsch/mogenerator/issues/2) ([Rob Rix](https://github.com/rentzsch/mogenerator/pull/86))
+
+* [NEW] Can now generate `NSFetchedResultsController` creation code for to-many relationships (use `--template-var frc=true`). ([Daniel Tull](https://github.com/rentzsch/mogenerator/pull/88))
+
+* [DOC] Link to John Blanco's [Getting Started with Mogenerator](http://raptureinvenice.com/getting-started-with-mogenerator/).
+
+
+
 ### v1.24: Wed Dec 6 2011 [download](http://github.com/downloads/rentzsch/mogenerator/mogenerator-1.24.dmg)
 
 * [FIX] Was incorrectly using `-mutableSetValueForKey:` for ordered relationships instead of `-mutableOrderedSetValueForKey:`. [bug 75](https://github.com/rentzsch/mogenerator/issues/75) ([Martin Schürrer](https://github.com/rentzsch/mogenerator/pull/66))
