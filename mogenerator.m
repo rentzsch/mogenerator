@@ -527,6 +527,9 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
         
         if([fm fileExistsAtPath:defaultLocation]) {
             momc = defaultLocation;
+        } else if ([fm fileExistsAtPath:@"/Applications/Xcode.app/Contents/Developer/usr/bin/momc"]) { 
+            // Xcode 4.3 - Command Line Tools for Xcode
+            momc = @"/Applications/Xcode.app/Contents/Developer/usr/bin/momc";
         } else if ([fm fileExistsAtPath:@"/Developer/usr/bin/momc"]) { // Xcode 3.1 installs it here.
             momc = @"/Developer/usr/bin/momc";
         } else if ([fm fileExistsAtPath:@"/Library/Application Support/Apple/Developer Tools/Plug-ins/XDCoreDataModel.xdplugin/Contents/Resources/momc"]) { // Xcode 3.0.
