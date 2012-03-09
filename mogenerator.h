@@ -23,6 +23,7 @@
 @interface NSEntityDescription (customBaseClass)
 - (BOOL)hasCustomSuperentity;
 - (NSString*)customSuperentity;
+- (NSString*)forcedCustomBaseClass;
 - (void)_processPredicate:(NSPredicate*)predicate_ bindings:(NSMutableArray*)bindings_;
 - (NSArray*)prettyFetchRequests;
 @end

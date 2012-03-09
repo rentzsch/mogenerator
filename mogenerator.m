@@ -67,7 +67,8 @@ NSString	*gCustomBaseClassForced;
 	}
 }
 - (NSString*)customSuperentity {
-	if(!gCustomBaseClassForced) {
+	NSString *forcedBaseClass = [self forcedCustomBaseClass];
+	if(!forcedBaseClass) {
 		NSEntityDescription *superentity = [self superentity];
 		if (superentity) {
 			return [superentity managedObjectClassName];
@@ -75,8 +76,12 @@ NSString	*gCustomBaseClassForced;
 			return gCustomBaseClass ? gCustomBaseClass : @"NSManagedObject";
 		}
 	} else {
-		return gCustomBaseClassForced;
+		return forcedBaseClass;
 	}
+}
+- (NSString*)forcedCustomBaseClass {
+	NSString* userInfoCustomBaseClass = [[self userInfo] objectForKey:@"mogenerator.customBaseClass"];
+	return userInfoCustomBaseClass ? userInfoCustomBaseClass : gCustomBaseClassForced;
 }
 /** @TypeInfo NSAttributeDescription */
 - (NSArray*)noninheritedAttributes {
