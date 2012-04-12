@@ -70,6 +70,4 @@
     BOOL					_orphaned;
     NSMutableDictionary     *templateVar;
 }
-
-- (NSString*)appSupportFileNamed:(NSString*)fileName_;
 @end
