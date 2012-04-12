@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		190CB0BA149A719200537A17 /* human.h.motemplate in Sources */ = {isa = PBXBuildFile; fileRef = 190CB0B0149A70B000537A17 /* human.h.motemplate */; };
+		190CB0BB149A719200537A17 /* human.m.motemplate in Sources */ = {isa = PBXBuildFile; fileRef = 190CB0B1149A70B000537A17 /* human.m.motemplate */; };
+		190CB0BC149A719200537A17 /* machine.h.motemplate in Sources */ = {isa = PBXBuildFile; fileRef = 190CB0B2149A70B000537A17 /* machine.h.motemplate */; };
+		190CB0BD149A719200537A17 /* machine.m.motemplate in Sources */ = {isa = PBXBuildFile; fileRef = 190CB0B3149A70B000537A17 /* machine.m.motemplate */; };
 		457C26CD139A1EF900BF00DD /* MKCDAGNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C26C8139A1EF900BF00DD /* MKCDAGNode.m */; };
 		457C26CE139A1EF900BF00DD /* MKCNSEntityDescriptionAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C26CA139A1EF900BF00DD /* MKCNSEntityDescriptionAdditions.m */; };
 		457C26CF139A1EF900BF00DD /* MKCNSManagedObjectModelAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 457C26CC139A1EF900BF00DD /* MKCNSManagedObjectModelAdditions.m */; };
@@ -61,9 +65,27 @@
 		8DD76F9C0486AA7600D96B5E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08FB779EFE84155DC02AAC07 /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXBuildRule section */
+		190CB0B9149A714D00537A17 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = "*.motemplate";
+			fileType = pattern.proxy;
+			isEditable = 1;
+			outputFiles = (
+				"$(DERIVED_FILES_DIR)/$(INPUT_FILE_BASE).m",
+			);
+			script = "./gentemplatesrc.py -o ${DERIVED_FILES_DIR}/${INPUT_FILE_BASE}.m ${INPUT_FILE_PATH}";
+		};
+/* End PBXBuildRule section */
+
 /* Begin PBXFileReference section */
 		08FB7796FE84155DC02AAC07 /* mogenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mogenerator.m; sourceTree = "<group>"; usesTabs = 1; };
 		08FB779EFE84155DC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		190CB0B0149A70B000537A17 /* human.h.motemplate */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = human.h.motemplate; sourceTree = "<group>"; };
+		190CB0B1149A70B000537A17 /* human.m.motemplate */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = human.m.motemplate; sourceTree = "<group>"; };
+		190CB0B2149A70B000537A17 /* machine.h.motemplate */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = machine.h.motemplate; sourceTree = "<group>"; };
+		190CB0B3149A70B000537A17 /* machine.m.motemplate */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = machine.m.motemplate; sourceTree = "<group>"; };
 		32A70AAB03705E1F00C91783 /* mogenerator_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mogenerator_Prefix.pch; sourceTree = "<group>"; };
 		457C26C7139A1EF900BF00DD /* MKCDAGNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKCDAGNode.h; sourceTree = "<group>"; };
 		457C26C8139A1EF900BF00DD /* MKCDAGNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKCDAGNode.m; sourceTree = "<group>"; };
@@ -187,6 +209,7 @@
 		08FB7794FE84155DC02AAC07 /* mogenerator */ = {
 			isa = PBXGroup;
 			children = (
+				190CB0AF149A70B000537A17 /* templates */,
 				08FB7795FE84155DC02AAC07 /* Source */,
 				79D2BF510ACFB51000F3F141 /* MiscMerge */,
 				457C26C6139A1EF900BF00DD /* ponso */,
@@ -220,6 +243,17 @@
 				7931E67710FE982500175784 /* libicucore.dylib */,
 			);
 			name = "External Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		190CB0AF149A70B000537A17 /* templates */ = {
+			isa = PBXGroup;
+			children = (
+				190CB0B0149A70B000537A17 /* human.h.motemplate */,
+				190CB0B1149A70B000537A17 /* human.m.motemplate */,
+				190CB0B2149A70B000537A17 /* machine.h.motemplate */,
+				190CB0B3149A70B000537A17 /* machine.m.motemplate */,
+			);
+			path = templates;
 			sourceTree = "<group>";
 		};
 		1AB674ADFE9D54B511CA2CBB /* Products */ = {
@@ -356,6 +390,7 @@
 				8DD76F9B0486AA7600D96B5E /* Frameworks */,
 			);
 			buildRules = (
+				190CB0B9149A714D00537A17 /* PBXBuildRule */,
 			);
 			dependencies = (
 			);
@@ -391,6 +426,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				190CB0BA149A719200537A17 /* human.h.motemplate in Sources */,
+				190CB0BB149A719200537A17 /* human.m.motemplate in Sources */,
+				190CB0BC149A719200537A17 /* machine.h.motemplate in Sources */,
+				190CB0BD149A719200537A17 /* machine.m.motemplate in Sources */,
 				8DD76F9A0486AA7600D96B5E /* mogenerator.m in Sources */,
 				79D2BFA20ACFB51A00F3F141 /* _MiscMergeBreakCommand.m in Sources */,
 				79D2BFA40ACFB51A00F3F141 /* _MiscMergeCallCommand.m in Sources */,
