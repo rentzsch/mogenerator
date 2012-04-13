@@ -57,7 +57,7 @@ extern const struct ParentMOFetchedProperties {
 
 
 
-@property (nonatomic, retain) NSData *myBinaryData;
+@property (nonatomic, retain) NSData* myBinaryData;
 
 
 //- (BOOL)validateMyBinaryData:(id*)value_ error:(NSError**)error_;
@@ -65,7 +65,7 @@ extern const struct ParentMOFetchedProperties {
 
 
 
-@property (nonatomic, retain) NSNumber *myBoolean;
+@property (nonatomic, retain) NSNumber* myBoolean;
 
 
 @property BOOL myBooleanValue;
@@ -77,7 +77,7 @@ extern const struct ParentMOFetchedProperties {
 
 
 
-@property (nonatomic, retain) NSDate *myDate;
+@property (nonatomic, retain) NSDate* myDate;
 
 
 //- (BOOL)validateMyDate:(id*)value_ error:(NSError**)error_;
@@ -85,7 +85,7 @@ extern const struct ParentMOFetchedProperties {
 
 
 
-@property (nonatomic, retain) NSDecimalNumber *myDecimal;
+@property (nonatomic, retain) NSDecimalNumber* myDecimal;
 
 
 //- (BOOL)validateMyDecimal:(id*)value_ error:(NSError**)error_;
@@ -93,7 +93,7 @@ extern const struct ParentMOFetchedProperties {
 
 
 
-@property (nonatomic, retain) NSNumber *myDouble;
+@property (nonatomic, retain) NSNumber* myDouble;
 
 
 @property double myDoubleValue;
@@ -105,7 +105,7 @@ extern const struct ParentMOFetchedProperties {
 
 
 
-@property (nonatomic, retain) NSNumber *myFloat;
+@property (nonatomic, retain) NSNumber* myFloat;
 
 
 @property float myFloatValue;
@@ -117,7 +117,7 @@ extern const struct ParentMOFetchedProperties {
 
 
 
-@property (nonatomic, retain) NSNumber *myInt16;
+@property (nonatomic, retain) NSNumber* myInt16;
 
 
 @property int16_t myInt16Value;
@@ -129,7 +129,7 @@ extern const struct ParentMOFetchedProperties {
 
 
 
-@property (nonatomic, retain) NSNumber *myInt16Transient;
+@property (nonatomic, retain) NSNumber* myInt16Transient;
 
 
 @property int16_t myInt16TransientValue;
@@ -141,7 +141,7 @@ extern const struct ParentMOFetchedProperties {
 
 
 
-@property (nonatomic, retain) NSNumber *myInt32;
+@property (nonatomic, retain) NSNumber* myInt32;
 
 
 @property int32_t myInt32Value;
@@ -153,7 +153,7 @@ extern const struct ParentMOFetchedProperties {
 
 
 
-@property (nonatomic, retain) NSNumber *myInt64;
+@property (nonatomic, retain) NSNumber* myInt64;
 
 
 @property int64_t myInt64Value;
@@ -165,7 +165,7 @@ extern const struct ParentMOFetchedProperties {
 
 
 
-@property (nonatomic, retain) NSString *myString;
+@property (nonatomic, retain) NSString* myString;
 
 
 //- (BOOL)validateMyString:(id*)value_ error:(NSError**)error_;
@@ -173,7 +173,7 @@ extern const struct ParentMOFetchedProperties {
 
 
 
-@property (nonatomic, retain) idmyTransformableSansClassName;
+@property (nonatomic, retain) id myTransformableSansClassName;
 
 
 //- (BOOL)validateMyTransformableSansClassName:(id*)value_ error:(NSError**)error_;
@@ -181,7 +181,7 @@ extern const struct ParentMOFetchedProperties {
 
 
 
-@property (nonatomic, retain) NSColor *myTransformableWithClassName;
+@property (nonatomic, retain) NSColor* myTransformableWithClassName;
 
 
 //- (BOOL)validateMyTransformableWithClassName:(id*)value_ error:(NSError**)error_;
@@ -189,7 +189,7 @@ extern const struct ParentMOFetchedProperties {
 
 
 
-@property (nonatomic, retain) NSString *parentName;
+@property (nonatomic, retain) NSString* parentName;
 
 
 //- (BOOL)validateParentName:(id*)value_ error:(NSError**)error_;
@@ -201,6 +201,7 @@ extern const struct ParentMOFetchedProperties {
 @property (nonatomic, retain) NSSet* children;
 
 - (NSMutableSet*)childrenSet;
+
 
 
 
@@ -219,14 +220,14 @@ extern const struct ParentMOFetchedProperties {
 @interface _ParentMO (CoreDataGeneratedPrimitiveAccessors)
 
 
-- (NSData *)primitiveMyBinaryData;
-- (void)setPrimitiveMyBinaryData:(NSData *)value;
+- (NSData*)primitiveMyBinaryData;
+- (void)setPrimitiveMyBinaryData:(NSData*)value;
 
 
 
 
-- (NSNumber *)primitiveMyBoolean;
-- (void)setPrimitiveMyBoolean:(NSNumber *)value;
+- (NSNumber*)primitiveMyBoolean;
+- (void)setPrimitiveMyBoolean:(NSNumber*)value;
 
 - (BOOL)primitiveMyBooleanValue;
 - (void)setPrimitiveMyBooleanValue:(BOOL)value_;
@@ -234,20 +235,20 @@ extern const struct ParentMOFetchedProperties {
 
 
 
-- (NSDate *)primitiveMyDate;
-- (void)setPrimitiveMyDate:(NSDate *)value;
+- (NSDate*)primitiveMyDate;
+- (void)setPrimitiveMyDate:(NSDate*)value;
 
 
 
 
-- (NSDecimalNumber *)primitiveMyDecimal;
-- (void)setPrimitiveMyDecimal:(NSDecimalNumber *)value;
+- (NSDecimalNumber*)primitiveMyDecimal;
+- (void)setPrimitiveMyDecimal:(NSDecimalNumber*)value;
 
 
 
 
-- (NSNumber *)primitiveMyDouble;
-- (void)setPrimitiveMyDouble:(NSNumber *)value;
+- (NSNumber*)primitiveMyDouble;
+- (void)setPrimitiveMyDouble:(NSNumber*)value;
 
 - (double)primitiveMyDoubleValue;
 - (void)setPrimitiveMyDoubleValue:(double)value_;
@@ -255,8 +256,8 @@ extern const struct ParentMOFetchedProperties {
 
 
 
-- (NSNumber *)primitiveMyFloat;
-- (void)setPrimitiveMyFloat:(NSNumber *)value;
+- (NSNumber*)primitiveMyFloat;
+- (void)setPrimitiveMyFloat:(NSNumber*)value;
 
 - (float)primitiveMyFloatValue;
 - (void)setPrimitiveMyFloatValue:(float)value_;
@@ -264,8 +265,8 @@ extern const struct ParentMOFetchedProperties {
 
 
 
-- (NSNumber *)primitiveMyInt16;
-- (void)setPrimitiveMyInt16:(NSNumber *)value;
+- (NSNumber*)primitiveMyInt16;
+- (void)setPrimitiveMyInt16:(NSNumber*)value;
 
 - (int16_t)primitiveMyInt16Value;
 - (void)setPrimitiveMyInt16Value:(int16_t)value_;
@@ -273,8 +274,8 @@ extern const struct ParentMOFetchedProperties {
 
 
 
-- (NSNumber *)primitiveMyInt16Transient;
-- (void)setPrimitiveMyInt16Transient:(NSNumber *)value;
+- (NSNumber*)primitiveMyInt16Transient;
+- (void)setPrimitiveMyInt16Transient:(NSNumber*)value;
 
 - (int16_t)primitiveMyInt16TransientValue;
 - (void)setPrimitiveMyInt16TransientValue:(int16_t)value_;
@@ -282,8 +283,8 @@ extern const struct ParentMOFetchedProperties {
 
 
 
-- (NSNumber *)primitiveMyInt32;
-- (void)setPrimitiveMyInt32:(NSNumber *)value;
+- (NSNumber*)primitiveMyInt32;
+- (void)setPrimitiveMyInt32:(NSNumber*)value;
 
 - (int32_t)primitiveMyInt32Value;
 - (void)setPrimitiveMyInt32Value:(int32_t)value_;
@@ -291,8 +292,8 @@ extern const struct ParentMOFetchedProperties {
 
 
 
-- (NSNumber *)primitiveMyInt64;
-- (void)setPrimitiveMyInt64:(NSNumber *)value;
+- (NSNumber*)primitiveMyInt64;
+- (void)setPrimitiveMyInt64:(NSNumber*)value;
 
 - (int64_t)primitiveMyInt64Value;
 - (void)setPrimitiveMyInt64Value:(int64_t)value_;
@@ -300,8 +301,8 @@ extern const struct ParentMOFetchedProperties {
 
 
 
-- (NSString *)primitiveMyString;
-- (void)setPrimitiveMyString:(NSString *)value;
+- (NSString*)primitiveMyString;
+- (void)setPrimitiveMyString:(NSString*)value;
 
 
 
@@ -312,14 +313,14 @@ extern const struct ParentMOFetchedProperties {
 
 
 
-- (NSColor *)primitiveMyTransformableWithClassName;
-- (void)setPrimitiveMyTransformableWithClassName:(NSColor *)value;
+- (NSColor*)primitiveMyTransformableWithClassName;
+- (void)setPrimitiveMyTransformableWithClassName:(NSColor*)value;
 
 
 
 
-- (NSString *)primitiveParentName;
-- (void)setPrimitiveParentName:(NSString *)value;
+- (NSString*)primitiveParentName;
+- (void)setPrimitiveParentName:(NSString*)value;
 
 
 

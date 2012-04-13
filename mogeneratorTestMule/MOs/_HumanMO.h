@@ -37,7 +37,7 @@ extern const struct HumanMOFetchedProperties {
 
 
 
-@property (nonatomic, retain) NSData *hairColorStorage;
+@property (nonatomic, retain) NSData* hairColorStorage;
 
 
 //- (BOOL)validateHairColorStorage:(id*)value_ error:(NSError**)error_;
@@ -45,7 +45,7 @@ extern const struct HumanMOFetchedProperties {
 
 
 
-@property (nonatomic, retain) NSString *humanName;
+@property (nonatomic, retain) NSString* humanName;
 
 
 //- (BOOL)validateHumanName:(id*)value_ error:(NSError**)error_;
@@ -76,6 +76,7 @@ extern const struct HumanMOFetchedProperties {
 
 
 
+
 @end
 
 @interface _HumanMO (CoreDataGeneratedAccessors)
@@ -87,14 +88,14 @@ extern const struct HumanMOFetchedProperties {
 
 
 
-- (NSData *)primitiveHairColorStorage;
-- (void)setPrimitiveHairColorStorage:(NSData *)value;
+- (NSData*)primitiveHairColorStorage;
+- (void)setPrimitiveHairColorStorage:(NSData*)value;
 
 
 
 
-- (NSString *)primitiveHumanName;
-- (void)setPrimitiveHumanName:(NSString *)value;
+- (NSString*)primitiveHumanName;
+- (void)setPrimitiveHumanName:(NSString*)value;
 
 
 

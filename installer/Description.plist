@@ -5,6 +5,6 @@
 	<key>IFPkgDescriptionDescription</key>
 	<string>Implements generation gap codegen pattern for Core Data. Inspired by eogenerator.</string>
 	<key>IFPkgDescriptionTitle</key>
-	<string>mogenerator + Xmo'd VERSION</string>
+	<string>mogenerator VERSION</string>
 </dict>
 </plist>

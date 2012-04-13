@@ -1,6 +1,6 @@
 /*******************************************************************************
 	mogenerator.m - <http://github.com/rentzsch/mogenerator>
-		Copyright (c) 2006-2011 Jonathan 'Wolf' Rentzsch: <http://rentzsch.com>
+		Copyright (c) 2006-2012 Jonathan 'Wolf' Rentzsch: <http://rentzsch.com>
 		Some rights reserved: <http://opensource.org/licenses/mit-license.php>
 
 	***************************************************************************/
@@ -323,9 +323,14 @@ NSString	*gCustomBaseClassForced;
 }
 - (NSString*)objectAttributeType {
 	NSString *result = [self objectAttributeClassName];
-	result = [result stringByAppendingString:@" *"];
-	if ([result isEqualToString:@"NSObject *"]) {
+	if ([result isEqualToString:@"Class"]) {
+		// `Class` (don't append asterisk).
+	} else if ([result rangeOfString:@"<"].location != NSNotFound) {
+		// `id<Protocol1,Protocol2>` (don't append asterisk).
+	} else if ([result isEqualToString:@"NSObject"]) {
 		result = @"id";
+	} else {
+		result = [result stringByAppendingString:@"*"]; // Make it a pointer.
 	}
 	return result;
 }
@@ -368,10 +373,29 @@ NSString	*gCustomBaseClassForced;
 }
 @end
 
-static MiscMergeEngine* engineWithTemplatePath(NSString *templatePath_) {
+@interface MogeneratorTemplateDesc : NSObject {
+	NSString *templateName;
+	NSString *templatePath;
+}
+- (id)initWithName:(NSString*)name_ path:(NSString*)path_;
+- (NSString*)templateName;
+- (void)setTemplateName:(NSString*)name_;
+- (NSString*)templatePath;
+- (void)setTemplatePath:(NSString*)path_;
+@end
+
+static MiscMergeEngine* engineWithTemplateDesc(MogeneratorTemplateDesc *templateDesc_) {
 	MiscMergeTemplate *template = [[[MiscMergeTemplate alloc] init] autorelease];
 	[template setStartDelimiter:@"<$" endDelimiter:@"$>"];
-	[template parseContentsOfFile:templatePath_];
+	if ([templateDesc_ templatePath]) {
+		[template parseContentsOfFile:[templateDesc_ templatePath]];
+	} else {
+		NSData *templateData = [[NSBundle mainBundle] objectForInfoDictionaryKey:[templateDesc_ templateName]];
+		assert(templateData);
+		NSString *templateString = [[[NSString alloc] initWithData:templateData encoding:NSASCIIStringEncoding] autorelease];
+		[template setFilename:[@"x-__info_plist://" stringByAppendingString:[templateDesc_ templateName]]];
+		[template parseString:templateString];
+	}
 	
 	return [[[MiscMergeEngine alloc] initWithTemplate:template] autorelease];
 }
@@ -392,35 +416,36 @@ static MiscMergeEngine* engineWithTemplatePath(NSString *templatePath_) {
 }
 
 NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
-- (NSString*)appSupportFileNamed:(NSString*)fileName_ {
+- (MogeneratorTemplateDesc*)templateDescNamed:(NSString*)fileName_ {
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	BOOL isDirectory;
 	
 	if (templatePath) {
 		if ([fileManager fileExistsAtPath:templatePath isDirectory:&isDirectory] && isDirectory) {
-			return [templatePath stringByAppendingPathComponent:fileName_];
+			return [[[MogeneratorTemplateDesc alloc] initWithName:fileName_
+															 path:[templatePath stringByAppendingPathComponent:fileName_]] autorelease];
 		}
-	} else {
+	} else if (templateGroup) {
 		NSArray *appSupportDirectories = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask+NSLocalDomainMask, YES);
 		assert(appSupportDirectories);
 		
 		nsenumerate (appSupportDirectories, NSString*, appSupportDirectory) {
 			if ([fileManager fileExistsAtPath:appSupportDirectory isDirectory:&isDirectory]) {
 				NSString *appSupportSubdirectory = [appSupportDirectory stringByAppendingPathComponent:ApplicationSupportSubdirectoryName];
-				if (templateGroup) {
-					appSupportSubdirectory = [appSupportSubdirectory stringByAppendingPathComponent:templateGroup];
-				}
+				appSupportSubdirectory = [appSupportSubdirectory stringByAppendingPathComponent:templateGroup];
 				if ([fileManager fileExistsAtPath:appSupportSubdirectory isDirectory:&isDirectory] && isDirectory) {
 					NSString *appSupportFile = [appSupportSubdirectory stringByAppendingPathComponent:fileName_];
 					if ([fileManager fileExistsAtPath:appSupportFile isDirectory:&isDirectory] && !isDirectory) {
-						return appSupportFile;
+						return [[[MogeneratorTemplateDesc alloc] initWithName:fileName_ path:appSupportFile] autorelease];
 					}
 				}
 			}
 		}
+	} else {
+		return [[[MogeneratorTemplateDesc alloc] initWithName:fileName_ path:nil] autorelease];
 	}
 	
-	ddprintf(@"appSupportFileNamed:@\"%@\": file not found", fileName_);
+	ddprintf(@"templateDescNamed:@\"%@\": file not found", fileName_);
 	exit(EXIT_FAILURE);
 	return nil;
 }
@@ -606,7 +631,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     }
     
     if (_version) {
-        printf("mogenerator 1.25. By Jonathan 'Wolf' Rentzsch + friends.\n");
+        printf("mogenerator 1.26. By Jonathan 'Wolf' Rentzsch + friends.\n");
         return EXIT_SUCCESS;
     }
 
@@ -693,13 +718,13 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 	int humanFilesGenerated = 0;
 	
 	if (model) {
-		MiscMergeEngine *machineH = engineWithTemplatePath([self appSupportFileNamed:@"machine.h.motemplate"]);
+		MiscMergeEngine *machineH = engineWithTemplateDesc([self templateDescNamed:@"machine.h.motemplate"]);
 		assert(machineH);
-		MiscMergeEngine *machineM = engineWithTemplatePath([self appSupportFileNamed:@"machine.m.motemplate"]);
+		MiscMergeEngine *machineM = engineWithTemplateDesc([self templateDescNamed:@"machine.m.motemplate"]);
 		assert(machineM);
-		MiscMergeEngine *humanH = engineWithTemplatePath([self appSupportFileNamed:@"human.h.motemplate"]);
+		MiscMergeEngine *humanH = engineWithTemplateDesc([self templateDescNamed:@"human.h.motemplate"]);
 		assert(humanH);
-		MiscMergeEngine *humanM = engineWithTemplatePath([self appSupportFileNamed:@"human.m.motemplate"]);
+		MiscMergeEngine *humanM = engineWithTemplateDesc([self templateDescNamed:@"human.m.motemplate"]);
 		assert(humanM);
 		
 		// Add the template var dictionary to each of the merge engines
@@ -827,6 +852,47 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 	}
     
     return EXIT_SUCCESS;
+}
+
+@end
+
+@implementation MogeneratorTemplateDesc
+
+- (id)initWithName:(NSString*)name_ path:(NSString*)path_ {
+    self = [super init];
+    if (self) {
+        templateName = [name_ retain];
+		templatePath = [path_ retain];
+    }
+    return self;
+}
+
+- (void)dealloc {
+    [templateName release];
+	[templatePath release];
+    [super dealloc];
+}
+
+- (NSString*)templateName {
+	return templateName;
+}
+
+- (void)setTemplateName:(NSString*)name_ {
+	if (templateName != name_) {
+		[templateName release];
+		templateName = [name_ retain];
+	}
+}
+
+- (NSString*)templatePath {
+	return templatePath;
+}
+
+- (void)setTemplatePath:(NSString*)path_ {
+	if (templatePath != path_) {
+		[templatePath release];
+		templatePath = [path_ retain];
+	}
 }
 
 @end
