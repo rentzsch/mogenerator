@@ -31,7 +31,7 @@ extern const struct ChildMOFetchedProperties {
 
 
 
-@property (nonatomic, retain) NSString *childName;
+@property (nonatomic, retain) NSString* childName;
 
 
 //- (BOOL)validateChildName:(id*)value_ error:(NSError**)error_;
@@ -52,6 +52,7 @@ extern const struct ChildMOFetchedProperties {
 
 
 
+
 @end
 
 @interface _ChildMO (CoreDataGeneratedAccessors)
@@ -61,8 +62,8 @@ extern const struct ChildMOFetchedProperties {
 @interface _ChildMO (CoreDataGeneratedPrimitiveAccessors)
 
 
-- (NSString *)primitiveChildName;
-- (void)setPrimitiveChildName:(NSString *)value;
+- (NSString*)primitiveChildName;
+- (void)setPrimitiveChildName:(NSString*)value;
 
 
 
