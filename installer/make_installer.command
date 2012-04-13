@@ -4,11 +4,11 @@ cd "`dirname \"$0\"`"
 sudo echo
 
 sudo rm -rf 'build'
-mkdir -p 'build/root/Library/Application Support/mogenerator'
 
 cd ..
 xcodebuild -configuration Release CONFIGURATION_BUILD_DIR="$PWD/installer/build/root/usr/bin/"
 # The standard templates are now integrated into mogenerator's binary itself.
+# mkdir -p 'build/root/Library/Application Support/mogenerator'
 # cp templates/*.motemplate "$PWD/installer/build/root/Library/Application Support/mogenerator/"
 cd installer
 
