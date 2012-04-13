@@ -538,6 +538,21 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 {
     assert(!model); // Currently we only can load one model.
 
+	// We will try to detect a bundle, not sure about compatabilty with the older Xcode versions
+	BOOL isDirectory = NO;
+	// it's a directory, let's try to find a ".xccurrentversion" file so we can locate current version of the model
+	if ([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDirectory] && isDirectory) {
+		// in 4.x version of Xcode there is a .xccurrentversion plist with _XCCurrentVersionName key pointing to the current model
+		NSString *xccurrentversionPath = [path stringByAppendingPathComponent:@".xccurrentversion"];
+		if ([[NSFileManager defaultManager] fileExistsAtPath:xccurrentversionPath]) {
+			NSDictionary *xccurrentversionPlist = [NSDictionary dictionaryWithContentsOfFile:xccurrentversionPath];
+			NSString *currentModelName = [xccurrentversionPlist valueForKey:@"_XCCurrentVersionName"];
+			if (currentModelName) {
+				path = [path stringByAppendingPathComponent:currentModelName];
+			}
+		}
+	}
+
 	origModelBasePath = [path stringByDeletingLastPathComponent];
 	
     if( ![[NSFileManager defaultManager] fileExistsAtPath:path]){
