@@ -323,9 +323,14 @@ NSString	*gCustomBaseClassForced;
 }
 - (NSString*)objectAttributeType {
 	NSString *result = [self objectAttributeClassName];
-	result = [result stringByAppendingString:@" *"];
-	if ([result isEqualToString:@"NSObject *"]) {
+	if ([result isEqualToString:@"Class"]) {
+		// `Class` (don't append asterisk).
+	} else if ([result rangeOfString:@"<"].location != NSNotFound) {
+		// `id<Protocol1,Protocol2>` (don't append asterisk).
+	} else if ([result isEqualToString:@"NSObject"]) {
 		result = @"id";
+	} else {
+		result = [result stringByAppendingString:@"*"]; // Make it a pointer.
 	}
 	return result;
 }
