@@ -8,7 +8,8 @@ mkdir -p 'build/root/Library/Application Support/mogenerator'
 
 cd ..
 xcodebuild -configuration Release CONFIGURATION_BUILD_DIR="$PWD/installer/build/root/usr/bin/"
-cp templates/*.motemplate "$PWD/installer/build/root/Library/Application Support/mogenerator/"
+# The standard templates are now integrated into mogenerator's binary itself.
+# cp templates/*.motemplate "$PWD/installer/build/root/Library/Application Support/mogenerator/"
 cd installer
 
 VERSION=`build/root/usr/bin/mogenerator --version|head -n 1|sed -E 's/mogenerator ([0-9]+\.[0-9]+(\.[0-9]+)?).+/\1/g'`
