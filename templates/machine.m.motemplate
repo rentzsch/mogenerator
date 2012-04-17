@@ -20,25 +20,25 @@ const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassNam
 
 @implementation _<$managedObjectClassName$>
 
-+ (id)insertInManagedObjectContext:(NSManagedObjectContext *)moc_ {
++ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	NSParameterAssert(moc_);
 	return [NSEntityDescription insertNewObjectForEntityForName:@"<$name$>" inManagedObjectContext:moc_];
 }
 
-+ (NSString *)entityName {
++ (NSString*)entityName {
 	return @"<$name$>";
 }
 
-+ (NSEntityDescription *)entityInManagedObjectContext:(NSManagedObjectContext *)moc_ {
++ (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	NSParameterAssert(moc_);
 	return [NSEntityDescription entityForName:@"<$name$>" inManagedObjectContext:moc_];
 }
 
-- (<$managedObjectClassName$>ID *)objectID {
-	return (<$managedObjectClassName$>ID *)[super objectID];
+- (<$managedObjectClassName$>ID*)objectID {
+	return (<$managedObjectClassName$>ID*)[super objectID];
 }
 
-+ (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)key {
++ (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 	<$foreach Attribute noninheritedAttributes do$><$if Attribute.hasDefinedAttributeType$><$if Attribute.hasScalarAttributeType$>
 	if ([key isEqualToString:@"<$Attribute.name$>Value"]) {
@@ -81,12 +81,12 @@ const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassNam
 @dynamic <$Relationship.name$>;
 
 	<$if Relationship.isToMany$>
-- (<$Relationship.mutableCollectionClassName$> *)<$Relationship.name$>Set {
+- (<$Relationship.mutableCollectionClassName$>*)<$Relationship.name$>Set {
 	[self willAccessValueForKey:@"<$Relationship.name$>"];
   <$if Relationship.jr_isOrdered$>
-	<$Relationship.mutableCollectionClassName$> *result = (<$Relationship.mutableCollectionClassName$> *)[self mutableOrderedSetValueForKey:@"<$Relationship.name$>"];
+	<$Relationship.mutableCollectionClassName$> *result = (<$Relationship.mutableCollectionClassName$>*)[self mutableOrderedSetValueForKey:@"<$Relationship.name$>"];
   <$else$>
-	<$Relationship.mutableCollectionClassName$> *result = (<$Relationship.mutableCollectionClassName$> *)[self mutableSetValueForKey:@"<$Relationship.name$>"];
+	<$Relationship.mutableCollectionClassName$> *result = (<$Relationship.mutableCollectionClassName$>*)[self mutableSetValueForKey:@"<$Relationship.name$>"];
   <$endif$>
 	[self didAccessValueForKey:@"<$Relationship.name$>"];
 	return result;
@@ -100,7 +100,7 @@ const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassNam
 
 <$foreach FetchRequest prettyFetchRequests do$>
 <$if FetchRequest.singleResult$>
-+ (id)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext *)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>{
++ (id)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>{
 	NSError *error = nil;
 	id result = [self fetch<$FetchRequest.name.initialCapitalString$>:moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:<$Binding.name$>_ <$endforeach do2$>error:&error];
 	if (error) {
@@ -112,7 +112,7 @@ const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassNam
 	}
 	return result;
 }
-+ (id)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext *)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>error:(NSError **)error_ {
++ (id)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>error:(NSError**)error_ {
 	NSParameterAssert(moc_);
 	NSError *error = nil;
 
@@ -153,7 +153,7 @@ const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassNam
 	return result;
 }
 <$else$>
-+ (NSArray *)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext *)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>{
++ (NSArray*)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>{
 	NSError *error = nil;
 	NSArray *result = [self fetch<$FetchRequest.name.initialCapitalString$>:moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:<$Binding.name$>_ <$endforeach do2$>error:&error];
 	if (error) {
@@ -165,7 +165,7 @@ const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassNam
 	}
 	return result;
 }
-+ (NSArray *)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext *)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>error:(NSError **)error_ {
++ (NSArray*)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>error:(NSError**)error_ {
 	NSParameterAssert(moc_);
 	NSError *error = nil;
 
@@ -193,7 +193,7 @@ const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassNam
 #if TARGET_OS_IPHONE
 <$foreach Relationship noninheritedRelationships do$>
 <$if Relationship.isToMany$>
-- (NSFetchedResultsController *)new<$Relationship.name.initialCapitalString$>FetchedResultsControllerWithSortDescriptors:(NSArray *)sortDescriptors {
+- (NSFetchedResultsController*)new<$Relationship.name.initialCapitalString$>FetchedResultsControllerWithSortDescriptors:(NSArray*)sortDescriptors {
 	NSFetchRequest *fetchRequest = [NSFetchRequest new];
 	<$if !TemplateVar.arc$>[fetchRequest autorelease];<$endif$>
 	fetchRequest.entity = [NSEntityDescription entityForName:@"<$Relationship.destinationEntity.name$>" inManagedObjectContext:self.managedObjectContext];
