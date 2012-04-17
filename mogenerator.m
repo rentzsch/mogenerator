@@ -31,14 +31,28 @@ NSString	*gCustomBaseClassForced;
 @end
 
 @implementation NSManagedObjectModel (entitiesWithACustomSubclassVerbose)
-- (NSArray*)entitiesWithACustomSubclassVerbose:(BOOL)verbose_ {
+- (NSArray*)entitiesWithACustomSubclassInConfiguration:(NSString *)configuration_ verbose:(BOOL)verbose_ {
 	NSMutableArray *result = [NSMutableArray array];
+	NSArray* allEntities = nil;
 	
-	if(verbose_ && [[self entities] count] == 0){ 
-		ddprintf(@"No entities found in model. No files will be generated.\n(model description: %@)\n", self);
+	if(nil == configuration_) {
+		allEntities = [self entities];
+	}
+	else if(NSNotFound != [[self configurations] indexOfObject:configuration_]){
+		allEntities = [self entitiesForConfiguration:configuration_];
+	}
+	else {
+		if(verbose_){
+			ddprintf(@"No configuration %@ found in model. No files will be generated.\n(model configurations: %@)\n", configuration_, [self configurations]);
+		}
+		return nil;
 	}
 	
-	nsenumerate ([self entities], NSEntityDescription, entity) {
+	if(verbose_ && [allEntities count] == 0){ 
+		ddprintf(@"No entities found in model (or in specified configuration). No files will be generated.\n(model description: %@)\n", self);
+	}
+	
+	nsenumerate (allEntities, NSEntityDescription, entity) {
 		NSString *entityClassName = [entity managedObjectClassName];
 		
 		if ([entityClassName isEqualToString:@"NSManagedObject"] || [entityClassName isEqualToString:gCustomBaseClass]){
@@ -458,6 +472,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     {
     // Long					Short   Argument options
     {@"model",				'm',    DDGetoptRequiredArgument},
+    {@"configuration",		'C',    DDGetoptRequiredArgument},
     {@"base-class",			0,     DDGetoptRequiredArgument},
 	{@"base-class-force",	0,     DDGetoptRequiredArgument},
     // For compatibility:
@@ -487,6 +502,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     ddprintf(@"%@: Usage [OPTIONS] <argument> [...]\n", DDCliApp);
     printf("\n"
            "  -m, --model MODEL             Path to model\n"
+           "  -C, --configuration CONFIG    Only consider entities included in the named configuration\n"
            "      --base-class CLASS        Custom base class\n"
 		   "      --base-class-force CLASS  Same as --base-class except will force all entities to have the specified base class. Even if a super entity exists\n"
            "      --includem FILE           Generate aggregate include file for .m files for both human and machine generated source files\n"
@@ -695,7 +711,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 				}
 			}
 		}
-		nsenumerate ([model entitiesWithACustomSubclassVerbose:NO], NSEntityDescription, entity) {
+		nsenumerate ([model entitiesWithACustomSubclassInConfiguration:configuration verbose:NO], NSEntityDescription, entity) {
 			[entityFilesByName removeObjectForKey:[entity managedObjectClassName]];
 		}
 		nsenumerate(entityFilesByName, NSSet, ophanedFiles) {
@@ -753,7 +769,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 						*machineMFiles = [NSMutableArray array],
 						*machineHFiles = [NSMutableArray array];
 		
-		nsenumerate ([model entitiesWithACustomSubclassVerbose:YES], NSEntityDescription, entity) {
+		nsenumerate ([model entitiesWithACustomSubclassInConfiguration:configuration verbose:YES], NSEntityDescription, entity) {
 			NSString *generatedMachineH = [machineH executeWithObject:entity sender:nil];
 			NSString *generatedMachineM = [machineM executeWithObject:entity sender:nil];
 			NSString *generatedHumanH = [humanH executeWithObject:entity sender:nil];
