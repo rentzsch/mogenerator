@@ -17,7 +17,7 @@
 #import "DDCommandLineInterface.h"
 
 @interface NSManagedObjectModel (entitiesWithACustomSubclassVerbose)
-- (NSArray*)entitiesWithACustomSubclassVerbose:(BOOL)verbose_;
+- (NSArray*)entitiesWithACustomSubclassInConfiguration:(NSString *)configuration_ verbose:(BOOL)verbose_;
 @end
 
 @interface NSEntityDescription (customBaseClass)
@@ -56,6 +56,7 @@
 	NSString				*origModelBasePath;
 	NSString				*tempMOMPath;
 	NSManagedObjectModel	*model;
+	NSString				*configuration;
 	NSString				*baseClass;
 	NSString				*baseClassForce;
 	NSString				*includem;
