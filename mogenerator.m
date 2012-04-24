@@ -31,14 +31,28 @@ NSString	*gCustomBaseClassForced;
 @end
 
 @implementation NSManagedObjectModel (entitiesWithACustomSubclassVerbose)
-- (NSArray*)entitiesWithACustomSubclassVerbose:(BOOL)verbose_ {
+- (NSArray*)entitiesWithACustomSubclassInConfiguration:(NSString *)configuration_ verbose:(BOOL)verbose_ {
 	NSMutableArray *result = [NSMutableArray array];
+	NSArray* allEntities = nil;
 	
-	if(verbose_ && [[self entities] count] == 0){ 
-		ddprintf(@"No entities found in model. No files will be generated.\n(model description: %@)\n", self);
+	if(nil == configuration_) {
+		allEntities = [self entities];
+	}
+	else if(NSNotFound != [[self configurations] indexOfObject:configuration_]){
+		allEntities = [self entitiesForConfiguration:configuration_];
+	}
+	else {
+		if(verbose_){
+			ddprintf(@"No configuration %@ found in model. No files will be generated.\n(model configurations: %@)\n", configuration_, [self configurations]);
+		}
+		return nil;
 	}
 	
-	nsenumerate ([self entities], NSEntityDescription, entity) {
+	if(verbose_ && [allEntities count] == 0){ 
+		ddprintf(@"No entities found in model (or in specified configuration). No files will be generated.\n(model description: %@)\n", self);
+	}
+	
+	nsenumerate (allEntities, NSEntityDescription, entity) {
 		NSString *entityClassName = [entity managedObjectClassName];
 		
 		if ([entityClassName isEqualToString:@"NSManagedObject"] || [entityClassName isEqualToString:gCustomBaseClass]){
@@ -67,7 +81,8 @@ NSString	*gCustomBaseClassForced;
 	}
 }
 - (NSString*)customSuperentity {
-	if(!gCustomBaseClassForced) {
+	NSString *forcedBaseClass = [self forcedCustomBaseClass];
+	if(!forcedBaseClass) {
 		NSEntityDescription *superentity = [self superentity];
 		if (superentity) {
 			return [superentity managedObjectClassName];
@@ -75,8 +90,12 @@ NSString	*gCustomBaseClassForced;
 			return gCustomBaseClass ? gCustomBaseClass : @"NSManagedObject";
 		}
 	} else {
-		return gCustomBaseClassForced;
+		return forcedBaseClass;
 	}
+}
+- (NSString*)forcedCustomBaseClass {
+	NSString* userInfoCustomBaseClass = [[self userInfo] objectForKey:@"mogenerator.customBaseClass"];
+	return userInfoCustomBaseClass ? userInfoCustomBaseClass : gCustomBaseClassForced;
 }
 /** @TypeInfo NSAttributeDescription */
 - (NSArray*)noninheritedAttributes {
@@ -113,6 +132,11 @@ NSString	*gCustomBaseClassForced;
 	} else {
 		return [[[self fetchedPropertiesByName] allValues]  sortedArrayUsingDescriptors:sortDescriptors];
 	}
+}
+/** @TypeInfo NSAttributeDescription */
+- (NSArray*)indexedNoninheritedAttributes {
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isIndexed == YES"];
+	return [[self noninheritedAttributes] filteredArrayUsingPredicate:predicate];
 }
 
 #pragma mark Fetch Request support
@@ -175,7 +199,7 @@ NSString	*gCustomBaseClassForced;
                 
                 NSAttributeDescription *attribute = [[self attributesByName] objectForKey:[lhs keyPath]];
                 if (attribute) {
-                    type = [attribute objectAttributeType];
+                    type = [attribute objectAttributeClassName];
                 } else {
                     type = [self _resolveKeyPathType:[lhs keyPath]];
                 }
@@ -209,7 +233,7 @@ NSString	*gCustomBaseClassForced;
 }
 @end
 
-@implementation NSAttributeDescription (scalarAttributeType)
+@implementation NSAttributeDescription (typing)
 - (BOOL)hasScalarAttributeType {
 	switch ([self attributeType]) {
 		case NSInteger16AttributeType:
@@ -227,13 +251,13 @@ NSString	*gCustomBaseClassForced;
 - (NSString*)scalarAttributeType {
 	switch ([self attributeType]) {
 		case NSInteger16AttributeType:
-			return @"short";
+			return @"int16_t";
 			break;
 		case NSInteger32AttributeType:
-			return @"int";
+			return @"int32_t";
 			break;
 		case NSInteger64AttributeType:
-			return @"long long";
+			return @"int64_t";
 			break;
 		case NSDoubleAttributeType:
 			return @"double";
@@ -248,22 +272,85 @@ NSString	*gCustomBaseClassForced;
 			return nil;
 	}
 }
+- (NSString*)scalarAccessorMethodName {
+	switch ([self attributeType]) {
+		case NSInteger16AttributeType:
+			return @"shortValue";
+			break;
+		case NSInteger32AttributeType:
+			return @"intValue";
+			break;
+		case NSInteger64AttributeType:
+			return @"longLongValue";
+			break;
+		case NSDoubleAttributeType:
+			return @"doubleValue";
+			break;
+		case NSFloatAttributeType:
+			return @"floatValue";
+			break;
+		case NSBooleanAttributeType:
+			return @"boolValue";
+			break;
+		default:
+			return nil;
+	}
+}
+- (NSString*)scalarFactoryMethodName {
+	switch ([self attributeType]) {
+		case NSInteger16AttributeType:
+			return @"numberWithShort:";
+			break;
+		case NSInteger32AttributeType:
+			return @"numberWithInt:";
+			break;
+		case NSInteger64AttributeType:
+			return @"numberWithLongLong:";
+			break;
+		case NSDoubleAttributeType:
+			return @"numberWithDouble:";
+			break;
+		case NSFloatAttributeType:
+			return @"numberWithFloat:";
+			break;
+		case NSBooleanAttributeType:
+			return @"numberWithBool:";
+			break;
+		default:
+			return nil;
+	}
+}
 - (BOOL)hasDefinedAttributeType {
 	return [self attributeType] != NSUndefinedAttributeType;
 }
-- (NSString*)objectAttributeType {
-    if ([self hasTransformableAttributeType]) {
-        NSString *result = [[self userInfo] objectForKey:@"attributeValueClassName"];
-        return result ? result : @"NSObject";
+- (NSString*)objectAttributeClassName {
+	NSString *result = nil;
+	if ([self hasTransformableAttributeType]) {
+        result = [[self userInfo] objectForKey:@"attributeValueClassName"];
+		if (!result) {
+			result = @"NSObject";
+		}
     } else {
-        return [self attributeValueClassName];
+        result = [self attributeValueClassName];
     }
+	return result;
 }
-
+- (NSString*)objectAttributeType {
+	NSString *result = [self objectAttributeClassName];
+	if ([result isEqualToString:@"Class"]) {
+		// `Class` (don't append asterisk).
+	} else if ([result rangeOfString:@"<"].location != NSNotFound) {
+		// `id<Protocol1,Protocol2>` (don't append asterisk).
+	} else if ([result isEqualToString:@"NSObject"]) {
+		result = @"id";
+	} else {
+		result = [result stringByAppendingString:@"*"]; // Make it a pointer.
+	}
+	return result;
+}
 - (BOOL)hasTransformableAttributeType {
 	return ([self attributeType] == NSTransformableAttributeType);
 }
-
 @end
 
 @implementation NSRelationshipDescription (collectionClassName)
@@ -300,10 +387,29 @@ NSString	*gCustomBaseClassForced;
 }
 @end
 
-static MiscMergeEngine* engineWithTemplatePath(NSString *templatePath_) {
+@interface MogeneratorTemplateDesc : NSObject {
+	NSString *templateName;
+	NSString *templatePath;
+}
+- (id)initWithName:(NSString*)name_ path:(NSString*)path_;
+- (NSString*)templateName;
+- (void)setTemplateName:(NSString*)name_;
+- (NSString*)templatePath;
+- (void)setTemplatePath:(NSString*)path_;
+@end
+
+static MiscMergeEngine* engineWithTemplateDesc(MogeneratorTemplateDesc *templateDesc_) {
 	MiscMergeTemplate *template = [[[MiscMergeTemplate alloc] init] autorelease];
 	[template setStartDelimiter:@"<$" endDelimiter:@"$>"];
-	[template parseContentsOfFile:templatePath_];
+	if ([templateDesc_ templatePath]) {
+		[template parseContentsOfFile:[templateDesc_ templatePath]];
+	} else {
+		NSData *templateData = [[NSBundle mainBundle] objectForInfoDictionaryKey:[templateDesc_ templateName]];
+		assert(templateData);
+		NSString *templateString = [[[NSString alloc] initWithData:templateData encoding:NSASCIIStringEncoding] autorelease];
+		[template setFilename:[@"x-__info_plist://" stringByAppendingString:[templateDesc_ templateName]]];
+		[template parseString:templateString];
+	}
 	
 	return [[[MiscMergeEngine alloc] initWithTemplate:template] autorelease];
 }
@@ -324,35 +430,36 @@ static MiscMergeEngine* engineWithTemplatePath(NSString *templatePath_) {
 }
 
 NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
-- (NSString*)appSupportFileNamed:(NSString*)fileName_ {
+- (MogeneratorTemplateDesc*)templateDescNamed:(NSString*)fileName_ {
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	BOOL isDirectory;
 	
 	if (templatePath) {
 		if ([fileManager fileExistsAtPath:templatePath isDirectory:&isDirectory] && isDirectory) {
-			return [templatePath stringByAppendingPathComponent:fileName_];
+			return [[[MogeneratorTemplateDesc alloc] initWithName:fileName_
+															 path:[templatePath stringByAppendingPathComponent:fileName_]] autorelease];
 		}
-	} else {
+	} else if (templateGroup) {
 		NSArray *appSupportDirectories = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask+NSLocalDomainMask, YES);
 		assert(appSupportDirectories);
 		
 		nsenumerate (appSupportDirectories, NSString*, appSupportDirectory) {
 			if ([fileManager fileExistsAtPath:appSupportDirectory isDirectory:&isDirectory]) {
 				NSString *appSupportSubdirectory = [appSupportDirectory stringByAppendingPathComponent:ApplicationSupportSubdirectoryName];
-				if (templateGroup) {
-					appSupportSubdirectory = [appSupportSubdirectory stringByAppendingPathComponent:templateGroup];
-				}
+				appSupportSubdirectory = [appSupportSubdirectory stringByAppendingPathComponent:templateGroup];
 				if ([fileManager fileExistsAtPath:appSupportSubdirectory isDirectory:&isDirectory] && isDirectory) {
 					NSString *appSupportFile = [appSupportSubdirectory stringByAppendingPathComponent:fileName_];
 					if ([fileManager fileExistsAtPath:appSupportFile isDirectory:&isDirectory] && !isDirectory) {
-						return appSupportFile;
+						return [[[MogeneratorTemplateDesc alloc] initWithName:fileName_ path:appSupportFile] autorelease];
 					}
 				}
 			}
 		}
+	} else {
+		return [[[MogeneratorTemplateDesc alloc] initWithName:fileName_ path:nil] autorelease];
 	}
 	
-	ddprintf(@"appSupportFileNamed:@\"%@\": file not found", fileName_);
+	ddprintf(@"templateDescNamed:@\"%@\": file not found", fileName_);
 	exit(EXIT_FAILURE);
 	return nil;
 }
@@ -365,6 +472,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     {
     // Long					Short   Argument options
     {@"model",				'm',    DDGetoptRequiredArgument},
+    {@"configuration",		'C',    DDGetoptRequiredArgument},
     {@"base-class",			0,     DDGetoptRequiredArgument},
 	{@"base-class-force",	0,     DDGetoptRequiredArgument},
     // For compatibility:
@@ -394,6 +502,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     ddprintf(@"%@: Usage [OPTIONS] <argument> [...]\n", DDCliApp);
     printf("\n"
            "  -m, --model MODEL             Path to model\n"
+           "  -C, --configuration CONFIG    Only consider entities included in the named configuration\n"
            "      --base-class CLASS        Custom base class\n"
 		   "      --base-class-force CLASS  Same as --base-class except will force all entities to have the specified base class. Even if a super entity exists\n"
            "      --includem FILE           Generate aggregate include file for .m files for both human and machine generated source files\n"
@@ -445,6 +554,21 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 {
     assert(!model); // Currently we only can load one model.
 
+	// We will try to detect a bundle, not sure about compatabilty with the older Xcode versions
+	BOOL isDirectory = NO;
+	// it's a directory, let's try to find a ".xccurrentversion" file so we can locate current version of the model
+	if ([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDirectory] && isDirectory) {
+		// in 4.x version of Xcode there is a .xccurrentversion plist with _XCCurrentVersionName key pointing to the current model
+		NSString *xccurrentversionPath = [path stringByAppendingPathComponent:@".xccurrentversion"];
+		if ([[NSFileManager defaultManager] fileExistsAtPath:xccurrentversionPath]) {
+			NSDictionary *xccurrentversionPlist = [NSDictionary dictionaryWithContentsOfFile:xccurrentversionPath];
+			NSString *currentModelName = [xccurrentversionPlist valueForKey:@"_XCCurrentVersionName"];
+			if (currentModelName) {
+				path = [path stringByAppendingPathComponent:currentModelName];
+			}
+		}
+	}
+
 	origModelBasePath = [path stringByDeletingLastPathComponent];
 	
     if( ![[NSFileManager defaultManager] fileExistsAtPath:path]){
@@ -464,6 +588,9 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
         
         if([fm fileExistsAtPath:defaultLocation]) {
             momc = defaultLocation;
+        } else if ([fm fileExistsAtPath:@"/Applications/Xcode.app/Contents/Developer/usr/bin/momc"]) { 
+            // Xcode 4.3 - Command Line Tools for Xcode
+            momc = @"/Applications/Xcode.app/Contents/Developer/usr/bin/momc";
         } else if ([fm fileExistsAtPath:@"/Developer/usr/bin/momc"]) { // Xcode 3.1 installs it here.
             momc = @"/Developer/usr/bin/momc";
         } else if ([fm fileExistsAtPath:@"/Library/Application Support/Apple/Developer Tools/Plug-ins/XDCoreDataModel.xdplugin/Contents/Resources/momc"]) { // Xcode 3.0.
@@ -535,7 +662,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     }
     
     if (_version) {
-        printf("mogenerator 1.24. By Jonathan 'Wolf' Rentzsch + friends.\n");
+        printf("mogenerator 1.26. By Jonathan 'Wolf' Rentzsch + friends.\n");
         return EXIT_SUCCESS;
     }
 
@@ -584,7 +711,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 				}
 			}
 		}
-		nsenumerate ([model entitiesWithACustomSubclassVerbose:NO], NSEntityDescription, entity) {
+		nsenumerate ([model entitiesWithACustomSubclassInConfiguration:configuration verbose:NO], NSEntityDescription, entity) {
 			[entityFilesByName removeObjectForKey:[entity managedObjectClassName]];
 		}
 		nsenumerate(entityFilesByName, NSSet, ophanedFiles) {
@@ -622,13 +749,13 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 	int humanFilesGenerated = 0;
 	
 	if (model) {
-		MiscMergeEngine *machineH = engineWithTemplatePath([self appSupportFileNamed:@"machine.h.motemplate"]);
+		MiscMergeEngine *machineH = engineWithTemplateDesc([self templateDescNamed:@"machine.h.motemplate"]);
 		assert(machineH);
-		MiscMergeEngine *machineM = engineWithTemplatePath([self appSupportFileNamed:@"machine.m.motemplate"]);
+		MiscMergeEngine *machineM = engineWithTemplateDesc([self templateDescNamed:@"machine.m.motemplate"]);
 		assert(machineM);
-		MiscMergeEngine *humanH = engineWithTemplatePath([self appSupportFileNamed:@"human.h.motemplate"]);
+		MiscMergeEngine *humanH = engineWithTemplateDesc([self templateDescNamed:@"human.h.motemplate"]);
 		assert(humanH);
-		MiscMergeEngine *humanM = engineWithTemplatePath([self appSupportFileNamed:@"human.m.motemplate"]);
+		MiscMergeEngine *humanM = engineWithTemplateDesc([self templateDescNamed:@"human.m.motemplate"]);
 		assert(humanM);
 		
 		// Add the template var dictionary to each of the merge engines
@@ -642,7 +769,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 						*machineMFiles = [NSMutableArray array],
 						*machineHFiles = [NSMutableArray array];
 		
-		nsenumerate ([model entitiesWithACustomSubclassVerbose:YES], NSEntityDescription, entity) {
+		nsenumerate ([model entitiesWithACustomSubclassInConfiguration:configuration verbose:YES], NSEntityDescription, entity) {
 			NSString *generatedMachineH = [machineH executeWithObject:entity sender:nil];
 			NSString *generatedMachineM = [machineM executeWithObject:entity sender:nil];
 			NSString *generatedHumanH = [humanH executeWithObject:entity sender:nil];
@@ -756,6 +883,47 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 	}
     
     return EXIT_SUCCESS;
+}
+
+@end
+
+@implementation MogeneratorTemplateDesc
+
+- (id)initWithName:(NSString*)name_ path:(NSString*)path_ {
+    self = [super init];
+    if (self) {
+        templateName = [name_ retain];
+		templatePath = [path_ retain];
+    }
+    return self;
+}
+
+- (void)dealloc {
+    [templateName release];
+	[templatePath release];
+    [super dealloc];
+}
+
+- (NSString*)templateName {
+	return templateName;
+}
+
+- (void)setTemplateName:(NSString*)name_ {
+	if (templateName != name_) {
+		[templateName release];
+		templateName = [name_ retain];
+	}
+}
+
+- (NSString*)templatePath {
+	return templatePath;
+}
+
+- (void)setTemplatePath:(NSString*)path_ {
+	if (templatePath != path_) {
+		[templatePath release];
+		templatePath = [path_ retain];
+	}
 }
 
 @end

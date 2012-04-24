@@ -6,6 +6,8 @@ Here's mogenerator's elevator pitch:
 
 > `mogenerator` is a command-line tool that, given an `.xcdatamodel` file, will generate *two classes per entity*. The first class, `_MyEntity`, is intended solely for machine consumption and will be continuously overwritten to stay in sync with your data model. The second class, `MyEntity`, subclasses `_MyEntity`, won't ever be overwritten and is a great place to put your custom logic.
 
+Want more detail? John Blanco has authored a [detailed writeup about mogenerator](http://raptureinvenice.com/getting-started-with-mogenerator/).
+
 ## Using mogenerator
 
 Senseful wrote up a [nice summary of mogenerator's command-line options](http://stackoverflow.com/questions/3589247/how-do-the-mogenerator-parameters-work-which-can-i-send-via-xcode).
@@ -17,6 +19,32 @@ Xmo'd (pronounced *ex-mowed*) is an Xcode 3 (Xcode 4 support is planned) plugin 
 Xmo'd works by noticing when your `*.xcdatamodel` is saved. If the model file's Xcode project item comment contains `xmod`, an AppleScript is fired that creates a folder based on your model's file name and populates it with derived source code files from your model. It then adds the new folder to your project as a Group Reference and adds all the source files to your project.
 
 ## Version History
+
+### v1.26: Thu Apr 12 2012 [download](http://github.com/downloads/rentzsch/mogenerator/mogenerator-1.26.dmg)
+
+* [FIX] Missing space in transformable attribute codegen. [issue 89](https://github.com/rentzsch/mogenerator/issues/89) ([Daniel Tull](https://github.com/rentzsch/mogenerator/issues/89), [Kris Markel](https://github.com/rentzsch/mogenerator/pull/99), [Whitney Young](https://github.com/rentzsch/mogenerator/pull/101))
+
+* [NEW] mogenerator's standard templates are now bundled into the mogenerator binary itself. This should solve the problem of templates growing out of sync with the intended version of mogenerator ([exacerbated](https://github.com/rentzsch/mogenerator/issues/93#issuecomment-4059248) by the now-popular homebrew installer). You can still use your own templates with the `--template-path` and `--template-group` parameters. [issue 79](https://github.com/rentzsch/mogenerator/pull/79) (Ingvar Nedrebo, rentzsch).
+
+* [NEW] Support for per-entity custom base classes, set via `mogenerator.customBaseClass` key in the entity's user info. ([Trevor Squires](https://github.com/rentzsch/mogenerator/pull/94))
+
+* [CHANGE] mogenerator installer no longer installs separate template files (but it won't touch those already installed).
+
+* [CHANGE] mogenerator's .pkg installer no longer includes Xmo'd since 1) Xmo'd doesn't work with Xcode 4 yet and 2) Xcode.app now lives in /Applications, so the installer needs to get smarter to cope.
+
+
+
+### v1.25: Thu Feb 16 2012 [download](http://github.com/downloads/rentzsch/mogenerator/mogenerator-1.25.dmg)
+
+* [NEW] Support for Xcode 4.3 and it's relocation of `momc` into its bundle. Only supports /Applications/Xcode.app for now. ([Matt McGlincy](https://github.com/rentzsch/mogenerator/pull/90))
+
+* [CHANGE] Now generates size-specific scalar types (`int16_t`, `int32_t`, `int64_t`) instead of size-variable types (`short`, `int`, `long long`). [bug 2](https://github.com/rentzsch/mogenerator/issues/2) ([Rob Rix](https://github.com/rentzsch/mogenerator/pull/86))
+
+* [NEW] Can now generate `NSFetchedResultsController` creation code for to-many relationships (use `--template-var frc=true`). ([Daniel Tull](https://github.com/rentzsch/mogenerator/pull/88))
+
+* [DOC] Link to John Blanco's [Getting Started with Mogenerator](http://raptureinvenice.com/getting-started-with-mogenerator/).
+
+
 
 ### v1.24: Wed Dec 6 2011 [download](http://github.com/downloads/rentzsch/mogenerator/mogenerator-1.24.dmg)
 

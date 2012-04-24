@@ -1,6 +1,6 @@
 /*******************************************************************************
 	mogenerator.h - <http://github.com/rentzsch/mogenerator>
-		Copyright (c) 2006-2011 Jonathan 'Wolf' Rentzsch: <http://rentzsch.com>
+		Copyright (c) 2006-2012 Jonathan 'Wolf' Rentzsch: <http://rentzsch.com>
 		Some rights reserved: <http://opensource.org/licenses/mit-license.php>
 
 	***************************************************************************/
@@ -17,20 +17,24 @@
 #import "DDCommandLineInterface.h"
 
 @interface NSManagedObjectModel (entitiesWithACustomSubclassVerbose)
-- (NSArray*)entitiesWithACustomSubclassVerbose:(BOOL)verbose_;
+- (NSArray*)entitiesWithACustomSubclassInConfiguration:(NSString *)configuration_ verbose:(BOOL)verbose_;
 @end
 
 @interface NSEntityDescription (customBaseClass)
 - (BOOL)hasCustomSuperentity;
 - (NSString*)customSuperentity;
+- (NSString*)forcedCustomBaseClass;
 - (void)_processPredicate:(NSPredicate*)predicate_ bindings:(NSMutableArray*)bindings_;
 - (NSArray*)prettyFetchRequests;
 @end
 
-@interface NSAttributeDescription (scalarAttributeType)
+@interface NSAttributeDescription (typing)
 - (BOOL)hasScalarAttributeType;
 - (NSString*)scalarAttributeType;
+- (NSString*)scalarAccessorMethodName;
+- (NSString*)scalarFactoryMethodName;
 - (BOOL)hasDefinedAttributeType;
+- (NSString*)objectAttributeClassName;
 - (NSString*)objectAttributeType;
 - (BOOL)hasTransformableAttributeType;
 @end
@@ -52,6 +56,7 @@
 	NSString				*origModelBasePath;
 	NSString				*tempMOMPath;
 	NSManagedObjectModel	*model;
+	NSString				*configuration;
 	NSString				*baseClass;
 	NSString				*baseClassForce;
 	NSString				*includem;
@@ -67,6 +72,4 @@
     BOOL					_orphaned;
     NSMutableDictionary     *templateVar;
 }
-
-- (NSString*)appSupportFileNamed:(NSString*)fileName_;
 @end

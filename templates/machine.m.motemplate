@@ -58,20 +58,20 @@ const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassNam
 
 - (<$Attribute.scalarAttributeType$>)<$Attribute.name$>Value {
 	NSNumber *result = [self <$Attribute.name$>];
-	return [result <$Attribute.scalarAttributeType.camelCaseString$>Value];
+	return [result <$Attribute.scalarAccessorMethodName$>];
 }
 
 - (void)set<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_ {
-	[self set<$Attribute.name.initialCapitalString$>:[NSNumber numberWith<$Attribute.scalarAttributeType.camelCaseString.initialCapitalString$>:value_]];
+	[self set<$Attribute.name.initialCapitalString$>:[NSNumber <$Attribute.scalarFactoryMethodName$>value_]];
 }
 
 - (<$Attribute.scalarAttributeType$>)primitive<$Attribute.name.initialCapitalString$>Value {
 	NSNumber *result = [self primitive<$Attribute.name.initialCapitalString$>];
-	return [result <$Attribute.scalarAttributeType.camelCaseString$>Value];
+	return [result <$Attribute.scalarAccessorMethodName$>];
 }
 
 - (void)setPrimitive<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_ {
-	[self setPrimitive<$Attribute.name.initialCapitalString$>:[NSNumber numberWith<$Attribute.scalarAttributeType.camelCaseString.initialCapitalString$>:value_]];
+	[self setPrimitive<$Attribute.name.initialCapitalString$>:[NSNumber <$Attribute.scalarFactoryMethodName$>value_]];
 }
 <$endif$>
 <$endif$>
@@ -189,4 +189,27 @@ const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassNam
 }
 <$endif$>
 <$endforeach do$>
+<$if TemplateVar.frc$>
+#if TARGET_OS_IPHONE
+<$foreach Relationship noninheritedRelationships do$>
+<$if Relationship.isToMany$>
+- (NSFetchedResultsController *)new<$Relationship.name.initialCapitalString$>FetchedResultsControllerWithSortDescriptors:(NSArray *)sortDescriptors {
+	NSFetchRequest *fetchRequest = [NSFetchRequest new];
+	<$if !TemplateVar.arc$>[fetchRequest autorelease];<$endif$>
+	fetchRequest.entity = [NSEntityDescription entityForName:@"<$Relationship.destinationEntity.name$>" inManagedObjectContext:self.managedObjectContext];
+	fetchRequest.predicate = [NSPredicate predicateWithFormat:@"<$Relationship.inverseRelationship.name$> <$if Relationship.inverseRelationship.isToMany$>CONTAINS<$else$>==<$endif$> %@", self];
+	fetchRequest.sortDescriptors = sortDescriptors;
+	<$if indexedNoninheritedAttributes.@count > 0$>
+	NSArray *indexedIDs = [NSArray arrayWithObjects:<$foreach Attribute indexedNoninheritedAttributes do$>self.<$Attribute.name$>, <$endforeach do$>nil];
+	NSString *cacheName = [NSString stringWithFormat:@"mogenerator.<$managedObjectClassName$>.%@.<$Relationship.name$>.%@", indexedIDs, sortDescriptors];
+	<$endif$>
+	return [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+											   managedObjectContext:self.managedObjectContext
+												 sectionNameKeyPath:nil
+														  cacheName:<$if indexedNoninheritedAttributes.@count > 0$>cacheName<$else$>nil<$endif$>];
+}
+<$endif$>
+<$endforeach do$>
+#endif
+<$endif$>
 @end

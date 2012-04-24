@@ -31,7 +31,7 @@ extern const struct ChildMOFetchedProperties {
 
 
 
-@property (nonatomic, retain) NSString *childName;
+@property (nonatomic, retain) NSString* childName;
 
 
 //- (BOOL)validateChildName:(id*)value_ error:(NSError**)error_;
@@ -49,6 +49,7 @@ extern const struct ChildMOFetchedProperties {
 
 + (NSArray*)fetchByParent:(NSManagedObjectContext*)moc_ parent:(ParentMO*)parent_ ;
 + (NSArray*)fetchByParent:(NSManagedObjectContext*)moc_ parent:(ParentMO*)parent_ error:(NSError**)error_;
+
 
 
 
