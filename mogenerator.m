@@ -1,6 +1,6 @@
 /*******************************************************************************
 	mogenerator.m - <http://github.com/rentzsch/mogenerator>
-		Copyright (c) 2006-2011 Jonathan 'Wolf' Rentzsch: <http://rentzsch.com>
+		Copyright (c) 2006-2012 Jonathan 'Wolf' Rentzsch: <http://rentzsch.com>
 		Some rights reserved: <http://opensource.org/licenses/mit-license.php>
 
 	***************************************************************************/
@@ -8,7 +8,7 @@
 #import "mogenerator.h"
 #import "RegexKitLite.h"
 
-static NSString *kTemplateVar = @"TemplateVar";
+static NSString * const kTemplateVar = @"TemplateVar";
 NSString	*gCustomBaseClass;
 NSString	*gCustomBaseClassForced;
 
