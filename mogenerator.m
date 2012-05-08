@@ -73,11 +73,16 @@ NSString	*gCustomBaseClassForced;
 
 @implementation NSEntityDescription (customBaseClass)
 - (BOOL)hasCustomSuperentity {
-	NSEntityDescription *superentity = [self superentity];
-	if (superentity) {
-		return YES;
+	NSString *forcedBaseClass = [self forcedCustomBaseClass];
+	if (!forcedBaseClass) {
+		NSEntityDescription *superentity = [self superentity];
+		if (superentity) {
+			return YES;
+		} else {
+			return gCustomBaseClass ? YES : NO;
+		}
 	} else {
-		return gCustomBaseClass ? YES : NO;
+		return YES;
 	}
 }
 - (NSString*)customSuperentity {
