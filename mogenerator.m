@@ -57,8 +57,8 @@ NSString	*gCustomBaseClassForced;
 		
 		if ([entityClassName isEqualToString:@"NSManagedObject"] || [entityClassName isEqualToString:gCustomBaseClass]){
 			if (verbose_) {
-				ddprintf(@"skipping entity %@ because it doesn't use a custom subclass.\n", 
-						 entityClassName);
+				ddprintf(@"skipping entity %@ (%@) because it doesn't use a custom subclass.\n", 
+						 entity.name, entityClassName);
 			}
 		} else {
 			[result addObject:entity];
