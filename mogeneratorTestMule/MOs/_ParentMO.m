@@ -50,36 +50,43 @@ const struct ParentMOFetchedProperties ParentMOFetchedProperties = {
 	return (ParentMOID*)[super objectID];
 }
 
-+ (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)key {
++ (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 	
 	if ([key isEqualToString:@"myBooleanValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"myBoolean"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
 	}
 	if ([key isEqualToString:@"myDoubleValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"myDouble"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
 	}
 	if ([key isEqualToString:@"myFloatValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"myFloat"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
 	}
 	if ([key isEqualToString:@"myInt16Value"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"myInt16"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
 	}
 	if ([key isEqualToString:@"myInt16TransientValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"myInt16Transient"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
 	}
 	if ([key isEqualToString:@"myInt32Value"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"myInt32"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
 	}
 	if ([key isEqualToString:@"myInt64Value"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"myInt64"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
 	}
 
 	return keyPaths;
