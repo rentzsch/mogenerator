@@ -47,16 +47,16 @@ extern const struct <$managedObjectClassName$>FetchedProperties {<$foreach Fetch
 <$foreach Relationship noninheritedRelationships do$>
 <$if Relationship.isToMany$>
 <$if TemplateVar.arc$>
-@property (nonatomic, strong) <$Relationship.immutableCollectionClassName$>* <$Relationship.name$>;
+@property (nonatomic, strong) <$Relationship.immutableCollectionClassName$> *<$Relationship.name$>;
 <$else$>
-@property (nonatomic, retain) <$Relationship.immutableCollectionClassName$>* <$Relationship.name$>;
+@property (nonatomic, retain) <$Relationship.immutableCollectionClassName$> *<$Relationship.name$>;
 <$endif$>
 - (<$Relationship.mutableCollectionClassName$>*)<$Relationship.name$>Set;
 <$else$>
 <$if TemplateVar.arc$>
-@property (nonatomic, strong) <$Relationship.destinationEntity.managedObjectClassName$>* <$Relationship.name$>;
+@property (nonatomic, strong) <$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>;
 <$else$>
-@property (nonatomic, retain) <$Relationship.destinationEntity.managedObjectClassName$>* <$Relationship.name$>;
+@property (nonatomic, retain) <$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>;
 <$endif$>
 //- (BOOL)validate<$Relationship.name.initialCapitalString$>:(id*)value_ error:(NSError**)error_;
 <$endif$>
@@ -77,7 +77,7 @@ extern const struct <$managedObjectClassName$>FetchedProperties {<$foreach Fetch
 #if TARGET_OS_IPHONE
 <$foreach Relationship noninheritedRelationships do$>
 <$if Relationship.isToMany$>
-- (NSFetchedResultsController *)new<$Relationship.name.initialCapitalString$>FetchedResultsControllerWithSortDescriptors:(NSArray *)sortDescriptors;
+- (NSFetchedResultsController*)new<$Relationship.name.initialCapitalString$>FetchedResultsControllerWithSortDescriptors:(NSArray*)sortDescriptors;
 <$endif$>
 <$endforeach do$>
 #endif

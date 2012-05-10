@@ -38,7 +38,7 @@ const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassNam
 	return (<$managedObjectClassName$>ID*)[super objectID];
 }
 
-+ (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)key {
++ (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 	<$foreach Attribute noninheritedAttributes do$><$if Attribute.hasDefinedAttributeType$><$if Attribute.hasScalarAttributeType$>
 	if ([key isEqualToString:@"<$Attribute.name$>Value"]) {
@@ -116,7 +116,7 @@ const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassNam
 + (id)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>error:(NSError**)error_ {
 	NSParameterAssert(moc_);
 	NSError *error = nil;
-	
+
 	NSManagedObjectModel *model = [[moc_ persistentStoreCoordinator] managedObjectModel];
 	<$if FetchRequest.hasBindings$>
 	NSDictionary *substitutionVariables = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -130,10 +130,10 @@ const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassNam
 	NSFetchRequest *fetchRequest = [model fetchRequestFromTemplateWithName:@"<$FetchRequest.name$>"
 													 substitutionVariables:substitutionVariables];
 	NSAssert(fetchRequest, @"Can't find fetch request named \"<$FetchRequest.name$>\".");
-	
+
 	id result = nil;
 	NSArray *results = [moc_ executeFetchRequest:fetchRequest error:&error];
-	
+
 	if (!error) {
 		switch ([results count]) {
 			case 0:
@@ -149,7 +149,7 @@ const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassNam
 					results);
 		}
 	}
-	
+
 	if (error_) *error_ = error;
 	return result;
 }
@@ -169,7 +169,7 @@ const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassNam
 + (NSArray*)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>error:(NSError**)error_ {
 	NSParameterAssert(moc_);
 	NSError *error = nil;
-	
+
 	NSManagedObjectModel *model = [[moc_ persistentStoreCoordinator] managedObjectModel];
 	<$if FetchRequest.hasBindings$>
 	NSDictionary *substitutionVariables = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -179,11 +179,11 @@ const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassNam
 														nil];
 	<$else$>
 	NSDictionary *substitutionVariables = [NSDictionary dictionary];
-	<$endif$>									
+	<$endif$>
 	NSFetchRequest *fetchRequest = [model fetchRequestFromTemplateWithName:@"<$FetchRequest.name$>"
 													 substitutionVariables:substitutionVariables];
 	NSAssert(fetchRequest, @"Can't find fetch request named \"<$FetchRequest.name$>\".");
-	
+
 	NSArray *result = [moc_ executeFetchRequest:fetchRequest error:&error];
 	if (error_) *error_ = error;
 	return result;
@@ -194,7 +194,7 @@ const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassNam
 #if TARGET_OS_IPHONE
 <$foreach Relationship noninheritedRelationships do$>
 <$if Relationship.isToMany$>
-- (NSFetchedResultsController *)new<$Relationship.name.initialCapitalString$>FetchedResultsControllerWithSortDescriptors:(NSArray *)sortDescriptors {
+- (NSFetchedResultsController*)new<$Relationship.name.initialCapitalString$>FetchedResultsControllerWithSortDescriptors:(NSArray*)sortDescriptors {
 	NSFetchRequest *fetchRequest = [NSFetchRequest new];
 	<$if !TemplateVar.arc$>[fetchRequest autorelease];<$endif$>
 	fetchRequest.entity = [NSEntityDescription entityForName:@"<$Relationship.destinationEntity.name$>" inManagedObjectContext:self.managedObjectContext];
