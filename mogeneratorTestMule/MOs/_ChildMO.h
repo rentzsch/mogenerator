@@ -40,7 +40,7 @@ extern const struct ChildMOFetchedProperties {
 
 
 
-@property (nonatomic, retain) ParentMO* parent;
+@property (nonatomic, retain) ParentMO *parent;
 
 //- (BOOL)validateParent:(id*)value_ error:(NSError**)error_;
 

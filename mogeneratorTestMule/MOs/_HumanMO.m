@@ -39,7 +39,7 @@ const struct HumanMOFetchedProperties HumanMOFetchedProperties = {
 	return (HumanMOID*)[super objectID];
 }
 
-+ (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)key {
++ (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 	
 
@@ -89,7 +89,7 @@ const struct HumanMOFetchedProperties HumanMOFetchedProperties = {
 + (id)fetchOneByHumanName:(NSManagedObjectContext*)moc_ humanName:(NSString*)humanName_ error:(NSError**)error_ {
 	NSParameterAssert(moc_);
 	NSError *error = nil;
-	
+
 	NSManagedObjectModel *model = [[moc_ persistentStoreCoordinator] managedObjectModel];
 	
 	NSDictionary *substitutionVariables = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -101,10 +101,10 @@ const struct HumanMOFetchedProperties HumanMOFetchedProperties = {
 	NSFetchRequest *fetchRequest = [model fetchRequestFromTemplateWithName:@"oneByHumanName"
 													 substitutionVariables:substitutionVariables];
 	NSAssert(fetchRequest, @"Can't find fetch request named \"oneByHumanName\".");
-	
+
 	id result = nil;
 	NSArray *results = [moc_ executeFetchRequest:fetchRequest error:&error];
-	
+
 	if (!error) {
 		switch ([results count]) {
 			case 0:
@@ -120,7 +120,7 @@ const struct HumanMOFetchedProperties HumanMOFetchedProperties = {
 					results);
 		}
 	}
-	
+
 	if (error_) *error_ = error;
 	return result;
 }
@@ -142,15 +142,15 @@ const struct HumanMOFetchedProperties HumanMOFetchedProperties = {
 + (NSArray*)fetchAllHumans:(NSManagedObjectContext*)moc_ error:(NSError**)error_ {
 	NSParameterAssert(moc_);
 	NSError *error = nil;
-	
+
 	NSManagedObjectModel *model = [[moc_ persistentStoreCoordinator] managedObjectModel];
 	
 	NSDictionary *substitutionVariables = [NSDictionary dictionary];
-										
+	
 	NSFetchRequest *fetchRequest = [model fetchRequestFromTemplateWithName:@"allHumans"
 													 substitutionVariables:substitutionVariables];
 	NSAssert(fetchRequest, @"Can't find fetch request named \"allHumans\".");
-	
+
 	NSArray *result = [moc_ executeFetchRequest:fetchRequest error:&error];
 	if (error_) *error_ = error;
 	return result;
@@ -173,7 +173,7 @@ const struct HumanMOFetchedProperties HumanMOFetchedProperties = {
 + (NSArray*)fetchByHumanName:(NSManagedObjectContext*)moc_ humanName:(NSString*)humanName_ error:(NSError**)error_ {
 	NSParameterAssert(moc_);
 	NSError *error = nil;
-	
+
 	NSManagedObjectModel *model = [[moc_ persistentStoreCoordinator] managedObjectModel];
 	
 	NSDictionary *substitutionVariables = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -181,11 +181,11 @@ const struct HumanMOFetchedProperties HumanMOFetchedProperties = {
 														humanName_, @"humanName",
 														
 														nil];
-										
+	
 	NSFetchRequest *fetchRequest = [model fetchRequestFromTemplateWithName:@"byHumanName"
 													 substitutionVariables:substitutionVariables];
 	NSAssert(fetchRequest, @"Can't find fetch request named \"byHumanName\".");
-	
+
 	NSArray *result = [moc_ executeFetchRequest:fetchRequest error:&error];
 	if (error_) *error_ = error;
 	return result;

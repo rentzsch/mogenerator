@@ -198,7 +198,7 @@ extern const struct ParentMOFetchedProperties {
 
 
 
-@property (nonatomic, retain) NSSet* children;
+@property (nonatomic, retain) NSSet *children;
 
 - (NSMutableSet*)childrenSet;
 

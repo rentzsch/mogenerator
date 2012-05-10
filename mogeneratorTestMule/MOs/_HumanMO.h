@@ -54,7 +54,7 @@ extern const struct HumanMOFetchedProperties {
 
 
 
-@property (nonatomic, retain) NSManagedObject* meaninglessRelationship;
+@property (nonatomic, retain) NSManagedObject *meaninglessRelationship;
 
 //- (BOOL)validateMeaninglessRelationship:(id*)value_ error:(NSError**)error_;
 
