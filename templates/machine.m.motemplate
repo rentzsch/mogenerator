@@ -44,6 +44,7 @@ const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassNam
 	if ([key isEqualToString:@"<$Attribute.name$>Value"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"<$Attribute.name$>"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
 	}<$endif$><$endif$><$endforeach do$>
 
 	return keyPaths;

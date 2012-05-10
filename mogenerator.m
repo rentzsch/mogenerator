@@ -8,7 +8,7 @@
 #import "mogenerator.h"
 #import "RegexKitLite.h"
 
-static NSString *kTemplateVar = @"TemplateVar";
+static NSString * const kTemplateVar = @"TemplateVar";
 NSString	*gCustomBaseClass;
 NSString	*gCustomBaseClassForced;
 
