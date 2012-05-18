@@ -356,6 +356,15 @@ NSString	*gCustomBaseClassForced;
 - (BOOL)hasTransformableAttributeType {
 	return ([self attributeType] == NSTransformableAttributeType);
 }
+
+- (BOOL)isReadonly {
+    NSString *readonlyUserinfoValue = [[self userInfo] objectForKey:@"mogenerator.readonly"];
+    if (readonlyUserinfoValue != nil) {
+        return YES;
+    }
+    return NO;
+}
+
 @end
 
 @implementation NSRelationshipDescription (collectionClassName)
