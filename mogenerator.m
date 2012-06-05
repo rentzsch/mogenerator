@@ -518,7 +518,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 
 - (void) printUsage;
 {
-    ddprintf(@"%@: : ) Usage [OPTIONS] <argument> [...]\n", DDCliApp);
+    ddprintf(@"%@: Usage [OPTIONS] <argument> [...]\n", DDCliApp);
     printf("\n"
            "  -m, --model MODEL             Path to model\n"
            "  -C, --configuration CONFIG    Only consider entities included in the named configuration\n"
