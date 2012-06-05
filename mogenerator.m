@@ -171,12 +171,17 @@ NSString	*gCustomBaseClassForced;
 	
 	NSEntityDescription *entity = self;
     nsenumerate(components, NSString, key) {
-		NSRelationshipDescription *relationship = [[entity relationshipsByName] objectForKey:key];
-		assert(relationship);
-		entity = [relationship destinationEntity];
+		id property = [[entity propertiesByName] objectForKey:key];
+		if ([property isKindOfClass:[NSAttributeDescription class]]) {
+			return [property objectAttributeType];
+		} else if ([property isKindOfClass:[NSRelationshipDescription class]]) {
+			entity = [property destinationEntity];
+		}
+		
+		assert(property);
+		
 	}
-	
-	return [entity managedObjectClassName];
+	return [[entity managedObjectClassName] stringByAppendingString:@"*"];
 }
 
 - (void)_processPredicate:(NSPredicate*)predicate_ bindings:(NSMutableArray*)bindings_ {
@@ -208,7 +213,6 @@ NSString	*gCustomBaseClassForced;
                 } else {
                     type = [self _resolveKeyPathType:[lhs keyPath]];
                 }
-                type = [type stringByAppendingString:@"*"];
                 
 				[bindings_ addObject:[NSDictionary dictionaryWithObjectsAndKeys:
                                       [rhs variable], @"name",
@@ -342,6 +346,7 @@ NSString	*gCustomBaseClassForced;
 }
 - (NSString*)objectAttributeType {
 	NSString *result = [self objectAttributeClassName];
+	
 	if ([result isEqualToString:@"Class"]) {
 		// `Class` (don't append asterisk).
 	} else if ([result rangeOfString:@"<"].location != NSNotFound) {
@@ -513,7 +518,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 
 - (void) printUsage;
 {
-    ddprintf(@"%@: Usage [OPTIONS] <argument> [...]\n", DDCliApp);
+    ddprintf(@"%@: : ) Usage [OPTIONS] <argument> [...]\n", DDCliApp);
     printf("\n"
            "  -m, --model MODEL             Path to model\n"
            "  -C, --configuration CONFIG    Only consider entities included in the named configuration\n"
