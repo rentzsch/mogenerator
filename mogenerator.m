@@ -179,6 +179,18 @@ NSString	*gCustomBaseClassForced;
 	return [entity managedObjectClassName];
 }
 
+// changes by Sergei Winitzki
+// auxiliary function
+- (BOOL) bindingsArray:(NSArray *)bindings containsVariableNamed:(NSString *)name {
+	for (NSDictionary *dict in bindings) {
+		if ([[dict objectForKey:@"name"] isEqual:name]) {
+			return YES;
+		}
+	}
+	return NO;
+}
+// end of changes by Sergei Winitzki
+
 - (void)_processPredicate:(NSPredicate*)predicate_ bindings:(NSMutableArray*)bindings_ {
     if (!predicate_) return;
     
@@ -209,11 +221,13 @@ NSString	*gCustomBaseClassForced;
                     type = [self _resolveKeyPathType:[lhs keyPath]];
                 }
                 type = [type stringByAppendingString:@"*"];
-                
-				[bindings_ addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                // changes by Sergei Winitzki: make sure that no repeated variables are entered here.
+				if (![self bindingsArray:bindings_ containsVariableNamed:[rhs variable]]) {
+					[bindings_ addObject:[NSDictionary dictionaryWithObjectsAndKeys:
                                       [rhs variable], @"name",
                                       type, @"type",
                                       nil]];
+				} // end of changes by Sergei Winitzki
 			} break;
 			default:
 				assert(0 && "unknown NSExpression type");
