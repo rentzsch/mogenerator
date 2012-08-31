@@ -144,7 +144,7 @@ const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassNam
 				break;
 			default:
 				NSLog(@"WARN fetch request <$FetchRequest.name$>: 0 or 1 objects expected, %u found (substitutionVariables:%@, results:%@)",
-					[results count],
+					(unsigned)[results count],
 					substitutionVariables,
 					results);
 		}
