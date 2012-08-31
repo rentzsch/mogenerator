@@ -1,6 +1,0 @@
-#import "ChildMO.m"
-#import "_ChildMO.m"
-#import "HumanMO.m"
-#import "_HumanMO.m"
-#import "ParentMO.m"
-#import "_ParentMO.m"
