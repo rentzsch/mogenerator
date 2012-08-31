@@ -1,4 +1,5 @@
 #import "_HumanMO.h"
+#import <Cocoa/Cocoa.h>
 
 @interface HumanMO : _HumanMO {}
 
