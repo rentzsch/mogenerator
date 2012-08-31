@@ -25,5 +25,5 @@ sed -e "s/MAJOR_VERSION/$MAJOR_VERSION/g" -e "s/MINOR_VERSION/$MINOR_VERSION/g" 
 
 sudo chown -R root 'build/root'
 sudo chgrp -R admin 'build/root'
-/Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker -build -p "build/mogenerator-$VERSION.pkg" -f 'build/root' -i 'build/Info.plist' -d 'build/Description.plist' -ds
+/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker -build -p "build/mogenerator-$VERSION.pkg" -f 'build/root' -i 'build/Info.plist' -d 'build/Description.plist' -ds
 hdiutil create -srcfolder "build/mogenerator-$VERSION.pkg" -volname "mogenerator $VERSION" "build/mogenerator-$VERSION.dmg"
