@@ -17,10 +17,10 @@ If you're contributing to mogenerator, please ensure tests pass prior to issuing
 
 1. mogenerator can be built from source.
 2. You're using the latest source tree templates (so template errors fail immediately).
-2. mogenerator can read the test.xcmodeld file.
-3. mogenerator can generate source files from the model.
-4. Generated source files are compilable.
-5. A small but real program can use the generated classes to create managed objects, modify their attributes, hook up relationships and save them to an in-memory store.
+3. mogenerator can read the test.xcmodeld file.
+4. mogenerator can generate source files from the model.
+5. Generated source files are compilable.
+6. A small but real program can use the generated classes to create managed objects, modify their attributes, hook up relationships and save them to an in-memory store.
 
 It does this for both MRC and ARC modes (hence the double `success` in the output).
 
