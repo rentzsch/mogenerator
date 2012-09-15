@@ -26,6 +26,7 @@
 - (NSString*)forcedCustomBaseClass;
 - (void)_processPredicate:(NSPredicate*)predicate_ bindings:(NSMutableArray*)bindings_;
 - (NSArray*)prettyFetchRequests;
+- (NSSet *)classNameDeclarations;
 @end
 
 @interface NSAttributeDescription (typing)
