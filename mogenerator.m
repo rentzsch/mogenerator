@@ -394,6 +394,20 @@ NSString	*gCustomBaseClassForced;
     return NO;
 }
 
+- (BOOL)isFetchKey {
+	return [[self name] hasSuffix:@"ID"] && [[self objectAttributeClassName] isEqualToString:@"BAUUID"];
+}
+
+- (NSString *)fetchName {
+	NSString *name = [self name];
+	return [name substringToIndex:[name length]-2];
+}
+
+- (NSEntityDescription *)fetchEntity {
+	NSString *entityName = [[self userInfo] objectForKey:@"fetchEntityName"] ?: [[self fetchName] initialCapitalString];
+	return [[self.entity.managedObjectModel entitiesByName] objectForKey:entityName];
+}
+
 @end
 
 @implementation NSRelationshipDescription (collectionClassName)

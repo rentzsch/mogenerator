@@ -39,6 +39,9 @@
 - (NSString*)objectAttributeType;
 - (BOOL)hasTransformableAttributeType;
 - (BOOL)isReadonly;
+- (BOOL)isFetchKey;
+- (NSString *)fetchName;
+- (NSEntityDescription *)fetchEntity;
 @end
 
 @interface NSRelationshipDescription (collectionClassName)
