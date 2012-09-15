@@ -248,6 +248,23 @@ NSString	*gCustomBaseClassForced;
 	}
 	return result;
 }
+
+- (NSArray *)classNameDeclarations {
+
+	NSMutableSet *names = [NSMutableSet set];
+	
+	for (NSRelationshipDescription *relationship in [self noninheritedRelationships])
+		[names addObject:[[relationship destinationEntity] managedObjectClassName]];
+	for (NSAttributeDescription *attribute in [self noninheritedAttributes]) {
+		if([attribute isFetchKey])
+			[names addObject:[[attribute fetchEntity] managedObjectClassName]];
+		if([attribute hasTransformableAttributeType])
+			[names addObject:[attribute objectAttributeClassName]];
+	}
+	
+	return [[names allObjects] sortedArrayUsingSelector:@selector(compare:)];
+}
+
 @end
 
 @implementation NSAttributeDescription (typing)
