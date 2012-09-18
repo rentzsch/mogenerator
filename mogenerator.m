@@ -511,6 +511,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     {@"output-dir",			'O',    DDGetoptRequiredArgument},
     {@"machine-dir",		'M',    DDGetoptRequiredArgument},
     {@"human-dir",			'H',    DDGetoptRequiredArgument},
+	{@"machine-file-prefix", 0,     DDGetoptRequiredArgument},
     {@"template-group",		0,      DDGetoptRequiredArgument},
     {@"list-source-files",	0,      DDGetoptNoArgument},
     {@"orphaned",			0,      DDGetoptNoArgument},
@@ -539,6 +540,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
            "  -O, --output-dir DIR          Output directory\n"
            "  -M, --machine-dir DIR         Output directory for machine files\n"
            "  -H, --human-dir DIR           Output directory for human files\n"
+		   "      --machine-file-prefix VALUE Override the _ prefix used for machine files\n"
 		   "      --list-source-files		Only list model-related source files\n"
            "      --orphaned                Only list files whose entities no longer exist\n"
            "      --version                 Display version and exit\n"
@@ -715,6 +717,8 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
         machineDir = outputDir;
     if (humanDir == nil)
         humanDir = outputDir;
+	if (machineFilePrefix == nil)
+		machineFilePrefix = @"_";
 
 	NSFileManager *fm = [NSFileManager defaultManager];
 	
@@ -806,7 +810,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 			
 			// Machine header files.
 			NSString *machineHFileName = [machineDir stringByAppendingPathComponent:
-                [NSString stringWithFormat:@"_%@.h", entityClassName]];
+                [NSString stringWithFormat:@"%@%@.h", machineFilePrefix, entityClassName]];
 			if (_listSourceFiles) {
 				[machineHFiles addObject:machineHFileName];
 			} else {
@@ -820,7 +824,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 			
 			// Machine source files.
 			NSString *machineMFileName = [machineDir stringByAppendingPathComponent:
-                [NSString stringWithFormat:@"_%@.m", entityClassName]];
+                [NSString stringWithFormat:@"%@%@.m", machineFilePrefix, entityClassName]];
 			if (_listSourceFiles) {
 				[machineMFiles addObject:machineMFileName];
 			} else {
