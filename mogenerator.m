@@ -540,6 +540,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
            "  -O, --output-dir DIR          Output directory\n"
            "  -M, --machine-dir DIR         Output directory for machine files\n"
            "  -H, --human-dir DIR           Output directory for human files\n"
+		   "      --machine-file-prefix VALUE Override the _ prefix used for machine files\n"
 		   "      --list-source-files		Only list model-related source files\n"
            "      --orphaned                Only list files whose entities no longer exist\n"
            "      --version                 Display version and exit\n"
