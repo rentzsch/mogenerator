@@ -436,6 +436,14 @@ static NSUInteger suffixLength = 4;
 
 @end
 
+@implementation NSFetchedPropertyDescription (SingleResultReturning)
+
+- (BOOL)isSingular {
+	return [[[self userInfo] objectForKey:@"singleResult"] boolValue];
+}
+
+@end
+
 @implementation NSString (camelCaseString)
 - (NSString*)camelCaseString {
 	NSArray *lowerCasedWordArray = [[self wordArray] arrayByMakingObjectsPerformSelector:@selector(lowercaseString)];

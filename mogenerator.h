@@ -49,6 +49,9 @@
 - (NSString*)immutableCollectionClassName;
 - (BOOL)jr_isOrdered;
 @end
+@interface NSFetchedPropertyDescription (SingleResultReturning)
+- (BOOL)isSingular;
+@end
 @interface NSObject (JustHereToSuppressIsOrderedNotImplementedCompilerWarning)
 - (BOOL)isOrdered;
 @end
