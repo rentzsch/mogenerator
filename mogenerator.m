@@ -400,8 +400,12 @@ NSString	*gCustomBaseClassForced;
 static NSString  *fetchKeySuffix = @"UUID";
 static NSUInteger suffixLength = 4;
 
+- (NSString *)fetchEntityName {
+	return [[self userInfo] objectForKey:@"fetchEntityName"];
+}
+
 - (BOOL)isFetchKey {
-	return [[self name] hasSuffix:fetchKeySuffix] && [[self objectAttributeClassName] isEqualToString:@"BAUUID"] && nil != [self fetchEntity];
+	return [[self name] hasSuffix:fetchKeySuffix] && [[self objectAttributeClassName] isEqualToString:@"BAUUID"] && nil != [self fetchEntityName];
 }
 
 - (NSString *)fetchName {
@@ -410,7 +414,7 @@ static NSUInteger suffixLength = 4;
 }
 
 - (NSEntityDescription *)fetchEntity {
-	NSString *entityName = [[self userInfo] objectForKey:@"fetchEntityName"] ?: [[self fetchName] initialCapitalString];
+	NSString *entityName = [self fetchEntityName] ?: [[self fetchName] initialCapitalString];
 	return [[self.entity.managedObjectModel entitiesByName] objectForKey:entityName];
 }
 
