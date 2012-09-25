@@ -50,6 +50,8 @@
 - (BOOL)jr_isOrdered;
 @end
 @interface NSFetchedPropertyDescription (SingleResultReturning)
+// Add an entry to the fetched property userInfo dictionary with the key "singularForm"
+- (NSString *)singularForm;
 - (BOOL)isSingular;
 @end
 @interface NSObject (JustHereToSuppressIsOrderedNotImplementedCompilerWarning)

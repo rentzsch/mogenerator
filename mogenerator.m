@@ -442,8 +442,12 @@ static NSUInteger suffixLength = 4;
 
 @implementation NSFetchedPropertyDescription (SingleResultReturning)
 
+- (NSString *)singularForm {
+	return [[self userInfo] objectForKey:@"singularForm"];
+}
+
 - (BOOL)isSingular {
-	return [[[self userInfo] objectForKey:@"singleResult"] boolValue];
+	return [[self singularForm] length] > 0;
 }
 
 @end
