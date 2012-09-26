@@ -359,7 +359,7 @@ NSString	*gCustomBaseClassForced;
 	} else if ([result rangeOfString:@"<"].location != NSNotFound) {
 		// `id<Protocol1,Protocol2>` (don't append asterisk).
 	} else if ([result isEqualToString:@"NSObject"]) {
-		result = @"id";
+		result = @"id ";
 	} else {
 		result = [result stringByAppendingString:@"*"]; // Make it a pointer.
 	}
