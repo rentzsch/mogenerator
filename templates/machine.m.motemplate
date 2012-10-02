@@ -15,7 +15,7 @@ const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassNam
 	.<$FetchedProperty.name$> = @"<$FetchedProperty.name$>",<$endforeach do$>
 };
 
-const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserInfo {<$foreach UserInfo userInfoKeyValues do$>
+const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserInfo = {<$foreach UserInfo userInfoKeyValues do$>
 	.<$UserInfo.key$> = @"<$UserInfo.value$>",<$endforeach do$>
 };
 
