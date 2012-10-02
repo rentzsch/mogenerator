@@ -30,6 +30,22 @@ NSString	*gCustomBaseClassForced;
 }
 @end
 
+@interface NSEntityDescription (userInfoAdditions)
+- (NSDictionary *)userInfoByKeys;
+@end
+
+@implementation NSEntityDescription (userInfoAdditions)
+- (NSDictionary *)userInfoByKeys
+{
+	NSMutableDictionary *userInfoByKeys = [NSMutableDictionary dictionary];
+
+	for (NSString *key in self.userInfo)
+		[userInfoByKeys setObject:[NSDictionary dictionaryWithObjectsAndKeys:key, @"key", [self.userInfo objectForKey:key], @"value", nil] forKey:key];
+
+	return userInfoByKeys;
+}
+@end
+
 @implementation NSManagedObjectModel (entitiesWithACustomSubclassVerbose)
 - (NSArray*)entitiesWithACustomSubclassInConfiguration:(NSString *)configuration_ verbose:(BOOL)verbose_ {
 	NSMutableArray *result = [NSMutableArray array];
@@ -124,6 +140,18 @@ NSString	*gCustomBaseClassForced;
 		return [result sortedArrayUsingDescriptors:sortDescriptors];
 	} else {
 		return [[[self relationshipsByName] allValues] sortedArrayUsingDescriptors:sortDescriptors];
+	}
+}
+/** @TypeInfo NSEntityUserInfoDescription */
+- (NSArray*)userInfoKeyValues {
+	NSArray *sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"key" ascending:YES]];
+	NSEntityDescription *superentity = [self superentity];
+	if (superentity) {
+		NSMutableArray *result = [[[[self userInfoByKeys] allValues] mutableCopy] autorelease];
+		[result removeObjectsInArray:[[superentity userInfoByKeys] allValues]];
+		return [result sortedArrayUsingDescriptors:sortDescriptors];
+	} else {
+		return [[[self userInfoByKeys] allValues] sortedArrayUsingDescriptors:sortDescriptors];
 	}
 }
 /** @TypeInfo NSFetchedPropertyDescription */
