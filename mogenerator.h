@@ -41,7 +41,9 @@
 - (BOOL)isReadonly;
 - (BOOL)isFetchKey;
 - (NSString *)fetchName;
+- (NSString *)fetchEntityName;
 - (NSEntityDescription *)fetchEntity;
+- (NSString *)fetchClassName;
 @end
 
 @interface NSRelationshipDescription (collectionClassName)

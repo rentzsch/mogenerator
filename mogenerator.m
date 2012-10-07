@@ -257,9 +257,9 @@ NSString	*gCustomBaseClassForced;
 		[names addObject:[[relationship destinationEntity] managedObjectClassName]];
 	for (NSAttributeDescription *attribute in [self noninheritedAttributes]) {
 		if([attribute isFetchKey]) {
-			NSString *fetchEntityClassName = [[attribute fetchEntity] managedObjectClassName];
-			if([fetchEntityClassName length])
-				[names addObject:fetchEntityClassName];
+			NSString *fetchClassName = [attribute fetchClassName];
+			if([fetchClassName length])
+				[names addObject:fetchClassName];
 		}
 		if([attribute hasTransformableAttributeType])
 			[names addObject:[attribute objectAttributeClassName]];
@@ -400,10 +400,6 @@ NSString	*gCustomBaseClassForced;
 static NSString  *fetchKeySuffix = @"UUID";
 static NSUInteger suffixLength = 4;
 
-- (NSString *)fetchEntityName {
-	return [[self userInfo] objectForKey:@"fetchEntityName"];
-}
-
 - (BOOL)isFetchKey {
 	return [[self name] hasSuffix:fetchKeySuffix] && [[self objectAttributeClassName] isEqualToString:@"BAUUID"] && nil != [self fetchEntityName];
 }
@@ -413,9 +409,19 @@ static NSUInteger suffixLength = 4;
 	return [name substringToIndex:[name length]-suffixLength];
 }
 
+- (NSString *)fetchEntityName {
+	NSString *entityName = [[self userInfo] objectForKey:@"fetchEntityName"];
+	if(!entityName) entityName = [[self fetchName] initialCapitalString];
+	return entityName;
+}
+
 - (NSEntityDescription *)fetchEntity {
-	NSString *entityName = [self fetchEntityName] ?: [[self fetchName] initialCapitalString];
-	return [[self.entity.managedObjectModel entitiesByName] objectForKey:entityName];
+	return [[self.entity.managedObjectModel entitiesByName] objectForKey:[self fetchEntityName]];
+}
+
+- (NSString *)fetchClassName {
+	NSEntityDescription *entity = [self fetchEntity];
+	return entity ? [entity managedObjectClassName] : [[self userInfo] objectForKey:@"fetchClassName"] ?: @"NSManagedObject";
 }
 
 @end
