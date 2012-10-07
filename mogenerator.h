@@ -26,6 +26,7 @@
 - (NSString*)forcedCustomBaseClass;
 - (void)_processPredicate:(NSPredicate*)predicate_ bindings:(NSMutableArray*)bindings_;
 - (NSArray*)prettyFetchRequests;
+- (NSSet *)classNameDeclarations;
 @end
 
 @interface NSAttributeDescription (typing)
@@ -38,12 +39,22 @@
 - (NSString*)objectAttributeType;
 - (BOOL)hasTransformableAttributeType;
 - (BOOL)isReadonly;
+- (BOOL)isFetchKey;
+- (NSString *)fetchName;
+- (NSString *)fetchEntityName;
+- (NSEntityDescription *)fetchEntity;
+- (NSString *)fetchClassName;
 @end
 
 @interface NSRelationshipDescription (collectionClassName)
 - (NSString*)mutableCollectionClassName;
 - (NSString*)immutableCollectionClassName;
 - (BOOL)jr_isOrdered;
+@end
+@interface NSFetchedPropertyDescription (SingleResultReturning)
+// Add an entry to the fetched property userInfo dictionary with the key "singularForm"
+- (NSString *)singularForm;
+- (BOOL)isSingular;
 @end
 @interface NSObject (JustHereToSuppressIsOrderedNotImplementedCompilerWarning)
 - (BOOL)isOrdered;

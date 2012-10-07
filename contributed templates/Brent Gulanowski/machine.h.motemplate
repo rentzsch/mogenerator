@@ -1,0 +1,85 @@
+// DO NOT EDIT. This file is machine-generated and constantly overwritten.
+// Make changes to <$managedObjectClassName$>.h instead.
+
+#import <CoreData/CoreData.h><$if hasCustomSuperentity$>
+#import "<$customSuperentity$>.h"<$endif$>
+
+
+@class <$managedObjectClassName$>, <$managedObjectClassName$>ID;
+
+@interface NSManagedObjectContext (<$managedObjectClassName$>Conveniences)
+
+- (<$managedObjectClassName$> *)find<$managedObjectClassName$>WithID:(<$managedObjectClassName$>ID *)objectID;
+- (<$managedObjectClassName$> *)insert<$managedObjectClassName$>;
+
+@end
+
+<$foreach ClassName classNameDeclarations do$>
+@class <$ClassName$>;<$endforeach do$>
+
+@interface <$managedObjectClassName$>ID : NSManagedObjectID {}
+@end
+
+
+@interface _<$managedObjectClassName$> : <$customSuperentity$> {}
+
++ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
++ (NSString*)entityName;
++ (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
+- (<$managedObjectClassName$>ID*)objectID;
+
+// Attributes<$foreach Attribute noninheritedAttributes do$><$if Attribute.hasDefinedAttributeType$>
+@property (nonatomic, retain) <$Attribute.objectAttributeType$><$Attribute.name$>;<$if Attribute.hasScalarAttributeType$>
+@property <$Attribute.scalarAttributeType$> <$Attribute.name$>Value;
+- (<$Attribute.scalarAttributeType$>)<$Attribute.name$>Value;
+- (void)set<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_;<$endif$><$if Attribute.isFetchKey$>
+@property (nonatomic, readonly) <$Attribute.fetchEntity.managedObjectClassName$> *<$Attribute.fetchName$>;<$endif$>
+//- (BOOL)validate<$Attribute.name.initialCapitalString$>:(id *)value_ error:(NSError **)error_;<$endif$>
+<$endforeach do$>
+
+// Relationships<$foreach Relationship noninheritedRelationships do$><$if Relationship.isToMany$>
+@property (nonatomic, retain) <$Relationship.immutableCollectionClassName$> *<$Relationship.name$>;
+- (<$Relationship.mutableCollectionClassName$>*)<$Relationship.name$>Set;<$else$>
+@property (nonatomic, retain) <$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>;
+//- (BOOL)validate<$Relationship.name.initialCapitalString$>:(id *)value_ error:(NSError **)error_;<$endif$>
+<$endforeach do$>
+
+// Fetched Properties<$foreach FetchedProperty noninheritedFetchedProperties do$>
+@property (nonatomic, readonly) NSArray *<$FetchedProperty.name$>;<$if FetchedProperty.isSingular$>
+@property (nonatomic, readonly) <$FetchedProperty.fetchRequest.entity.managedObjectClassName$> *<$FetchedProperty.singularForm$>;<$endif$><$endforeach do$>
+
+// Fetch Requests<$foreach FetchRequest prettyFetchRequests do$><$if FetchRequest.hasBindings$>
+
++ (id)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext *)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>;
++ (id)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext *)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>error:(NSError **)error_;<$else$>
++ (NSArray *)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext *)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>;
++ (NSArray *)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext *)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>error:(NSError **)error_;<$endif$><$endforeach do$>
+
+@end
+
+
+@interface _<$managedObjectClassName$> (CoreDataGeneratedAccessors)<$foreach Relationship noninheritedRelationships do$><$if Relationship.isToMany$>
+
+- (void)add<$Relationship.name.initialCapitalString$>:(<$Relationship.immutableCollectionClassName$> *)value_;
+- (void)remove<$Relationship.name.initialCapitalString$>:(<$Relationship.immutableCollectionClassName$> *)value_;
+- (void)add<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$> *)value_;
+- (void)remove<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$> *)value_;<$endif$><$endforeach do$>
+
+@end
+
+
+@interface _<$managedObjectClassName$> (CoreDataGeneratedPrimitiveAccessors)<$foreach Attribute noninheritedAttributes do$><$if Attribute.hasDefinedAttributeType$>
+
+- (<$Attribute.objectAttributeType$>)primitive<$Attribute.name.initialCapitalString$>;
+- (void)setPrimitive<$Attribute.name.initialCapitalString$>:(<$Attribute.objectAttributeType$>)value;<$if Attribute.hasScalarAttributeType$>
+
+- (<$Attribute.scalarAttributeType$>)primitive<$Attribute.name.initialCapitalString$>Value;
+- (void)setPrimitive<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_;<$endif$><$endif$><$endforeach do$>
+<$foreach Relationship noninheritedRelationships do$><$if Relationship.isToMany$>
+
+- (<$Relationship.mutableCollectionClassName$> *)primitive<$Relationship.name.initialCapitalString$>;
+- (void)setPrimitive<$Relationship.name.initialCapitalString$>:(<$Relationship.mutableCollectionClassName$> *)value;<$else$>
+- (<$Relationship.destinationEntity.managedObjectClassName$> *)primitive<$Relationship.name.initialCapitalString$>;
+- (void)setPrimitive<$Relationship.name.initialCapitalString$>:(<$Relationship.destinationEntity.managedObjectClassName$> *)value;<$endif$><$endforeach do$>
+
+@end

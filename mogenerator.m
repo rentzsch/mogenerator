@@ -248,6 +248,26 @@ NSString	*gCustomBaseClassForced;
 	}
 	return result;
 }
+
+- (NSArray *)classNameDeclarations {
+
+	NSMutableSet *names = [NSMutableSet set];
+	
+	for (NSRelationshipDescription *relationship in [self noninheritedRelationships])
+		[names addObject:[[relationship destinationEntity] managedObjectClassName]];
+	for (NSAttributeDescription *attribute in [self noninheritedAttributes]) {
+		if([attribute isFetchKey]) {
+			NSString *fetchClassName = [attribute fetchClassName];
+			if([fetchClassName length])
+				[names addObject:fetchClassName];
+		}
+		if([attribute hasTransformableAttributeType])
+			[names addObject:[attribute objectAttributeClassName]];
+	}
+	
+	return [[names allObjects] sortedArrayUsingSelector:@selector(compare:)];
+}
+
 @end
 
 @implementation NSAttributeDescription (typing)
@@ -359,9 +379,9 @@ NSString	*gCustomBaseClassForced;
 	} else if ([result rangeOfString:@"<"].location != NSNotFound) {
 		// `id<Protocol1,Protocol2>` (don't append asterisk).
 	} else if ([result isEqualToString:@"NSObject"]) {
-		result = @"id";
+		result = @"id ";
 	} else {
-		result = [result stringByAppendingString:@"*"]; // Make it a pointer.
+		result = [result stringByAppendingString:@" *"]; // Make it a pointer.
 	}
 	return result;
 }
@@ -375,6 +395,33 @@ NSString	*gCustomBaseClassForced;
         return YES;
     }
     return NO;
+}
+
+static NSString  *fetchKeySuffix = @"UUID";
+static NSUInteger suffixLength = 4;
+
+- (BOOL)isFetchKey {
+	return [[self name] hasSuffix:fetchKeySuffix] && [[self objectAttributeClassName] isEqualToString:@"BAUUID"] && nil != [self fetchEntityName];
+}
+
+- (NSString *)fetchName {
+	NSString *name = [self name];
+	return [name substringToIndex:[name length]-suffixLength];
+}
+
+- (NSString *)fetchEntityName {
+	NSString *entityName = [[self userInfo] objectForKey:@"fetchEntityName"];
+	if(!entityName) entityName = [[self fetchName] initialCapitalString];
+	return entityName;
+}
+
+- (NSEntityDescription *)fetchEntity {
+	return [[self.entity.managedObjectModel entitiesByName] objectForKey:[self fetchEntityName]];
+}
+
+- (NSString *)fetchClassName {
+	NSEntityDescription *entity = [self fetchEntity];
+	return entity ? [entity managedObjectClassName] : [[self userInfo] objectForKey:@"fetchClassName"] ?: @"NSManagedObject";
 }
 
 @end
@@ -395,6 +442,18 @@ NSString	*gCustomBaseClassForced;
     } else {
         return NO;
     }
+}
+
+@end
+
+@implementation NSFetchedPropertyDescription (SingleResultReturning)
+
+- (NSString *)singularForm {
+	return [[self userInfo] objectForKey:@"singularForm"];
+}
+
+- (BOOL)isSingular {
+	return [[self singularForm] length] > 0;
 }
 
 @end
