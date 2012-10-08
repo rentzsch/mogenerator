@@ -55,7 +55,7 @@ NSString	*gCustomBaseClassForced;
 	nsenumerate (allEntities, NSEntityDescription, entity) {
 		NSString *entityClassName = [entity managedObjectClassName];
 		
-		if ([entityClassName isEqualToString:@"NSManagedObject"] || [entityClassName isEqualToString:gCustomBaseClass]){
+		if ([entityClassName isEqualToString:@"NSManagedObject"] || [entityClassName isEqualToString:@""] || [entityClassName isEqualToString:gCustomBaseClass]){
 			if (verbose_) {
 				ddprintf(@"skipping entity %@ (%@) because it doesn't use a custom subclass.\n", 
 						 entity.name, entityClassName);
