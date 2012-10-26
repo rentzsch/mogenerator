@@ -59,6 +59,7 @@
 	NSManagedObjectModel	*model;
 	NSString				*configuration;
 	NSString				*baseClass;
+	NSString				*baseClassImport;
 	NSString				*baseClassForce;
 	NSString				*includem;
 	NSString				*includeh;
