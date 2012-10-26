@@ -10,6 +10,7 @@
 
 static NSString * const kTemplateVar = @"TemplateVar";
 NSString	*gCustomBaseClass;
+NSString	*gCustomBaseClassImport;
 NSString	*gCustomBaseClassForced;
 
 @interface NSEntityDescription (fetchedPropertiesAdditions)
@@ -72,6 +73,12 @@ NSString	*gCustomBaseClassForced;
 
 
 @implementation NSEntityDescription (customBaseClass)
+- (BOOL)hasCustomBaseCaseImport {
+	return gCustomBaseClassImport == nil ? NO : YES;
+}
+- (NSString *)baseClassImport {
+	return gCustomBaseClassImport;
+}
 - (BOOL)hasCustomSuperentity {
 	NSString *forcedBaseClass = [self forcedCustomBaseClass];
 	if (!forcedBaseClass) {
@@ -499,7 +506,8 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     // Long					Short   Argument options
     {@"model",				'm',    DDGetoptRequiredArgument},
     {@"configuration",		'C',    DDGetoptRequiredArgument},
-    {@"base-class",			0,     DDGetoptRequiredArgument},
+	{@"base-class",			0,     DDGetoptRequiredArgument},
+	{@"base-class-import",	0,     DDGetoptRequiredArgument},
 	{@"base-class-force",	0,     DDGetoptRequiredArgument},
     // For compatibility:
     {@"baseClass",			0,      DDGetoptRequiredArgument},
@@ -530,6 +538,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
            "  -m, --model MODEL             Path to model\n"
            "  -C, --configuration CONFIG    Only consider entities included in the named configuration\n"
            "      --base-class CLASS        Custom base class\n"
+           "      --base-class-import TEXT        Imports base class as #import TEXT\n"
 		   "      --base-class-force CLASS  Same as --base-class except will force all entities to have the specified base class. Even if a super entity exists\n"
            "      --includem FILE           Generate aggregate include file for .m files for both human and machine generated source files\n"
            "      --includeh FILE           Generate aggregate include file for .h files for human generated source files only\n"
@@ -695,8 +704,10 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 	if(baseClassForce) {
 		gCustomBaseClassForced = [baseClassForce retain];
 		gCustomBaseClass = gCustomBaseClassForced;
+		gCustomBaseClassImport = [baseClassImport retain];
 	} else {
 		gCustomBaseClass = [baseClass retain];
+		gCustomBaseClassImport = [baseClassImport retain];
 	}
 
     NSString * mfilePath = includem;
