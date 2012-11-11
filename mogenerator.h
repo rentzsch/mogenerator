@@ -55,7 +55,7 @@
 
 @interface MOGeneratorApp : NSObject <DDCliApplicationDelegate> {
 	NSString				*origModelBasePath;
-	NSString				*tempMOMPath;
+	NSString				*tempGeneratedMomFilePath;
 	NSManagedObjectModel	*model;
 	NSString				*configuration;
 	NSString				*baseClass;
