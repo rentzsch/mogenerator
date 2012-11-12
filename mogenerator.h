@@ -1,9 +1,9 @@
 /*******************************************************************************
-	mogenerator.h - <http://github.com/rentzsch/mogenerator>
-		Copyright (c) 2006-2012 Jonathan 'Wolf' Rentzsch: <http://rentzsch.com>
-		Some rights reserved: <http://opensource.org/licenses/mit-license.php>
+    mogenerator.h - <http://github.com/rentzsch/mogenerator>
+        Copyright (c) 2006-2012 Jonathan 'Wolf' Rentzsch: <http://rentzsch.com>
+        Some rights reserved: <http://opensource.org/licenses/mit-license.php>
 
-	***************************************************************************/
+    ***************************************************************************/
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
@@ -17,7 +17,7 @@
 #import "DDCommandLineInterface.h"
 
 @interface NSManagedObjectModel (entitiesWithACustomSubclassVerbose)
-- (NSArray*)entitiesWithACustomSubclassInConfiguration:(NSString *)configuration_ verbose:(BOOL)verbose_;
+- (NSArray*)entitiesWithACustomSubclassInConfiguration:(NSString*)configuration_ verbose:(BOOL)verbose_;
 @end
 
 @interface NSEntityDescription (customBaseClass)
@@ -54,24 +54,24 @@
 @end
 
 @interface MOGeneratorApp : NSObject <DDCliApplicationDelegate> {
-	NSString				*origModelBasePath;
-	NSString				*tempGeneratedMomFilePath;
-	NSManagedObjectModel	*model;
-	NSString				*configuration;
-	NSString				*baseClass;
-	NSString				*baseClassImport;
-	NSString				*baseClassForce;
-	NSString				*includem;
-	NSString				*includeh;
-	NSString				*templatePath;
-	NSString				*outputDir;
-	NSString				*machineDir;
-	NSString				*humanDir;
-	NSString				*templateGroup;
-	BOOL					_help;
-	BOOL					_version;
-	BOOL					_listSourceFiles;
-    BOOL					_orphaned;
-    NSMutableDictionary     *templateVar;
+    NSString              *origModelBasePath;
+    NSString              *tempGeneratedMomFilePath;
+    NSManagedObjectModel  *model;
+    NSString              *configuration;
+    NSString              *baseClass;
+    NSString              *baseClassImport;
+    NSString              *baseClassForce;
+    NSString              *includem;
+    NSString              *includeh;
+    NSString              *templatePath;
+    NSString              *outputDir;
+    NSString              *machineDir;
+    NSString              *humanDir;
+    NSString              *templateGroup;
+    BOOL                  _help;
+    BOOL                  _version;
+    BOOL                  _listSourceFiles;
+    BOOL                  _orphaned;
+    NSMutableDictionary   *templateVar;
 }
 @end
