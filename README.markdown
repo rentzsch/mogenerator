@@ -20,6 +20,38 @@ Xmo'd works by noticing when your `*.xcdatamodel` is saved. If the model file's 
 
 ## Version History
 
+### v1.27: Mon Nov 12 2012 [download](http://github.com/downloads/rentzsch/mogenerator/mogenerator-1.27.dmg)
+
+* [NEW] You can now pass .xcdatamodeld paths to mogenerator. mogenerator will look inside the directory, read its hidden `.xccurrentversion` file and use the "current" .xcdatamodel file. ([Alexander Zats](https://github.com/rentzsch/mogenerator/pull/102))
+
+* [NEW] Replaced mogenerator's previous testing system (the test mule) with a new Rakefile-based system that eases building & testing from the current source tree and tests both MRC and ARC. ([rentzsch](https://github.com/rentzsch/mogenerator/blob/master/test/Test%20README.markdown))
+
+* [NEW] Property declarations generated from attributes can now be qualified as readonly by adding a `mogenerator.readonly` to an attribute's userinfo. ([crispinb](https://github.com/rentzsch/mogenerator/pull/111))
+
+* [NEW] `--configuration` option that limits generation to the specified configuration. ([Sixten Otto](https://github.com/rentzsch/mogenerator/pull/104))
+
+* [CHANGE] Optimized `keyPathsForValuesAffectingValueForKey:` generated code (returns after first match). ([Sean M](https://github.com/rentzsch/mogenerator/issues/98))
+
+* [CHANGE] Add default private class extension to human source template. ([Jonas Schnelli](https://github.com/rentzsch/mogenerator/pull/95))
+
+* [FIX] Align generated code's pointer asterisks more consistently. ([Tony Arnold](https://github.com/rentzsch/mogenerator/pull/103))
+
+* [FIX] Missing import when using mogenerator.customBaseClass entity userinfo key. ([Thomas Guthrie](https://github.com/rentzsch/mogenerator/pull/109))
+
+* [FIX] Handle case in generated fetch request wrapper machine code when predicate variables are repeated. ([Sergei Winitzki](https://github.com/rentzsch/mogenerator/pull/125))
+
+* [FIX] Explicitly set mogenerator project's deployment target to 10.6 to avoid segfaulting on 10.8 for some reason. [issue 121](https://github.com/rentzsch/mogenerator/issues/121) (reported by Sixten Otto, diagnosed by Florian Bürger)
+
+* [FIX] Cast to unsigned in machine source to avoid clang format string warning. ([rentzsch](https://github.com/rentzsch/mogenerator/commit/82dca52d3fa8082163931141b4e8257f8be8191c))
+
+* [FIX] Don't attempt to report errors through -[NSApp reportError:] in generated machine source unless targeting AppKit. ([rentzsch](https://github.com/rentzsch/mogenerator/commit/0f4d8295e98832f5acdab8d24d3193a1141839a8))
+
+* [WORKAROUND] Recent versions of Xcode use an empty string to mark entities that do not have a custom subclass. ([Matthias Bauch](https://github.com/rentzsch/mogenerator/pull/132))
+
+* [CHANGE] make_installer.command: assume PackageMaker now lives in /Applications/Utilities. ([rentzsch](https://github.com/rentzsch/mogenerator/commit/aa4d3d5ba274985bd0a9f636efb0c5c82ce33381))
+
+
+
 ### v1.26: Thu Apr 12 2012 [download](http://github.com/downloads/rentzsch/mogenerator/mogenerator-1.26.dmg)
 
 * [FIX] Missing space in transformable attribute codegen. [issue 89](https://github.com/rentzsch/mogenerator/issues/89) ([Daniel Tull](https://github.com/rentzsch/mogenerator/issues/89), [Kris Markel](https://github.com/rentzsch/mogenerator/pull/99), [Whitney Young](https://github.com/rentzsch/mogenerator/pull/101))
