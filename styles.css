@@ -58,9 +58,7 @@ dd p {
 }
 #actions > div {
     font-size: 80%;
-    font-weight: bold;
     text-align: center;
-    width: 18em;
     margin-left: 180px;
     display: inline;
     float: left;
@@ -77,6 +75,7 @@ dd p {
 
 #actions .homebrew {
     margin-top: 1.5em;
+    font-weight: normal;
 }
 #actions .homebrew a {
     color: #6c8aab;
