@@ -30,6 +30,8 @@ Xmo'd works by noticing when your `*.xcdatamodel` is saved. If the model file's 
 
 * [NEW] `--configuration` option that limits generation to the specified configuration. ([Sixten Otto](https://github.com/rentzsch/mogenerator/pull/104))
 
+* [NEW] `--base-class-import` option for fine-grained control of base class import statements. ([David Aspinall](https://github.com/rentzsch/mogenerator/pull/135))
+
 * [CHANGE] Optimized `keyPathsForValuesAffectingValueForKey:` generated code (returns after first match). ([Sean M](https://github.com/rentzsch/mogenerator/issues/98))
 
 * [CHANGE] Add default private class extension to human source template. ([Jonas Schnelli](https://github.com/rentzsch/mogenerator/pull/95))
