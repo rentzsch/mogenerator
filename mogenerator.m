@@ -610,6 +610,16 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
                 momOrXCDataModelFilePath = [momOrXCDataModelFilePath stringByAppendingPathComponent:currentModelName];
             }
         }
+        else {
+            // Freshly created models with only one version do NOT have a .xccurrentversion file, but only have one model
+            // in them.  Use that model.
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self endswith %@", @".xcdatamodel"];
+            NSArray *contents = [[fm contentsOfDirectoryAtPath:momOrXCDataModelFilePath error:nil]
+                                   filteredArrayUsingPredicate:predicate];
+            if (contents.count == 1) {
+                momOrXCDataModelFilePath = [momOrXCDataModelFilePath stringByAppendingPathComponent:[contents lastObject]];
+            }
+        }
     }
     
     NSString *momFilePath = nil;
