@@ -452,7 +452,7 @@ static MiscMergeEngine* engineWithTemplateDesc(MogeneratorTemplateDesc *template
 - (id)init {
     self = [super init];
     if (self) {
-        templateVar = [[NSMutableDictionary alloc] init];
+        templateVar = [[NSMutableDictionary alloc] initWithObjectsAndKeys:@YES, @"arc", nil];
     }
     return self;
 }
