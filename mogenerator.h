@@ -29,6 +29,7 @@
 @end
 
 @interface NSAttributeDescription (typing)
+- (BOOL)generateOnlyScalarAccessor;
 - (BOOL)hasScalarAttributeType;
 - (NSString*)scalarAttributeType;
 - (NSString*)scalarAccessorMethodName;
