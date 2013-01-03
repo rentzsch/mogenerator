@@ -258,6 +258,13 @@ NSString  *gCustomBaseClassForced;
 @end
 
 @implementation NSAttributeDescription (typing)
+- (BOOL)generateOnlyScalarAccessor {
+    NSString *readonlyUserinfoValue = [[self userInfo] objectForKey:@"mogenerator.scalarOnly"];
+    if (readonlyUserinfoValue != nil) {
+        return YES;
+    }
+    return NO;
+}
 - (BOOL)hasScalarAttributeType {
     switch ([self attributeType]) {
         case NSInteger16AttributeType:
@@ -452,7 +459,7 @@ static MiscMergeEngine* engineWithTemplateDesc(MogeneratorTemplateDesc *template
 - (id)init {
     self = [super init];
     if (self) {
-        templateVar = [[NSMutableDictionary alloc] init];
+        templateVar = [[NSMutableDictionary alloc] initWithObjectsAndKeys:@YES, @"arc", nil];
     }
     return self;
 }

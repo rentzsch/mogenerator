@@ -31,6 +31,13 @@ extern const struct <$managedObjectClassName$>FetchedProperties {<$foreach Fetch
 
 <$foreach Attribute noninheritedAttributes do$>
 <$if Attribute.hasDefinedAttributeType$>
+<$if Attribute.generateOnlyScalarAccessor$>
+<$if Attribute.hasScalarAttributeType$>
+@property <$Attribute.scalarAttributeType$> <$Attribute.name$>;
+- (<$Attribute.scalarAttributeType$>)<$Attribute.name$>;
+- (void)set<$Attribute.name.initialCapitalString$>:(<$Attribute.scalarAttributeType$>)value_;
+<$endif$>
+<$else$>
 <$if TemplateVar.arc$>
 <$if Attribute.isReadonly$>
 @property (nonatomic, strong, readonly) <$Attribute.objectAttributeType$> <$Attribute.name$>;
@@ -43,13 +50,14 @@ extern const struct <$managedObjectClassName$>FetchedProperties {<$foreach Fetch
 <$else$>
 @property (nonatomic, retain) <$Attribute.objectAttributeType$> <$Attribute.name$>;
 <$endif$>
-<$endif$>
+<$endif$>		
 <$if Attribute.hasScalarAttributeType$>
 @property <$Attribute.scalarAttributeType$> <$Attribute.name$>Value;
 - (<$Attribute.scalarAttributeType$>)<$Attribute.name$>Value;
 - (void)set<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_;
 <$endif$>
 //- (BOOL)validate<$Attribute.name.initialCapitalString$>:(id*)value_ error:(NSError**)error_;
+<$endif$>
 <$endif$>
 <$endforeach do$>
 <$foreach Relationship noninheritedRelationships do$>
