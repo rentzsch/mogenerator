@@ -41,26 +41,16 @@ const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassNam
 + (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 <$foreach Attribute noninheritedAttributes do$>
-		<$if Attribute.hasDefinedAttributeType$>
-			<$if Attribute.generateOnlyScalarAccessor$>
-				<$if Attribute.hasScalarAttributeType$>
-					if ([key isEqualToString:@"<$Attribute.name$>"]) {
-						NSSet *affectingKey = [NSSet setWithObject:@"<$Attribute.name$>"];
-						keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
-						return keyPaths;
-					}
-				<$endif$>
-			<$else$>
-				<$if Attribute.hasScalarAttributeType$>
-					if ([key isEqualToString:@"<$Attribute.name$>Value"]) {
-						NSSet *affectingKey = [NSSet setWithObject:@"<$Attribute.name$>"];
-						keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
-						return keyPaths;
-					}
-				<$endif$>
-			<$endif$>
-		<$endif$>
-	<$endforeach do$>
+	<$if Attribute.hasDefinedAttributeType$><$if Attribute.generateOnlyScalarAccessor$><$if Attribute.hasScalarAttributeType$>if ([key isEqualToString:@"<$Attribute.name$>"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"<$Attribute.name$>"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}<$endif$><$else$><$if Attribute.hasScalarAttributeType$>
+	if ([key isEqualToString:@"<$Attribute.name$>Value"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"<$Attribute.name$>"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}<$endif$><$endif$><$endif$><$endforeach do$>
 
 	return keyPaths;
 }
