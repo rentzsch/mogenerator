@@ -79,6 +79,14 @@ NSString  *gCustomBaseClassForced;
 - (NSString*)baseClassImport {
     return gCustomBaseClassImport;
 }
+- (BOOL)hasSuperentity {
+    NSEntityDescription *superentity = [self superentity];
+    if (superentity) {
+        return YES;
+    }
+    return NO;
+}
+
 - (BOOL)hasCustomSuperentity {
     NSString *forcedBaseClass = [self forcedCustomBaseClass];
     if (!forcedBaseClass) {
