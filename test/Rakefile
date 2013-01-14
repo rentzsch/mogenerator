@@ -5,31 +5,42 @@ def run_or_die(cmd)
   result
 end
 
+puts "*** Clean-building mogenerator"
 build_settings = run_or_die 'xcodebuild -project ../mogenerator.xcodeproj -configuration Debug -showBuildSettings'
 built_products_dir = build_settings.lines.select{|line|line[/\sBUILT_PRODUCTS_DIR\s/]}[0].strip.sub('BUILT_PRODUCTS_DIR = ','')
 run_or_die 'xcodebuild -project ../mogenerator.xcodeproj -scheme mogenerator clean' # need this to pick up template changes
 run_or_die 'xcodebuild -project ../mogenerator.xcodeproj -scheme mogenerator'
 mogenPath = "#{built_products_dir}/mogenerator"
 
-def gen_and_compile(mogenPath, extra_mogen_args, extra_gcc_args)
-  run_or_die 'rm -rf MOs testbin test.mom'
+def gen_and_compile(desc, mogenPath, extra_mogen_args, extra_gcc_args)
+  puts "*** Testing #{desc}"
   ENV['MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS'] = '1'
   run_or_die "#{mogenPath} --model test.xcdatamodel --output MOs --baseClass MyBaseClass #{extra_mogen_args}"
   run_or_die 'cp HumanMO.h HumanMO.m MOs'
   run_or_die "clang -o testbin test.m MyBaseClass.m MOs/*.m -I#{Dir.pwd} -framework Foundation -framework Cocoa -framework CoreData #{extra_gcc_args}"
   run_or_die "xcrun momc -MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS test.xcdatamodel #{Dir.pwd}/test.mom"
   puts run_or_die './testbin'
+end
+
+desc 'Generate, Compile and Run MRC Code'
+task :mrc do
+  gen_and_compile('MRC', mogenPath, '', '')
+end
+
+desc 'Generate, Compile and Run ARC Code'
+task :arc do
+  gen_and_compile('ARC', mogenPath, '--template-var arc=true', '-fobjc-arc')
+end
+
+desc 'Clean output'
+task :clean do
   run_or_die 'rm -rf MOs testbin test.mom'
 end
 
-desc 'Generate and Attempt to Compile MRC Code'
-task :gen_and_compile_mrc do
-  gen_and_compile(mogenPath, '', '')
+task :default do
+  Rake::Task[:clean].execute
+  Rake::Task[:mrc].execute
+  Rake::Task[:clean].execute
+  Rake::Task[:arc].execute
+  Rake::Task[:clean].execute
 end
-
-desc 'Generate and Attempt to Compile ARC Code'
-task :gen_and_compile_arc do
-  gen_and_compile(mogenPath, '--template-var arc=true', '-fobjc-arc')
-end
-
-task :default => [:gen_and_compile_mrc, :gen_and_compile_arc]
