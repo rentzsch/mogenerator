@@ -128,6 +128,18 @@ NSString  *gCustomBaseClassForced;
     }
 }
 /** @TypeInfo NSAttributeDescription */
+- (NSArray*)noninheritedAttributesSansType {
+    NSArray *attributeDescriptions = [self noninheritedAttributes];
+    NSMutableArray *filteredAttributeDescriptions = [NSMutableArray arrayWithCapacity:[attributeDescriptions count]];
+    
+    nsenumerate(attributeDescriptions, NSAttributeDescription, attributeDescription) {
+        if (![[attributeDescription name] isEqualToString:@"type"]) {
+            [filteredAttributeDescriptions addObject:attributeDescription];
+        }
+    }
+    return filteredAttributeDescriptions;
+}
+/** @TypeInfo NSAttributeDescription */
 - (NSArray*)noninheritedRelationships {
     NSArray *sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
     NSEntityDescription *superentity = [self superentity];

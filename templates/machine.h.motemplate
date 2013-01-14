@@ -103,7 +103,7 @@ extern const struct <$managedObjectClassName$>FetchedProperties {<$foreach Fetch
 <$endif$><$endforeach do$>
 
 @interface _<$managedObjectClassName$> (CoreDataGeneratedPrimitiveAccessors)
-<$foreach Attribute noninheritedAttributes do$>
+<$foreach Attribute noninheritedAttributesSansType do$>
 <$if Attribute.hasDefinedAttributeType$>
 - (<$Attribute.objectAttributeType$>)primitive<$Attribute.name.initialCapitalString$>;
 - (void)setPrimitive<$Attribute.name.initialCapitalString$>:(<$Attribute.objectAttributeType$>)value;
