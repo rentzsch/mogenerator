@@ -1,9 +1,7 @@
-/*******************************************************************************
-    mogenerator.m - <http://github.com/rentzsch/mogenerator>
-        Copyright (c) 2006-2012 Jonathan 'Wolf' Rentzsch: <http://rentzsch.com>
-        Some rights reserved: <http://opensource.org/licenses/mit-license.php>
-
-    ***************************************************************************/
+// mogenerator.m
+//   Copyright (c) 2006-2013 Jonathan 'Wolf' Rentzsch: http://rentzsch.com
+//   Some rights reserved: http://opensource.org/licenses/mit
+//   http://github.com/rentzsch/mogenerator
 
 #import "mogenerator.h"
 #import "RegexKitLite.h"
