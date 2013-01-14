@@ -186,9 +186,14 @@ NSString  *gCustomBaseClassForced;
     
     NSEntityDescription *entity = self;
     nsenumerate(components, NSString, key) {
-        NSRelationshipDescription *relationship = [[entity relationshipsByName] objectForKey:key];
-        assert(relationship);
-        entity = [relationship destinationEntity];
+        id property = [[entity propertiesByName] objectForKey:key];
+        if ([property isKindOfClass:[NSAttributeDescription class]]) {
+            NSString *result = [property objectAttributeType];
+            return [result substringToIndex:[result length] -1];
+        } else if ([property isKindOfClass:[NSRelationshipDescription class]]) {
+            entity = [property destinationEntity];
+        }
+        assert(property);
     }
     
     return [entity managedObjectClassName];
