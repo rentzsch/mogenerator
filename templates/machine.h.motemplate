@@ -2,7 +2,8 @@
 // Make changes to <$managedObjectClassName$>.h instead.
 
 #import <CoreData/CoreData.h>
-<$if hasCustomSuperentity$>#import <$if hasCustomBaseCaseImport$><$baseClassImport$><$else$>"<$customSuperentity$>.h"<$endif$><$endif$>
+<$if hasCustomSuperentity$><$if hasSuperentity$>#import "<$customSuperentity$>.h"
+<$else$><$if hasCustomBaseCaseImport$>#import <$baseClassImport$><$else$>#import "<$customSuperentity$>.h"<$endif$><$endif$><$endif$>
 
 extern const struct <$managedObjectClassName$>Attributes {<$foreach Attribute noninheritedAttributes do$>
 	<$if TemplateVar.arc$>__unsafe_unretained<$endif$> NSString *<$Attribute.name$>;<$endforeach do$>
