@@ -10,7 +10,10 @@ If you're contributing to mogenerator, please ensure tests pass prior to issuing
 
 	$ cd mogenerator/test
 	$ rake
+	*** Clean-building mogenerator
+	*** Testing MRC
 	success
+	*** Testing ARC
 	success
 
 `test/Rakefile` does the hard work of building mogenerator from source (via `xcodebuild`) and exercising it against the test.xcmodeld data model. It ensures:
@@ -22,7 +25,20 @@ If you're contributing to mogenerator, please ensure tests pass prior to issuing
 5. Generated source files are compilable.
 6. A small but real program can use the generated classes to create managed objects, modify their attributes, hook up relationships and save them to an in-memory store.
 
-It does this for both MRC and ARC modes (hence the double `success` in the output).
+It does this for both MRC and ARC modes.
+
+*Note:* if you encounter an error like this:
+
+	$ rake
+	*** Clean-building mogenerator
+	xcodebuild: error: The project 'mogenerator' does not contain a scheme named 'mogenerator'.
+	rake aborted!
+	ERROR: xcodebuild -project ../mogenerator.xcodeproj -scheme mogenerator clean failed
+	/Users/wolf/Downloads/mogenerator/test/Rakefile:4:in `run_or_die'
+	/Users/wolf/Downloads/mogenerator/test/Rakefile:11:in `<top (required)>'
+	(See full trace by running task with --trace)
+
+Try opening mogenerator.xcodeproj in Xcode, closing the project and try again. That should "fix" it. *sigh*
 
 Points of Highlight
 -------------------
