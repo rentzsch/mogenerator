@@ -93,14 +93,14 @@ extern const struct <$managedObjectClassName$>FetchedProperties {<$foreach Fetch
 <$endif$>
 @end
 
-@interface _<$managedObjectClassName$> (CoreDataGeneratedAccessors)
 <$foreach Relationship noninheritedRelationships do$><$if Relationship.isToMany$>
+@interface _<$managedObjectClassName$> (<$Relationship.name.initialCapitalString$>CoreDataGeneratedAccessors)
 - (void)add<$Relationship.name.initialCapitalString$>:(<$Relationship.immutableCollectionClassName$>*)value_;
 - (void)remove<$Relationship.name.initialCapitalString$>:(<$Relationship.immutableCollectionClassName$>*)value_;
 - (void)add<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_;
 - (void)remove<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_;
-<$endif$><$endforeach do$>
 @end
+<$endif$><$endforeach do$>
 
 @interface _<$managedObjectClassName$> (CoreDataGeneratedPrimitiveAccessors)
 <$foreach Attribute noninheritedAttributes do$>
