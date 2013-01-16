@@ -31,6 +31,7 @@ NSString	*gCustomBaseClassForced;
 @end
 
 @interface NSEntityDescription (userInfoAdditions)
+- (BOOL)hasUserInfoKeys;
 - (NSDictionary *)userInfoByKeys;
 @end
 
