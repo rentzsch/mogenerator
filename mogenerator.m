@@ -35,6 +35,10 @@ NSString	*gCustomBaseClassForced;
 @end
 
 @implementation NSEntityDescription (userInfoAdditions)
+- (BOOL)hasUserInfoKeys {
+	return ([self.userInfo count] > 0);
+}
+
 - (NSDictionary *)userInfoByKeys
 {
 	NSMutableDictionary *userInfoByKeys = [NSMutableDictionary dictionary];

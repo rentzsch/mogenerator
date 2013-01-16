@@ -16,9 +16,11 @@ extern const struct <$managedObjectClassName$>FetchedProperties {<$foreach Fetch
 	<$if TemplateVar.arc$>__unsafe_unretained<$endif$> NSString *<$FetchedProperty.name$>;<$endforeach do$>
 } <$managedObjectClassName$>FetchedProperties;
 
+<$if hasUserInfoKeys$>
 extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userInfoKeyValues do$>
 	<$if TemplateVar.arc$>__unsafe_unretained<$endif$> NSString *<$UserInfo.key$>;<$endforeach do$>
 } <$managedObjectClassName$>UserInfo;
+<$endif$>
 
 <$foreach Relationship noninheritedRelationships do$>@class <$Relationship.destinationEntity.managedObjectClassName$>;
 <$endforeach do$>

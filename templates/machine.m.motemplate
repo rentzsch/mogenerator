@@ -15,9 +15,11 @@ const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassNam
 	.<$FetchedProperty.name$> = @"<$FetchedProperty.name$>",<$endforeach do$>
 };
 
+<$if hasUserInfoKeys$>
 const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserInfo = {<$foreach UserInfo userInfoKeyValues do$>
 	.<$UserInfo.key$> = @"<$UserInfo.value$>",<$endforeach do$>
 };
+<$endif$>
 
 @implementation <$managedObjectClassName$>ID
 @end
