@@ -382,6 +382,19 @@ NSString  *gCustomBaseClassForced;
     }
     return result;
 }
+- (NSArray*)objectAttributeTransformableProtocols {
+    if ([self hasAttributeTransformableProtocols]) {
+        NSString *protocolsString = [[self userInfo] objectForKey:@"attributeTransformableProtocols"];
+        NSCharacterSet *removeCharSet = [NSCharacterSet characterSetWithCharactersInString:@", "];
+        NSMutableArray *protocols = [NSMutableArray arrayWithArray:[protocolsString componentsSeparatedByCharactersInSet:removeCharSet]];
+        [protocols removeObject:@""];
+        return protocols;
+    }
+    return nil;
+}
+- (BOOL)hasAttributeTransformableProtocols {
+    return [self hasTransformableAttributeType] && [[self userInfo] objectForKey:@"attributeTransformableProtocols"];
+}
 - (NSString*)objectAttributeType {
     NSString *result = [self objectAttributeClassName];
     if ([result isEqualToString:@"Class"]) {
