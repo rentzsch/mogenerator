@@ -54,13 +54,13 @@ NSString  *gCustomBaseClassForced;
     nsenumerate (allEntities, NSEntityDescription, entity) {
         NSString *entityClassName = [entity managedObjectClassName];
         
-        if ([entityClassName isEqualToString:@"NSManagedObject"] || [entityClassName isEqualToString:@""] || [entityClassName isEqualToString:gCustomBaseClass]){
+        if ([entity hasCustomClass]){
+            [result addObject:entity];
+        } else {
             if (verbose_) {
                 ddprintf(@"skipping entity %@ (%@) because it doesn't use a custom subclass.\n", 
                          entity.name, entityClassName);
             }
-        } else {
-            [result addObject:entity];
         }
     }
     
@@ -77,6 +77,15 @@ NSString  *gCustomBaseClassForced;
 - (NSString*)baseClassImport {
     return gCustomBaseClassImport;
 }
+
+- (BOOL)hasCustomClass {
+    NSString *entityClassName = [self managedObjectClassName];
+    BOOL result = !([entityClassName isEqualToString:@"NSManagedObject"]
+        || [entityClassName isEqualToString:@""]
+        || [entityClassName isEqualToString:gCustomBaseClass]);
+    return result;
+}
+
 - (BOOL)hasSuperentity {
     NSEntityDescription *superentity = [self superentity];
     if (superentity) {
@@ -90,7 +99,7 @@ NSString  *gCustomBaseClassForced;
     if (!forcedBaseClass) {
         NSEntityDescription *superentity = [self superentity];
         if (superentity) {
-            return YES;
+            return [superentity hasCustomClass] ? YES : NO;
         } else {
             return gCustomBaseClass ? YES : NO;
         }
@@ -98,6 +107,7 @@ NSString  *gCustomBaseClassForced;
         return YES;
     }
 }
+
 - (NSString*)customSuperentity {
     NSString *forcedBaseClass = [self forcedCustomBaseClass];
     if (!forcedBaseClass) {

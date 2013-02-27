@@ -19,6 +19,7 @@
 @end
 
 @interface NSEntityDescription (customBaseClass)
+- (BOOL)hasCustomClass;
 - (BOOL)hasSuperentity;
 - (BOOL)hasCustomSuperentity;
 - (NSString*)customSuperentity;
