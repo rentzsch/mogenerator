@@ -966,13 +966,13 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
         [fm removeItemAtPath:tempGeneratedMomFilePath error:nil];
     }
     bool mfileGenerated = NO;
-    if (mfilePath && ![mfileContent isEqualToString:@""]) {
+    if (mfilePath && ![mfileContent isEqualToString:@""] && (![fm regularFileExistsAtPath:mfilePath] || ![[NSString stringWithContentsOfFile:mfilePath encoding:NSUTF8StringEncoding error:nil] isEqualToString:mfileContent])) {
         [mfileContent writeToFile:mfilePath atomically:NO encoding:NSUTF8StringEncoding error:nil];
         mfileGenerated = YES;
     }
 
     bool hfileGenerated = NO;
-    if (hfilePath && ![hfileContent isEqualToString:@""]) {
+    if (hfilePath && ![hfileContent isEqualToString:@""] && (![fm regularFileExistsAtPath:hfilePath] || ![[NSString stringWithContentsOfFile:hfilePath encoding:NSUTF8StringEncoding error:nil] isEqualToString:hfileContent])) {
         [hfileContent writeToFile:hfilePath atomically:NO encoding:NSUTF8StringEncoding error:nil];
         hfileGenerated = YES;
     }
