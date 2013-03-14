@@ -2,6 +2,7 @@
 #import "MyBaseClass.h"
 #import "MOs/ParentMO.h"
 #import "MOs/ChildMO.h"
+#import "TestProtocol.h"
 
 #if __has_feature(objc_arc)
     #define autorelease self
@@ -58,7 +59,10 @@ int main(int argc, char *argv[]) {
     ChildMO *lisa = [ChildMO insertInManagedObjectContext:moc];
     lisa.humanName = lisa.childName = @"lisa";
     [lisa setIvar:1.0];
-    
+
+    ParentMO *protocolMO = [ParentMO insertInManagedObjectContext:moc];
+    protocolMO.myTransformableWithProtocol = [TestProtocol new];
+
 #if 0
     /* Unforunately this section raises the following internal exception on 10.8.0/Xcode 4.5-DP4:
      2012-08-30 16:01:12.351 test[15090:707] *** Terminating app due to uncaught exception 'NSInvalidArgumentException', reason: '*** -[NSSet intersectsSet:]: set argument is not an NSSet'
