@@ -22,7 +22,7 @@ extern const struct <$managedObjectClassName$>FetchedProperties {<$foreach Fetch
 <$foreach Attribute noninheritedAttributes do$>
 <$if Attribute.hasTransformableAttributeType$>
 <$if Attribute.objectAttributeTransformableProtocols$>
-<$foreach Protocol Attribute.objectAttributeTransformableProtocols do$>@protocol <$Protocol$>
+<$foreach Protocol Attribute.objectAttributeTransformableProtocols do$>@protocol <$Protocol$>;
 <$endforeach do$>
 <$else$>@class <$Attribute.objectAttributeClassName$>;<$endif$><$endif$>
 <$endforeach do$>
