@@ -32,7 +32,7 @@ extern const struct <$managedObjectClassName$>FetchedProperties {<$foreach Fetch
 <$endforeach do$>
 <$else$>@class <$Attribute.objectAttributeClassName$>;<$endif$><$endif$>
 <$endforeach do$>
-@interface <$managedObjectClassName$>ID : NSManagedObjectID {}
+@interface <$managedObjectClassName$>ID : <$customSuperentity$>ID {}
 @end
 
 @interface _<$managedObjectClassName$> : <$customSuperentity$> {}
