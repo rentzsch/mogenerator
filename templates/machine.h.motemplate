@@ -5,17 +5,23 @@
 <$if hasCustomSuperentity$><$if hasSuperentity$>#import "<$customSuperentity$>.h"
 <$else$><$if hasCustomBaseCaseImport$>#import <$baseClassImport$><$else$>#import "<$customSuperentity$>.h"<$endif$><$endif$><$endif$>
 
+<$if noninheritedAttributes.@count > 0$>
 extern const struct <$managedObjectClassName$>Attributes {<$foreach Attribute noninheritedAttributes do$>
 	<$if TemplateVar.arc$>__unsafe_unretained<$endif$> NSString *<$Attribute.name$>;<$endforeach do$>
 } <$managedObjectClassName$>Attributes;
+<$endif$>
 
+<$if noninheritedRelationships.@count > 0$>
 extern const struct <$managedObjectClassName$>Relationships {<$foreach Relationship noninheritedRelationships do$>
 	<$if TemplateVar.arc$>__unsafe_unretained<$endif$> NSString *<$Relationship.name$>;<$endforeach do$>
 } <$managedObjectClassName$>Relationships;
+<$endif$>
 
+<$if noninheritedFetchedProperties.@count > 0$>
 extern const struct <$managedObjectClassName$>FetchedProperties {<$foreach FetchedProperty noninheritedFetchedProperties do$>
 	<$if TemplateVar.arc$>__unsafe_unretained<$endif$> NSString *<$FetchedProperty.name$>;<$endforeach do$>
 } <$managedObjectClassName$>FetchedProperties;
+<$endif$>
 
 <$foreach Relationship noninheritedRelationships do$>@class <$Relationship.destinationEntity.managedObjectClassName$>;
 <$endforeach do$>
