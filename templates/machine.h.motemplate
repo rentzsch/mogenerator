@@ -19,7 +19,12 @@ extern const struct <$managedObjectClassName$>FetchedProperties {<$foreach Fetch
 
 <$foreach Relationship noninheritedRelationships do$>@class <$Relationship.destinationEntity.managedObjectClassName$>;
 <$endforeach do$>
-<$foreach Attribute noninheritedAttributes do$><$if Attribute.hasTransformableAttributeType$>@class <$Attribute.objectAttributeClassName$>;<$endif$>
+<$foreach Attribute noninheritedAttributes do$>
+<$if Attribute.hasTransformableAttributeType$>
+<$if Attribute.objectAttributeTransformableProtocols$>
+<$foreach Protocol Attribute.objectAttributeTransformableProtocols do$>@protocol <$Protocol$>;
+<$endforeach do$>
+<$else$>@class <$Attribute.objectAttributeClassName$>;<$endif$><$endif$>
 <$endforeach do$>
 @interface <$managedObjectClassName$>ID : NSManagedObjectID {}
 @end

@@ -34,6 +34,8 @@
 - (NSString*)scalarAccessorMethodName;
 - (NSString*)scalarFactoryMethodName;
 - (BOOL)hasDefinedAttributeType;
+- (NSArray*)objectAttributeTransformableProtocols;
+- (BOOL)hasAttributeTransformableProtocols;
 - (NSString*)objectAttributeClassName;
 - (NSString*)objectAttributeType;
 - (BOOL)hasTransformableAttributeType;
