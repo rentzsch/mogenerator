@@ -52,10 +52,10 @@ extern const struct <$managedObjectClassName$>FetchedProperties {<$foreach Fetch
 <$endif$>
 <$if Attribute.hasScalarAttributeType$>
 <$if Attribute.isReadonly$>
-@property (readonly) <$Attribute.scalarAttributeType$> <$Attribute.name$>Value;
+@property (atomic, readonly) <$Attribute.scalarAttributeType$> <$Attribute.name$>Value;
 - (<$Attribute.scalarAttributeType$>)<$Attribute.name$>Value;
 <$else$>
-@property <$Attribute.scalarAttributeType$> <$Attribute.name$>Value;
+@property (atomic) <$Attribute.scalarAttributeType$> <$Attribute.name$>Value;
 - (<$Attribute.scalarAttributeType$>)<$Attribute.name$>Value;
 - (void)set<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_;
 <$endif$>
