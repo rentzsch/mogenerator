@@ -454,6 +454,16 @@ NSString  *gCustomBaseClassForced;
 - (BOOL)hasTransformableAttributeType {
     return ([self attributeType] == NSTransformableAttributeType);
 }
+- (NSString*)objectAttributeSetterSemantics
+{
+    NSString *result = nil;
+    result = [[self userInfo] objectForKey:@"attributeSetterSemantics"];
+    return result;
+}
+- (BOOL)hasAttributeSetterSemantics
+{
+    return [[self userInfo] objectForKey:@"attributeSetterSemantics"];
+}
 
 - (BOOL)isReadonly {
     NSString *readonlyUserinfoValue = [[self userInfo] objectForKey:@"mogenerator.readonly"];
