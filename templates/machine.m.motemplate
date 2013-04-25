@@ -76,7 +76,7 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 
 <$if ! Attribute.isReadonly$>
 - (void)set<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_ {
-	[self set<$Attribute.name.initialCapitalString$>:@(value_)];
+	[self set<$Attribute.name.initialCapitalString$>:<$if TemplateVar.nolit$>[NSNumber <$Attribute.scalarFactoryMethodName$>value_]<$else$>@(value_)<$endif$>];
 }
 <$endif$>
 
@@ -86,7 +86,7 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 }
 
 - (void)setPrimitive<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_ {
-	[self setPrimitive<$Attribute.name.initialCapitalString$>:@(value_)];
+	[self setPrimitive<$Attribute.name.initialCapitalString$>:<$if TemplateVar.nolit$>[NSNumber <$Attribute.scalarFactoryMethodName$>value_]<$else$>@(value_)<$endif$>];
 }
 <$endif$>
 <$endif$>
