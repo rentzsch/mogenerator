@@ -22,14 +22,24 @@ def gen_and_compile(desc, mogenPath, extra_mogen_args, extra_gcc_args)
   puts run_or_die './testbin'
 end
 
-desc 'Generate, Compile and Run MRC Code'
+desc 'Generate, Compile and Run MRC Code (with objc literals)'
 task :mrc do
-  gen_and_compile('MRC', mogenPath, '', '')
+  gen_and_compile('MRC (with objc literals)', mogenPath, '', '')
 end
 
-desc 'Generate, Compile and Run ARC Code'
+desc 'Generate, Compile and Run MRC Code (without objc literals)'
+task :mrc_noliterals do
+  gen_and_compile('MRC (without objc literals)', mogenPath, '--template-var nolit=true', '')
+end
+
+desc 'Generate, Compile and Run ARC Code (with objc literals)'
 task :arc do
-  gen_and_compile('ARC', mogenPath, '--template-var arc=true', '-fobjc-arc')
+  gen_and_compile('ARC (with objc literals)', mogenPath, '--template-var arc=true', '-fobjc-arc')
+end
+
+desc 'Generate, Compile and Run ARC Code (without objc literals)'
+task :arc_noliterals do
+  gen_and_compile('ARC (without objc literals)', mogenPath, '--template-var arc=true --template-var nolit=true', '-fobjc-arc')
 end
 
 desc 'Clean output'
@@ -39,8 +49,16 @@ end
 
 task :default do
   Rake::Task[:clean].execute
+  
   Rake::Task[:mrc].execute
   Rake::Task[:clean].execute
+  
+  Rake::Task[:mrc_noliterals].execute
+  Rake::Task[:clean].execute
+  
   Rake::Task[:arc].execute
+  Rake::Task[:clean].execute
+  
+  Rake::Task[:arc_noliterals].execute
   Rake::Task[:clean].execute
 end
