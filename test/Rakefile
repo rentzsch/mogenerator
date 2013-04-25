@@ -29,7 +29,7 @@ end
 
 desc 'Generate, Compile and Run MRC Code (without objc literals)'
 task :mrc_noliterals do
-  gen_and_compile('MRC (without objc literals)', mogenPath, '--template-var nolit=true', '')
+  gen_and_compile('MRC (without objc literals)', mogenPath, '--template-var noliterals=true', '')
 end
 
 desc 'Generate, Compile and Run ARC Code (with objc literals)'
@@ -39,7 +39,7 @@ end
 
 desc 'Generate, Compile and Run ARC Code (without objc literals)'
 task :arc_noliterals do
-  gen_and_compile('ARC (without objc literals)', mogenPath, '--template-var arc=true --template-var nolit=true', '-fobjc-arc')
+  gen_and_compile('ARC (without objc literals)', mogenPath, '--template-var arc=true --template-var noliterals=true', '-fobjc-arc')
 end
 
 desc 'Clean output'
