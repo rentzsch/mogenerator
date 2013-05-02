@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model name="untitled.xcdatamodel" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2061" systemVersion="12D78" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Child" representedClassName="ChildMO" parentEntity="Human" syncable="YES">
+        <attribute name="childName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="parent" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Parent" inverseName="children" inverseEntity="Parent" indexed="YES" syncable="YES"/>
+    </entity>
+    <entity name="ConcreteEntityWithCustomClass1" representedClassName="ConcreteEntityWithCustomClass1" parentEntity="EntitySansCustomClass2" syncable="YES">
+        <attribute name="dummy2" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+    </entity>
+    <entity name="ConcreteEntityWithCustomClass2" representedClassName="ConcreteEntityWithCustomClass2" parentEntity="EntitySansCustomClass2" syncable="YES">
+        <attribute name="dummy3" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+    </entity>
+    <entity name="EntitySansCustomClass" representedClassName="NSManagedObject" syncable="YES">
+        <attribute name="foo" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="EntitySansCustomClass2" representedClassName="NSManagedObject" syncable="YES">
+        <attribute name="dummy1" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+    </entity>
+    <entity name="EntityWithBaseClass" representedClassName="MyBaseClass" syncable="YES">
+        <attribute name="bar" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="Human" representedClassName="HumanMO" syncable="YES">
+        <attribute name="hairColor" optional="YES" transient="YES" syncable="YES"/>
+        <attribute name="hairColorStorage" optional="YES" transient="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="humanName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="meaninglessRelationship" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="EntitySansCustomClass" indexed="YES" syncable="YES"/>
+    </entity>
+    <entity name="Parent" representedClassName="ParentMO" parentEntity="Human" syncable="YES">
+        <attribute name="myBinaryData" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="myBoolean" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="myDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="myDecimal" optional="YES" attributeType="Decimal" syncable="YES"/>
+        <attribute name="myDouble" optional="YES" attributeType="Double" syncable="YES"/>
+        <attribute name="myFloat" optional="YES" attributeType="Float" syncable="YES"/>
+        <attribute name="myInt16" optional="YES" attributeType="Integer 16" syncable="YES"/>
+        <attribute name="myInt16Transient" optional="YES" transient="YES" attributeType="Integer 16" syncable="YES"/>
+        <attribute name="myInt32" optional="YES" attributeType="Integer 32" syncable="YES"/>
+        <attribute name="myInt64" optional="YES" attributeType="Integer 64" syncable="YES"/>
+        <attribute name="myString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="myTransformableSansClassName" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="myTransformableWithClassName" optional="YES" attributeType="Transformable" syncable="YES">
+            <userInfo>
+                <entry key="attributeValueClassName" value="NSColor"/>
+            </userInfo>
+        </attribute>
+        <attribute name="myTransformableWithProtocol" optional="YES" attributeType="Transformable" syncable="YES">
+            <userInfo>
+                <entry key="attributeTransformableProtocols" value="MyProtocol"/>
+                <entry key="attributeValueClassName" value="id&lt;MyProtocol>"/>
+            </userInfo>
+        </attribute>
+        <attribute name="parentName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="children" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Child" inverseName="parent" inverseEntity="Child" indexed="YES" syncable="YES"/>
+    </entity>
+    <fetchRequest name="allHumans" entity="Human"/>
+    <fetchRequest name="byHumanName" entity="Human" predicateString="humanName == $humanName"/>
+    <fetchRequest name="byParent" entity="Child" predicateString="parent == $parent"/>
+    <fetchRequest name="byParentName" entity="Child" predicateString="parent.parentName == $parentName"/>
+    <fetchRequest name="oneByHumanName" entity="Human" predicateString="humanName == $humanName"/>
+    <elements>
+        <element name="Parent" positionX="34" positionY="114" width="128" height="285"/>
+        <element name="EntitySansCustomClass" positionX="502" positionY="90" width="128" height="60"/>
+        <element name="EntitySansCustomClass2" positionX="295" positionY="-189" width="128" height="58"/>
+        <element name="EntityWithBaseClass" positionX="342" positionY="18" width="128" height="60"/>
+        <element name="Human" positionX="169" positionY="18" width="128" height="105"/>
+        <element name="ConcreteEntityWithCustomClass2" positionX="405" positionY="-99" width="128" height="58"/>
+        <element name="ConcreteEntityWithCustomClass1" positionX="225" positionY="-97" width="128" height="58"/>
+        <element name="Child" positionX="349" positionY="180" width="128" height="88"/>
+    </elements>
+</model>

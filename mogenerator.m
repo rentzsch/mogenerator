@@ -5,6 +5,7 @@
 
 #import "mogenerator.h"
 #import "RegexKitLite.h"
+#import "NSManagedObjectModel+momcom.h"
 
 static NSString * const kTemplateVar = @"TemplateVar";
 NSString  *gCustomBaseClass;
@@ -705,63 +706,74 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     if ([[momOrXCDataModelFilePath pathExtension] isEqualToString:@"xcdatamodel"]) {
         //  We've been handed a .xcdatamodel data model, transparently compile it into a .mom managed object model.
         
-        NSString *momcTool = nil;
-        {{
-            if (NO && [fm fileExistsAtPath:@"/usr/bin/xcrun"]) {
-                // Cool, we can just use Xcode 3.2.6/4.x's xcrun command to find and execute momc for us.
-                momcTool = @"/usr/bin/xcrun momc";
-            } else {
-                // Rats, don't have xcrun. Hunt around for momc in various places where various versions of Xcode stashed it.
-                NSString *xcodeSelectMomcPath = [NSString stringWithFormat:@"%@/usr/bin/momc", [self xcodeSelectPrintPath]];
-                
-                if ([fm fileExistsAtPath:xcodeSelectMomcPath]) {
-                    momcTool = [NSString stringWithFormat:@"\"%@\"", xcodeSelectMomcPath]; // Quote for safety.
-                } else if ([fm fileExistsAtPath:@"/Applications/Xcode.app/Contents/Developer/usr/bin/momc"]) {
-                    // Xcode 4.3 - Command Line Tools for Xcode
-                    momcTool = @"/Applications/Xcode.app/Contents/Developer/usr/bin/momc";
-                } else if ([fm fileExistsAtPath:@"/Developer/usr/bin/momc"]) {
-                    // Xcode 3.1.
-                    momcTool = @"/Developer/usr/bin/momc";
-                } else if ([fm fileExistsAtPath:@"/Library/Application Support/Apple/Developer Tools/Plug-ins/XDCoreDataModel.xdplugin/Contents/Resources/momc"]) {
-                    // Xcode 3.0.
-                    momcTool = @"\"/Library/Application Support/Apple/Developer Tools/Plug-ins/XDCoreDataModel.xdplugin/Contents/Resources/momc\"";
-                } else if ([fm fileExistsAtPath:@"/Developer/Library/Xcode/Plug-ins/XDCoreDataModel.xdplugin/Contents/Resources/momc"]) {
-                    // Xcode 2.4.
-                    momcTool = @"/Developer/Library/Xcode/Plug-ins/XDCoreDataModel.xdplugin/Contents/Resources/momc";
-                }
-                assert(momcTool && "momc not found");
+        NSString *contentsPath = [momOrXCDataModelFilePath stringByAppendingPathComponent:@"contents"];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:contentsPath]) {
+            // Cool, the model is in the Xcode 4.0+ format, we can compile it ourselves.
+            NSError *compileError = nil;
+            momFilePath = [NSManagedObjectModel compileModelAtPath:momOrXCDataModelFilePath inDirectory:NSTemporaryDirectory() error:&compileError];
+            if (compileError) {
+                NSLog(@"Error: %@", [compileError localizedDescription]);
             }
-        }}
-        
-        NSMutableString *momcOptions = [NSMutableString string];
-        {{
-            NSArray *supportedMomcOptions = [NSArray arrayWithObjects:
-                                             @"MOMC_NO_WARNINGS",
-                                             @"MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS",
-                                             @"MOMC_SUPPRESS_INVERSE_TRANSIENT_ERROR",
-                                             nil];
-            for (NSString *momcOption in supportedMomcOptions) {
-                if ([[[NSProcessInfo processInfo] environment] objectForKey:momcOption]) {
-                    [momcOptions appendFormat:@" -%@ ", momcOption];
+            assert(momFilePath);
+        } else {
+            NSString *momcTool = nil;
+            {{
+                if (NO && [fm fileExistsAtPath:@"/usr/bin/xcrun"]) {
+                    // Cool, we can just use Xcode 3.2.6/4.x's xcrun command to find and execute momc for us.
+                    momcTool = @"/usr/bin/xcrun momc";
+                } else {
+                    // Rats, don't have xcrun. Hunt around for momc in various places where various versions of Xcode stashed it.
+                    NSString *xcodeSelectMomcPath = [NSString stringWithFormat:@"%@/usr/bin/momc", [self xcodeSelectPrintPath]];
+                    
+                    if ([fm fileExistsAtPath:xcodeSelectMomcPath]) {
+                        momcTool = [NSString stringWithFormat:@"\"%@\"", xcodeSelectMomcPath]; // Quote for safety.
+                    } else if ([fm fileExistsAtPath:@"/Applications/Xcode.app/Contents/Developer/usr/bin/momc"]) {
+                        // Xcode 4.3 - Command Line Tools for Xcode
+                        momcTool = @"/Applications/Xcode.app/Contents/Developer/usr/bin/momc";
+                    } else if ([fm fileExistsAtPath:@"/Developer/usr/bin/momc"]) {
+                        // Xcode 3.1.
+                        momcTool = @"/Developer/usr/bin/momc";
+                    } else if ([fm fileExistsAtPath:@"/Library/Application Support/Apple/Developer Tools/Plug-ins/XDCoreDataModel.xdplugin/Contents/Resources/momc"]) {
+                        // Xcode 3.0.
+                        momcTool = @"\"/Library/Application Support/Apple/Developer Tools/Plug-ins/XDCoreDataModel.xdplugin/Contents/Resources/momc\"";
+                    } else if ([fm fileExistsAtPath:@"/Developer/Library/Xcode/Plug-ins/XDCoreDataModel.xdplugin/Contents/Resources/momc"]) {
+                        // Xcode 2.4.
+                        momcTool = @"/Developer/Library/Xcode/Plug-ins/XDCoreDataModel.xdplugin/Contents/Resources/momc";
+                    }
+                    assert(momcTool && "momc not found");
                 }
-            }
-        }}
-        
-        NSString *momcIncantation = nil;
-        {{
-            NSString *tempGeneratedMomFileName = [[[NSProcessInfo processInfo] globallyUniqueString] stringByAppendingPathExtension:@"mom"];
-            tempGeneratedMomFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:tempGeneratedMomFileName];
-            momcIncantation = [NSString stringWithFormat:@"%@ %@ \"%@\" \"%@\"",
-                               momcTool,
-                               momcOptions,
-                               momOrXCDataModelFilePath,
-                               tempGeneratedMomFilePath];
-        }}
-        
-        {{
-            system([momcIncantation UTF8String]); // Ignore system() result since momc sadly doesn't return any relevent error codes.
-            momFilePath = tempGeneratedMomFilePath;
-        }}
+            }}
+            
+            NSMutableString *momcOptions = [NSMutableString string];
+            {{
+                NSArray *supportedMomcOptions = [NSArray arrayWithObjects:
+                                                 @"MOMC_NO_WARNINGS",
+                                                 @"MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS",
+                                                 @"MOMC_SUPPRESS_INVERSE_TRANSIENT_ERROR",
+                                                 nil];
+                for (NSString *momcOption in supportedMomcOptions) {
+                    if ([[[NSProcessInfo processInfo] environment] objectForKey:momcOption]) {
+                        [momcOptions appendFormat:@" -%@ ", momcOption];
+                    }
+                }
+            }}
+            
+            NSString *momcIncantation = nil;
+            {{
+                NSString *tempGeneratedMomFileName = [[[NSProcessInfo processInfo] globallyUniqueString] stringByAppendingPathExtension:@"mom"];
+                tempGeneratedMomFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:tempGeneratedMomFileName];
+                momcIncantation = [NSString stringWithFormat:@"%@ %@ \"%@\" \"%@\"",
+                                   momcTool,
+                                   momcOptions,
+                                   momOrXCDataModelFilePath,
+                                   tempGeneratedMomFilePath];
+            }}
+            
+            {{
+                system([momcIncantation UTF8String]); // Ignore system() result since momc sadly doesn't return any relevent error codes.
+                momFilePath = tempGeneratedMomFilePath;
+            }}
+        }
     } else {
         momFilePath = momOrXCDataModelFilePath;
     }
