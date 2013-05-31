@@ -85,6 +85,7 @@ typedef struct
     int mCurrentOption;
     NSMutableArray * mUtf8Data;
     DDGetoptFunction mGetoptFunction;
+    NSString *mArgumentsFilename;
 }
 
 /**
@@ -175,6 +176,15 @@ typedef struct
  */
 - (NSArray *) parseOptionsWithArguments: (NSArray *) arguments
                                 command: (NSString *) command;
+
+/**
+ * If set, provides the name of a file, located in the current working
+ * directory, containing command-line arguments in a simple JSON array
+ *
+ * @param filename Name of the file to look for in the current working directory
+ */
+
+- (void)setArgumentsFilename:(NSString*)filename;
 
 @end
 
