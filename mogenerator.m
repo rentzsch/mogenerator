@@ -159,21 +159,6 @@ NSString  *gCustomBaseClassForced;
     }
 }
 /** @TypeInfo NSAttributeDescription */
-- (NSArray*)noninheritedAttributesSansType {
-    NSArray *attributeDescriptions = [self noninheritedAttributes];
-    NSMutableArray *filteredAttributeDescriptions = [NSMutableArray arrayWithCapacity:[attributeDescriptions count]];
-    
-    nsenumerate(attributeDescriptions, NSAttributeDescription, attributeDescription) {
-        if ([[attributeDescription name] isEqualToString:@"type"]) {
-            ddprintf(@"WARNING skipping 'type' attribute on %@ (%@) - see https://github.com/rentzsch/mogenerator/issues/74\n",
-                     self.name, self.managedObjectClassName);
-        } else {
-            [filteredAttributeDescriptions addObject:attributeDescription];
-        }
-    }
-    return filteredAttributeDescriptions;
-}
-/** @TypeInfo NSAttributeDescription */
 - (NSArray*)noninheritedRelationships {
     NSArray *sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
     NSEntityDescription *superentity = [self superentity];
