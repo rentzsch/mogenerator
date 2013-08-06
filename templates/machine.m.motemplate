@@ -231,6 +231,27 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 
 <$foreach Relationship noninheritedRelationships do$><$if Relationship.isToMany$><$if Relationship.jr_isOrdered$>
 @implementation _<$managedObjectClassName$> (<$Relationship.name.initialCapitalString$>CoreDataGeneratedAccessors)
+
+- (NSArray*)<$Relationship.name$>Array {
+    return [self.<$Relationship.name$>Set array];
+}
+
+- (void)insert<$Relationship.name.initialCapitalString$>Array:(NSArray*)value_ atIndexes:(NSIndexSet*)indexes_ {
+    [self.<$Relationship.name$>Set insertObjects:value_ atIndexes:indexes_];
+}
+
+- (void)remove<$Relationship.name.initialCapitalString$>ArrayAtIndexes:(NSIndexSet*)indexes_ {
+    [self.<$Relationship.name$>Set removeObjectsAtIndexes:indexes_];
+}
+
+- (void)insertObject:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_ in<$Relationship.name.initialCapitalString$>ArrayAtIndex:(NSUInteger)index_ {
+    [self.<$Relationship.name$>Set insertObject:value_ atIndex:index_];
+}
+
+- (void)removeObjectFrom<$Relationship.name.initialCapitalString$>ArrayAtIndex:(NSUInteger)index_ {
+    [self.<$Relationship.name$>Set removeObjectAtIndex:index_];
+}
+
 - (void)add<$Relationship.name.initialCapitalString$>:(<$Relationship.immutableCollectionClassName$>*)value_ {
 	[self.<$Relationship.name$>Set unionOrderedSet:value_];
 }
@@ -243,6 +264,7 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 - (void)remove<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_ {
 	[self.<$Relationship.name$>Set removeObject:value_];
 }
+
 @end
 <$endif$><$endif$><$endforeach do$>
 
