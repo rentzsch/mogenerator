@@ -34,7 +34,7 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	NSParameterAssert(moc_);
-	return [NSEntityDescription insertNewObjectForEntityForName:[self name] inManagedObjectContext:moc_];
+	return [NSEntityDescription insertNewObjectForEntityForName:[self entityName] inManagedObjectContext:moc_];
 }
 
 + (NSString*)entityName {
@@ -43,7 +43,7 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	NSParameterAssert(moc_);
-	return [NSEntityDescription entityForName:[self name] inManagedObjectContext:moc_];
+	return [NSEntityDescription entityForName:[self entityName] inManagedObjectContext:moc_];
 }
 
 - (<$managedObjectClassName$>ID*)objectID {
