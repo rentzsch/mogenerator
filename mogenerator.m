@@ -732,7 +732,23 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
                 } else if ([fm fileExistsAtPath:@"/Developer/Library/Xcode/Plug-ins/XDCoreDataModel.xdplugin/Contents/Resources/momc"]) {
                     // Xcode 2.4.
                     momcTool = @"/Developer/Library/Xcode/Plug-ins/XDCoreDataModel.xdplugin/Contents/Resources/momc";
+                } else {
+                    // Look for a Xcode Developer Preview (Xcode 4.3+)
+                    NSArray *applications = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/Applications" error:nil];
+                    
+                    for(NSString *applicationName in applications) {
+                    
+                        if([applicationName isMatchedByRegex:@"Xcode(\\S+)\\.app"]) {
+                            NSString *possibleMomcPath = [NSString stringWithFormat:@"/Applications/%@/Contents/Developer/usr/bin/momc", applicationName];
+                            
+                            if([fm fileExistsAtPath:possibleMomcPath]) {
+                                momcTool = possibleMomcPath;
+                                break;
+                            }
+                        }
+                    }
                 }
+                
                 assert(momcTool && "momc not found");
             }
         }}
