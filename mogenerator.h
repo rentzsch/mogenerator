@@ -46,6 +46,7 @@
 - (NSString*)mutableCollectionClassName;
 - (NSString*)immutableCollectionClassName;
 - (BOOL)jr_isOrdered;
+- (BOOL)isReadonly;
 @end
 @interface NSObject (JustHereToSuppressIsOrderedNotImplementedCompilerWarning)
 - (BOOL)isOrdered;

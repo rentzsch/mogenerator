@@ -78,16 +78,16 @@ extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userI
 <$foreach Relationship noninheritedRelationships do$>
 <$if Relationship.isToMany$>
 <$if TemplateVar.arc$>
-@property (nonatomic, strong) <$Relationship.immutableCollectionClassName$> *<$Relationship.name$>;
+@property (<$if Relationship.isReadonly$>readonly, <$endif$>nonatomic, strong) <$Relationship.immutableCollectionClassName$> *<$Relationship.name$>;
 <$else$>
-@property (nonatomic, retain) <$Relationship.immutableCollectionClassName$> *<$Relationship.name$>;
+@property (<$if Relationship.isReadonly$>readonly, <$endif$>nonatomic, retain) <$Relationship.immutableCollectionClassName$> *<$Relationship.name$>;
 <$endif$>
 - (<$Relationship.mutableCollectionClassName$>*)<$Relationship.name$>Set;
 <$else$>
 <$if TemplateVar.arc$>
-@property (nonatomic, strong) <$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>;
+@property (<$if Relationship.isReadonly$>readonly, <$endif$>nonatomic, strong) <$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>;
 <$else$>
-@property (nonatomic, retain) <$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>;
+@property (<$if Relationship.isReadonly$>readonly, <$endif$>nonatomic, retain) <$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>;
 <$endif$>
 //- (BOOL)validate<$Relationship.name.initialCapitalString$>:(id*)value_ error:(NSError**)error_;
 <$endif$>
