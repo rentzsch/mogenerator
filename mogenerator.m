@@ -342,6 +342,8 @@ NSString  *gCustomBaseClassForced;
     }
 }
 - (NSString*)scalarAttributeType {
+    NSString *customAttributeType = [[self userInfo] objectForKey: @"scalarAttributeType"];
+    if (customAttributeType != nil) return customAttributeType;
     switch ([self attributeType]) {
         case NSInteger16AttributeType:
             return @"int16_t";
