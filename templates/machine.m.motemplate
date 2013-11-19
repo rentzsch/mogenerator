@@ -243,6 +243,24 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 - (void)remove<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_ {
 	[self.<$Relationship.name$>Set removeObject:value_];
 }
+- (void)insertObject:(<$Relationship.immutableCollectionClassName$>*)value in<$Relationship.name.initialCapitalString$>AtIndex:(NSUInteger)idx {
+    [self.<$Relationship.name$>Set insertObject:value atIndex:idx];
+}
+- (void)removeObjectFrom<$Relationship.name.initialCapitalString$>AtIndex:(NSUInteger)idx {
+    [self.<$Relationship.name$>Set removeObjectAtIndex:idx];
+}
+- (void)insert<$Relationship.name.initialCapitalString$>:(NSArray *)value atIndexes:(NSIndexSet *)indexes {
+    [self.<$Relationship.name$>Set insertObjects:value atIndexes:indexes];
+}
+- (void)remove<$Relationship.name.initialCapitalString$>AtIndexes:(NSIndexSet *)indexes {
+    [self.<$Relationship.name$>Set removeObjectsAtIndexes:indexes];
+}
+- (void)replaceObjectIn<$Relationship.name.initialCapitalString$>AtIndex:(NSUInteger)idx withObject:(<$Relationship.immutableCollectionClassName$>*)value {
+    [self.<$Relationship.name$>Set replaceObjectAtIndex:idx withObject:value];
+}
+- (void)replace<$Relationship.name.initialCapitalString$>AtIndexes:(NSIndexSet *)indexes with<$Relationship.name.initialCapitalString$>:(NSArray *)value {
+    [self.<$Relationship.name$>Set replaceObjectsAtIndexes:indexes withObjects:value];
+}
 @end
 <$endif$><$endif$><$endforeach do$>
 
