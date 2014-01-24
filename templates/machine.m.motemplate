@@ -114,6 +114,26 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 <$endforeach do$>
 
 <$foreach FetchRequest prettyFetchRequests do$>
+#pragma mark - Fetch Request <$FetchRequest.name$>
+
++ (NSFetchRequest *)fetchRequestFor<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$> {
+	NSManagedObjectModel *model = [[moc_ persistentStoreCoordinator] managedObjectModel];
+	<$if FetchRequest.hasBindings$>
+	NSDictionary *substitutionVariables = [NSDictionary dictionaryWithObjectsAndKeys:
+														<$foreach Binding FetchRequest.bindings do2$>
+														<$Binding.name$>_, @"<$Binding.name$>",
+														<$endforeach do2$>
+														nil];
+	<$else$>
+	NSDictionary *substitutionVariables = [NSDictionary dictionary];
+	<$endif$>
+	NSFetchRequest *fetchRequest = [model fetchRequestFromTemplateWithName:@"<$FetchRequest.name$>"
+													 substitutionVariables:substitutionVariables];
+	NSAssert(fetchRequest, @"Can't find fetch request named \"<$FetchRequest.name$>\".");
+
+	return fetchRequest;
+}
+
 <$if FetchRequest.singleResult$>
 + (id)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>{
 	NSError *error = nil;
@@ -131,20 +151,7 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 	NSParameterAssert(moc_);
 	NSError *error = nil;
 
-	NSManagedObjectModel *model = [[moc_ persistentStoreCoordinator] managedObjectModel];
-	<$if FetchRequest.hasBindings$>
-	NSDictionary *substitutionVariables = [NSDictionary dictionaryWithObjectsAndKeys:
-														<$foreach Binding FetchRequest.bindings do2$>
-														<$Binding.name$>_, @"<$Binding.name$>",
-														<$endforeach do2$>
-														nil];
-	<$else$>
-	NSDictionary *substitutionVariables = [NSDictionary dictionary];
-	<$endif$>
-	NSFetchRequest *fetchRequest = [model fetchRequestFromTemplateWithName:@"<$FetchRequest.name$>"
-													 substitutionVariables:substitutionVariables];
-	NSAssert(fetchRequest, @"Can't find fetch request named \"<$FetchRequest.name$>\".");
-
+	NSFetchRequest *fetchRequest = [self fetchRequestFor<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>];
 	id result = nil;
 	NSArray *results = [moc_ executeFetchRequest:fetchRequest error:&error];
 
@@ -157,9 +164,9 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 				result = [results objectAtIndex:0];
 				break;
 			default:
-				NSLog(@"WARN fetch request <$FetchRequest.name$>: 0 or 1 objects expected, %lu found (substitutionVariables:%@, results:%@)",
+				NSLog(@"WARN fetch request <$FetchRequest.name$>: 0 or 1 objects expected, %lu found (predicate:%@, results:%@)",
 					(unsigned long)[results count],
-					substitutionVariables,
+					fetchRequest.predicate,
 					results);
 		}
 	}
@@ -184,25 +191,33 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 	NSParameterAssert(moc_);
 	NSError *error = nil;
 
-	NSManagedObjectModel *model = [[moc_ persistentStoreCoordinator] managedObjectModel];
-	<$if FetchRequest.hasBindings$>
-	NSDictionary *substitutionVariables = [NSDictionary dictionaryWithObjectsAndKeys:
-														<$foreach Binding FetchRequest.bindings do2$>
-														<$Binding.name$>_, @"<$Binding.name$>",
-														<$endforeach do2$>
-														nil];
-	<$else$>
-	NSDictionary *substitutionVariables = [NSDictionary dictionary];
-	<$endif$>
-	NSFetchRequest *fetchRequest = [model fetchRequestFromTemplateWithName:@"<$FetchRequest.name$>"
-													 substitutionVariables:substitutionVariables];
-	NSAssert(fetchRequest, @"Can't find fetch request named \"<$FetchRequest.name$>\".");
-
+	NSFetchRequest *fetchRequest = [self fetchRequestFor<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>];
 	NSArray *result = [moc_ executeFetchRequest:fetchRequest error:&error];
 	if (error_) *error_ = error;
 	return result;
 }
 <$endif$>
++ (NSUInteger)count<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>{
+	NSError *error = nil;
+	NSUInteger result = [self count<$FetchRequest.name.initialCapitalString$>:moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:<$Binding.name$>_ <$endforeach do2$>error:&error];
+	if (error) {
+#ifdef NSAppKitVersionNumber10_0
+		[NSApp presentError:error];
+#else
+		NSLog(@"error: %@", error);
+#endif
+	}
+	return result;
+}
++ (NSUInteger)count<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>error:(NSError**)error_ {
+	NSParameterAssert(moc_);
+	NSError *error = nil;
+
+	NSFetchRequest *fetchRequest = [self fetchRequestFor<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>];
+    NSUInteger result = [moc_ countForFetchRequest:fetchRequest error:&error];
+	if (error_) *error_ = error;
+	return result;
+}
 <$endforeach do$>
 <$if TemplateVar.frc$>
 #if TARGET_OS_IPHONE
