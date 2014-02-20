@@ -62,7 +62,7 @@ extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userI
 @property (nonatomic, retain) <$Attribute.objectAttributeType$> <$Attribute.name$>;
 <$endif$>
 <$endif$>
-<$if Attribute.hasScalarAttributeType$>
+<$if TemplateVar.scalarTypes$><$if Attribute.hasScalarAttributeType$>
 <$if Attribute.isReadonly$>
 @property (atomic, readonly) <$Attribute.scalarAttributeType$> <$Attribute.name$>Value;
 - (<$Attribute.scalarAttributeType$>)<$Attribute.name$>Value;
@@ -70,6 +70,7 @@ extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userI
 @property (atomic) <$Attribute.scalarAttributeType$> <$Attribute.name$>Value;
 - (<$Attribute.scalarAttributeType$>)<$Attribute.name$>Value;
 - (void)set<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_;
+<$endif$>
 <$endif$>
 <$endif$>
 //- (BOOL)validate<$Attribute.name.initialCapitalString$>:(id*)value_ error:(NSError**)error_;
@@ -129,9 +130,10 @@ extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userI
 <$if Attribute.hasDefinedAttributeType$>
 - (<$Attribute.objectAttributeType$>)primitive<$Attribute.name.initialCapitalString$>;
 - (void)setPrimitive<$Attribute.name.initialCapitalString$>:(<$Attribute.objectAttributeType$>)value;
-<$if Attribute.hasScalarAttributeType$>
+<$if TemplateVar.scalarTypes$><$if Attribute.hasScalarAttributeType$>
 - (<$Attribute.scalarAttributeType$>)primitive<$Attribute.name.initialCapitalString$>Value;
 - (void)setPrimitive<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_;
+<$endif$>
 <$endif$>
 <$endif$>
 <$endforeach do$>

@@ -50,6 +50,7 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 	return (<$managedObjectClassName$>ID*)[super objectID];
 }
 
+<$if TemplateVar.scalarTypes$>
 + (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 	<$foreach Attribute noninheritedAttributes do$><$if Attribute.hasDefinedAttributeType$><$if Attribute.hasScalarAttributeType$>
@@ -61,13 +62,13 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 
 	return keyPaths;
 }
-
+<$endif$>
 <$foreach Attribute noninheritedAttributes do$>
 <$if Attribute.hasDefinedAttributeType$>
 
 @dynamic <$Attribute.name$>;
 
-<$if Attribute.hasScalarAttributeType$>
+<$if TemplateVar.scalarTypes$><$if Attribute.hasScalarAttributeType$>
 
 - (<$Attribute.scalarAttributeType$>)<$Attribute.name$>Value {
 	NSNumber *result = [self <$Attribute.name$>];
@@ -88,6 +89,7 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 - (void)setPrimitive<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_ {
 	[self setPrimitive<$Attribute.name.initialCapitalString$>:<$if TemplateVar.noliterals$>[NSNumber <$Attribute.scalarFactoryMethodName$>value_]<$else$>@(value_)<$endif$>];
 }
+<$endif$>
 <$endif$>
 <$endif$>
 <$endforeach do$>
