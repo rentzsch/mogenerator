@@ -1,7 +1,7 @@
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
 // Make changes to <$managedObjectClassName$>.h instead.
 
-#import <CoreData/CoreData.h>
+<$if TemplateVar.modules$>@import CoreData;<$else$>#import <CoreData/CoreData.h><$endif$>
 <$if hasCustomSuperentity$><$if hasSuperentity$>#import "<$customSuperentity$>.h"
 <$else$><$if hasCustomBaseCaseImport$>#import <$baseClassImport$><$else$>#import "<$customSuperentity$>.h"<$endif$><$endif$><$endif$>
 
