@@ -38,7 +38,7 @@ extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userI
 <$endforeach do$>
 <$else$>@class <$Attribute.objectAttributeClassName$>;<$endif$><$endif$>
 <$endforeach do$>
-@interface <$managedObjectClassName$>ID : <$if hasSuperentity$><$customSuperentity$>ID<$else$>NSManagedObjectID<$endif$> {}
+@interface <$managedObjectClassName$>ID : <$customSuperentity$>ID {}
 @end
 
 @interface _<$managedObjectClassName$> : <$customSuperentity$> {}
