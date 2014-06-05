@@ -1,0 +1,6 @@
+@objc
+class <$managedObjectClassName$>: _<$managedObjectClassName$> {
+
+	// Custom logic goes here.
+
+}
