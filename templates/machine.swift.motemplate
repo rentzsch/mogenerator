@@ -30,6 +30,18 @@ enum <$managedObjectClassName$>UserInfo: String {<$foreach UserInfo userInfoKeyV
 @objc
 class _<$managedObjectClassName$>: <$customSuperentity$> {
 
+    /// pragma mark - Class methods
+    
+    class func entityName () -> String {
+        return "<$name$>"
+    }
+
+    <$if hasCustomSuperentity$>override <$endif$>class func entity(managedObjectContext: NSManagedObjectContext!) -> NSEntityDescription! {
+        return NSEntityDescription.entityForName(self.entityName(), inManagedObjectContext: managedObjectContext);
+    }
+
+    /// pragma mark - Life cycle methods
+
     init(entity: NSEntityDescription!, insertIntoManagedObjectContext context: NSManagedObjectContext!) {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
     }
@@ -39,10 +51,7 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
         self.init(entity: entity, insertIntoManagedObjectContext: managedObjectContext)
     }
 
-    <$if hasCustomSuperentity$>override <$endif$>class func entity(managedObjectContext: NSManagedObjectContext!) -> NSEntityDescription! {
-        return NSEntityDescription.entityForName("<$name$>", inManagedObjectContext: managedObjectContext);
-    }
-
+    /// pragma mark - Properties
 <$foreach Attribute noninheritedAttributes do$>
 <$if Attribute.hasDefinedAttributeType$>
 <$if Attribute.hasScalarAttributeType$>
@@ -66,6 +75,7 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
 <$endif$>
 <$endforeach do$>
 
+    /// pragma mark - Relationships
 <$foreach Relationship noninheritedRelationships do$>
 <$if Relationship.isToMany$>
     @NSManaged
