@@ -47,7 +47,7 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
     }
 
     convenience init(managedObjectContext: NSManagedObjectContext!) {
-        let entity = self.dynamicType.entity(managedObjectContext)
+        let entity = _<$managedObjectClassName$>.entity(managedObjectContext)
         self.init(entity: entity, insertIntoManagedObjectContext: managedObjectContext)
     }
 
