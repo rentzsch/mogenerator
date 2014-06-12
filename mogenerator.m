@@ -429,8 +429,8 @@ BOOL       gSwift;
     } else {
         result = [self attributeValueClassName];
     }
-    if ([result isEqualToString:@"NSString"]) {
-        result = gSwift ? @"String" : @"NSString";
+    if (gSwift && [result isEqualToString:@"NSString"]) {
+        result = @"String";
     }
     return result;
 }
