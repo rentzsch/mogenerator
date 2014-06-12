@@ -430,7 +430,7 @@ BOOL       gSwift;
         result = [self attributeValueClassName];
     }
     if ([result isEqualToString:@"NSString"]) {
-        result = @"String";
+        result = gSwift ? @"String" : @"NSString";
     }
     return result;
 }
