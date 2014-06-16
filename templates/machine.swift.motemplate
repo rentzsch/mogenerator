@@ -30,19 +30,28 @@ enum <$managedObjectClassName$>UserInfo: String {<$foreach UserInfo userInfoKeyV
 @objc
 class _<$managedObjectClassName$>: <$customSuperentity$> {
 
+    /// pragma mark - Class methods
+    
+    class func entityName () -> String {
+        return "<$name$>"
+    }
+
+    <$if hasCustomSuperentity$>override <$endif$>class func entity(managedObjectContext: NSManagedObjectContext!) -> NSEntityDescription! {
+        return NSEntityDescription.entityForName(self.entityName(), inManagedObjectContext: managedObjectContext);
+    }
+
+    /// pragma mark - Life cycle methods
+
     init(entity: NSEntityDescription!, insertIntoManagedObjectContext context: NSManagedObjectContext!) {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
     }
 
     convenience init(managedObjectContext: NSManagedObjectContext!) {
-        let entity = self.dynamicType.entity(managedObjectContext)
+        let entity = _<$managedObjectClassName$>.entity(managedObjectContext)
         self.init(entity: entity, insertIntoManagedObjectContext: managedObjectContext)
     }
 
-    <$if hasCustomSuperentity$>override <$endif$>class func entity(managedObjectContext: NSManagedObjectContext!) -> NSEntityDescription! {
-        return NSEntityDescription.entityForName("<$name$>", inManagedObjectContext: managedObjectContext);
-    }
-
+    /// pragma mark - Properties
 <$foreach Attribute noninheritedAttributes do$>
 <$if Attribute.hasDefinedAttributeType$>
 <$if Attribute.hasScalarAttributeType$>
@@ -66,6 +75,7 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
 <$endif$>
 <$endforeach do$>
 
+    /// pragma mark - Relationships
 <$foreach Relationship noninheritedRelationships do$>
 <$if Relationship.isToMany$>
     @NSManaged
@@ -163,11 +173,11 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
 extension _<$managedObjectClassName$> {
 
     func add<$Relationship.name.initialCapitalString$>(objects: <$Relationship.immutableCollectionClassName$>) {
-        self.<$Relationship.name$>Set().unionOrderedSet(objects)
+        self.<$Relationship.name$>Set().union<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set(objects)
     }
 
     func remove<$Relationship.name.initialCapitalString$>(objects: <$Relationship.immutableCollectionClassName$>) {
-        self.<$Relationship.name$>Set().minusOrderedSet(objects)
+        self.<$Relationship.name$>Set().minus<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set(objects)
     }
 
     func add<$Relationship.name.initialCapitalString$>Object(value: <$Relationship.destinationEntity.managedObjectClassName$>!) {
