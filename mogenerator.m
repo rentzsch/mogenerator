@@ -12,6 +12,9 @@ NSString  *gCustomBaseClassImport;
 NSString  *gCustomBaseClassForced;
 BOOL       gSwift;
 
+static NSString *const kAttributeValueScalarTypeKey = @"attributeValueScalarType";
+static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName";
+
 @interface NSEntityDescription (fetchedPropertiesAdditions)
 - (NSDictionary*)fetchedPropertiesByName;
 @end
@@ -130,6 +133,10 @@ BOOL       gSwift;
     }
 }
 
+- (BOOL)hasAdditionalHeaderFile {
+    return [[[self userInfo] allKeys] containsObject:kAdditionalHeaderFileNameKey];
+}
+
 - (NSString*)customSuperentity {
     NSString *forcedBaseClass = [self forcedCustomBaseClass];
     if (!forcedBaseClass) {
@@ -159,6 +166,11 @@ BOOL       gSwift;
         return [[[self attributesByName] allValues] sortedArrayUsingDescriptors:sortDescriptors];
     }
 }
+
+- (NSString*)additionalHeaderFileName {
+    return [[self userInfo] objectForKey:kAdditionalHeaderFileNameKey];
+}
+
 /** @TypeInfo NSAttributeDescription */
 - (NSArray*)noninheritedAttributesSansType {
     NSArray *attributeDescriptions = [self noninheritedAttributes];
@@ -347,13 +359,37 @@ BOOL       gSwift;
 - (NSString*)scalarAttributeType {
     switch ([self attributeType]) {
         case NSInteger16AttributeType:
-            return gSwift ? @"Int16" : @"int16_t";
+        {
+            NSString *attributeValueScalarType = [[self userInfo] objectForKey:kAttributeValueScalarTypeKey];
+            
+            if (attributeValueScalarType) {
+                return attributeValueScalarType;
+            } else {
+                return gSwift ? @"Int16" : @"int16_t";
+            }
+        }
             break;
         case NSInteger32AttributeType:
-            return gSwift ? @"Int32" : @"int32_t";
+        {
+            NSString *attributeValueScalarType = [[self userInfo] objectForKey:kAttributeValueScalarTypeKey];
+            
+            if (attributeValueScalarType) {
+                return attributeValueScalarType;
+            } else {
+                return gSwift ? @"Int32" : @"int32_t";
+            }
+        }
             break;
         case NSInteger64AttributeType:
-            return gSwift ? @"Int64" : @"int64_t";
+        {
+            NSString *attributeValueScalarType = [[self userInfo] objectForKey:kAttributeValueScalarTypeKey];
+            
+            if (attributeValueScalarType) {
+                return attributeValueScalarType;
+            } else {
+                return gSwift ? @"Int64" : @"int64_t";
+            }
+        }
             break;
         case NSDoubleAttributeType:
             return gSwift ? @"Double" : @"double";

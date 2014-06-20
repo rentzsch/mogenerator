@@ -22,8 +22,10 @@
 - (BOOL)hasCustomClass;
 - (BOOL)hasSuperentity;
 - (BOOL)hasCustomSuperentity;
+- (BOOL)hasAdditionalHeaderFile;
 - (NSString*)customSuperentity;
 - (NSString*)forcedCustomBaseClass;
+- (NSString*)additionalHeaderFileName;
 - (void)_processPredicate:(NSPredicate*)predicate_ bindings:(NSMutableArray*)bindings_;
 - (NSArray*)prettyFetchRequests;
 @end
