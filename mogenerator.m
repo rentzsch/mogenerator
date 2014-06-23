@@ -357,51 +357,33 @@ static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName
     }
 }
 - (NSString*)scalarAttributeType {
-    switch ([self attributeType]) {
-        case NSInteger16AttributeType:
-        {
-            NSString *attributeValueScalarType = [[self userInfo] objectForKey:kAttributeValueScalarTypeKey];
-            
-            if (attributeValueScalarType) {
-                return attributeValueScalarType;
-            } else {
+    NSString *attributeValueScalarType = [[self userInfo] objectForKey:kAttributeValueScalarTypeKey];
+    
+    if (attributeValueScalarType) {
+        return attributeValueScalarType;
+    } else {
+        switch ([self attributeType]) {
+            case NSInteger16AttributeType:
                 return gSwift ? @"Int16" : @"int16_t";
-            }
-        }
-            break;
-        case NSInteger32AttributeType:
-        {
-            NSString *attributeValueScalarType = [[self userInfo] objectForKey:kAttributeValueScalarTypeKey];
-            
-            if (attributeValueScalarType) {
-                return attributeValueScalarType;
-            } else {
+                break;
+            case NSInteger32AttributeType:
                 return gSwift ? @"Int32" : @"int32_t";
-            }
-        }
-            break;
-        case NSInteger64AttributeType:
-        {
-            NSString *attributeValueScalarType = [[self userInfo] objectForKey:kAttributeValueScalarTypeKey];
-            
-            if (attributeValueScalarType) {
-                return attributeValueScalarType;
-            } else {
+                break;
+            case NSInteger64AttributeType:
                 return gSwift ? @"Int64" : @"int64_t";
-            }
+                break;
+            case NSDoubleAttributeType:
+                return gSwift ? @"Double" : @"double";
+                break;
+            case NSFloatAttributeType:
+                return gSwift ? @"Float" : @"float";
+                break;
+            case NSBooleanAttributeType:
+                return gSwift ? @"Bool" : @"BOOL";
+                break;
+            default:
+                return nil;
         }
-            break;
-        case NSDoubleAttributeType:
-            return gSwift ? @"Double" : @"double";
-            break;
-        case NSFloatAttributeType:
-            return gSwift ? @"Float" : @"float";
-            break;
-        case NSBooleanAttributeType:
-            return gSwift ? @"Bool" : @"BOOL";
-            break;
-        default:
-            return nil;
     }
 }
 - (NSString*)scalarAccessorMethodName {
