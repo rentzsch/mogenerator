@@ -609,41 +609,44 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     [optionsParser setGetoptLongOnly:YES];
     DDGetoptOption optionTable[] = 
     {
-    // Long                 Short   Argument options
-    {@"model",              'm',    DDGetoptRequiredArgument},
-    {@"configuration",      'C',    DDGetoptRequiredArgument},
-    {@"base-class",         0,     DDGetoptRequiredArgument},
-    {@"base-class-import",  0,     DDGetoptRequiredArgument},
-    {@"base-class-force",   0,     DDGetoptRequiredArgument},
-    // For compatibility:
-    {@"baseClass",          0,      DDGetoptRequiredArgument},
-    {@"includem",           0,      DDGetoptRequiredArgument},
-    {@"includeh",           0,      DDGetoptRequiredArgument},
-    {@"template-path",      0,      DDGetoptRequiredArgument},
-    // For compatibility:
-    {@"templatePath",       0,      DDGetoptRequiredArgument},
-    {@"output-dir",         'O',    DDGetoptRequiredArgument},
-    {@"machine-dir",        'M',    DDGetoptRequiredArgument},
-    {@"human-dir",          'H',    DDGetoptRequiredArgument},
-    {@"template-group",     0,      DDGetoptRequiredArgument},
-    {@"list-source-files",  0,      DDGetoptNoArgument},
-    {@"orphaned",           0,      DDGetoptNoArgument},
-
-    {@"swift",              'S',    DDGetoptNoArgument},
-    {@"help",               'h',    DDGetoptNoArgument},
-    {@"version",            0,      DDGetoptNoArgument},
-    {@"template-var",       0,      DDGetoptKeyValueArgument},
-    {nil,                   0,      0},
+        // Long                 Short  Argument options
+        {@"v2",                 '2',   DDGetoptNoArgument},
+        
+        {@"model",              'm',   DDGetoptRequiredArgument},
+        {@"configuration",      'C',   DDGetoptRequiredArgument},
+        {@"base-class",         0,     DDGetoptRequiredArgument},
+        {@"base-class-import",  0,     DDGetoptRequiredArgument},
+        {@"base-class-force",   0,     DDGetoptRequiredArgument},
+        // For compatibility:
+        {@"baseClass",          0,     DDGetoptRequiredArgument},
+        {@"includem",           0,     DDGetoptRequiredArgument},
+        {@"includeh",           0,     DDGetoptRequiredArgument},
+        {@"template-path",      0,     DDGetoptRequiredArgument},
+        // For compatibility:
+        {@"templatePath",       0,     DDGetoptRequiredArgument},
+        {@"output-dir",         'O',   DDGetoptRequiredArgument},
+        {@"machine-dir",        'M',   DDGetoptRequiredArgument},
+        {@"human-dir",          'H',   DDGetoptRequiredArgument},
+        {@"template-group",     0,     DDGetoptRequiredArgument},
+        {@"list-source-files",  0,     DDGetoptNoArgument},
+        {@"orphaned",           0,     DDGetoptNoArgument},
+        
+        {@"help",               'h',   DDGetoptNoArgument},
+        {@"version",            0,     DDGetoptNoArgument},
+        {@"template-var",       0,     DDGetoptKeyValueArgument},
+        {@"swift",              'S',   DDGetoptNoArgument},
+        {nil,                   0,     0},
     };
     [optionsParser addOptionsFromTable:optionTable];
     [optionsParser setArgumentsFilename:@".mogenerator-args"];
 }
 
 - (void)printUsage {
-    ddprintf(@"%@: Usage [OPTIONS] <argument> [...]\n", DDCliApp);
+    ddprintf(@"%@ usage [OPTIONS] <argument> [...]\n", DDCliApp);
     printf("\n"
            "  -S, --swift                   Generate Swift templates instead of Objective-C\n"
            "  -m, --model MODEL             Path to model\n"
+           "  -O, --output-dir DIR          Output directory\n"
            "  -C, --configuration CONFIG    Only consider entities included in the named configuration\n"
            "      --base-class CLASS        Custom base class\n"
            "      --base-class-import TEXT        Imports base class as #import TEXT\n"
@@ -653,7 +656,6 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
            "      --template-path PATH      Path to templates (absolute or relative to model path)\n"
            "      --template-group NAME     Name of template group\n"
            "      --template-var KEY=VALUE  A key-value pair to pass to the template file. There can be many of these.\n"
-           "  -O, --output-dir DIR          Output directory\n"
            "  -M, --machine-dir DIR         Output directory for machine files\n"
            "  -H, --human-dir DIR           Output directory for human files\n"
            "      --list-source-files       Only list model-related source files\n"
@@ -842,6 +844,11 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     if (_version) {
         printf("mogenerator 1.27. By Jonathan 'Wolf' Rentzsch + friends.\n");
         return EXIT_SUCCESS;
+    }
+    
+    if (_v2) {
+        [templateVar setObject:@YES forKey:@"arc"];
+        [templateVar setObject:@YES forKey:@"modules"];
     }
 
     gSwift = _swift;

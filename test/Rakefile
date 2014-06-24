@@ -17,7 +17,7 @@ def gen_and_compile(desc, mogenPath, extra_mogen_args, extra_gcc_args)
   ENV['MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS'] = '1'
   run_or_die "#{mogenPath.gsub(/ /, '\\ ')} --model test.xcdatamodel --output MOs --baseClass MyBaseClass #{extra_mogen_args}"
   run_or_die 'cp HumanMO.h HumanMO.m MyProtocol.h TestProtocol.m MOs'
-  run_or_die "clang -o testbin test.m MyBaseClass.m MOs/*.m -I#{Dir.pwd} -framework Foundation -framework Cocoa -framework CoreData #{extra_gcc_args}"
+  run_or_die "clang -o testbin test.m MyBaseClass.m MOs/*.m -I#{Dir.pwd} -framework Foundation -framework Cocoa -framework CoreData -fmodules #{extra_gcc_args}"
   run_or_die "xcrun momc -MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS test.xcdatamodel #{Dir.pwd}/test.mom"
   puts run_or_die './testbin'
 end
@@ -40,6 +40,13 @@ end
 desc 'Generate, Compile and Run ARC Code (without objc literals)'
 task :arc_noliterals do
   gen_and_compile('ARC (without objc literals)', mogenPath, '--template-var arc=true --template-var noliterals=true', '-fobjc-arc')
+end
+
+desc 'Generate, Compile and Run ARC Code (without objc literals)'
+task :v2 do
+  Rake::Task[:clean].execute
+  gen_and_compile('v2 (ARC + objc literals)', mogenPath, '--v2', '-fobjc-arc')
+  Rake::Task[:clean].execute
 end
 
 desc 'Clean output'
