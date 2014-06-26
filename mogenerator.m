@@ -342,6 +342,17 @@ static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName
 @end
 
 @implementation NSAttributeDescription (typing)
+- (BOOL)isUnsigned
+{
+    BOOL hasMin = NO;
+    for (NSPredicate *pred in [self validationPredicates]) {
+        if ([pred.predicateFormat containsString:@">= 0"]) {
+            hasMin = YES;
+        }
+    }
+    return hasMin;
+}
+
 - (BOOL)hasScalarAttributeType {
     switch ([self attributeType]) {
         case NSInteger16AttributeType:
@@ -357,6 +368,9 @@ static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName
     }
 }
 - (NSString*)scalarAttributeType {
+    
+    BOOL isUnsigned = [self isUnsigned];
+    
     NSString *attributeValueScalarType = [[self userInfo] objectForKey:kAttributeValueScalarTypeKey];
     
     if (attributeValueScalarType) {
@@ -364,13 +378,13 @@ static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName
     } else {
         switch ([self attributeType]) {
             case NSInteger16AttributeType:
-                return gSwift ? @"Int16" : @"int16_t";
+                return gSwift ? isUnsigned ? @"UInt16" : @"Int16" : isUnsigned ? @"uint16_t" : @"int16_t";
                 break;
             case NSInteger32AttributeType:
-                return gSwift ? @"Int32" : @"int32_t";
+                return gSwift ? isUnsigned ? @"UInt32" : @"Int32" : isUnsigned ? @"uint32_t" : @"int32_t";
                 break;
             case NSInteger64AttributeType:
-                return gSwift ? @"Int64" : @"int64_t";
+                return gSwift ? isUnsigned ? @"UInt64" : @"Int64" : isUnsigned ? @"uint64_t" : @"int64_t";
                 break;
             case NSDoubleAttributeType:
                 return gSwift ? @"Double" : @"double";
@@ -387,14 +401,26 @@ static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName
     }
 }
 - (NSString*)scalarAccessorMethodName {
+    
+    BOOL isUnsigned = [self isUnsigned];
+    
     switch ([self attributeType]) {
         case NSInteger16AttributeType:
+            if (isUnsigned) {
+                return @"unsignedShortValue";
+            }
             return @"shortValue";
             break;
         case NSInteger32AttributeType:
+            if (isUnsigned) {
+                return @"unsignedIntValue";
+            }
             return @"intValue";
             break;
         case NSInteger64AttributeType:
+            if (isUnsigned) {
+                return @"unsignedLongLongValue";
+            }
             return @"longLongValue";
             break;
         case NSDoubleAttributeType:
@@ -411,14 +437,26 @@ static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName
     }
 }
 - (NSString*)scalarFactoryMethodName {
+    
+    BOOL isUnsigned = [self isUnsigned];
+    
     switch ([self attributeType]) {
         case NSInteger16AttributeType:
+            if (isUnsigned) {
+                return @"numberWithUnsignedShort:";
+            }
             return @"numberWithShort:";
             break;
         case NSInteger32AttributeType:
+            if (isUnsigned) {
+                return @"numberWithUnsignedInt:";
+            }
             return @"numberWithInt:";
             break;
         case NSInteger64AttributeType:
+            if (isUnsigned) {
+                return @"numberWithUnsignedLongLong:";
+            }
             return @"numberWithLongLong:";
             break;
         case NSDoubleAttributeType:
