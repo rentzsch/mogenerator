@@ -32,7 +32,7 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
 
     /// pragma mark - Class methods
     
-    class func entityName () -> String {
+    <$if hasCustomSuperentity$>override <$endif$>class func entityName () -> String {
         return "<$name$>"
     }
 
