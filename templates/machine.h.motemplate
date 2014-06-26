@@ -119,14 +119,24 @@ extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userI
 <$endif$>
 @end
 
-<$foreach Relationship noninheritedRelationships do$><$if Relationship.isToMany$>
+<$foreach Relationship noninheritedRelationships do$>
+<$if Relationship.isToMany$>
 @interface _<$managedObjectClassName$> (<$Relationship.name.initialCapitalString$>CoreDataGeneratedAccessors)
 - (void)add<$Relationship.name.initialCapitalString$>:(<$Relationship.immutableCollectionClassName$>*)value_;
 - (void)remove<$Relationship.name.initialCapitalString$>:(<$Relationship.immutableCollectionClassName$>*)value_;
 - (void)add<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_;
 - (void)remove<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_;
+<$if Relationship.isOrdered$>
+- (void)insertObject:(<$Relationship.destinationEntity.managedObjectClassName$>*)value in<$Relationship.name.initialCapitalString$>AtIndex:(NSUInteger)idx;
+- (void)removeObjectFrom<$Relationship.name.initialCapitalString$>AtIndex:(NSUInteger)idx;
+- (void)insert<$Relationship.name.initialCapitalString$>:(NSArray *)value atIndexes:(NSIndexSet *)indexes;
+- (void)remove<$Relationship.name.initialCapitalString$>AtIndexes:(NSIndexSet *)indexes;
+- (void)replaceObjectIn<$Relationship.name.initialCapitalString$>AtIndex:(NSUInteger)idx withObject:(<$Relationship.destinationEntity.managedObjectClassName$>*)value;
+- (void)replace<$Relationship.name.initialCapitalString$>AtIndexes:(NSIndexSet *)indexes with<$Relationship.name.initialCapitalString$>:(NSArray *)values;
+<$endif$>
 @end
-<$endif$><$endforeach do$>
+<$endif$>
+<$endforeach do$>
 
 @interface _<$managedObjectClassName$> (CoreDataGeneratedPrimitiveAccessors)
 <$foreach Attribute noninheritedAttributesSansType do$>
