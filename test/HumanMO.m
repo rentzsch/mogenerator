@@ -3,11 +3,13 @@
 @implementation HumanMO
 
 - (NSColor*)hairColor {
-	return [NSUnarchiver unarchiveObjectWithData:[self hairColorStorage]];
+	NSData *storage = [self hairColorStorage];
+	return storage ? [NSUnarchiver unarchiveObjectWithData:storage] : nil;
 }
 
 - (void)setHairColor:(NSColor*)value_ {
-	[self setHairColorStorage:[NSArchiver archivedDataWithRootObject:value_]];
+	NSData *storage = value_ ? [NSArchiver archivedDataWithRootObject:value_] : nil;
+	[self setHairColorStorage:storage];
 }
 
 @end
