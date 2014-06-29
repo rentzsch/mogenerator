@@ -1,4 +1,4 @@
-@objc
+@objc(<$managedObjectClassName$>)
 class <$managedObjectClassName$>: _<$managedObjectClassName$> {
 
 	// Custom logic goes here.
