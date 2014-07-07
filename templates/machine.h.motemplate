@@ -121,7 +121,16 @@ extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userI
 - (void)remove<$Relationship.name.initialCapitalString$>:(<$Relationship.immutableCollectionClassName$>*)value_;
 - (void)add<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_;
 - (void)remove<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_;
+@end<$if Relationship.jr_isOrdered$>
+
+@interface _<$managedObjectClassName$> (<$Relationship.name.initialCapitalString$>ArrayAccessors)
+@property (readonly) NSArray * <$Relationship.name$>Array;
+- (void)insert<$Relationship.name.initialCapitalString$>Array:(NSArray*)value_ atIndexes:(NSIndexSet*)indexes_;
+- (void)remove<$Relationship.name.initialCapitalString$>ArrayAtIndexes:(NSIndexSet*)indexes_;
+- (void)insertObject:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_ in<$Relationship.name.initialCapitalString$>ArrayAtIndex:(NSUInteger)index_;
+- (void)removeObjectFrom<$Relationship.name.initialCapitalString$>ArrayAtIndex:(NSUInteger)index_;
 @end
+<$endif$>
 <$endif$><$endforeach do$>
 
 @interface _<$managedObjectClassName$> (CoreDataGeneratedPrimitiveAccessors)
