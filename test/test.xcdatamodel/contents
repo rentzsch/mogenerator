@@ -64,7 +64,7 @@
             </userInfo>
         </attribute>
         <attribute name="parentName" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="children" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Child" inverseName="parent" inverseEntity="Child" indexed="YES" syncable="YES"/>
+        <relationship name="children" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Child" inverseName="parent" inverseEntity="Child" indexed="YES" syncable="YES"/>
     </entity>
     <fetchRequest name="allHumans" entity="Human"/>
     <fetchRequest name="byHumanName" entity="Human" predicateString="humanName == $humanName"/>
@@ -72,13 +72,13 @@
     <fetchRequest name="byParentName" entity="Child" predicateString="parent.parentName == $parentName"/>
     <fetchRequest name="oneByHumanName" entity="Human" predicateString="humanName == $humanName"/>
     <elements>
-        <element name="Parent" positionX="34" positionY="114" width="128" height="285"/>
+        <element name="Child" positionX="349" positionY="180" width="128" height="88"/>
+        <element name="ConcreteEntityWithCustomClass1" positionX="225" positionY="-97" width="128" height="58"/>
+        <element name="ConcreteEntityWithCustomClass2" positionX="405" positionY="-99" width="128" height="58"/>
         <element name="EntitySansCustomClass" positionX="502" positionY="90" width="128" height="60"/>
         <element name="EntitySansCustomClass2" positionX="295" positionY="-189" width="128" height="58"/>
         <element name="EntityWithBaseClass" positionX="342" positionY="18" width="128" height="60"/>
         <element name="Human" positionX="169" positionY="18" width="128" height="135"/>
-        <element name="ConcreteEntityWithCustomClass2" positionX="405" positionY="-99" width="128" height="58"/>
-        <element name="ConcreteEntityWithCustomClass1" positionX="225" positionY="-97" width="128" height="58"/>
-        <element name="Child" positionX="349" positionY="180" width="128" height="88"/>
+        <element name="Parent" positionX="34" positionY="114" width="128" height="283"/>
     </elements>
 </model>

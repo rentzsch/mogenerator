@@ -50,8 +50,8 @@ int main(int argc, char *argv[]) {
     [marge setIvar:1.0];
     marge.genderValue = Gender_Female;
     
-    NSCAssert([homer.children count] == 0, nil);
-    NSCAssert([marge.children count] == 0, nil);
+    assert([homer.children count] == 0);
+    assert([marge.children count] == 0);
     
     //--
     
@@ -65,7 +65,16 @@ int main(int argc, char *argv[]) {
 
     ParentMO *protocolMO = [ParentMO insertInManagedObjectContext:moc];
     protocolMO.myTransformableWithProtocol = [TestProtocol new];
-
+    
+    //--
+    
+    NSError *saveError = nil;
+    BOOL saveSuccess = [moc save:&saveError];
+    assert(saveSuccess);
+    assert(!saveError);
+        
+    //--
+    
 #if 0
     /* Unforunately this section raises the following internal exception on 10.8.0/Xcode 4.5-DP4:
      2012-08-30 16:01:12.351 test[15090:707] *** Terminating app due to uncaught exception 'NSInvalidArgumentException', reason: '*** -[NSSet intersectsSet:]: set argument is not an NSSet'
@@ -92,13 +101,6 @@ int main(int argc, char *argv[]) {
     assert([homer.children count] == 2);
     assert([marge.children count] == 2);
 #endif
-    
-    //--
-    
-    NSError *saveError = nil;
-    BOOL saveSuccess = [moc save:&saveError];
-    assert(saveSuccess);
-    assert(!saveError);
     
     //--
     
