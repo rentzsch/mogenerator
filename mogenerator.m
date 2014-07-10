@@ -911,6 +911,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     
     if (_v2) {
         [templateVar setObject:@YES forKey:@"arc"];
+        [templateVar setObject:@YES forKey:@"literals"];
         [templateVar setObject:@YES forKey:@"modules"];
     }
 
