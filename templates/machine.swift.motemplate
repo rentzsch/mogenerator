@@ -3,35 +3,35 @@
 
 import CoreData
 
-<$if noninheritedAttributes.@count > 0$>
-enum <$managedObjectClassName$>Attributes: String {<$foreach Attribute noninheritedAttributes do$>
-    case <$Attribute.name$> = "<$Attribute.name$>"<$endforeach do$>
-}
-<$endif$>
-
-<$if noninheritedRelationships.@count > 0$>
-enum <$managedObjectClassName$>Relationships: String {<$foreach Relationship noninheritedRelationships do$>
-    case <$Relationship.name$> = "<$Relationship.name$>"<$endforeach do$>
-}
-<$endif$>
-
-<$if noninheritedFetchedProperties.@count > 0$>
-enum <$managedObjectClassName$>FetchedProperties: String {<$foreach FetchedProperty noninheritedFetchedProperties do$>
-    case <$FetchedProperty.name$> = "<$FetchedProperty.name$>"<$endforeach do$>
-}
-<$endif$>
-
-<$if hasUserInfoKeys$>
-enum <$managedObjectClassName$>UserInfo: String {<$foreach UserInfo userInfoKeyValues do$>
-    case <$UserInfo.key$> = "<$UserInfo.key$>"<$endforeach do$>
-}
-<$endif$>
-
 @objc
 class _<$managedObjectClassName$>: <$customSuperentity$> {
 
+    <$if noninheritedAttributes.@count > 0$>
+    struct Attributes {<$foreach Attribute noninheritedAttributes do$>
+        static let <$Attribute.name$> = "<$Attribute.name$>"<$endforeach do$>
+    }
+    <$endif$>
+
+    <$if noninheritedRelationships.@count > 0$>
+    struct Relationships {<$foreach Relationship noninheritedRelationships do$>
+        static let <$Relationship.name$> = "<$Relationship.name$>"<$endforeach do$>
+    }
+    <$endif$>
+
+    <$if noninheritedFetchedProperties.@count > 0$>
+    struct FetchedProperties {<$foreach FetchedProperty noninheritedFetchedProperties do$>
+        static let <$FetchedProperty.name$> = "<$FetchedProperty.name$>"<$endforeach do$>
+    }
+    <$endif$>
+
+    <$if hasUserInfoKeys$>
+    struct UserInfo {<$foreach UserInfo userInfoKeyValues do$>
+        static let <$UserInfo.key$> = "<$UserInfo.key$>"<$endforeach do$>
+    }
+    <$endif$>
+
     /// pragma mark - Class methods
-    
+
     <$if hasCustomSuperentity$>override <$endif$>class func entityName () -> String {
         return "<$name$>"
     }
