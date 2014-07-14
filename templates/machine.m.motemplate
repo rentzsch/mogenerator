@@ -114,6 +114,23 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 <$endforeach do$>
 
 <$foreach FetchRequest prettyFetchRequests do$>
++ (NSFetchRequest *)requestFor<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>
+{
+    NSManagedObjectModel *model = [[moc_ persistentStoreCoordinator] managedObjectModel];
+    <$if FetchRequest.hasBindings$>
+	NSDictionary *substitutionVariables = [NSDictionary dictionaryWithObjectsAndKeys:
+														<$foreach Binding FetchRequest.bindings do2$>
+														<$Binding.name$>_, @"<$Binding.name$>",
+														<$endforeach do2$>
+														nil];
+	<$else$>
+	NSDictionary *substitutionVariables = [NSDictionary dictionary];
+	<$endif$>
+	NSFetchRequest *fetchRequest = [model fetchRequestFromTemplateWithName:@"<$FetchRequest.name$>"
+													 substitutionVariables:substitutionVariables];
+	NSAssert(fetchRequest, @"Can't find fetch request named \"<$FetchRequest.name$>\".");
+    return fetchRequest;
+}
 <$if FetchRequest.singleResult$>
 + (id)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>{
 	NSError *error = nil;
@@ -131,19 +148,7 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 	NSParameterAssert(moc_);
 	NSError *error = nil;
 
-	NSManagedObjectModel *model = [[moc_ persistentStoreCoordinator] managedObjectModel];
-	<$if FetchRequest.hasBindings$>
-	NSDictionary *substitutionVariables = [NSDictionary dictionaryWithObjectsAndKeys:
-														<$foreach Binding FetchRequest.bindings do2$>
-														<$Binding.name$>_, @"<$Binding.name$>",
-														<$endforeach do2$>
-														nil];
-	<$else$>
-	NSDictionary *substitutionVariables = [NSDictionary dictionary];
-	<$endif$>
-	NSFetchRequest *fetchRequest = [model fetchRequestFromTemplateWithName:@"<$FetchRequest.name$>"
-													 substitutionVariables:substitutionVariables];
-	NSAssert(fetchRequest, @"Can't find fetch request named \"<$FetchRequest.name$>\".");
+	NSFetchRequest *fetchRequest = [self requestFor<$FetchRequest.name.initialCapitalString$>:moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:<$Binding.name$>_ <$endforeach do2$>];
 
 	id result = nil;
 	NSArray *results = [moc_ executeFetchRequest:fetchRequest error:&error];
@@ -157,9 +162,8 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 				result = [results objectAtIndex:0];
 				break;
 			default:
-				NSLog(@"WARN fetch request <$FetchRequest.name$>: 0 or 1 objects expected, %lu found (substitutionVariables:%@, results:%@)",
+				NSLog(@"WARN fetch request <$FetchRequest.name$>: 0 or 1 objects expected, %lu found ( results:%@)",
 					(unsigned long)[results count],
-					substitutionVariables,
 					results);
 		}
 	}
@@ -184,19 +188,7 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 	NSParameterAssert(moc_);
 	NSError *error = nil;
 
-	NSManagedObjectModel *model = [[moc_ persistentStoreCoordinator] managedObjectModel];
-	<$if FetchRequest.hasBindings$>
-	NSDictionary *substitutionVariables = [NSDictionary dictionaryWithObjectsAndKeys:
-														<$foreach Binding FetchRequest.bindings do2$>
-														<$Binding.name$>_, @"<$Binding.name$>",
-														<$endforeach do2$>
-														nil];
-	<$else$>
-	NSDictionary *substitutionVariables = [NSDictionary dictionary];
-	<$endif$>
-	NSFetchRequest *fetchRequest = [model fetchRequestFromTemplateWithName:@"<$FetchRequest.name$>"
-													 substitutionVariables:substitutionVariables];
-	NSAssert(fetchRequest, @"Can't find fetch request named \"<$FetchRequest.name$>\".");
+	NSFetchRequest *fetchRequest = [self requestFor<$FetchRequest.name.initialCapitalString$>:moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:<$Binding.name$>_ <$endforeach do2$>];
 
 	NSArray *result = [moc_ executeFetchRequest:fetchRequest error:&error];
 	if (error_) *error_ = error;
