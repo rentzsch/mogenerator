@@ -74,8 +74,8 @@ BOOL       gSwift;
     }
     
     nsenumerate (allEntities, NSEntityDescription, entity) {
-        NSString *entityClassName = [entity managedObjectClassName];
-        
+        NSString *entityClassName = [entity swiftEntityClassNameWithoutModule];
+
         if ([entity hasCustomClass]){
             [result addObject:entity];
         } else {
@@ -146,6 +146,16 @@ BOOL       gSwift;
 - (NSString*)forcedCustomBaseClass {
     NSString* userInfoCustomBaseClass = [[self userInfo] objectForKey:@"mogenerator.customBaseClass"];
     return userInfoCustomBaseClass ? userInfoCustomBaseClass : gCustomBaseClassForced;
+}
+
+- (NSString*)swiftEntityClassNameWithoutModule {
+    NSString *entityClassName = [self managedObjectClassName];
+
+    if (gSwift) {
+        entityClassName = [entityClassName pathExtension];
+    }
+
+    return entityClassName;
 }
 /** @TypeInfo NSAttributeDescription */
 - (NSArray*)noninheritedAttributes {
@@ -957,7 +967,8 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
             generatedHumanH = [generatedHumanH stringByReplacingOccurrencesOfRegex:@"([ \t]*(\n|\r|\r\n)){2,}" withString:@"\n\n"];
             generatedHumanM = [generatedHumanM stringByReplacingOccurrencesOfRegex:@"([ \t]*(\n|\r|\r\n)){2,}" withString:@"\n\n"];
             
-            NSString *entityClassName = [entity managedObjectClassName];
+            NSString *entityClassName = [entity swiftEntityClassNameWithoutModule];
+
             BOOL machineDirtied = NO;
             
             // Machine header files.

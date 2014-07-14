@@ -24,6 +24,7 @@
 - (BOOL)hasCustomSuperentity;
 - (NSString*)customSuperentity;
 - (NSString*)forcedCustomBaseClass;
+- (NSString*)swiftEntityClassNameWithoutModule;
 - (void)_processPredicate:(NSPredicate*)predicate_ bindings:(NSMutableArray*)bindings_;
 - (NSArray*)prettyFetchRequests;
 @end
