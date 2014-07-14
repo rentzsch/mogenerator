@@ -1,10 +1,10 @@
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
-// Make changes to <$managedObjectClassName$>.swift instead.
+// Make changes to <$swiftEntityClassNameWithoutModule$>.swift instead.
 
 import CoreData
 
 @objc
-class _<$managedObjectClassName$>: <$customSuperentity$> {
+class _<$swiftEntityClassNameWithoutModule$>: <$customSuperentity$> {
 
     <$if noninheritedAttributes.@count > 0$>
     struct Attributes {<$foreach Attribute noninheritedAttributes do$>
@@ -47,7 +47,7 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
     }
 
     convenience init(managedObjectContext: NSManagedObjectContext!) {
-        let entity = _<$managedObjectClassName$>.entity(managedObjectContext)
+        let entity = _<$swiftEntityClassNameWithoutModule$>.entity(managedObjectContext)
         self.init(entity: entity, insertIntoManagedObjectContext: managedObjectContext)
     }
 
@@ -93,7 +93,7 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
     }
 <$else$>
     @NSManaged
-    var <$Relationship.name$>: <$Relationship.destinationEntity.managedObjectClassName$>
+    var <$Relationship.name$>: <$Relationship.destinationEntity.swiftEntityClassNameWithoutModule$>
 
     // func validate<$Relationship.name.initialCapitalString$>(value: AutoreleasingUnsafePointer<AnyObject>, error: NSErrorPointer) {}
 <$endif$>
@@ -165,12 +165,12 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
 
 <$foreach FetchedProperty noninheritedFetchedProperties do$>
     @NSManaged
-    let <$FetchedProperty.name$>: <$FetchedProperty.entity.managedObjectClassName$>[]
+    let <$FetchedProperty.name$>: <$FetchedProperty.entity.swiftEntityClassNameWithoutModule$>[]
 <$endforeach do$>
 }
 
 <$foreach Relationship noninheritedRelationships do$><$if Relationship.isToMany$>
-extension _<$managedObjectClassName$> {
+extension _<$swiftEntityClassNameWithoutModule$> {
 
     func add<$Relationship.name.initialCapitalString$>(objects: <$Relationship.immutableCollectionClassName$>) {
         self.<$Relationship.name$>Set().union<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set(objects)
@@ -180,11 +180,11 @@ extension _<$managedObjectClassName$> {
         self.<$Relationship.name$>Set().minus<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set(objects)
     }
 
-    func add<$Relationship.name.initialCapitalString$>Object(value: <$Relationship.destinationEntity.managedObjectClassName$>!) {
+    func add<$Relationship.name.initialCapitalString$>Object(value: <$Relationship.destinationEntity.swiftEntityClassNameWithoutModule$>!) {
         self.<$Relationship.name$>Set().addObject(value)
     }
 
-    func remove<$Relationship.name.initialCapitalString$>Object(value: <$Relationship.destinationEntity.managedObjectClassName$>!) {
+    func remove<$Relationship.name.initialCapitalString$>Object(value: <$Relationship.destinationEntity.swiftEntityClassNameWithoutModule$>!) {
         self.<$Relationship.name$>Set().removeObject(value)
     }
 

@@ -1,5 +1,5 @@
-@objc(<$managedObjectClassName$>)
-class <$managedObjectClassName$>: _<$managedObjectClassName$> {
+@objc(<$swiftEntityClassNameWithoutModule$>)
+class <$swiftEntityClassNameWithoutModule$>: _<$swiftEntityClassNameWithoutModule$> {
 
 	// Custom logic goes here.
 
