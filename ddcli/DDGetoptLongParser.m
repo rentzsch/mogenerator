@@ -73,6 +73,7 @@
     [mOptionString release];
     [mOptionsData release];
     [mUtf8Data release];
+    [mArgumentsFilename release];
     
     [super dealloc];
 }
@@ -87,6 +88,10 @@
     mTarget = target;
 }
 
+- (void) setArgumentsFilename:(NSString *)filename
+{
+    mArgumentsFilename = [filename copy];
+}
 
 - (void) setGetoptLongOnly: (BOOL) getoptLongOnly
 {
@@ -163,6 +168,33 @@
 {
     NSProcessInfo * processInfo = [NSProcessInfo processInfo];
     NSArray * arguments = [processInfo arguments];
+    
+    if (mArgumentsFilename != nil) {
+        if (NSClassFromString(@"NSJSONSerialization") == nil) {
+            fprintf(stderr, "Warning: ignoring %s, feature supported from OS X 10.7 onwards\n", [mArgumentsFilename UTF8String]);
+        } else {
+            NSFileManager *fm = [NSFileManager defaultManager];
+            NSString *argumentsFilePath = [[fm currentDirectoryPath] stringByAppendingPathComponent:mArgumentsFilename];
+            if ([fm fileExistsAtPath:argumentsFilePath]) {
+                NSError *error;
+                NSArray *argumentsFromFile = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:argumentsFilePath] options:0 error:&error];
+                if (argumentsFromFile != nil) {
+                    NSAssert([arguments count] > 0, @"Process has no arguments (not even the command). Weird.");
+                    NSString *command = [arguments objectAtIndex:0];
+                    arguments = [arguments subarrayWithRange:NSMakeRange(1, [arguments count] - 1)];
+                    
+                    NSMutableArray *mutableArguments = [NSMutableArray arrayWithObject:command];
+                    [mutableArguments addObjectsFromArray:argumentsFromFile];
+                    [mutableArguments addObjectsFromArray:arguments];
+                    arguments = [NSArray arrayWithArray:mutableArguments];
+                } else {
+                    fprintf(stderr, "Error reading %s: %s\n", [mArgumentsFilename UTF8String], [[error localizedDescription] UTF8String]);
+                    exit(1);
+                }
+            }
+        }
+    }
+
     NSString * command = [processInfo processName];
     return [self parseOptionsWithArguments: arguments command: command];
 }
