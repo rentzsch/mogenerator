@@ -106,10 +106,11 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
     }
 
     class func fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext: NSManagedObjectContext!<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.type$><$endforeach do2$>, error outError: NSErrorPointer) -> AnyObject? {
-        let model = managedObjectContext.persistentStoreCoordinator().managedObjectModel()
-        let substitutionVariables = [<$if FetchRequest.hasBindings$><$foreach Binding FetchRequest.bindings do2$>
-            "<$Binding.name$>": <$Binding.name$>,
-<$endforeach do2$><$endif$>        ]
+        let model = managedObjectContext.persistentStoreCoordinator.managedObjectModel
+		let substitutionVariables = <$if FetchRequest.hasBindings$>[<$foreach Binding FetchRequest.bindings do2$>
+		            "<$Binding.name$>": <$Binding.name$>,<$endforeach do2$>    
+					]<$else$>Dictionary<NSObject,AnyObject>()
+		<$endif$>
 
         let fetchRequest = model.fetchRequestFromTemplateWithName("<$FetchRequest.name$>", substitutionVariables: substitutionVariables)
         assert(fetchRequest != nil, "Can't find fetch request named \"<$FetchRequest.name$>\".")
@@ -138,15 +139,16 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
         return result;
     }
 <$else$>
-    class func fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext: NSManagedObjectContext!<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.type$><$endforeach do2$>) -> AnyObject[] {
+    class func fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext: NSManagedObjectContext!<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.type$><$endforeach do2$>) -> [AnyObject] {
         return self.fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.name$><$endforeach do2$>, error: nil)
     }
 
-    class func fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext: NSManagedObjectContext!<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.type$><$endforeach do2$>, error outError: NSErrorPointer) -> AnyObject[] {
+    class func fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext: NSManagedObjectContext!<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.type$><$endforeach do2$>, error outError: NSErrorPointer) -> [AnyObject] {
         let model = managedObjectContext.persistentStoreCoordinator.managedObjectModel
-        let substitutionVariables = [<$if FetchRequest.hasBindings$><$foreach Binding FetchRequest.bindings do2$>
-            "<$Binding.name$>": <$Binding.name$>,
-<$endforeach do2$><$endif$>        ]
+        let substitutionVariables = <$if FetchRequest.hasBindings$>[<$foreach Binding FetchRequest.bindings do2$>
+            "<$Binding.name$>": <$Binding.name$>,<$endforeach do2$>     
+			]<$else$>Dictionary<NSObject,AnyObject>()
+<$endif$> 
 
         let fetchRequest = model.fetchRequestFromTemplateWithName("<$FetchRequest.name$>", substitutionVariables: substitutionVariables)
         assert(fetchRequest != nil, "Can't find fetch request named \"<$FetchRequest.name$>\".")
@@ -162,6 +164,7 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
     }
 <$endif$>
 <$endforeach do$>
+
 
 <$foreach FetchedProperty noninheritedFetchedProperties do$>
     @NSManaged
