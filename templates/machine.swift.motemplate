@@ -57,10 +57,10 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
 <$if Attribute.hasScalarAttributeType$>
 <$if Attribute.isReadonly$>
     @NSManaged
-    let <$Attribute.name$>: <$Attribute.scalarAttributeType$>
+    let <$Attribute.name$>: NSNumber?
 <$else$>
     @NSManaged
-    var <$Attribute.name$>: <$Attribute.scalarAttributeType$>
+    var <$Attribute.name$>: NSNumber?
 <$endif$>
 <$else$>
 <$if Attribute.isReadonly$>
