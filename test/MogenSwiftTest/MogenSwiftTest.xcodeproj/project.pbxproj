@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		796DBE1F196F2D9C004EAA15 /* _MyEntityMO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796DBE19196F2D9C004EAA15 /* _MyEntityMO.swift */; };
+		796DBE20196F2D9C004EAA15 /* _UnorderedToManyDstMO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796DBE1A196F2D9C004EAA15 /* _UnorderedToManyDstMO.swift */; };
+		796DBE21196F2D9C004EAA15 /* _UnorderedToManySrcMO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796DBE1B196F2D9C004EAA15 /* _UnorderedToManySrcMO.swift */; };
+		796DBE22196F2D9C004EAA15 /* MyEntityMO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796DBE1C196F2D9C004EAA15 /* MyEntityMO.swift */; };
+		796DBE23196F2D9C004EAA15 /* UnorderedToManyDstMO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796DBE1D196F2D9C004EAA15 /* UnorderedToManyDstMO.swift */; };
+		796DBE24196F2D9C004EAA15 /* UnorderedToManySrcMO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796DBE1E196F2D9C004EAA15 /* UnorderedToManySrcMO.swift */; };
 		79F9CECF196F146600D9BF82 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F9CECE196F146600D9BF82 /* main.swift */; };
 		79F9CED1196F146600D9BF82 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F9CED0196F146600D9BF82 /* AppDelegate.swift */; };
 		79F9CED4196F146600D9BF82 /* MogenSwiftTest.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 79F9CED2196F146600D9BF82 /* MogenSwiftTest.xcdatamodeld */; };
@@ -26,6 +32,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		796DBE19196F2D9C004EAA15 /* _MyEntityMO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _MyEntityMO.swift; sourceTree = "<group>"; };
+		796DBE1A196F2D9C004EAA15 /* _UnorderedToManyDstMO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _UnorderedToManyDstMO.swift; sourceTree = "<group>"; };
+		796DBE1B196F2D9C004EAA15 /* _UnorderedToManySrcMO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _UnorderedToManySrcMO.swift; sourceTree = "<group>"; };
+		796DBE1C196F2D9C004EAA15 /* MyEntityMO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyEntityMO.swift; sourceTree = "<group>"; };
+		796DBE1D196F2D9C004EAA15 /* UnorderedToManyDstMO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnorderedToManyDstMO.swift; sourceTree = "<group>"; };
+		796DBE1E196F2D9C004EAA15 /* UnorderedToManySrcMO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnorderedToManySrcMO.swift; sourceTree = "<group>"; };
 		79F9CEC9196F146600D9BF82 /* MogenSwiftTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MogenSwiftTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		79F9CECD196F146600D9BF82 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		79F9CECE196F146600D9BF82 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -81,6 +93,7 @@
 				79F9CED5196F146600D9BF82 /* Images.xcassets */,
 				79F9CED7196F146600D9BF82 /* MainMenu.xib */,
 				79F9CED2196F146600D9BF82 /* MogenSwiftTest.xcdatamodeld */,
+				79F9CEEE196F1E6900D9BF82 /* MogenSwiftTest */,
 				79F9CECC196F146600D9BF82 /* Supporting Files */,
 			);
 			path = MogenSwiftTest;
@@ -110,6 +123,19 @@
 				79F9CEE3196F146600D9BF82 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		79F9CEEE196F1E6900D9BF82 /* MogenSwiftTest */ = {
+			isa = PBXGroup;
+			children = (
+				796DBE19196F2D9C004EAA15 /* _MyEntityMO.swift */,
+				796DBE1A196F2D9C004EAA15 /* _UnorderedToManyDstMO.swift */,
+				796DBE1B196F2D9C004EAA15 /* _UnorderedToManySrcMO.swift */,
+				796DBE1C196F2D9C004EAA15 /* MyEntityMO.swift */,
+				796DBE1D196F2D9C004EAA15 /* UnorderedToManyDstMO.swift */,
+				796DBE1E196F2D9C004EAA15 /* UnorderedToManySrcMO.swift */,
+			);
+			path = MogenSwiftTest;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -212,7 +238,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				79F9CED1196F146600D9BF82 /* AppDelegate.swift in Sources */,
+				796DBE22196F2D9C004EAA15 /* MyEntityMO.swift in Sources */,
+				796DBE21196F2D9C004EAA15 /* _UnorderedToManySrcMO.swift in Sources */,
+				796DBE24196F2D9C004EAA15 /* UnorderedToManySrcMO.swift in Sources */,
+				796DBE20196F2D9C004EAA15 /* _UnorderedToManyDstMO.swift in Sources */,
+				796DBE23196F2D9C004EAA15 /* UnorderedToManyDstMO.swift in Sources */,
 				79F9CECF196F146600D9BF82 /* main.swift in Sources */,
+				796DBE1F196F2D9C004EAA15 /* _MyEntityMO.swift in Sources */,
 				79F9CED4196F146600D9BF82 /* MogenSwiftTest.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -401,6 +433,7 @@
 				79F9CEEA196F146600D9BF82 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		79F9CEEB196F146600D9BF82 /* Build configuration list for PBXNativeTarget "MogenSwiftTestTests" */ = {
 			isa = XCConfigurationList;
@@ -409,6 +442,7 @@
 				79F9CEED196F146600D9BF82 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
