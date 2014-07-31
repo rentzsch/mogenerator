@@ -699,6 +699,13 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
             NSString *currentModelName = [xccurrentversionPlist objectForKey:@"_XCCurrentVersionName"];
             if (currentModelName) {
                 momOrXCDataModelFilePath = [momOrXCDataModelFilePath stringByAppendingPathComponent:currentModelName];
+                if (![fm fileExistsAtPath:momOrXCDataModelFilePath])
+                {
+                  NSString *reason = [NSString stringWithFormat:@"file %@ references a non-existing file %@", xccurrentversionPath, momOrXCDataModelFilePath];
+                  DDCliParseException *e = [DDCliParseException parseExceptionWithReason:reason
+                                                                      exitCode:EX_NOINPUT];
+                  @throw e;
+                }
             }
         }
         else {
