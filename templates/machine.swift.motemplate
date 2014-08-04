@@ -30,7 +30,7 @@ enum <$managedObjectClassName$>UserInfo: String {<$foreach UserInfo userInfoKeyV
 @objc
 class _<$managedObjectClassName$>: <$customSuperentity$> {
 
-    /// pragma mark - Class methods
+    // MARK: Class methods
     
     <$if hasCustomSuperentity$>override <$endif$>class func entityName () -> String {
         return "<$name$>"
@@ -40,7 +40,7 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
         return NSEntityDescription.entityForName(self.entityName(), inManagedObjectContext: managedObjectContext);
     }
 
-    /// pragma mark - Life cycle methods
+    // MARK: Life cycle methods
 
     override init(entity: NSEntityDescription!, insertIntoManagedObjectContext context: NSManagedObjectContext!) {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
@@ -51,7 +51,7 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
         self.init(entity: entity, insertIntoManagedObjectContext: managedObjectContext)
     }
 
-    /// pragma mark - Properties
+    // MARK: Properties
 <$foreach Attribute noninheritedAttributes do$>
 <$if Attribute.hasDefinedAttributeType$>
 <$if Attribute.hasScalarAttributeType$>
@@ -75,7 +75,7 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
 <$endif$>
 <$endforeach do$>
 
-    /// pragma mark - Relationships
+    // MARK: Relationships
 <$foreach Relationship noninheritedRelationships do$>
 <$if Relationship.isToMany$>
     @NSManaged
