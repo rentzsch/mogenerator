@@ -10,7 +10,7 @@ import Cocoa
 
 class AppDelegate: NSObject, NSApplicationDelegate {
                             
-    @IBOutlet var window: NSWindow
+    @IBOutlet var window: NSWindow?
 
 
     func applicationDidFinishLaunching(aNotification: NSNotification?) {
