@@ -273,7 +273,7 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
     [self setPrimitiveValue:tmpOrderedSet forKey:@"<$Relationship.name$>"];
     [self didChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:@"<$Relationship.name$>"];
 }
-- (void)replaceObjectIn<$Relationship.name.initialCapitalString$>AtIndex:(NSUInteger)idx withObject:(<$Relationship.immutableCollectionClassName$>*)value {
+- (void)replaceObjectIn<$Relationship.name.initialCapitalString$>AtIndex:(NSUInteger)idx withObject:(<$Relationship.destinationEntity.managedObjectClassName$>*)value {
     NSIndexSet* indexes = [NSIndexSet indexSetWithIndex:idx];
     [self willChange:NSKeyValueChangeReplacement valuesAtIndexes:indexes forKey:@"<$Relationship.name$>"];
     NSMutableOrderedSet *tmpOrderedSet = [NSMutableOrderedSet orderedSetWithOrderedSet:[self <$Relationship.name$>]];
