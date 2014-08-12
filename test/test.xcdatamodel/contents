@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6172.15" systemVersion="13D65" minimumToolsVersion="Xcode 4.5" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6220.8" systemVersion="13E28" minimumToolsVersion="Xcode 4.5" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Child" representedClassName="ChildMO" parentEntity="Human" syncable="YES">
         <attribute name="childName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
@@ -37,6 +37,7 @@
         <relationship name="meaninglessRelationship" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="EntitySansCustomClass" indexed="YES" syncable="YES"/>
         <userInfo>
             <entry key="additionalHeaderFileName" value="Gender.h"/>
+            <entry key="key with.dots..." value="value with &quot;quotes&quot;"/>
         </userInfo>
     </entity>
     <entity name="Parent" representedClassName="ParentMO" parentEntity="Human" syncable="YES">

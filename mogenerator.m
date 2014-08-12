@@ -39,16 +39,33 @@ static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName
 @end
 
 @implementation NSEntityDescription (userInfoAdditions)
-- (BOOL)hasUserInfoKeys {
-	return ([self.userInfo count] > 0);
+- (NSDictionary*)sanitizedUserInfo {
+    NSMutableCharacterSet *validCharacters = [[[NSCharacterSet letterCharacterSet] mutableCopy] autorelease];
+    [validCharacters formUnionWithCharacterSet:[NSCharacterSet decimalDigitCharacterSet]];
+    [validCharacters addCharactersInString:@"_"];
+    NSCharacterSet *invalidCharacters = [validCharacters invertedSet];
+    
+    NSMutableDictionary *result = [NSMutableDictionary dictionaryWithCapacity:[[self userInfo] count]];
+    for (NSString *key in self.userInfo) {
+        if ([key rangeOfCharacterFromSet:invalidCharacters].location == NSNotFound) {
+            NSString *value = [self.userInfo objectForKey:key];
+            value = [value stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
+            [result setObject:value forKey:key];
+        }
+    }
+    
+    return result;
 }
 
-- (NSDictionary *)userInfoByKeys
-{
+- (BOOL)hasUserInfoKeys {
+	return ([self.sanitizedUserInfo count] > 0);
+}
+
+- (NSDictionary *)userInfoByKeys {
 	NSMutableDictionary *userInfoByKeys = [NSMutableDictionary dictionary];
 
-	for (NSString *key in self.userInfo)
-		[userInfoByKeys setObject:[NSDictionary dictionaryWithObjectsAndKeys:key, @"key", [self.userInfo objectForKey:key], @"value", nil] forKey:key];
+	for (NSString *key in self.sanitizedUserInfo)
+		[userInfoByKeys setObject:[NSDictionary dictionaryWithObjectsAndKeys:key, @"key", [self.sanitizedUserInfo objectForKey:key], @"value", nil] forKey:key];
 
 	return userInfoByKeys;
 }
