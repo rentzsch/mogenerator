@@ -65,10 +65,10 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
 <$else$>
 <$if Attribute.isReadonly$>
     @NSManaged
-    let <$Attribute.name$>: <$Attribute.objectAttributeType$>
+    let <$Attribute.name$>: <$Attribute.objectAttributeType$><$if Attribute.isOptional$>?<$endif$>
 <$else$>
     @NSManaged
-    var <$Attribute.name$>: <$Attribute.objectAttributeType$>
+    var <$Attribute.name$>: <$Attribute.objectAttributeType$><$if Attribute.isOptional$>?<$endif$>
 <$endif$>
 <$endif$>
     // func validate<$Attribute.name.initialCapitalString$>(value: AutoreleasingUnsafePointer<AnyObject>, error: NSErrorPointer) {}
