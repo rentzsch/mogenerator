@@ -118,7 +118,7 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
         var result: AnyObject? = nil
         let results = managedObjectContext.executeFetchRequest(fetchRequest, error: &error)
 
-        if error {
+        if error != nil {
             outError.memory = error
         } else {
             switch results.count {
@@ -154,7 +154,7 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
         var error: NSError? = nil
         let results = managedObjectContext.executeFetchRequest(fetchRequest, error: &error)
 
-        if error {
+        if error != nil {
             outError.memory = error
         }
 
