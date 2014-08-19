@@ -93,7 +93,7 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
     }
 <$else$>
     @NSManaged
-    var <$Relationship.name$>: <$Relationship.destinationEntity.managedObjectClassName$>
+    var <$Relationship.name$>: <$Relationship.destinationEntity.managedObjectClassName$>?
 
     // func validate<$Relationship.name.initialCapitalString$>(value: AutoreleasingUnsafePointer<AnyObject>, error: NSErrorPointer) {}
 <$endif$>
