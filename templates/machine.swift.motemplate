@@ -81,16 +81,6 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
     @NSManaged
     var <$Relationship.name$>: <$Relationship.immutableCollectionClassName$>
 
-    func <$Relationship.name$>Set() -> <$Relationship.mutableCollectionClassName$>! {
-        self.willAccessValueForKey("<$Relationship.name$>")
-<$if Relationship.jr_isOrdered$>
-        let result = self.mutableOrderedSetValueForKey("<$Relationship.name$>")
-<$else$>
-        let result = self.mutableSetValueForKey("<$Relationship.name$>")
-<$endif$>
-        self.didAccessValueForKey("<$Relationship.name$>")
-        return result
-    }
 <$else$>
     @NSManaged
     var <$Relationship.name$>: <$Relationship.destinationEntity.managedObjectClassName$>
@@ -163,30 +153,4 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
 <$endif$>
 <$endforeach do$>
 
-<$foreach FetchedProperty noninheritedFetchedProperties do$>
-    @NSManaged
-    let <$FetchedProperty.name$>: [<$FetchedProperty.entity.managedObjectClassName$>]
-<$endforeach do$>
 }
-
-<$foreach Relationship noninheritedRelationships do$><$if Relationship.isToMany$>
-extension _<$managedObjectClassName$> {
-
-    func add<$Relationship.name.initialCapitalString$>(objects: <$Relationship.immutableCollectionClassName$>) {
-        self.<$Relationship.name$>Set().union<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set(objects)
-    }
-
-    func remove<$Relationship.name.initialCapitalString$>(objects: <$Relationship.immutableCollectionClassName$>) {
-        self.<$Relationship.name$>Set().minus<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set(objects)
-    }
-
-    func add<$Relationship.name.initialCapitalString$>Object(value: <$Relationship.destinationEntity.managedObjectClassName$>!) {
-        self.<$Relationship.name$>Set().addObject(value)
-    }
-
-    func remove<$Relationship.name.initialCapitalString$>Object(value: <$Relationship.destinationEntity.managedObjectClassName$>!) {
-        self.<$Relationship.name$>Set().removeObject(value)
-    }
-
-}
-<$endif$><$endforeach do$>
