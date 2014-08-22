@@ -153,4 +153,38 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
 <$endif$>
 <$endforeach do$>
 
+<$foreach FetchedProperty noninheritedFetchedProperties do$>
+    @NSManaged
+    let <$FetchedProperty.name$>: [<$FetchedProperty.entity.managedObjectClassName$>]
+<$endforeach do$>
 }
+
+<$foreach Relationship noninheritedRelationships do$><$if Relationship.isToMany$>
+extension _<$managedObjectClassName$> {
+
+    func add<$Relationship.name.initialCapitalString$>(objects: <$Relationship.immutableCollectionClassName$>) {
+        let mutable = self.<$Relationship.name$>.mutableCopy() as NSMutable<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
+        mutable.union<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set(objects)
+        self.<$Relationship.name$> = mutable.copy() as NS<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
+    }
+
+    func remove<$Relationship.name.initialCapitalString$>(objects: <$Relationship.immutableCollectionClassName$>) {
+        let mutable = self.<$Relationship.name$>.mutableCopy() as NSMutable<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
+        mutable.minus<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set(objects)
+        self.<$Relationship.name$> = mutable.copy() as NS<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
+    }
+
+    func add<$Relationship.name.initialCapitalString$>Object(value: <$Relationship.destinationEntity.managedObjectClassName$>!) {
+        let mutable = self.<$Relationship.name$>.mutableCopy() as NSMutable<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
+        mutable.addObject(value)
+        self.<$Relationship.name$> = mutable.copy() as NS<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
+    }
+
+    func remove<$Relationship.name.initialCapitalString$>Object(value: <$Relationship.destinationEntity.managedObjectClassName$>!) {
+        let mutable = self.<$Relationship.name$>.mutableCopy() as NSMutable<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
+        mutable.removeObject(value)
+        self.<$Relationship.name$> = mutable.copy() as NS<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
+    }
+
+}
+<$endif$><$endforeach do$>
