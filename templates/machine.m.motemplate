@@ -216,9 +216,9 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 	fetchRequest.sortDescriptors = sortDescriptors;
 	<$if indexedNoninheritedAttributes.@count > 0$>
 <$if TemplateVar.literals$>
-  NSArray *indexedIDs = @[<$foreach Attribute indexedNoninheritedAttributes do$>self.<$Attribute.name$><$if AttributeIndex < indexedNoninheritedAttributes.@count - 1$>, <$endif$><$endforeach do$>];
+	NSArray *indexedIDs = @[<$foreach Attribute indexedNoninheritedAttributes do$>self.<$Attribute.name$><$if AttributeIndex < indexedNoninheritedAttributes.@count - 1$>, <$endif$><$endforeach do$>];
 <$else$>
-  NSArray *indexedIDs = [NSArray arrayWithObjects:<$foreach Attribute indexedNoninheritedAttributes do$>self.<$Attribute.name$>, <$endforeach do$>nil];
+	NSArray *indexedIDs = [NSArray arrayWithObjects:<$foreach Attribute indexedNoninheritedAttributes do$>self.<$Attribute.name$>, <$endforeach do$>nil];
 <$endif$>
 	NSString *cacheName = [NSString stringWithFormat:@"mogenerator.<$managedObjectClassName$>.%@.<$Relationship.name$>.%@", indexedIDs, sortDescriptors];
 	<$endif$>
