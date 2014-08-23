@@ -237,11 +237,11 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 	fetchRequest.predicate = [NSPredicate predicateWithFormat:@"<$Relationship.inverseRelationship.name$> <$if Relationship.inverseRelationship.isToMany$>CONTAINS<$else$>==<$endif$> %@", self];
 	fetchRequest.sortDescriptors = sortDescriptors;
 	<$if indexedNoninheritedAttributes.@count > 0$>
-<$if TemplateVar.literals$>
+  <$if TemplateVar.literals$>
 	NSArray *indexedIDs = @[<$foreach Attribute indexedNoninheritedAttributes do$>self.<$Attribute.name$><$if AttributeIndex < indexedNoninheritedAttributes.@count - 1$>, <$endif$><$endforeach do$>];
-<$else$>
+  <$else$>
 	NSArray *indexedIDs = [NSArray arrayWithObjects:<$foreach Attribute indexedNoninheritedAttributes do$>self.<$Attribute.name$>, <$endforeach do$>nil];
-<$endif$>
+  <$endif$>
 	NSString *cacheName = [NSString stringWithFormat:@"mogenerator.<$managedObjectClassName$>.%@.<$Relationship.name$>.%@", indexedIDs, sortDescriptors];
 	<$endif$>
 	return [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
