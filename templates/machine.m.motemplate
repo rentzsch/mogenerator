@@ -133,13 +133,21 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 
 	NSManagedObjectModel *model = [[moc_ persistentStoreCoordinator] managedObjectModel];
 	<$if FetchRequest.hasBindings$>
+	<$if TemplateVar.literals$>
+	NSDictionary *substitutionVariables = @{<$foreach Binding FetchRequest.bindings doVar$>@"<$Binding.name$>": <$Binding.name$>_<$if BindingIndex < FetchRequest.bindings.@count - 1$>, <$endif$><$endforeach doVar$>};
+	<$else$>
 	NSDictionary *substitutionVariables = [NSDictionary dictionaryWithObjectsAndKeys:
 														<$foreach Binding FetchRequest.bindings do2$>
 														<$Binding.name$>_, @"<$Binding.name$>",
 														<$endforeach do2$>
 														nil];
+	<$endif$>
+	<$else$>
+	<$if TemplateVar.literals$>
+	NSDictionary *substitutionVariables = @{};
 	<$else$>
 	NSDictionary *substitutionVariables = [NSDictionary dictionary];
+	<$endif$>
 	<$endif$>
 	NSFetchRequest *fetchRequest = [model fetchRequestFromTemplateWithName:@"<$FetchRequest.name$>"
 													 substitutionVariables:substitutionVariables];
@@ -186,13 +194,21 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 
 	NSManagedObjectModel *model = [[moc_ persistentStoreCoordinator] managedObjectModel];
 	<$if FetchRequest.hasBindings$>
+	<$if TemplateVar.literals$>
+	NSDictionary *substitutionVariables = @{<$foreach Binding FetchRequest.bindings doVar$>@"<$Binding.name$>": <$Binding.name$>_<$if BindingIndex < FetchRequest.bindings.@count - 1$>, <$endif$><$endforeach doVar$>};
+	<$else$>
 	NSDictionary *substitutionVariables = [NSDictionary dictionaryWithObjectsAndKeys:
 														<$foreach Binding FetchRequest.bindings do2$>
 														<$Binding.name$>_, @"<$Binding.name$>",
 														<$endforeach do2$>
 														nil];
+	<$endif$>
+	<$else$>
+	<$if TemplateVar.literals$>
+	NSDictionary *substitutionVariables = @{};
 	<$else$>
 	NSDictionary *substitutionVariables = [NSDictionary dictionary];
+	<$endif$>
 	<$endif$>
 	NSFetchRequest *fetchRequest = [model fetchRequestFromTemplateWithName:@"<$FetchRequest.name$>"
 													 substitutionVariables:substitutionVariables];
