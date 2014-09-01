@@ -28,15 +28,15 @@ enum <$managedObjectClassName$>UserInfo: String {<$foreach UserInfo userInfoKeyV
 <$endif$>
 
 @objc
-class _<$managedObjectClassName$>: <$customSuperentity$> {
+public class _<$managedObjectClassName$>: <$customSuperentity$> {
 
     // MARK: - Class methods
     
-    <$if hasCustomSuperentity$>override <$endif$>class func entityName () -> String {
+    <$if hasCustomSuperentity$>override <$endif$>public class func entityName () -> String {
         return "<$name$>"
     }
 
-    <$if hasCustomSuperentity$>override <$endif$>class func entity(managedObjectContext: NSManagedObjectContext!) -> NSEntityDescription! {
+    <$if hasCustomSuperentity$>override <$endif$>public class func entity(managedObjectContext: NSManagedObjectContext!) -> NSEntityDescription! {
         return NSEntityDescription.entityForName(self.entityName(), inManagedObjectContext: managedObjectContext);
     }
 
