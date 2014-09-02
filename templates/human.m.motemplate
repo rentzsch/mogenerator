@@ -1,14 +1,14 @@
-#import "<$managedObjectClassName$>.h"
+#import "<$derivedManagedObjectClassName$>.h"
 
 
-@interface <$managedObjectClassName$> ()
+@interface <$derivedManagedObjectClassName$> ()
 
 // Private interface goes here.
 
 @end
 
 
-@implementation <$managedObjectClassName$>
+@implementation <$derivedManagedObjectClassName$>
 
 // Custom logic goes here.
 
