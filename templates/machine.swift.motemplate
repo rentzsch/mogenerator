@@ -81,6 +81,9 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
     @NSManaged
     var <$Relationship.name$>: <$Relationship.immutableCollectionClassName$>
 
+    var mutable<$Relationship.name.initialCapitalString$>: <$Relationship.mutableCollectionClassName$> {
+        return mutable<$if Relationship.jr_isOrdered$>Ordered<$endif$>SetValueForKey("<$Relationship.name$>")
+    }
 <$else$>
     @NSManaged
     var <$Relationship.name$>: <$Relationship.destinationEntity.managedObjectClassName$><$if Relationship.isOptional$>?<$endif$>
