@@ -81,8 +81,11 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
     @NSManaged
     var <$Relationship.name$>: <$Relationship.immutableCollectionClassName$>
 
-    var mutable<$Relationship.name.initialCapitalString$>: <$Relationship.mutableCollectionClassName$> {
-        return mutable<$if Relationship.jr_isOrdered$>Ordered<$endif$>SetValueForKey("<$Relationship.name$>")
+    var <$Relationship.name$>Set: <$Relationship.mutableCollectionClassName$> {
+        willAccessValueForKey("<$Relationship.name$>")
+        let ret = mutable<$if Relationship.jr_isOrdered$>Ordered<$endif$>SetValueForKey("<$Relationship.name$>")
+        didAccessValueForKey("<$Relationship.name$>")
+        return ret
     }
 <$else$>
     @NSManaged
