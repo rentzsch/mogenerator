@@ -4,39 +4,39 @@
 import CoreData
 
 <$if noninheritedAttributes.@count > 0$>
-enum <$managedObjectClassName$>Attributes: String {<$foreach Attribute noninheritedAttributes do$>
+enum <$derivedManagedObjectClassName$>Attributes: String {<$foreach Attribute noninheritedAttributes do$>
     case <$Attribute.name$> = "<$Attribute.name$>"<$endforeach do$>
 }
 <$endif$>
 
 <$if noninheritedRelationships.@count > 0$>
-enum <$managedObjectClassName$>Relationships: String {<$foreach Relationship noninheritedRelationships do$>
+enum <$derivedManagedObjectClassName$>Relationships: String {<$foreach Relationship noninheritedRelationships do$>
     case <$Relationship.name$> = "<$Relationship.name$>"<$endforeach do$>
 }
 <$endif$>
 
 <$if noninheritedFetchedProperties.@count > 0$>
-enum <$managedObjectClassName$>FetchedProperties: String {<$foreach FetchedProperty noninheritedFetchedProperties do$>
+enum <$derivedManagedObjectClassName$>FetchedProperties: String {<$foreach FetchedProperty noninheritedFetchedProperties do$>
     case <$FetchedProperty.name$> = "<$FetchedProperty.name$>"<$endforeach do$>
 }
 <$endif$>
 
 <$if hasUserInfoKeys$>
-enum <$managedObjectClassName$>UserInfo: String {<$foreach UserInfo userInfoKeyValues do$>
+enum <$derivedManagedObjectClassName$>UserInfo: String {<$foreach UserInfo userInfoKeyValues do$>
     case <$UserInfo.key$> = "<$UserInfo.key$>"<$endforeach do$>
 }
 <$endif$>
 
 @objc
-class _<$managedObjectClassName$>: <$customSuperentity$> {
+public class _<$derivedManagedObjectClassName$>: <$customSuperentity$> {
 
     // MARK: - Class methods
     
-    <$if hasCustomSuperentity$>override <$endif$>class func entityName () -> String {
+    <$if hasCustomSuperentity$>override <$endif$>public class func entityName () -> String {
         return "<$name$>"
     }
 
-    <$if hasCustomSuperentity$>override <$endif$>class func entity(managedObjectContext: NSManagedObjectContext!) -> NSEntityDescription! {
+    <$if hasCustomSuperentity$>override <$endif$>public class func entity(managedObjectContext: NSManagedObjectContext!) -> NSEntityDescription! {
         return NSEntityDescription.entityForName(self.entityName(), inManagedObjectContext: managedObjectContext);
     }
 
@@ -47,7 +47,7 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
     }
 
     convenience init(managedObjectContext: NSManagedObjectContext!) {
-        let entity = _<$managedObjectClassName$>.entity(managedObjectContext)
+        let entity = _<$derivedManagedObjectClassName$>.entity(managedObjectContext)
         self.init(entity: entity, insertIntoManagedObjectContext: managedObjectContext)
     }
 
@@ -60,7 +60,7 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
     let <$Attribute.name$>: NSNumber?
 <$else$>
     @NSManaged
-    var <$Attribute.name$>: NSNumber?
+    public var <$Attribute.name$>: NSNumber?
 <$endif$>
 <$else$>
 <$if Attribute.isReadonly$>
@@ -68,7 +68,7 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
     let <$Attribute.name$>: <$Attribute.objectAttributeType$>
 <$else$>
     @NSManaged
-    var <$Attribute.name$>: <$Attribute.objectAttributeType$>
+    public var <$Attribute.name$>: <$Attribute.objectAttributeType$>
 <$endif$>
 <$endif$>
     // func validate<$Attribute.name.initialCapitalString$>(value: AutoreleasingUnsafePointer<AnyObject>, error: NSErrorPointer) {}
@@ -79,7 +79,7 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
 <$foreach Relationship noninheritedRelationships do$>
 <$if Relationship.isToMany$>
     @NSManaged
-    var <$Relationship.name$>: <$Relationship.immutableCollectionClassName$>
+    public var <$Relationship.name$>: <$Relationship.immutableCollectionClassName$>
 
     func <$Relationship.name$>Set() -> <$Relationship.mutableCollectionClassName$>! {
         self.willAccessValueForKey("<$Relationship.name$>")
@@ -93,7 +93,7 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
     }
 <$else$>
     @NSManaged
-    var <$Relationship.name$>: <$Relationship.destinationEntity.managedObjectClassName$>
+    public var <$Relationship.name$>: <$Relationship.destinationEntity.derivedManagedObjectClassName$>
 
     // func validate<$Relationship.name.initialCapitalString$>(value: AutoreleasingUnsafePointer<AnyObject>, error: NSErrorPointer) {}
 <$endif$>
@@ -165,12 +165,12 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
 
 <$foreach FetchedProperty noninheritedFetchedProperties do$>
     @NSManaged
-    let <$FetchedProperty.name$>: [<$FetchedProperty.entity.managedObjectClassName$>]
+    let <$FetchedProperty.name$>: [<$FetchedProperty.entity.derivedManagedObjectClassName$>]
 <$endforeach do$>
 }
 
 <$foreach Relationship noninheritedRelationships do$><$if Relationship.isToMany$>
-extension _<$managedObjectClassName$> {
+extension _<$derivedManagedObjectClassName$> {
 
     func add<$Relationship.name.initialCapitalString$>(objects: <$Relationship.immutableCollectionClassName$>) {
         self.<$Relationship.name$>Set().union<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set(objects)
@@ -180,11 +180,11 @@ extension _<$managedObjectClassName$> {
         self.<$Relationship.name$>Set().minus<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set(objects)
     }
 
-    func add<$Relationship.name.initialCapitalString$>Object(value: <$Relationship.destinationEntity.managedObjectClassName$>!) {
+    func add<$Relationship.name.initialCapitalString$>Object(value: <$Relationship.destinationEntity.derivedManagedObjectClassName$>!) {
         self.<$Relationship.name$>Set().addObject(value)
     }
 
-    func remove<$Relationship.name.initialCapitalString$>Object(value: <$Relationship.destinationEntity.managedObjectClassName$>!) {
+    func remove<$Relationship.name.initialCapitalString$>Object(value: <$Relationship.destinationEntity.derivedManagedObjectClassName$>!) {
         self.<$Relationship.name$>Set().removeObject(value)
     }
 

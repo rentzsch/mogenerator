@@ -1,5 +1,5 @@
-@objc(<$managedObjectClassName$>)
-class <$managedObjectClassName$>: _<$managedObjectClassName$> {
+@objc(<$derivedManagedObjectClassName$>)
+public class <$derivedManagedObjectClassName$>: _<$derivedManagedObjectClassName$> {
 
 	// Custom logic goes here.
 
