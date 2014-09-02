@@ -567,6 +567,19 @@ static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName
 
 @end
 
+@implementation NSPropertyDescription (swiftOptionality)
+
+- (NSString*)swiftOptionality {
+    if(self.optional) {
+        return @"?";
+    }
+    else {
+        return @"";
+    }
+}
+
+@end
+
 @implementation NSString (camelCaseString)
 - (NSString*)camelCaseString {
     NSArray *lowerCasedWordArray = [[self wordArray] arrayByMakingObjectsPerformSelector:@selector(lowercaseString)];
