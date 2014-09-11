@@ -14,7 +14,7 @@ Senseful wrote up a [nice summary of mogenerator's command-line options](http://
 
 ## Version History
 
-### v1.28: Wed Sep 10 2014 download
+### v1.28: Wed Sep 10 2014 [download](https://github.com/rentzsch/mogenerator/releases/download/1.28/mogenerator-1.28.dmg)
 
 * [NEW] `--v2` argument. I wanted to enable ARC by default, but decided to take it a step further (while not breaking existing scripts). The new `--v2` argument is basically [semantic versioning](http://semver.org) for tool arguments.
 
