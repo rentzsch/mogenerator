@@ -58,6 +58,8 @@ int main(int argc, char *argv[]) {
     ChildMO *bart = [ChildMO insertInManagedObjectContext:moc];
     bart.humanName = bart.childName = @"bart";
     [bart setIvar:1.0];
+    bart.type = [NSNumber numberWithInt:64];
+    bart.typeValue++;
     
     ChildMO *lisa = [ChildMO insertInManagedObjectContext:moc];
     lisa.humanName = lisa.childName = @"lisa";

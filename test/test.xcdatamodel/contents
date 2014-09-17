@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6220.8" systemVersion="13E28" minimumToolsVersion="Xcode 4.5" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6244" systemVersion="13E28" minimumToolsVersion="Xcode 4.5" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Child" representedClassName="ChildMO" parentEntity="Human" syncable="YES">
         <attribute name="childName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <relationship name="parent" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Parent" inverseName="children" inverseEntity="Parent" indexed="YES" syncable="YES"/>
     </entity>
     <entity name="ConcreteEntityWithCustomClass1" representedClassName="ConcreteEntityWithCustomClass1" parentEntity="EntitySansCustomClass2" syncable="YES">
@@ -79,7 +79,7 @@
         <element name="EntitySansCustomClass" positionX="502" positionY="90" width="128" height="60"/>
         <element name="EntitySansCustomClass2" positionX="295" positionY="-189" width="128" height="58"/>
         <element name="EntityWithBaseClass" positionX="342" positionY="18" width="128" height="60"/>
-        <element name="Human" positionX="169" positionY="18" width="128" height="135"/>
+        <element name="Human" positionX="169" positionY="18" width="128" height="133"/>
         <element name="Parent" positionX="34" positionY="114" width="128" height="283"/>
     </elements>
 </model>
