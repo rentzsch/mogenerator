@@ -371,6 +371,8 @@
 /* Begin PBXProject section */
 		08FB7793FE84155DC02AAC07 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+			};
 			buildConfigurationList = 1DEB927808733DD40010E9CD /* Build configuration list for PBXProject "mogenerator" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
@@ -479,7 +481,7 @@
 					"-sectcreate",
 					__TEXT,
 					__info_plist,
-					"/tmp/mogenerator-Info.plist",
+					"$TMPDIR/mogenerator-Info.plist",
 				);
 				PRODUCT_NAME = mogenerator;
 				WARNING_CFLAGS = "-Wall";
@@ -500,7 +502,7 @@
 					"-sectcreate",
 					__TEXT,
 					__info_plist,
-					"/tmp/mogenerator-Info.plist",
+					"$TMPDIR/mogenerator-Info.plist",
 				);
 				PRODUCT_NAME = mogenerator;
 				WARNING_CFLAGS = "-Wall";
