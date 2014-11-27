@@ -53,6 +53,13 @@ extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userI
 
 <$foreach Attribute noninheritedAttributes do$>
 <$if Attribute.hasDefinedAttributeType$>
+<$if TemplateVar.scalars and Attribute.hasScalarAttributeType and !Attribute.isOptional$>
+<$if Attribute.isReadonly$>
+@property (atomic, readonly) <$Attribute.scalarAttributeType$> <$Attribute.name$>;
+<$else$>
+@property (atomic) <$Attribute.scalarAttributeType$> <$Attribute.name$>;
+<$endif$>
+<$else$>
 <$if TemplateVar.arc$>
 <$if Attribute.isReadonly$>
 @property (nonatomic, strong, readonly) <$Attribute.objectAttributeType$> <$Attribute.name$>;
@@ -74,6 +81,7 @@ extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userI
 @property (atomic) <$Attribute.scalarAttributeType$> <$Attribute.name$>Value;
 - (<$Attribute.scalarAttributeType$>)<$Attribute.name$>Value;
 - (void)set<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_;
+<$endif$>
 <$endif$>
 <$endif$>
 //- (BOOL)validate<$Attribute.name.initialCapitalString$>:(id*)value_ error:(NSError**)error_;
@@ -141,11 +149,16 @@ extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userI
 @interface _<$managedObjectClassName$> (CoreDataGeneratedPrimitiveAccessors)
 <$foreach Attribute noninheritedAttributesSansType do$>
 <$if Attribute.hasDefinedAttributeType$>
+<$if TemplateVar.scalars and Attribute.hasScalarAttributeType and !Attribute.isOptional$>
+- (<$Attribute.scalarAttributeType$>)primitive<$Attribute.name.initialCapitalString$>;
+- (void)setPrimitive<$Attribute.name.initialCapitalString$>:(<$Attribute.scalarAttributeType$>)value_;
+<$else$>
 - (<$Attribute.objectAttributeType$>)primitive<$Attribute.name.initialCapitalString$>;
 - (void)setPrimitive<$Attribute.name.initialCapitalString$>:(<$Attribute.objectAttributeType$>)value;
 <$if Attribute.hasScalarAttributeType$>
 - (<$Attribute.scalarAttributeType$>)primitive<$Attribute.name.initialCapitalString$>Value;
 - (void)setPrimitive<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_;
+<$endif$>
 <$endif$>
 <$endif$>
 <$endforeach do$>
