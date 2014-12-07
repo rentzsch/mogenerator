@@ -27,7 +27,7 @@ enum <$managedObjectClassName$>UserInfo: String {<$foreach UserInfo userInfoKeyV
 }
 <$endif$>
 
-@objc
+@objc public
 class _<$managedObjectClassName$>: <$customSuperentity$> {
 
     // MARK: - Class methods
@@ -56,18 +56,18 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
 <$if Attribute.hasDefinedAttributeType$>
 <$if Attribute.hasScalarAttributeType$>
 <$if Attribute.isReadonly$>
-    @NSManaged
+    @NSManaged public
     let <$Attribute.name$>: NSNumber?
 <$else$>
-    @NSManaged
+    @NSManaged public
     var <$Attribute.name$>: NSNumber?
 <$endif$>
 <$else$>
 <$if Attribute.isReadonly$>
-    @NSManaged
+    @NSManaged public
     let <$Attribute.name$>: <$Attribute.objectAttributeType$><$if Attribute.isOptional$>?<$endif$>
 <$else$>
-    @NSManaged
+    @NSManaged public
     var <$Attribute.name$>: <$Attribute.objectAttributeType$><$if Attribute.isOptional$>?<$endif$>
 <$endif$>
 <$endif$>
@@ -78,11 +78,11 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
     // MARK: - Relationships
 <$foreach Relationship noninheritedRelationships do$>
 <$if Relationship.isToMany$>
-    @NSManaged
+    @NSManaged public
     var <$Relationship.name$>: <$Relationship.immutableCollectionClassName$>
 
 <$else$>
-    @NSManaged
+    @NSManaged public
     var <$Relationship.name$>: <$Relationship.destinationEntity.managedObjectClassName$><$if Relationship.isOptional$>?<$endif$>
 
     // func validate<$Relationship.name.initialCapitalString$>(value: AutoreleasingUnsafePointer<AnyObject>, error: NSErrorPointer) {}
@@ -154,7 +154,7 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
 <$endforeach do$>
 
 <$foreach FetchedProperty noninheritedFetchedProperties do$>
-    @NSManaged
+    @NSManaged public
     let <$FetchedProperty.name$>: [<$FetchedProperty.entity.managedObjectClassName$>]
 <$endforeach do$>
 }
