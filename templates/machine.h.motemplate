@@ -45,6 +45,13 @@ extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userI
 @interface <$managedObjectClassName$>ID : <$if hasSuperentity$><$customSuperentity$>ID<$else$>NSManagedObjectID<$endif$> {}
 @end
 
+<$if userInfo.documentation$>
+/**
+ * <$userInfo.documentation$>
+ *
+ * <$userInfo.discussion$>
+ */
+<$endif$>
 @interface _<$managedObjectClassName$> : <$customSuperentity$> {}
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
 + (NSString*)entityName;
@@ -52,6 +59,13 @@ extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userI
 @property (nonatomic, readonly, strong) <$managedObjectClassName$>ID* objectID;
 
 <$foreach Attribute noninheritedAttributes do$>
+<$if Attribute.userInfo.documentation$>
+/**
+ * <$Attribute.userInfo.documentation$>
+ *
+ * <$Attribute.userInfo.discussion$>
+ */
+<$endif$>
 <$if Attribute.hasDefinedAttributeType$>
 <$if TemplateVar.arc$>
 <$if Attribute.isReadonly$>
@@ -80,6 +94,13 @@ extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userI
 <$endif$>
 <$endforeach do$>
 <$foreach Relationship noninheritedRelationships do$>
+<$if Relationship.userInfo.documentation$>
+/**
+ * <$Relationship.userInfo.documentation$>
+ *
+ * <$Relationship.userInfo.discussion$>
+ */
+<$endif$>
 <$if Relationship.isToMany$>
 <$if TemplateVar.arc$>
 @property (nonatomic, strong) <$Relationship.immutableCollectionClassName$> *<$Relationship.name$>;
@@ -106,6 +127,13 @@ extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userI
 <$endif$>
 <$endforeach do$>
 <$foreach FetchedProperty noninheritedFetchedProperties do$>
+<$if FetchedProperty.userInfo.documentation$>
+/**
+ * <$FetchedProperty.userInfo.documentation$>
+ *
+ * <$FetchedProperty.userInfo.discussion$>
+ */
+<$endif$>
 @property (nonatomic, readonly) NSArray *<$FetchedProperty.name$>;
 <$endforeach do$>
 <$if TemplateVar.frc$>
