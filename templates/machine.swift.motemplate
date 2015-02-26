@@ -3,6 +3,8 @@
 
 import CoreData
 
+<$if hasCustomBaseCaseImport$>import <$baseClassImport$><$endif$>
+
 <$if noninheritedAttributes.@count > 0$>
 enum <$managedObjectClassName$>Attributes: String {<$foreach Attribute noninheritedAttributes do$>
     case <$Attribute.name$> = "<$Attribute.name$>"<$endforeach do$>
