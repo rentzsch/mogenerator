@@ -44,10 +44,12 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
 
     // MARK: - Life cycle methods
 
+    public
     override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext!) {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
     }
-
+    
+	public
     convenience init(managedObjectContext: NSManagedObjectContext!) {
         let entity = _<$managedObjectClassName$>.entity(managedObjectContext)
         self.init(entity: entity, insertIntoManagedObjectContext: managedObjectContext)
