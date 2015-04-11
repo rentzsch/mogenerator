@@ -22,9 +22,11 @@
 - (BOOL)hasCustomClass;
 - (BOOL)hasSuperentity;
 - (BOOL)hasCustomSuperentity;
+- (BOOL)hasCustomProtocol;
 - (BOOL)hasAdditionalHeaderFile;
 - (NSString*)customSuperentity;
 - (NSString*)forcedCustomBaseClass;
+- (NSString*)customProtocol;
 - (NSString*)additionalHeaderFileName;
 - (void)_processPredicate:(NSPredicate*)predicate_ bindings:(NSMutableArray*)bindings_;
 - (NSArray*)prettyFetchRequests;
@@ -65,6 +67,7 @@
     NSString              *baseClass;
     NSString              *baseClassImport;
     NSString              *baseClassForce;
+    NSString              *protocol;
     NSString              *includem;
     NSString              *includeh;
     NSString              *templatePath;

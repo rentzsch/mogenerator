@@ -10,6 +10,7 @@ static NSString * const kTemplateVar = @"TemplateVar";
 NSString  *gCustomBaseClass;
 NSString  *gCustomBaseClassImport;
 NSString  *gCustomBaseClassForced;
+NSString  *gCustomProtocol;
 BOOL       gSwift;
 
 static NSString *const kAttributeValueScalarTypeKey = @"attributeValueScalarType";
@@ -150,6 +151,11 @@ static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName
     }
 }
 
+- (BOOL)hasCustomProtocol {
+    NSString *customProtocol = gCustomProtocol;
+    return customProtocol != nil;
+}
+
 - (BOOL)hasAdditionalHeaderFile {
     return [[[self userInfo] allKeys] containsObject:kAdditionalHeaderFileNameKey];
 }
@@ -171,6 +177,11 @@ static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName
     NSString* userInfoCustomBaseClass = [[self userInfo] objectForKey:@"mogenerator.customBaseClass"];
     return userInfoCustomBaseClass ? userInfoCustomBaseClass : gCustomBaseClassForced;
 }
+
+- (NSString*)customProtocol {
+    return gCustomProtocol;
+}
+
 /** @TypeInfo NSAttributeDescription */
 - (NSArray*)noninheritedAttributes {
     NSArray *sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
@@ -674,6 +685,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
         {@"base-class-force",   0,     DDGetoptRequiredArgument},
         // For compatibility:
         {@"baseClass",          0,     DDGetoptRequiredArgument},
+        {@"protocol",           0,     DDGetoptRequiredArgument},
         {@"includem",           0,     DDGetoptRequiredArgument},
         {@"includeh",           0,     DDGetoptRequiredArgument},
         {@"template-path",      0,     DDGetoptRequiredArgument},
@@ -730,6 +742,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
            "--base-class-force CLASS  Same as --base-class except will force all entities to\n"
            "                          have the specified base class. Even if a super entity\n"
            "                          exists\n"
+           "--protocol PROTOCOL       Custom protocol\n"
            "--includem FILE           Generate aggregate include file for .m files for both\n"
            "                          human and machine generated source files\n"
            "--includeh FILE           Generate aggregate include file for .h files for human\n"
@@ -941,6 +954,10 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     } else {
         gCustomBaseClass = [baseClass retain];
         gCustomBaseClassImport = [baseClassImport retain];
+    }
+    
+    if (protocol) {
+        gCustomProtocol = protocol;
     }
 
     NSString * mfilePath = includem;
