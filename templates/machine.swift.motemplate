@@ -81,8 +81,8 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
     @NSManaged
     var <$Relationship.name$>: <$Relationship.immutableCollectionClassName$>
 
-    func <$Relationship.name$>Set() -> NSMutableOrderedSet {
-        return self.<$Relationship.name$>.mutableCopy() as! NSMutableOrderedSet
+    func <$Relationship.name$>Set() -> <$Relationship.mutableCollectionClassName$> {
+        return self.<$Relationship.name$>.mutableCopy() as! <$Relationship.mutableCollectionClassName$>
     }
 
 <$else$>
@@ -168,13 +168,13 @@ extension _<$managedObjectClassName$> {
 
     func add<$Relationship.name.initialCapitalString$>(objects: <$Relationship.immutableCollectionClassName$>) {
         let mutable = self.<$Relationship.name$>.mutableCopy() as! NSMutable<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
-        mutable.union<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set(objects)
+        mutable.union<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set(objects<$if Relationship.jr_isOrdered$><$else$> as Set<NSObject><$endif$>)
         self.<$Relationship.name$> = mutable.copy() as! NS<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
     }
 
     func remove<$Relationship.name.initialCapitalString$>(objects: <$Relationship.immutableCollectionClassName$>) {
         let mutable = self.<$Relationship.name$>.mutableCopy() as! NSMutable<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
-        mutable.minus<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set(objects)
+        mutable.minus<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set(objects<$if Relationship.jr_isOrdered$><$else$> as Set<NSObject><$endif$>)
         self.<$Relationship.name$> = mutable.copy() as! NS<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
     }
 
