@@ -59,6 +59,13 @@
 		79D2C05A0ACFBCB500F3F141 /* FoundationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 79D2C0580ACFBCB500F3F141 /* FoundationAdditions.m */; };
 		8DD76F9A0486AA7600D96B5E /* mogenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* mogenerator.m */; settings = {ATTRIBUTES = (); }; };
 		8DD76F9C0486AA7600D96B5E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08FB779EFE84155DC02AAC07 /* Foundation.framework */; };
+		EE5ED87317332E020013CCD1 /* NSManagedObjectModel+momcom.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5ED86617332E020013CCD1 /* NSManagedObjectModel+momcom.m */; };
+		EE5ED87417332E020013CCD1 /* NSEntityDescription+momcom.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5ED86817332E020013CCD1 /* NSEntityDescription+momcom.m */; };
+		EE5ED87517332E020013CCD1 /* NSAttributeDescription+momcom.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5ED86A17332E020013CCD1 /* NSAttributeDescription+momcom.m */; };
+		EE5ED87617332E020013CCD1 /* NSPropertyDescription+momcom.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5ED86C17332E020013CCD1 /* NSPropertyDescription+momcom.m */; };
+		EE5ED87717332E020013CCD1 /* NSRelationshipDescription+momcom.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5ED86E17332E020013CCD1 /* NSRelationshipDescription+momcom.m */; };
+		EE5ED87817332E020013CCD1 /* NSFetchedPropertyDescription+momcom.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5ED87017332E020013CCD1 /* NSFetchedPropertyDescription+momcom.m */; };
+		EE5ED87917332E020013CCD1 /* NSFetchRequest+momcom.m in Sources */ = {isa = PBXBuildFile; fileRef = EE5ED87217332E020013CCD1 /* NSFetchRequest+momcom.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -168,6 +175,20 @@
 		79D2C0570ACFBCB500F3F141 /* FoundationAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FoundationAdditions.h; sourceTree = "<group>"; };
 		79D2C0580ACFBCB500F3F141 /* FoundationAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FoundationAdditions.m; sourceTree = "<group>"; };
 		8DD76FA10486AA7600D96B5E /* mogenerator */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = mogenerator; sourceTree = BUILT_PRODUCTS_DIR; };
+		EE5ED86517332E020013CCD1 /* NSManagedObjectModel+momcom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectModel+momcom.h"; sourceTree = "<group>"; };
+		EE5ED86617332E020013CCD1 /* NSManagedObjectModel+momcom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectModel+momcom.m"; sourceTree = "<group>"; };
+		EE5ED86717332E020013CCD1 /* NSEntityDescription+momcom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSEntityDescription+momcom.h"; sourceTree = "<group>"; };
+		EE5ED86817332E020013CCD1 /* NSEntityDescription+momcom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSEntityDescription+momcom.m"; sourceTree = "<group>"; };
+		EE5ED86917332E020013CCD1 /* NSAttributeDescription+momcom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributeDescription+momcom.h"; sourceTree = "<group>"; };
+		EE5ED86A17332E020013CCD1 /* NSAttributeDescription+momcom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributeDescription+momcom.m"; sourceTree = "<group>"; };
+		EE5ED86B17332E020013CCD1 /* NSPropertyDescription+momcom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSPropertyDescription+momcom.h"; sourceTree = "<group>"; };
+		EE5ED86C17332E020013CCD1 /* NSPropertyDescription+momcom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSPropertyDescription+momcom.m"; sourceTree = "<group>"; };
+		EE5ED86D17332E020013CCD1 /* NSRelationshipDescription+momcom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSRelationshipDescription+momcom.h"; sourceTree = "<group>"; };
+		EE5ED86E17332E020013CCD1 /* NSRelationshipDescription+momcom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSRelationshipDescription+momcom.m"; sourceTree = "<group>"; };
+		EE5ED86F17332E020013CCD1 /* NSFetchedPropertyDescription+momcom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFetchedPropertyDescription+momcom.h"; sourceTree = "<group>"; };
+		EE5ED87017332E020013CCD1 /* NSFetchedPropertyDescription+momcom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFetchedPropertyDescription+momcom.m"; sourceTree = "<group>"; };
+		EE5ED87117332E020013CCD1 /* NSFetchRequest+momcom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFetchRequest+momcom.h"; sourceTree = "<group>"; };
+		EE5ED87217332E020013CCD1 /* NSFetchRequest+momcom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFetchRequest+momcom.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +209,7 @@
 			isa = PBXGroup;
 			children = (
 				08FB7795FE84155DC02AAC07 /* Source */,
+				EE5ED86417332DED0013CCD1 /* momcom */,
 				79D2BF510ACFB51000F3F141 /* MiscMerge */,
 				457C26C6139A1EF900BF00DD /* ponso */,
 				55200E8E0C49FEEA00018A42 /* ddcli */,
@@ -345,6 +367,27 @@
 			path = MiscMerge;
 			sourceTree = "<group>";
 		};
+		EE5ED86417332DED0013CCD1 /* momcom */ = {
+			isa = PBXGroup;
+			children = (
+				EE5ED86517332E020013CCD1 /* NSManagedObjectModel+momcom.h */,
+				EE5ED86617332E020013CCD1 /* NSManagedObjectModel+momcom.m */,
+				EE5ED86717332E020013CCD1 /* NSEntityDescription+momcom.h */,
+				EE5ED86817332E020013CCD1 /* NSEntityDescription+momcom.m */,
+				EE5ED86917332E020013CCD1 /* NSAttributeDescription+momcom.h */,
+				EE5ED86A17332E020013CCD1 /* NSAttributeDescription+momcom.m */,
+				EE5ED86B17332E020013CCD1 /* NSPropertyDescription+momcom.h */,
+				EE5ED86C17332E020013CCD1 /* NSPropertyDescription+momcom.m */,
+				EE5ED86D17332E020013CCD1 /* NSRelationshipDescription+momcom.h */,
+				EE5ED86E17332E020013CCD1 /* NSRelationshipDescription+momcom.m */,
+				EE5ED86F17332E020013CCD1 /* NSFetchedPropertyDescription+momcom.h */,
+				EE5ED87017332E020013CCD1 /* NSFetchedPropertyDescription+momcom.m */,
+				EE5ED87117332E020013CCD1 /* NSFetchRequest+momcom.h */,
+				EE5ED87217332E020013CCD1 /* NSFetchRequest+momcom.m */,
+			);
+			path = momcom;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -459,6 +502,13 @@
 				457C26CD139A1EF900BF00DD /* MKCDAGNode.m in Sources */,
 				457C26CE139A1EF900BF00DD /* MKCNSEntityDescriptionAdditions.m in Sources */,
 				457C26CF139A1EF900BF00DD /* MKCNSManagedObjectModelAdditions.m in Sources */,
+				EE5ED87317332E020013CCD1 /* NSManagedObjectModel+momcom.m in Sources */,
+				EE5ED87417332E020013CCD1 /* NSEntityDescription+momcom.m in Sources */,
+				EE5ED87517332E020013CCD1 /* NSAttributeDescription+momcom.m in Sources */,
+				EE5ED87617332E020013CCD1 /* NSPropertyDescription+momcom.m in Sources */,
+				EE5ED87717332E020013CCD1 /* NSRelationshipDescription+momcom.m in Sources */,
+				EE5ED87817332E020013CCD1 /* NSFetchedPropertyDescription+momcom.m in Sources */,
+				EE5ED87917332E020013CCD1 /* NSFetchRequest+momcom.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
