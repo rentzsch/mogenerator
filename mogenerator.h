@@ -52,6 +52,9 @@
 @interface NSObject (JustHereToSuppressIsOrderedNotImplementedCompilerWarning)
 - (BOOL)isOrdered;
 @end
+@interface NSPropertyDescription (swiftOptionality)
+- (NSString*)swiftOptionality;
+@end
 
 @interface NSString (camelCaseString)
 - (NSString*)camelCaseString;

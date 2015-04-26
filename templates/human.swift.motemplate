@@ -1,3 +1,5 @@
+import CoreData
+
 @objc(<$managedObjectClassName$>)
 class <$managedObjectClassName$>: _<$managedObjectClassName$> {
 

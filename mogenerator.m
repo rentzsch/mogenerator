@@ -568,6 +568,52 @@ static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName
 
 @end
 
+@implementation NSPropertyDescription (swiftOptionality)
+
+- (NSString*)swiftOptionality {
+    if(self.optional) {
+        return @"?";
+    }
+    else {
+        return @"";
+    }
+}
+
+@end
+
+@implementation NSAttributeDescription (swiftOptionality)
+
+- (NSString *)swiftOptionality {
+    if(!self.optional && !self.defaultValue) {
+        // This property will start out as nil, so let's make it an implicit optional.
+        return @"!";
+    }
+    else {
+        return [super swiftOptionality];
+    }
+}
+
+@end
+
+@implementation NSRelationshipDescription (swiftOptionality)
+
+- (NSString *)swiftOptionality {
+    if (self.isToMany) {
+        // To-many relationships become "optional" by being empty, not by being nil.
+        return @"";
+    }
+    else {
+        NSString * optionality = [super swiftOptionality];
+        if([optionality isEqualToString:@""]) {
+            // This relationship will start off as nil, so let's make it an implicit optional.
+            optionality = @"!";
+        }
+        return optionality;
+    }
+}
+
+@end
+
 @implementation NSString (camelCaseString)
 - (NSString*)camelCaseString {
     NSArray *lowerCasedWordArray = [[self wordArray] arrayByMakingObjectsPerformSelector:@selector(lowercaseString)];
