@@ -3,6 +3,7 @@
 #import "MOs/ParentMO.h"
 #import "MOs/ChildMO.h"
 #import "TestProtocol.h"
+#import "Gender.h"
 
 #if __has_feature(objc_arc)
     #define autorelease self
@@ -42,19 +43,23 @@ int main(int argc, char *argv[]) {
     ParentMO *homer = [ParentMO insertInManagedObjectContext:moc];
     homer.humanName = homer.parentName = @"homer";
     [homer setIvar:1.0];
+    homer.genderValue = Gender_Male;
     
     ParentMO *marge = [ParentMO insertInManagedObjectContext:moc];
     marge.humanName = marge.parentName = @"marge";
     [marge setIvar:1.0];
+    marge.genderValue = Gender_Female;
     
-    NSCAssert([homer.children count] == 0, nil);
-    NSCAssert([marge.children count] == 0, nil);
+    assert([homer.children count] == 0);
+    assert([marge.children count] == 0);
     
     //--
     
     ChildMO *bart = [ChildMO insertInManagedObjectContext:moc];
     bart.humanName = bart.childName = @"bart";
     [bart setIvar:1.0];
+    bart.type = [NSNumber numberWithInt:64];
+    bart.typeValue++;
     
     ChildMO *lisa = [ChildMO insertInManagedObjectContext:moc];
     lisa.humanName = lisa.childName = @"lisa";
@@ -62,7 +67,16 @@ int main(int argc, char *argv[]) {
 
     ParentMO *protocolMO = [ParentMO insertInManagedObjectContext:moc];
     protocolMO.myTransformableWithProtocol = [TestProtocol new];
-
+    
+    //--
+    
+    NSError *saveError = nil;
+    BOOL saveSuccess = [moc save:&saveError];
+    assert(saveSuccess);
+    assert(!saveError);
+        
+    //--
+    
 #if 0
     /* Unforunately this section raises the following internal exception on 10.8.0/Xcode 4.5-DP4:
      2012-08-30 16:01:12.351 test[15090:707] *** Terminating app due to uncaught exception 'NSInvalidArgumentException', reason: '*** -[NSSet intersectsSet:]: set argument is not an NSSet'
@@ -86,19 +100,16 @@ int main(int argc, char *argv[]) {
     [marge addChildrenObject:bart];
     [marge addChildrenObject:lisa];
     
-    NSCAssert([homer.children count] == 2, nil);
-    NSCAssert([marge.children count] == 2, nil);
+    assert([homer.children count] == 2);
+    assert([marge.children count] == 2);
 #endif
     
     //--
     
-    NSError *saveError = nil;
-    BOOL saveSuccess = [moc save:&saveError];
-    assert(saveSuccess);
-    assert(!saveError);
-    
-    //--
-    
+    assert(homer.genderValue == Gender_Male);
+    assert(marge.genderValue == Gender_Female);
+    assert(bart.genderValue == Gender_Undefined);
+    assert([GenderToString(homer.genderValue) isEqualToString:@"Gender_Male"]);
     }
     puts("success");
     return 0;

@@ -1,5 +1,5 @@
 // mogenerator.m
-//   Copyright (c) 2006-2013 Jonathan 'Wolf' Rentzsch: http://rentzsch.com
+//   Copyright (c) 2006-2014 Jonathan 'Wolf' Rentzsch: http://rentzsch.com
 //   Some rights reserved: http://opensource.org/licenses/mit
 //   http://github.com/rentzsch/mogenerator
 
@@ -12,6 +12,9 @@ NSString  *gCustomBaseClass;
 NSString  *gCustomBaseClassImport;
 NSString  *gCustomBaseClassForced;
 BOOL       gSwift;
+
+static NSString *const kAttributeValueScalarTypeKey = @"attributeValueScalarType";
+static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName";
 
 @interface NSEntityDescription (fetchedPropertiesAdditions)
 - (NSDictionary*)fetchedPropertiesByName;
@@ -37,16 +40,33 @@ BOOL       gSwift;
 @end
 
 @implementation NSEntityDescription (userInfoAdditions)
-- (BOOL)hasUserInfoKeys {
-	return ([self.userInfo count] > 0);
+- (NSDictionary*)sanitizedUserInfo {
+    NSMutableCharacterSet *validCharacters = [[[NSCharacterSet letterCharacterSet] mutableCopy] autorelease];
+    [validCharacters formUnionWithCharacterSet:[NSCharacterSet decimalDigitCharacterSet]];
+    [validCharacters addCharactersInString:@"_"];
+    NSCharacterSet *invalidCharacters = [validCharacters invertedSet];
+    
+    NSMutableDictionary *result = [NSMutableDictionary dictionaryWithCapacity:[[self userInfo] count]];
+    for (NSString *key in self.userInfo) {
+        if ([key rangeOfCharacterFromSet:invalidCharacters].location == NSNotFound) {
+            NSString *value = [self.userInfo objectForKey:key];
+            value = [value stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
+            [result setObject:value forKey:key];
+        }
+    }
+    
+    return result;
 }
 
-- (NSDictionary *)userInfoByKeys
-{
+- (BOOL)hasUserInfoKeys {
+	return ([self.sanitizedUserInfo count] > 0);
+}
+
+- (NSDictionary *)userInfoByKeys {
 	NSMutableDictionary *userInfoByKeys = [NSMutableDictionary dictionary];
 
-	for (NSString *key in self.userInfo)
-		[userInfoByKeys setObject:[NSDictionary dictionaryWithObjectsAndKeys:key, @"key", [self.userInfo objectForKey:key], @"value", nil] forKey:key];
+	for (NSString *key in self.sanitizedUserInfo)
+		[userInfoByKeys setObject:[NSDictionary dictionaryWithObjectsAndKeys:key, @"key", [self.sanitizedUserInfo objectForKey:key], @"value", nil] forKey:key];
 
 	return userInfoByKeys;
 }
@@ -131,6 +151,10 @@ BOOL       gSwift;
     }
 }
 
+- (BOOL)hasAdditionalHeaderFile {
+    return [[[self userInfo] allKeys] containsObject:kAdditionalHeaderFileNameKey];
+}
+
 - (NSString*)customSuperentity {
     NSString *forcedBaseClass = [self forcedCustomBaseClass];
     if (!forcedBaseClass) {
@@ -160,6 +184,11 @@ BOOL       gSwift;
         return [[[self attributesByName] allValues] sortedArrayUsingDescriptors:sortDescriptors];
     }
 }
+
+- (NSString*)additionalHeaderFileName {
+    return [[self userInfo] objectForKey:kAdditionalHeaderFileNameKey];
+}
+
 /** @TypeInfo NSAttributeDescription */
 - (NSArray*)noninheritedAttributesSansType {
     NSArray *attributeDescriptions = [self noninheritedAttributes];
@@ -331,6 +360,17 @@ BOOL       gSwift;
 @end
 
 @implementation NSAttributeDescription (typing)
+- (BOOL)isUnsigned
+{
+    BOOL hasMin = NO;
+    for (NSPredicate *pred in [self validationPredicates]) {
+        if ([pred.predicateFormat containsString:@">= 0"]) {
+            hasMin = YES;
+        }
+    }
+    return hasMin;
+}
+
 - (BOOL)hasScalarAttributeType {
     switch ([self attributeType]) {
         case NSInteger16AttributeType:
@@ -346,38 +386,59 @@ BOOL       gSwift;
     }
 }
 - (NSString*)scalarAttributeType {
-    switch ([self attributeType]) {
-        case NSInteger16AttributeType:
-            return gSwift ? @"Int16" : @"int16_t";
-            break;
-        case NSInteger32AttributeType:
-            return gSwift ? @"Int32" : @"int32_t";
-            break;
-        case NSInteger64AttributeType:
-            return gSwift ? @"Int64" : @"int64_t";
-            break;
-        case NSDoubleAttributeType:
-            return gSwift ? @"Double" : @"double";
-            break;
-        case NSFloatAttributeType:
-            return gSwift ? @"Float" : @"float";
-            break;
-        case NSBooleanAttributeType:
-            return gSwift ? @"Bool" : @"BOOL";
-            break;
-        default:
-            return nil;
+    
+    BOOL isUnsigned = [self isUnsigned];
+    
+    NSString *attributeValueScalarType = [[self userInfo] objectForKey:kAttributeValueScalarTypeKey];
+    
+    if (attributeValueScalarType) {
+        return attributeValueScalarType;
+    } else {
+        switch ([self attributeType]) {
+            case NSInteger16AttributeType:
+                return gSwift ? isUnsigned ? @"UInt16" : @"Int16" : isUnsigned ? @"uint16_t" : @"int16_t";
+                break;
+            case NSInteger32AttributeType:
+                return gSwift ? isUnsigned ? @"UInt32" : @"Int32" : isUnsigned ? @"uint32_t" : @"int32_t";
+                break;
+            case NSInteger64AttributeType:
+                return gSwift ? isUnsigned ? @"UInt64" : @"Int64" : isUnsigned ? @"uint64_t" : @"int64_t";
+                break;
+            case NSDoubleAttributeType:
+                return gSwift ? @"Double" : @"double";
+                break;
+            case NSFloatAttributeType:
+                return gSwift ? @"Float" : @"float";
+                break;
+            case NSBooleanAttributeType:
+                return gSwift ? @"Bool" : @"BOOL";
+                break;
+            default:
+                return nil;
+        }
     }
 }
 - (NSString*)scalarAccessorMethodName {
+    
+    BOOL isUnsigned = [self isUnsigned];
+    
     switch ([self attributeType]) {
         case NSInteger16AttributeType:
+            if (isUnsigned) {
+                return @"unsignedShortValue";
+            }
             return @"shortValue";
             break;
         case NSInteger32AttributeType:
+            if (isUnsigned) {
+                return @"unsignedIntValue";
+            }
             return @"intValue";
             break;
         case NSInteger64AttributeType:
+            if (isUnsigned) {
+                return @"unsignedLongLongValue";
+            }
             return @"longLongValue";
             break;
         case NSDoubleAttributeType:
@@ -394,14 +455,26 @@ BOOL       gSwift;
     }
 }
 - (NSString*)scalarFactoryMethodName {
+    
+    BOOL isUnsigned = [self isUnsigned];
+    
     switch ([self attributeType]) {
         case NSInteger16AttributeType:
+            if (isUnsigned) {
+                return @"numberWithUnsignedShort:";
+            }
             return @"numberWithShort:";
             break;
         case NSInteger32AttributeType:
+            if (isUnsigned) {
+                return @"numberWithUnsignedInt:";
+            }
             return @"numberWithInt:";
             break;
         case NSInteger64AttributeType:
+            if (isUnsigned) {
+                return @"numberWithUnsignedLongLong:";
+            }
             return @"numberWithLongLong:";
             break;
         case NSDoubleAttributeType:
@@ -592,60 +665,87 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     [optionsParser setGetoptLongOnly:YES];
     DDGetoptOption optionTable[] = 
     {
-    // Long                 Short   Argument options
-    {@"model",              'm',    DDGetoptRequiredArgument},
-    {@"configuration",      'C',    DDGetoptRequiredArgument},
-    {@"base-class",         0,     DDGetoptRequiredArgument},
-    {@"base-class-import",  0,     DDGetoptRequiredArgument},
-    {@"base-class-force",   0,     DDGetoptRequiredArgument},
-    // For compatibility:
-    {@"baseClass",          0,      DDGetoptRequiredArgument},
-    {@"includem",           0,      DDGetoptRequiredArgument},
-    {@"includeh",           0,      DDGetoptRequiredArgument},
-    {@"template-path",      0,      DDGetoptRequiredArgument},
-    // For compatibility:
-    {@"templatePath",       0,      DDGetoptRequiredArgument},
-    {@"output-dir",         'O',    DDGetoptRequiredArgument},
-    {@"machine-dir",        'M',    DDGetoptRequiredArgument},
-    {@"human-dir",          'H',    DDGetoptRequiredArgument},
-    {@"template-group",     0,      DDGetoptRequiredArgument},
-    {@"list-source-files",  0,      DDGetoptNoArgument},
-    {@"orphaned",           0,      DDGetoptNoArgument},
-
-    {@"swift",              'S',    DDGetoptNoArgument},
-    {@"help",               'h',    DDGetoptNoArgument},
-    {@"version",            0,      DDGetoptNoArgument},
-    {@"template-var",       0,      DDGetoptKeyValueArgument},
-    {nil,                   0,      0},
+        // Long                 Short  Argument options
+        {@"v2",                 '2',   DDGetoptNoArgument},
+        
+        {@"model",              'm',   DDGetoptRequiredArgument},
+        {@"configuration",      'C',   DDGetoptRequiredArgument},
+        {@"base-class",         0,     DDGetoptRequiredArgument},
+        {@"base-class-import",  0,     DDGetoptRequiredArgument},
+        {@"base-class-force",   0,     DDGetoptRequiredArgument},
+        // For compatibility:
+        {@"baseClass",          0,     DDGetoptRequiredArgument},
+        {@"includem",           0,     DDGetoptRequiredArgument},
+        {@"includeh",           0,     DDGetoptRequiredArgument},
+        {@"template-path",      0,     DDGetoptRequiredArgument},
+        // For compatibility:
+        {@"templatePath",       0,     DDGetoptRequiredArgument},
+        {@"output-dir",         'O',   DDGetoptRequiredArgument},
+        {@"machine-dir",        'M',   DDGetoptRequiredArgument},
+        {@"human-dir",          'H',   DDGetoptRequiredArgument},
+        {@"template-group",     0,     DDGetoptRequiredArgument},
+        {@"list-source-files",  0,     DDGetoptNoArgument},
+        {@"orphaned",           0,     DDGetoptNoArgument},
+        
+        {@"help",               'h',   DDGetoptNoArgument},
+        {@"version",            0,     DDGetoptNoArgument},
+        {@"template-var",       0,     DDGetoptKeyValueArgument},
+        {@"swift",              'S',   DDGetoptNoArgument},
+        {nil,                   0,     0},
     };
     [optionsParser addOptionsFromTable:optionTable];
     [optionsParser setArgumentsFilename:@".mogenerator-args"];
 }
 
 - (void)printUsage {
-    ddprintf(@"%@: Usage [OPTIONS] <argument> [...]\n", DDCliApp);
     printf("\n"
-           "  -S, --swift                   Generate Swift templates instead of Objective-C\n"
-           "  -m, --model MODEL             Path to model\n"
-           "  -C, --configuration CONFIG    Only consider entities included in the named configuration\n"
-           "      --base-class CLASS        Custom base class\n"
-           "      --base-class-import TEXT        Imports base class as #import TEXT\n"
-           "      --base-class-force CLASS  Same as --base-class except will force all entities to have the specified base class. Even if a super entity exists\n"
-           "      --includem FILE           Generate aggregate include file for .m files for both human and machine generated source files\n"
-           "      --includeh FILE           Generate aggregate include file for .h files for human generated source files only\n"
-           "      --template-path PATH      Path to templates (absolute or relative to model path)\n"
-           "      --template-group NAME     Name of template group\n"
-           "      --template-var KEY=VALUE  A key-value pair to pass to the template file. There can be many of these.\n"
-           "  -O, --output-dir DIR          Output directory\n"
-           "  -M, --machine-dir DIR         Output directory for machine files\n"
-           "  -H, --human-dir DIR           Output directory for human files\n"
-           "      --list-source-files       Only list model-related source files\n"
-           "      --orphaned                Only list files whose entities no longer exist\n"
-           "      --version                 Display version and exit\n"
-           "  -h, --help                    Display this help and exit\n"
+           "Mogenerator Help\n"
+           "================\n"
            "\n"
-           "Implements generation gap codegen pattern for Core Data.\n"
-           "Inspired by eogenerator.\n");
+           "Mogenerator generates code from your Core Data model files.\n"
+           "\n"
+           "Typical Use\n"
+           "-----------\n"
+           "\n"
+           "$ mogenerator --v2 --model MyModel.xcdatamodeld --output-dir MyModel\n"
+           "\n"
+           "The --v2 argument tells mogenerator to use modern Objective-C (ARC,\n"
+           "Objective-C literals, modules). Otherwise mogenerator will generate old-style\n"
+           "Objective-C.\n"
+           "\n"
+           "Use the --model argument to supply the required data model file.\n"
+           "\n"
+           "If --output-dir is optional but recommended. If not supplied, mogenerator will\n"
+           "output generated files into the current directory.\n"
+           "\n"
+           "All Options\n"
+           "-----------\n"
+           "\n"
+           "--model MODEL             Path to model\n"
+           "--output-dir DIR          Output directory\n"
+           "--swift                   Generate Swift templates instead of Objective-C\n"
+           "--configuration CONFIG    Only consider entities included in the named\n"
+           "                          configuration\n"
+           "--base-class CLASS        Custom base class\n"
+           "--base-class-import TEXT  Imports base class as #import TEXT\n"
+           "--base-class-force CLASS  Same as --base-class except will force all entities to\n"
+           "                          have the specified base class. Even if a super entity\n"
+           "                          exists\n"
+           "--includem FILE           Generate aggregate include file for .m files for both\n"
+           "                          human and machine generated source files\n"
+           "--includeh FILE           Generate aggregate include file for .h files for human\n"
+           "                          generated source files only\n"
+           "--template-path PATH      Path to templates (absolute or relative to model path)\n"
+           "--template-group NAME     Name of template group\n"
+           "--template-var KEY=VALUE  A key-value pair to pass to the template file. There\n"
+           "                          can be many of these.\n"
+           "--machine-dir DIR         Output directory for machine files\n"
+           "--human-dir DIR           Output directory for human files\n"
+           "--list-source-files       Only list model-related source files\n"
+           "--orphaned                Only list files whose entities no longer exist\n"
+           "--version                 Display version and exit\n"
+           "--help                    Display this help and exit\n"
+           );
 }
 
 - (NSString*)xcodeSelectPrintPath {
@@ -834,8 +934,14 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     }
     
     if (_version) {
-        printf("mogenerator 1.27. By Jonathan 'Wolf' Rentzsch + friends.\n");
+        printf("mogenerator 1.28. By Jonathan 'Wolf' Rentzsch + friends.\n");
         return EXIT_SUCCESS;
+    }
+    
+    if (_v2) {
+        [templateVar setObject:@YES forKey:@"arc"];
+        [templateVar setObject:@YES forKey:@"literals"];
+        [templateVar setObject:@YES forKey:@"modules"];
     }
 
     gSwift = _swift;

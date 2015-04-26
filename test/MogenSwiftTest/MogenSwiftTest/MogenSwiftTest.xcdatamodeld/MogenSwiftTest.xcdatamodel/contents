@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6198" systemVersion="13D65" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="MyEntity" representedClassName="MyEntityMO" syncable="YES">
+        <attribute name="integerAttribute" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="stringAttribute" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="UnorderedToManyDst" representedClassName="UnorderedToManyDstMO" syncable="YES">
+        <attribute name="tag" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="relationship" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UnorderedToManySrc" inverseName="relationship" inverseEntity="UnorderedToManySrc" syncable="YES"/>
+    </entity>
+    <entity name="UnorderedToManySrc" representedClassName="UnorderedToManySrcMO" syncable="YES">
+        <attribute name="tag" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="relationship" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="UnorderedToManyDst" inverseName="relationship" inverseEntity="UnorderedToManyDst" syncable="YES"/>
+    </entity>
+    <fetchRequest name="allUnorderedToManySrcs" entity="UnorderedToManySrc"/>
+    <elements>
+        <element name="MyEntity" positionX="-54" positionY="-9" width="128" height="73"/>
+        <element name="UnorderedToManySrc" positionX="-279" positionY="-145" width="128" height="73"/>
+        <element name="UnorderedToManyDst" positionX="-65" positionY="-144" width="128" height="73"/>
+    </elements>
+</model>

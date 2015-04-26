@@ -5,6 +5,10 @@
 <$if hasCustomSuperentity$><$if hasSuperentity$>#import "<$customSuperentity$>.h"
 <$else$><$if hasCustomBaseCaseImport$>#import <$baseClassImport$><$else$>#import "<$customSuperentity$>.h"<$endif$><$endif$><$endif$>
 
+<$if hasAdditionalHeaderFile$>
+#import "<$additionalHeaderFileName$>"
+<$endif$>
+
 <$if noninheritedAttributes.@count > 0$>
 extern const struct <$managedObjectClassName$>Attributes {<$foreach Attribute noninheritedAttributes do$>
 	<$if TemplateVar.arc$>__unsafe_unretained<$endif$> NSString *<$Attribute.name$>;<$endforeach do$>
@@ -41,6 +45,13 @@ extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userI
 @interface <$managedObjectClassName$>ID : <$if hasSuperentity$><$customSuperentity$>ID<$else$>NSManagedObjectID<$endif$> {}
 @end
 
+<$if userInfo.documentation$>
+/**
+ * <$userInfo.documentation$>
+ *
+ * <$userInfo.discussion$>
+ */
+<$endif$>
 @interface _<$managedObjectClassName$> : <$customSuperentity$> {}
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
 + (NSString*)entityName;
@@ -48,6 +59,13 @@ extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userI
 @property (nonatomic, readonly, strong) <$managedObjectClassName$>ID* objectID;
 
 <$foreach Attribute noninheritedAttributes do$>
+<$if Attribute.userInfo.documentation$>
+/**
+ * <$Attribute.userInfo.documentation$>
+ *
+ * <$Attribute.userInfo.discussion$>
+ */
+<$endif$>
 <$if Attribute.hasDefinedAttributeType$>
 <$if TemplateVar.arc$>
 <$if Attribute.isReadonly$>
@@ -76,6 +94,13 @@ extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userI
 <$endif$>
 <$endforeach do$>
 <$foreach Relationship noninheritedRelationships do$>
+<$if Relationship.userInfo.documentation$>
+/**
+ * <$Relationship.userInfo.documentation$>
+ *
+ * <$Relationship.userInfo.discussion$>
+ */
+<$endif$>
 <$if Relationship.isToMany$>
 <$if TemplateVar.arc$>
 @property (nonatomic, strong) <$Relationship.immutableCollectionClassName$> *<$Relationship.name$>;
@@ -102,6 +127,13 @@ extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userI
 <$endif$>
 <$endforeach do$>
 <$foreach FetchedProperty noninheritedFetchedProperties do$>
+<$if FetchedProperty.userInfo.documentation$>
+/**
+ * <$FetchedProperty.userInfo.documentation$>
+ *
+ * <$FetchedProperty.userInfo.discussion$>
+ */
+<$endif$>
 @property (nonatomic, readonly) NSArray *<$FetchedProperty.name$>;
 <$endforeach do$>
 <$if TemplateVar.frc$>
@@ -115,14 +147,24 @@ extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userI
 <$endif$>
 @end
 
-<$foreach Relationship noninheritedRelationships do$><$if Relationship.isToMany$>
+<$foreach Relationship noninheritedRelationships do$>
+<$if Relationship.isToMany$>
 @interface _<$managedObjectClassName$> (<$Relationship.name.initialCapitalString$>CoreDataGeneratedAccessors)
 - (void)add<$Relationship.name.initialCapitalString$>:(<$Relationship.immutableCollectionClassName$>*)value_;
 - (void)remove<$Relationship.name.initialCapitalString$>:(<$Relationship.immutableCollectionClassName$>*)value_;
 - (void)add<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_;
 - (void)remove<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_;
+<$if Relationship.isOrdered$>
+- (void)insertObject:(<$Relationship.destinationEntity.managedObjectClassName$>*)value in<$Relationship.name.initialCapitalString$>AtIndex:(NSUInteger)idx;
+- (void)removeObjectFrom<$Relationship.name.initialCapitalString$>AtIndex:(NSUInteger)idx;
+- (void)insert<$Relationship.name.initialCapitalString$>:(NSArray *)value atIndexes:(NSIndexSet *)indexes;
+- (void)remove<$Relationship.name.initialCapitalString$>AtIndexes:(NSIndexSet *)indexes;
+- (void)replaceObjectIn<$Relationship.name.initialCapitalString$>AtIndex:(NSUInteger)idx withObject:(<$Relationship.destinationEntity.managedObjectClassName$>*)value;
+- (void)replace<$Relationship.name.initialCapitalString$>AtIndexes:(NSIndexSet *)indexes with<$Relationship.name.initialCapitalString$>:(NSArray *)values;
+<$endif$>
 @end
-<$endif$><$endforeach do$>
+<$endif$>
+<$endforeach do$>
 
 @interface _<$managedObjectClassName$> (CoreDataGeneratedPrimitiveAccessors)
 <$foreach Attribute noninheritedAttributesSansType do$>
