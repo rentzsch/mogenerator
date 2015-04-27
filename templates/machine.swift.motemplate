@@ -3,6 +3,8 @@
 
 import CoreData
 
+<$if hasCustomBaseCaseImport$>import <$baseClassImport$><$endif$>
+
 <$if noninheritedAttributes.@count > 0$>
 enum <$managedObjectClassName$>Attributes: String {<$foreach Attribute noninheritedAttributes do$>
     case <$Attribute.name$> = "<$Attribute.name$>"<$endforeach do$>
@@ -28,7 +30,7 @@ enum <$managedObjectClassName$>UserInfo: String {<$foreach UserInfo userInfoKeyV
 <$endif$>
 
 @objc
-class _<$managedObjectClassName$>: <$customSuperentity$> {
+class _<$managedObjectClassName$>: <$customSuperentity$><$if hasCustomProtocol $>,<$customProtocol$><$endif$> {
 
     // MARK: - Class methods
     
