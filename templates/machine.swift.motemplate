@@ -57,10 +57,10 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
 <$if Attribute.hasScalarAttributeType$>
 <$if Attribute.isReadonly$>
     @NSManaged
-    let <$Attribute.name$>: NSNumber?
+    let <$Attribute.name$>: <$if TemplateVar.scalars and !Attribute.isOptional$><$Attribute.scalarAttributeType$><$else$>NSNumber<$if Attribute.isOptional$>?<$endif$><$endif$>
 <$else$>
     @NSManaged
-    var <$Attribute.name$>: NSNumber?
+    var <$Attribute.name$>: <$if TemplateVar.scalars and !Attribute.isOptional$><$Attribute.scalarAttributeType$><$else$>NSNumber<$if Attribute.isOptional$>?<$endif$><$endif$>
 <$endif$>
 <$else$>
 <$if Attribute.isReadonly$>

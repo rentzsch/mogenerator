@@ -67,7 +67,7 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 
 @dynamic <$Attribute.name$>;
 
-<$if Attribute.hasScalarAttributeType$>
+<$if Attribute.hasScalarAttributeType and (!TemplateVar.scalars or Attribute.isOptional)$>
 
 - (<$Attribute.scalarAttributeType$>)<$Attribute.name$>Value {
 	NSNumber *result = [self <$Attribute.name$>];
