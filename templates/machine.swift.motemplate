@@ -4,13 +4,13 @@
 import CoreData
 
 <$if noninheritedAttributes.@count > 0$>
-enum <$managedObjectClassName$>Attributes: String {<$foreach Attribute noninheritedAttributes do$>
+public enum <$managedObjectClassName$>Attributes: String {<$foreach Attribute noninheritedAttributes do$>
     case <$Attribute.name$> = "<$Attribute.name$>"<$endforeach do$>
 }
 <$endif$>
 
 <$if noninheritedRelationships.@count > 0$>
-enum <$managedObjectClassName$>Relationships: String {<$foreach Relationship noninheritedRelationships do$>
+public enum <$managedObjectClassName$>Relationships: String {<$foreach Relationship noninheritedRelationships do$>
     case <$Relationship.name$> = "<$Relationship.name$>"<$endforeach do$>
 }
 <$endif$>
