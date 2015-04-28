@@ -16,13 +16,13 @@ public enum <$managedObjectClassName$>Relationships: String {<$foreach Relations
 <$endif$>
 
 <$if noninheritedFetchedProperties.@count > 0$>
-enum <$managedObjectClassName$>FetchedProperties: String {<$foreach FetchedProperty noninheritedFetchedProperties do$>
+public enum <$managedObjectClassName$>FetchedProperties: String {<$foreach FetchedProperty noninheritedFetchedProperties do$>
     case <$FetchedProperty.name$> = "<$FetchedProperty.name$>"<$endforeach do$>
 }
 <$endif$>
 
 <$if hasUserInfoKeys$>
-enum <$managedObjectClassName$>UserInfo: String {<$foreach UserInfo userInfoKeyValues do$>
+public enum <$managedObjectClassName$>UserInfo: String {<$foreach UserInfo userInfoKeyValues do$>
     case <$UserInfo.key$> = "<$UserInfo.key$>"<$endforeach do$>
 }
 <$endif$>
