@@ -8,10 +8,6 @@ Here's mogenerator's elevator pitch:
 
 Want more detail? John Blanco has authored a [detailed writeup about mogenerator](http://raptureinvenice.com/getting-started-with-mogenerator/).
 
-# About this fork
-
-This is an experimental fork of `mogenerator` that compiles Xcode 4+ style model files internally instead of relying on `xcrun` to compile the model. The compilation process uses category files located in the `momcom` directory, which were developed for [momcom](https://github.com/atomicbird/momcom).
-
 ## Using mogenerator
 
 Senseful wrote up a [nice summary of mogenerator's command-line options](http://stackoverflow.com/questions/3589247/how-do-the-mogenerator-parameters-work-which-can-i-send-via-xcode).
