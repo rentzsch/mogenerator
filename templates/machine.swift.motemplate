@@ -98,7 +98,7 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
     }
 
     class func fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext: NSManagedObjectContext!<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.type$><$endforeach do2$>, error outError: NSErrorPointer) -> AnyObject? {
-        let model = managedObjectContext.persistentStoreCoordinator().managedObjectModel()
+        let model = managedObjectContext.persistentStoreCoordinator!.managedObjectModel
         let substitutionVariables = [<$if FetchRequest.hasBindings$><$foreach Binding FetchRequest.bindings do2$>
             "<$Binding.name$>": <$Binding.name$>,
 <$endforeach do2$><$endif$>        ]
@@ -108,22 +108,22 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
 
         var error: NSError? = nil
         var result: AnyObject? = nil
-        let results = managedObjectContext.executeFetchRequest(fetchRequest, error: &error)
+        let results = managedObjectContext.executeFetchRequest(fetchRequest!, error: &error)
 
         if error != nil {
             outError.memory = error
         } else {
-            switch results.count {
+            switch results!.count {
             case 0:
                 // Nothing found matching the fetch request. That's cool, though: we'll just return nil.
                 break
             case 1:
-                result = results[0]
+                result = results![0]
             default:
                 NSLog("WARN fetch request <$FetchRequest.name$>: 0 or 1 objects expected, %lu found (substitutionVariables:%@, results:%@)",
-                    results.count,
+                    results!.count,
                     substitutionVariables,
-                    results);
+                    results!);
             }
         }
 
