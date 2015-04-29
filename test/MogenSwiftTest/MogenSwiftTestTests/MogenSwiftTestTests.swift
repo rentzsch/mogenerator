@@ -4,15 +4,15 @@ import MogenSwiftTest
 
 class MogenSwiftTestTests: XCTestCase {
     func newMoc() -> (NSManagedObjectContext) {
-        let momURL : NSURL = NSBundle.mainBundle().URLForResource("MogenSwiftTest", withExtension: "momd")
-        let mom : NSManagedObjectModel = NSManagedObjectModel(contentsOfURL: momURL)
+        let momURL : NSURL = NSBundle.mainBundle().URLForResource("MogenSwiftTest", withExtension: "momd")!
+        let mom : NSManagedObjectModel = NSManagedObjectModel(contentsOfURL: momURL)!
         let psc : NSPersistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: mom);
         let ps : NSPersistentStore = psc.addPersistentStoreWithType(
             NSInMemoryStoreType,
             configuration: nil,
             URL: nil,
             options: nil,
-            error: nil)
+            error: nil)!
         let moc : NSManagedObjectContext = NSManagedObjectContext()
         moc.persistentStoreCoordinator = psc
         return moc
@@ -87,7 +87,7 @@ class MogenSwiftTestTests: XCTestCase {
 
 extension NSEntityDescription {
     class func entityForName_workaround(entityName: String!, inManagedObjectContext context: NSManagedObjectContext!) -> NSEntityDescription! {
-        let entities = context.persistentStoreCoordinator.managedObjectModel.entitiesByName;
+        let entities = context.persistentStoreCoordinator!.managedObjectModel.entitiesByName;
         let keys = Array(entities.keys)
         var result : NSEntityDescription?
         for (key, value) in entities {

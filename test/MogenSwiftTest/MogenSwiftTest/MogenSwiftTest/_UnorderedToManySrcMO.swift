@@ -26,7 +26,7 @@ class _UnorderedToManySrcMO: NSManagedObject {
 
     /// pragma mark - Life cycle methods
 
-    init(entity: NSEntityDescription!, insertIntoManagedObjectContext context: NSManagedObjectContext!) {
+    override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
     }
 
@@ -61,20 +61,20 @@ class _UnorderedToManySrcMO: NSManagedObject {
     }
 
     class func fetchAllUnorderedToManySrcs(managedObjectContext: NSManagedObjectContext!, error outError: NSErrorPointer) -> [AnyObject] {
-        let model = managedObjectContext.persistentStoreCoordinator.managedObjectModel
+        let model = managedObjectContext.persistentStoreCoordinator!.managedObjectModel
         let substitutionVariables = [:]
 
-        let fetchRequest = model.fetchRequestFromTemplateWithName("allUnorderedToManySrcs", substitutionVariables: substitutionVariables)
+        let fetchRequest = model.fetchRequestFromTemplateWithName("allUnorderedToManySrcs", substitutionVariables: substitutionVariables as [NSObject : AnyObject])
         assert(fetchRequest != nil, "Can't find fetch request named \"allUnorderedToManySrcs\".")
 
         var error: NSError? = nil
-        let results = managedObjectContext.executeFetchRequest(fetchRequest, error: &error)
+        let results = managedObjectContext.executeFetchRequest(fetchRequest!, error: &error)
 
-        if error {
+        if (error != nil) {
             outError.memory = error
         }
 
-        return results
+        return results!
     }
 
 }
@@ -82,11 +82,11 @@ class _UnorderedToManySrcMO: NSManagedObject {
 extension _UnorderedToManySrcMO {
 
     func addRelationship(objects: NSSet) {
-        self.relationshipSet().unionSet(objects)
+        self.relationshipSet().unionSet(objects as Set<NSObject>)
     }
 
     func removeRelationship(objects: NSSet) {
-        self.relationshipSet().minusSet(objects)
+        self.relationshipSet().minusSet(objects as Set<NSObject>)
     }
 
     func addRelationshipObject(value: UnorderedToManyDstMO!) {

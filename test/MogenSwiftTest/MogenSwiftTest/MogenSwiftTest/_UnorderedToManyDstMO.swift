@@ -26,7 +26,7 @@ class _UnorderedToManyDstMO: NSManagedObject {
 
     /// pragma mark - Life cycle methods
 
-    init(entity: NSEntityDescription!, insertIntoManagedObjectContext context: NSManagedObjectContext!) {
+    override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
     }
 

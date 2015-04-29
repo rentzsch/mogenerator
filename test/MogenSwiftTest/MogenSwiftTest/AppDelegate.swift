@@ -12,15 +12,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                             
     @IBOutlet var window: NSWindow?
 
-
-    func applicationDidFinishLaunching(aNotification: NSNotification?) {
-        // Insert code here to initialize your application
-    }
-
-    func applicationWillTerminate(aNotification: NSNotification?) {
-        // Insert code here to tear down your application
-    }
-
     @IBAction func saveAction(sender: AnyObject) {
         // Performs the save action for the application, which is to send the save: message to the application's managed object context. Any encountered errors are presented to the user.
         var error: NSError? = nil
@@ -30,7 +21,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 println("\(NSStringFromClass(self.dynamicType)) unable to commit editing before saving")
             }
             if !moc.save(&error) {
-                NSApplication.sharedApplication().presentError(error)
+                NSApplication.sharedApplication().presentError(error!)
             }
         }
     }
@@ -50,7 +41,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     	
         let modelURL = NSBundle.mainBundle().URLForResource("MogenSwiftTest", withExtension: "momd")
-        _managedObjectModel = NSManagedObjectModel(contentsOfURL: modelURL)
+        _managedObjectModel = NSManagedObjectModel(contentsOfURL: modelURL!)
         return _managedObjectModel!
     }
     var _managedObjectModel: NSManagedObjectModel? = nil
@@ -70,23 +61,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let optProperties: NSDictionary? = applicationFilesDirectory.resourceValuesForKeys([NSURLIsDirectoryKey], error: &error)
         
         if let properties = optProperties {
-            if !properties[NSURLIsDirectoryKey].boolValue {
+            if !properties[NSURLIsDirectoryKey]!.boolValue {
                 // Customize and localize this error.
                 let failureDescription = "Expected a folder to store application data, found a file \(applicationFilesDirectory.path)."
-                let dict = NSMutableDictionary()
-                dict[NSLocalizedDescriptionKey] = failureDescription
-                error = NSError.errorWithDomain("YOUR_ERROR_DOMAIN", code: 101, userInfo: dict)
+                var errorDict = [NSObject : AnyObject ]()
+                errorDict[NSLocalizedDescriptionKey] = failureDescription
+                error = NSError(domain: "YOUR_ERROR_DOMAIN", code: 101, userInfo: errorDict)
                 
-                NSApplication.sharedApplication().presentError(error)
+                NSApplication.sharedApplication().presentError(error!)
                 return nil
             }
         } else {
             var ok = false
             if error!.code == NSFileReadNoSuchFileError {
-                ok = fileManager.createDirectoryAtPath(applicationFilesDirectory.path, withIntermediateDirectories: true, attributes: nil, error: &error)
+                ok = fileManager.createDirectoryAtPath(applicationFilesDirectory.path!, withIntermediateDirectories: true, attributes: nil, error: &error)
             }
             if !ok {
-                NSApplication.sharedApplication().presentError(error)
+                NSApplication.sharedApplication().presentError(error!)
                 return nil
             }
         }
@@ -94,7 +85,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let url = applicationFilesDirectory.URLByAppendingPathComponent("MogenSwiftTest.storedata")
         var coordinator = NSPersistentStoreCoordinator(managedObjectModel: mom)
         if coordinator.addPersistentStoreWithType(NSXMLStoreType, configuration: nil, URL: url, options: nil, error: &error) == nil {
-            NSApplication.sharedApplication().presentError(error)
+            NSApplication.sharedApplication().presentError(error!)
             return nil
         }
         _persistentStoreCoordinator = coordinator
@@ -110,11 +101,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         
         let coordinator = self.persistentStoreCoordinator
-        if !coordinator {
-            var dict = NSMutableDictionary()
-            dict[NSLocalizedDescriptionKey] = "Failed to initialize the store"
-            dict[NSLocalizedFailureReasonErrorKey] = "There was an error building up the data file."
-            let error = NSError.errorWithDomain("YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)
+        if !(coordinator != nil) {
+            var errorDict = [NSObject : AnyObject ]()
+            errorDict[NSLocalizedDescriptionKey] = "Failed to initialize the store"
+            errorDict[NSLocalizedFailureReasonErrorKey] = "There was an error building up the data file."
+            let error = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: errorDict)
             NSApplication.sharedApplication().presentError(error)
             return nil
         }
@@ -137,7 +128,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationShouldTerminate(sender: NSApplication) -> NSApplicationTerminateReply {
         // Save changes in the application's managed object context before the application terminates.
         
-        if !_managedObjectContext {
+        if !(_managedObjectContext != nil) {
             // Accesses the underlying stored property because we don't want to cause the lazy initialization
             return .TerminateNow
         }
@@ -154,7 +145,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         var error: NSError? = nil
         if !moc.save(&error) {
             // Customize this code block to include application-specific recovery steps.              
-            let result = sender.presentError(error)
+            let result = sender.presentError(error!)
             if (result) {
                 return .TerminateCancel
             }
