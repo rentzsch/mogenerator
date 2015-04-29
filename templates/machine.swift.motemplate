@@ -108,7 +108,7 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
 
         var error: NSError? = nil
         var result: AnyObject? = nil
-        let results = managedObjectContext.executeFetchRequest(fetchRequest, error: &error)
+        let results = managedObjectContext.executeFetchRequest(fetchRequest!, error: &error)
 
         if error != nil {
             outError.memory = error
@@ -127,7 +127,7 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
             }
         }
 
-        return result;
+        return result!;
     }
 <$else$>
     class func fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext: NSManagedObjectContext!<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.type$><$endforeach do2$>) -> [AnyObject] {
@@ -150,7 +150,7 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
             outError.memory = error
         }
 
-        return results
+        return results!
     }
 <$endif$>
 <$endforeach do$>
