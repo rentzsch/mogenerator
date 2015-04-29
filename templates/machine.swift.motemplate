@@ -58,16 +58,26 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
 <$if Attribute.hasDefinedAttributeType$>
 <$if Attribute.hasScalarAttributeType$>
 <$if Attribute.isReadonly$>
-    @NSManaged public
-    let <$Attribute.name$>: NSNumber?
+    public var <$Attribute.name$>: NSNumber?
+    {
+        self.willAccessValueForKey(<$managedObjectClassName$>Attributes.<$Attribute.name$>.rawValue)
+        let <$Attribute.name$> = self.primitiveValueForKey(<$managedObjectClassName$>Attributes.<$Attribute.name$>.rawValue) as? NSNumber
+        self.didAccessValueForKey(<$managedObjectClassName$>Attributes.<$Attribute.name$>.rawValue)
+        return <$Attribute.name$>
+    }
 <$else$>
     @NSManaged public
     var <$Attribute.name$>: NSNumber?
 <$endif$>
 <$else$>
 <$if Attribute.isReadonly$>
-    @NSManaged public
-    let <$Attribute.name$>: <$Attribute.objectAttributeType$><$if Attribute.isOptional$>?<$endif$>
+    public var <$Attribute.name$>: <$Attribute.objectAttributeType$><$if Attribute.isOptional$>?<$endif$>
+    {
+        self.willAccessValueForKey(<$managedObjectClassName$>Attributes.<$Attribute.name$>.rawValue)
+        let <$Attribute.name$> = self.primitiveValueForKey(<$managedObjectClassName$>Attributes.<$Attribute.name$>.rawValue) as? <$Attribute.objectAttributeType$>
+        self.didAccessValueForKey(<$managedObjectClassName$>Attributes.<$Attribute.name$>.rawValue)
+        return <$Attribute.name$>
+    }
 <$else$>
     @NSManaged public
     var <$Attribute.name$>: <$Attribute.objectAttributeType$><$if Attribute.isOptional$>?<$endif$>
