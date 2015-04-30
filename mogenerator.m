@@ -151,6 +151,12 @@ static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName
     }
 }
 
+- (BOOL)hasCustomSuperclass {
+    // For Swift, where "override" is needed when both the entity and its superentity have custom classes.
+    BOOL result = [self hasCustomClass] && [self hasCustomSuperentity] && [[self superentity] hasCustomClass];
+    return result;
+}
+
 - (BOOL)hasAdditionalHeaderFile {
     return [[[self userInfo] allKeys] containsObject:kAdditionalHeaderFileNameKey];
 }
