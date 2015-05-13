@@ -83,7 +83,7 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
     var <$Attribute.name$>: <$Attribute.objectAttributeType$><$if Attribute.isOptional$>?<$endif$>
 <$endif$>
 <$endif$>
-    // func validate<$Attribute.name.initialCapitalString$>(value: AutoreleasingUnsafePointer<AnyObject>, error: NSErrorPointer) {}
+    // func validate<$Attribute.name.initialCapitalString$>(value: AutoreleasingUnsafeMutablePointer<AnyObject>, error: NSErrorPointer) -> Bool {}
 <$endif$>
 <$endforeach do$>
 
@@ -97,7 +97,7 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
     @NSManaged public
     var <$Relationship.name$>: <$Relationship.destinationEntity.managedObjectClassName$><$if Relationship.isOptional$>?<$endif$>
 
-    // func validate<$Relationship.name.initialCapitalString$>(value: AutoreleasingUnsafePointer<AnyObject>, error: NSErrorPointer) {}
+    // func validate<$Relationship.name.initialCapitalString$>(value: AutoreleasingUnsafeMutablePointer<AnyObject>, error: NSErrorPointer) -> Bool {}
 <$endif$>
 <$endforeach do$>
 
