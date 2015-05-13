@@ -17,8 +17,8 @@ def gen_and_compile(desc, mogenPath, extra_mogen_args, extra_gcc_args)
   ENV['MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS'] = '1'
   run_or_die "#{mogenPath.gsub(/ /, '\\ ')} --model test.xcdatamodel --output MOs --baseClass MyBaseClass #{extra_mogen_args}"
   run_or_die 'cp HumanMO.h HumanMO.m MyProtocol.h TestProtocol.m MOs'
-  run_or_die "clang -o testbin test.m MyBaseClass.m Gender.m MOs/*.m -I#{Dir.pwd} -framework Foundation -framework Cocoa -framework CoreData -fmodules #{extra_gcc_args}"
-  run_or_die "xcrun momc -MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS test.xcdatamodel #{Dir.pwd}/test.mom"
+  run_or_die "clang -o testbin test.m MyBaseClass.m Gender.m MOs/*.m -I\"#{Dir.pwd}\" -framework Foundation -framework Cocoa -framework CoreData -fmodules #{extra_gcc_args}"
+  run_or_die "xcrun momc -MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS test.xcdatamodel \"#{Dir.pwd}/test.mom\""
   puts run_or_die './testbin'
 end
 
