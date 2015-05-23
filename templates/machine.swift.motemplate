@@ -2,7 +2,6 @@
 // Make changes to <$managedObjectClassName$>.swift instead.
 
 import CoreData
-
 <$if hasAdditionalHeaderFile$>import <$additionalHeaderFileName$><$endif$>
 <$if hasCustomBaseCaseImport$>import <$baseClassImport$><$endif$>
 
