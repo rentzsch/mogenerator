@@ -3,6 +3,7 @@
 
 import CoreData
 
+<$if hasAdditionalHeaderFile$>import <$additionalHeaderFileName$><$endif$>
 <$if hasCustomBaseCaseImport$>import <$baseClassImport$><$endif$>
 
 <$if noninheritedAttributes.@count > 0$>
