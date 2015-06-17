@@ -22,11 +22,17 @@
 
 - Add Prefix support for swift class names [\#233](https://github.com/rentzsch/mogenerator/issues/233)
 
+- Skips -primitiveType and -setPrimitiveType: but still generates -primitiveTypeValue and -setPrimitiveTypeValue: [\#202](https://github.com/rentzsch/mogenerator/issues/202)
+
 - Generate documentation using userInfo keys [\#192](https://github.com/rentzsch/mogenerator/issues/192)
 
 - Release 1.28 [\#185](https://github.com/rentzsch/mogenerator/issues/185)
 
+- Codesign pkg installer [\#179](https://github.com/rentzsch/mogenerator/issues/179)
+
 **Merged pull requests:**
+
+- Support for additionalHeaderFileName on Feature/swift12 [\#285](https://github.com/rentzsch/mogenerator/pull/285) ([leodasvacas](https://github.com/leodasvacas))
 
 - Quote paths in test/Rakefile [\#283](https://github.com/rentzsch/mogenerator/pull/283) ([jonah-williams](https://github.com/jonah-williams))
 
@@ -35,6 +41,8 @@
 - Add documentation generation using the User Info keys [\#268](https://github.com/rentzsch/mogenerator/pull/268) ([danielctull](https://github.com/danielctull))
 
 - Allow multiple devs on same machine to use mogenerator [\#255](https://github.com/rentzsch/mogenerator/pull/255) ([annard](https://github.com/annard))
+
+- Use built-in model compiler instead of relying on Xcode [\#225](https://github.com/rentzsch/mogenerator/pull/225) ([atomicbird](https://github.com/atomicbird))
 
 ## [1.28](https://github.com/rentzsch/mogenerator/tree/1.28) (2014-09-11)
 
@@ -64,6 +72,8 @@
 
 - mogenerator fails because of unrecognized selector send to String. [\#164](https://github.com/rentzsch/mogenerator/issues/164)
 
+- Invalid UserInfo accessors generated. [\#158](https://github.com/rentzsch/mogenerator/issues/158)
+
 - 1.28 release [\#157](https://github.com/rentzsch/mogenerator/issues/157)
 
 - Brew formula SHA1 different to SHA1 of 1.27 tar ball [\#154](https://github.com/rentzsch/mogenerator/issues/154)
@@ -78,15 +88,27 @@
 
 - Versioned model doesn't work with only one version [\#137](https://github.com/rentzsch/mogenerator/issues/137)
 
+- If there are no fetched properties then the generated code should not include a fetched properties struct [\#133](https://github.com/rentzsch/mogenerator/issues/133)
+
 - Is it possible to create dynamic model at run time given xcdatamodel? [\#127](https://github.com/rentzsch/mogenerator/issues/127)
 
 - Model classes are not generated [\#122](https://github.com/rentzsch/mogenerator/issues/122)
 
+- Mock managed objects [\#117](https://github.com/rentzsch/mogenerator/issues/117)
+
+- mogenerator updates modified date on files that do not change [\#116](https://github.com/rentzsch/mogenerator/issues/116)
+
+- keyPathsForValuesAffectingValueForKey code should have 'else' statements [\#98](https://github.com/rentzsch/mogenerator/issues/98)
+
 - Make new 1.24 Mike Ash-style constant structures optional [\#83](https://github.com/rentzsch/mogenerator/issues/83)
 
-- Change \#import "\_XX.h" to \#import <MyFramework/\_XX.h\> [\#82](https://github.com/rentzsch/mogenerator/issues/82)
+- Change \#import "\_XX.h" to \#import \<MyFramework/\_XX.h\> [\#82](https://github.com/rentzsch/mogenerator/issues/82)
+
+- failed assertion 'relationship': fetch requests with substitution variables [\#15](https://github.com/rentzsch/mogenerator/issues/15)
 
 - Rename +entityName ? [\#196](https://github.com/rentzsch/mogenerator/issues/196)
+
+- Warnings for method collision [\#16](https://github.com/rentzsch/mogenerator/issues/16)
 
 **Merged pull requests:**
 
@@ -111,6 +133,8 @@
 - v1.28 [\#216](https://github.com/rentzsch/mogenerator/pull/216) ([rentzsch](https://github.com/rentzsch))
 
 - Fix swift template objc interoperability [\#215](https://github.com/rentzsch/mogenerator/pull/215) ([pietbrauer](https://github.com/pietbrauer))
+
+- Added support for unsigned integers by setting an integer property's min... [\#214](https://github.com/rentzsch/mogenerator/pull/214) ([pourhadi](https://github.com/pourhadi))
 
 - Add override to entityName function if this entity has a superentity [\#210](https://github.com/rentzsch/mogenerator/pull/210) ([afrederick1](https://github.com/afrederick1))
 
@@ -152,9 +176,15 @@
 
 - Minor warning fix, 64-\>32 truncation, format strings [\#141](https://github.com/rentzsch/mogenerator/pull/141) ([seanm](https://github.com/seanm))
 
+- Implement ordered set accessors [\#140](https://github.com/rentzsch/mogenerator/pull/140) ([danielctull](https://github.com/danielctull))
+
 - Support newly-created models when --model=\*.xcdatamodeld [\#138](https://github.com/rentzsch/mogenerator/pull/138) ([sgrankin](https://github.com/sgrankin))
 
 - Small defect fixed for when the base class is from an external library and a model has inheritance [\#136](https://github.com/rentzsch/mogenerator/pull/136) ([davidAtGVC](https://github.com/davidAtGVC))
+
+- Generation of Entity User Info Key/Value pairs as const Structs [\#131](https://github.com/rentzsch/mogenerator/pull/131) ([echoz](https://github.com/echoz))
+
+- IMPLEMENT support of custom scalar types \(/!\ swift not supported\) [\#207](https://github.com/rentzsch/mogenerator/pull/207) ([QuentinArnault](https://github.com/QuentinArnault))
 
 ## [1.27](https://github.com/rentzsch/mogenerator/tree/1.27) (2012-11-14)
 
