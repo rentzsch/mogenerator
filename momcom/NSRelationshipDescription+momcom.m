@@ -34,6 +34,10 @@
             [relationshipDescription setDeleteRule:NSDenyDeleteRule];
         }
     }
+    NSXMLNode *orderedNode = [xmlNode attributeForName:@"ordered"];
+    if (orderedNode != nil) {
+        [relationshipDescription setOrdered:[[orderedNode stringValue] boolValue]];
+    }
 
     // Destination entity and inverse are not handled here, they get post processed once related entities exist.
     
