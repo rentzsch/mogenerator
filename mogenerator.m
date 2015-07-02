@@ -1029,12 +1029,14 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     
     int machineFilesGenerated = 0;        
     int humanFilesGenerated = 0;
+    int otherFilesGenerated = 0;
     
     if (model) {
         MiscMergeEngine *machineH = nil;
         MiscMergeEngine *machineM = nil;
         MiscMergeEngine *humanH = nil;
         MiscMergeEngine *humanM = nil;
+        NSMutableDictionary *otherEngines = [NSMutableDictionary new];
 
         if (_swift) {
             machineH = engineWithTemplateDesc([self templateDescNamed:@"machine.swift.motemplate"]);
@@ -1052,6 +1054,27 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
             assert(humanM);
         }
 
+        NSArray *ignoreTemplates = @[
+            @"machine.swift.motemplate",
+            @"human.swift.motemplate",
+            @"machine.h.motemplate",
+            @"machine.m.motemplate",
+            @"human.h.motemplate",
+            @"human.m.motemplate"
+        ];
+        NSEnumerator *fileEnumerator = [fm enumeratorAtPath:templatePath];
+        nsenumerate(fileEnumerator, NSString, path) {
+            
+            NSString *filename = [path lastPathComponent];
+            NSString *extension = [path pathExtension];
+            // Only go through files that have the .motemplate extension and which aren't handled by default
+            if ([extension isEqualTo:@"motemplate"] && ![ignoreTemplates containsObject:filename]) {
+                MiscMergeEngine *engine = engineWithTemplateDesc([self templateDescNamed:filename]);
+                [engine setEngineValue:templateVar forKey:kTemplateVar];
+                [otherEngines setObject:engine forKey:filename];
+            }
+        }
+
         // Add the template var dictionary to each of the merge engines
         [machineH setEngineValue:templateVar forKey:kTemplateVar];
         [machineM setEngineValue:templateVar forKey:kTemplateVar];
@@ -1061,7 +1084,8 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
         NSMutableArray  *humanMFiles = [NSMutableArray array],
                         *humanHFiles = [NSMutableArray array],
                         *machineMFiles = [NSMutableArray array],
-                        *machineHFiles = [NSMutableArray array];
+                        *machineHFiles = [NSMutableArray array],
+                        *otherFiles = [NSMutableArray array];
         
         nsenumerate ([model entitiesWithACustomSubclassInConfiguration:configuration verbose:YES], NSEntityDescription, entity) {
             NSString *generatedMachineH = [machineH executeWithObject:entity sender:nil];
@@ -1151,10 +1175,31 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
                     [humanMFileName lastPathComponent], [machineMFileName lastPathComponent]];
                 [hfileContent appendFormat:@"#import \"%@\"\n", [humanHFileName lastPathComponent]];
             }
+
+            nsenumerate([otherEngines keyEnumerator], NSString, templateFilename) {
+                MiscMergeEngine *engine = [otherEngines objectForKey:templateFilename];
+                NSString *generatedFile = [engine executeWithObject:entity sender:nil];
+                generatedFile = [generatedFile stringByReplacingOccurrencesOfRegex:@"([ \t]*(\n|\r|\r\n)){2,}" withString:@"\n\n"];
+                
+                NSString *generatedFilename = [templateFilename stringByDeletingPathExtension];
+                NSString *filename = [machineDir stringByAppendingPathComponent:
+                                      [NSString stringWithFormat:@"%@%@", entityClassName, generatedFilename]];
+                
+                if (_listSourceFiles) {
+                    [otherFiles addObject:filename];
+                }
+                
+                if (![fm regularFileExistsAtPath:filename] || ![generatedFile isEqualToString:[NSString stringWithContentsOfFile:filename encoding:NSUTF8StringEncoding error:nil]]) {
+                    //  If the file doesn't exist or is different than what we just generated, write it out.
+                    [generatedFile writeToFile:filename atomically:NO encoding:NSUTF8StringEncoding error:nil];
+                    machineDirtied = YES;
+                    otherFilesGenerated++;
+                }
+            }
         }
         
         if (_listSourceFiles) {
-            NSArray *filesList = [NSArray arrayWithObjects:humanMFiles, humanHFiles, machineMFiles, machineHFiles, nil];
+            NSArray *filesList = [NSArray arrayWithObjects:humanMFiles, humanHFiles, machineMFiles, machineHFiles, otherFiles, nil];
             nsenumerate (filesList, NSArray, files) {
                 nsenumerate (files, NSString, fileName) {
                     ddprintf(@"%@\n", fileName);
@@ -1179,9 +1224,24 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     }
 
     if (!_listSourceFiles) {
-        printf("%d machine files%s %d human files%s generated.\n", machineFilesGenerated,
-               (mfileGenerated ? "," : " and"), humanFilesGenerated, (mfileGenerated ? " and one include.m file" : ""));
-
+        
+        NSMutableArray *strings = [NSMutableArray new];
+        [strings addObject:[NSString stringWithFormat:@"%d machine file%@", machineFilesGenerated, machineFilesGenerated == 1 ? @"" : @"s"]];
+        [strings addObject:[NSString stringWithFormat:@"%d human file%@", humanFilesGenerated, humanFilesGenerated == 1 ? @"" : @"s"]];
+        [strings addObject:[NSString stringWithFormat:@"%d other file%@", otherFilesGenerated, otherFilesGenerated == 1 ? @"" : @"s"]];
+        
+        if (mfileGenerated) {
+            [strings addObject:@"one include.m file"];
+        }
+        
+        NSString *lastString = [strings lastObject];
+        [strings removeLastObject];
+        NSString *string = [strings componentsJoinedByString:@", "];
+        
+        string = [string stringByAppendingFormat:@" and %@ generated.\n", lastString];
+        
+        printf("%s", [string cStringUsingEncoding:NSUTF8StringEncoding]);
+        
         if (hfileGenerated) {
             printf("Aggregate header file was also generated to %s.\n", [hfilePath fileSystemRepresentation]);
         }
