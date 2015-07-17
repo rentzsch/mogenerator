@@ -167,8 +167,11 @@ extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userI
 <$endforeach do$>
 
 @interface _<$managedObjectClassName$> (CoreDataGeneratedPrimitiveAccessors)
-<$foreach Attribute noninheritedAttributesSansType do$>
+<$foreach Attribute noninheritedAttributes do$>
 <$if Attribute.hasDefinedAttributeType$>
+<$if Attribute.name=="type"$>
+#warning A setPrimitiveType: accessor is known to potentially cause App Store rejection. See https://github.com/rentzsch/mogenerator/issues/74. If this app is intended for App Store distribution you should rename the 'type' attribute in your model (e.g. to '<$name.lowercaseString$>Type') and re-run mogenerator.
+<$endif$>
 - (<$Attribute.objectAttributeType$>)primitive<$Attribute.name.initialCapitalString$>;
 - (void)setPrimitive<$Attribute.name.initialCapitalString$>:(<$Attribute.objectAttributeType$>)value;
 <$if Attribute.hasScalarAttributeType$>
