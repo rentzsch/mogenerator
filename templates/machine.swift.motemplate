@@ -94,7 +94,7 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
     var <$Relationship.name$>: <$Relationship.immutableCollectionClassName$>
 
 <$else$>
-    @NSManaged public
+    //@NSManaged public
     var <$Relationship.name$>: <$Relationship.destinationEntity.managedObjectClassName$><$if Relationship.isOptional$>?<$endif$>
 
     // func validate<$Relationship.name.initialCapitalString$>(value: AutoreleasingUnsafeMutablePointer<AnyObject>, error: NSErrorPointer) -> Bool {}
