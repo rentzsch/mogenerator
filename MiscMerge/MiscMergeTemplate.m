@@ -136,7 +136,7 @@
                                                      encoding:NSUTF8StringEncoding
                                                         error:&error];
     
-    if (error != nil) {
+    if (fileString == nil) {
         NSLog(@"%@: Could not read template file %@ because %@", [self class], filename, [error localizedDescription]);   
     }
     return fileString;

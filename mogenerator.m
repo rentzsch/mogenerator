@@ -869,7 +869,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
             // Cool, the model is in the Xcode 4.0+ format, we can compile it ourselves.
             NSError *compileError = nil;
             momFilePath = [NSManagedObjectModel compileModelAtPath:momOrXCDataModelFilePath inDirectory:NSTemporaryDirectory() error:&compileError];
-            if (compileError) {
+            if (momFilePath == nil) {
                 NSLog(@"Error: %@", [compileError localizedDescription]);
             }
             assert(momFilePath);
