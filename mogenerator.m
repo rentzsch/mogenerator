@@ -601,7 +601,7 @@ static MiscMergeEngine* engineWithTemplateDesc(MogeneratorTemplateDesc *template
     } else {
         NSData *templateData = [[NSBundle mainBundle] objectForInfoDictionaryKey:[templateDesc_ templateName]];
         assert(templateData);
-        NSString *templateString = [[[NSString alloc] initWithData:templateData encoding:NSASCIIStringEncoding] autorelease];
+        NSString *templateString = [[[NSString alloc] initWithData:templateData encoding:NSUTF8StringEncoding] autorelease];
         [template setFilename:[@"x-__info_plist://" stringByAppendingString:[templateDesc_ templateName]]];
         [template parseString:templateString];
     }

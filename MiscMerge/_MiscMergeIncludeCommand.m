@@ -54,7 +54,7 @@
 
     NSError *error = nil;
     if ([resolvedFilename length] > 0)
-        fileString = [NSString stringWithContentsOfFile:resolvedFilename encoding:NSASCIIStringEncoding error:&error];
+        fileString = [NSString stringWithContentsOfFile:resolvedFilename encoding:NSUTF8StringEncoding error:&error];
 
     if (fileString)
     {
