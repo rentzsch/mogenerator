@@ -3,6 +3,8 @@
 
 #import "_<$managedObjectClassName$>.h"
 
+<$if TemplateVar.ash-structures$>
+
 <$if noninheritedAttributes.@count > 0$>
 const struct <$managedObjectClassName$>Attributes <$managedObjectClassName$>Attributes = {<$foreach Attribute noninheritedAttributes do$>
 	.<$Attribute.name$> = @"<$Attribute.name$>",<$endforeach do$>
@@ -25,6 +27,8 @@ const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassNam
 const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserInfo = {<$foreach UserInfo userInfoKeyValues do$>
 	.<$UserInfo.key$> = @"<$UserInfo.value$>",<$endforeach do$>
 };
+<$endif$>
+
 <$endif$>
 
 @implementation <$managedObjectClassName$>ID

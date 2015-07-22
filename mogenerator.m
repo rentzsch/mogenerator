@@ -944,6 +944,12 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
         [templateVar setObject:@YES forKey:@"modules"];
     }
 
+    //  Default to generating Mike Ash-style structures if nothing specific was specified in the command arguments
+    if ([templateVar objectForKey:@"ash-structures"] == nil)
+    {
+        [templateVar setObject:@YES forKey:@"ash-structures"];
+    }
+
     gSwift = _swift;
 
     if (baseClassForce) {
