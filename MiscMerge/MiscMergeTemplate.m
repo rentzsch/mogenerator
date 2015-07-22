@@ -133,7 +133,7 @@
 - (NSString *) contentsOfFileWithName:(NSString *)filename {
     NSError *error = nil;
     NSString *fileString = [NSString stringWithContentsOfFile:filename
-                                                     encoding:NSASCIIStringEncoding
+                                                     encoding:NSUTF8StringEncoding
                                                         error:&error];
     
     if (error != nil) {
