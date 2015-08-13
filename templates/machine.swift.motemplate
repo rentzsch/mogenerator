@@ -21,12 +21,6 @@ enum <$managedObjectClassName$>FetchedProperties: String {<$foreach FetchedPrope
 }
 <$endif$>
 
-<$if hasUserInfoKeys$>
-enum <$managedObjectClassName$>UserInfo: String {<$foreach UserInfo userInfoKeyValues do$>
-    case <$UserInfo.key$> = "<$UserInfo.key$>"<$endforeach do$>
-}
-<$endif$>
-
 @objc
 class _<$managedObjectClassName$>: <$customSuperentity$> {
 
