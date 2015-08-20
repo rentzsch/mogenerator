@@ -6,13 +6,13 @@ sudo echo
 sudo rm -rf 'build'
 
 cd ..
-xcodebuild -configuration Release CONFIGURATION_BUILD_DIR="$PWD/installer/build/root/usr/bin/"
+xcodebuild -configuration Release CONFIGURATION_BUILD_DIR="$PWD/installer/build/root/usr/local/bin/"
 # The standard templates are now integrated into mogenerator's binary itself.
 # mkdir -p 'build/root/Library/Application Support/mogenerator'
 # cp templates/*.motemplate "$PWD/installer/build/root/Library/Application Support/mogenerator/"
 cd installer
 
-VERSION=`build/root/usr/bin/mogenerator --version|head -n 1|sed -E 's/mogenerator ([0-9]+\.[0-9]+(\.[0-9]+)?).+/\1/g'`
+VERSION=`build/root/usr/local/bin/mogenerator --version|head -n 1|sed -E 's/mogenerator ([0-9]+\.[0-9]+(\.[0-9]+)?).+/\1/g'`
 MAJOR_VERSION=`echo $VERSION|sed -E 's/([0-9]+).+/\1/g'`
 MINOR_VERSION=`echo $VERSION|sed -E 's/[0-9]+\.([0-9]+).*/\1/g'`
 
