@@ -14,6 +14,42 @@ Senseful wrote up a [nice summary of mogenerator's command-line options](http://
 
 ## Version History
 
+### v1.29: Thu Aug 20 2015 [download](https://github.com/rentzsch/mogenerator/releases/download/1.29/mogenerator-1.29.dmg)
+
+Much thanks to lieutenants [Tom Harrington](https://github.com/atomicbird) and [Justin Williams](https://github.com/justin) for handling this release.
+
+* [NEW] Use built-in model compiler ([momcom](https://github.com/atomicbird/momcom)) instead of relying on Xcode's `momc`. ([Tom Harrington](https://github.com/rentzsch/mogenerator/pull/225))
+
+* [NEW] Documentation generation using User Info keys. ([Daniel Tull](https://github.com/rentzsch/mogenerator/pull/268))
+
+* [NEW] Multiuser support (use per-user `$TMPDIR` instead of `/tmp`). ([Annard Brouwer](https://github.com/rentzsch/mogenerator/pull/255))
+
+* [NEW] Swift: support for additionalHeaderFileName. ([Leonardo Yvens](https://github.com/rentzsch/mogenerator/pull/285))
+
+* [CHANGE] Swift: make generated machine classes and their attributes public. ([Fritz Anderson](https://github.com/rentzsch/mogenerator/commit/2c8b11cae06113d64361b5b049b7948294e72977))
+
+* [CHANGE] Swift: make initializers public. ([Dave Reed](https://github.com/rentzsch/mogenerator/commit/015f98758eaf9136b95973a0fc2833b1030c0da8))
+
+* [CHANGE] Swift: make enums public. ([Dave Reed](https://github.com/rentzsch/mogenerator/commit/6db379e890c0733cdf8f0e92789aa796ed0cf2de))
+
+* [CHANGE] Swift: make mogenerator:readonly work for Swift by rendering the attribute as a read-only computed property. ([Tom Harrington](https://github.com/rentzsch/mogenerator/commit/fc99ca406560ad0fb43b12b995a2ccda6ea23a28))
+
+* [CHANGE] Swift: method signatures for validate methods. [issue 281](https://github.com/rentzsch/mogenerator/issues/281). ([Tom Harrington](https://github.com/rentzsch/mogenerator/commit/5d5af8ec63c664ba1fe7cad07f057d5ccc0701cb))
+
+* [FIX] Don't generate `-primativeType` and `-setPrimativeType:`. [issue 202](https://github.com/rentzsch/mogenerator/issues/202). ([rentzsch](https://github.com/rentzsch/mogenerator/commit/4ef709cef373138ac8d9368bf8dc034db6c88420))
+
+* [FIX] Swift: ordered relationships. [issue 290](https://github.com/rentzsch/mogenerator/issues/290). ([Oleksii Taran](https://github.com/rentzsch/mogenerator/commit/ce927af0f0ebd79903b685091bf20bb31f3fda9c), [Tom Burns](https://github.com/rentzsch/mogenerator/pull/293))
+
+* [FIX] Swift: model specified fetch requests. ([Dave Reed](https://github.com/rentzsch/mogenerator/commit/1542d9224dad8ef3c4c58724af604d6fff86f6f5), [Tom Harrington](https://github.com/rentzsch/mogenerator/commit/43f61d066d9daa65d6f941e01b9c0be8e56afb28))
+
+* [FIX] Swift: MogenSwiftTest. ([Justin Williams](https://github.com/rentzsch/mogenerator/commit/517e527aa35e7da6ef89e1c11fa45393071085dd), [Dave Reed](https://github.com/rentzsch/mogenerator/commit/3f843651182fc75f9607ba6ed24039b91b9c0bd4))
+
+* [FIX] Swift: generation of `override` method declarations. (Tom Harrington [1](https://github.com/rentzsch/mogenerator/commit/6f57408e7a1db0ebd07fb8a8190f819082293014), [2](https://github.com/rentzsch/mogenerator/commit/78e62b1247cfee13bc19131d5bf00fa59794c448))
+
+* [FIX] Quote paths in test/Rakefile. ([Jonah Williams](https://github.com/rentzsch/mogenerator/commit/2f2f034d35cc0600ad2e12dd343dc5ccff888b35))
+
+
+
 ### v1.28: Wed Sep 10 2014 [download](https://github.com/rentzsch/mogenerator/releases/download/1.28/mogenerator-1.28.dmg)
 
 * [NEW] `--v2` argument. I wanted to enable ARC by default, but decided to take it a step further (while not breaking existing scripts). The new `--v2` argument is basically [semantic versioning](http://semver.org) for tool arguments.
