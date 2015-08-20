@@ -39,33 +39,33 @@ Senseful wrote up a [nice summary of mogenerator's command-line options](http://
 
 * [NEW] Ordered relationships actually work. [OMG](https://twitter.com/rentzsch/status/281816512489218048). I have them working in a new separate OS X test app, even though [mogenerator's test dir](https://github.com/rentzsch/mogenerator/tree/master/test) fails. I still haven't figured out why, but I'm not holding this back. ([Daniel Tull](https://github.com/rentzsch/mogenerator/pull/140), [Joshua Greene](https://github.com/rentzsch/mogenerator/commit/a971c391b7f720f30934de439519bd3ecda4d453), [Dave Wood](https://github.com/rentzsch/mogenerator/commit/6a5f27b68c70b3b7688cb02c6a4c957c49baba17), [Jonathan del Strother](https://github.com/rentzsch/mogenerator/pull/231))
 
-- [NEW] Custom scalar types. Specify `attributeValueScalarType` for the name of the property's custom type and `additionalHeaderFileName` if you need to bring in an additional header file for compilation. With this, mogenerator supports C-style and [JREnum](https://github.com/rentzsch/JREnum)-style enums. ([Quentin ARNAULT](https://github.com/rentzsch/mogenerator/commit/43eff6a69098747d95417ed4f5f7b5e686504473))
+* [NEW] Custom scalar types. Specify `attributeValueScalarType` for the name of the property's custom type and `additionalHeaderFileName` if you need to bring in an additional header file for compilation. With this, mogenerator supports C-style and [JREnum](https://github.com/rentzsch/JREnum)-style enums. ([Quentin ARNAULT](https://github.com/rentzsch/mogenerator/commit/43eff6a69098747d95417ed4f5f7b5e686504473))
 
-- [NEW] Remove unnecessary empty lines in the generated files. ([Stephan Michels](https://github.com/rentzsch/mogenerator/pull/184))
+* [NEW] Remove unnecessary empty lines in the generated files. ([Stephan Michels](https://github.com/rentzsch/mogenerator/pull/184))
 
 * [NEW] Ability to forward-declare `@protocol`s for i.e. transformable types. Specify them via a comma delimited string in the entity's user info under the `attributeTransformableProtocols` key. ([Renaud Tircher](https://github.com/rentzsch/mogenerator/pull/147))
 
 * [NEW] Generate `*UserInfo` key/value pairs as const structs. ([Jeremy Foo](https://github.com/rentzsch/mogenerator/pull/131), [rentzsch](https://github.com/rentzsch/mogenerator/issues/158))
 
-- [NEW] `--template-var literals` which, when enabled, generates Obj-C literals. ([Brandon Williams](https://github.com/rentzsch/mogenerator/commit/fc6537d97f187121a38ddfe85c52796c8a3be2d0), [Thomas van der Heijden](https://github.com/rentzsch/mogenerator/commit/8b203a03fc4456b28087c7f3e0dc4d7637a89cdc), [rentzsch](https://github.com/rentzsch/mogenerator/commit/63d2ac2ee30cd59db126302eb5f46fb99fe6d460))
+* [NEW] `--template-var literals` which, when enabled, generates Obj-C literals. ([Brandon Williams](https://github.com/rentzsch/mogenerator/commit/fc6537d97f187121a38ddfe85c52796c8a3be2d0), [Thomas van der Heijden](https://github.com/rentzsch/mogenerator/commit/8b203a03fc4456b28087c7f3e0dc4d7637a89cdc), [rentzsch](https://github.com/rentzsch/mogenerator/commit/63d2ac2ee30cd59db126302eb5f46fb99fe6d460))
 
-- [NEW] Specify `--template-var modules=true` option to avoid `treating #import as an import of module 'CoreData' [-Wauto-import]" warning`. ([Daniel Tull](https://github.com/rentzsch/mogenerator/pull/194))
+* [NEW] Specify `--template-var modules=true` option to avoid `treating #import as an import of module 'CoreData' [-Wauto-import]" warning`. ([Daniel Tull](https://github.com/rentzsch/mogenerator/pull/194))
 
-- [NEW] Unsigned integers are generated when a property's minimum is set to `0` in the Xcode modeler. ([Dan Pourhadi](https://github.com/rentzsch/mogenerator/commit/e70cab5bf1a721831e43cb756778ee8825f1e011))
+* [NEW] Unsigned integers are generated when a property's minimum is set to `0` in the Xcode modeler. ([Dan Pourhadi](https://github.com/rentzsch/mogenerator/commit/e70cab5bf1a721831e43cb756778ee8825f1e011))
 
-- [NEW] Add support for setting command-line options via a JSON config file. ([Simon Whitaker](https://github.com/rentzsch/mogenerator/pull/163))
+* [NEW] Add support for setting command-line options via a JSON config file. ([Simon Whitaker](https://github.com/rentzsch/mogenerator/pull/163))
 
-- [NEW] Add CONTRIBUTING.md file. It's now even easier to contribute to mogenerator :) ([rentzsch](https://github.com/rentzsch/mogenerator/commit/e8a05a3161be2a25cb072041936196c28dbdda07))
+* [NEW] Add CONTRIBUTING.md file. It's now even easier to contribute to mogenerator :) ([rentzsch](https://github.com/rentzsch/mogenerator/commit/e8a05a3161be2a25cb072041936196c28dbdda07))
 
-- [NEW] Add MIT LICENSE file to make it clear templates are under the same license. ([rentzsch](https://github.com/rentzsch/mogenerator/commit/b8b57d1d88d59680c932096eb27d327b7324f56d))
+* [NEW] Add MIT LICENSE file to make it clear templates are under the same license. ([rentzsch](https://github.com/rentzsch/mogenerator/commit/b8b57d1d88d59680c932096eb27d327b7324f56d))
 
 * [CHANGE] Suppress generation of `-setPrimativeType:` method. [issue 16](https://github.com/rentzsch/mogenerator/issues/16). ([rentzsch](https://github.com/rentzsch/mogenerator/commit/cd9809de0ec266995069c4350feb0bf78ebc6795))
 
-- [CHANGE] Add a warning when skipping an attribute named 'type'. ([Simon Whitaker](https://github.com/rentzsch/mogenerator/pull/165))
+* [CHANGE] Add a warning when skipping an attribute named 'type'. ([Simon Whitaker](https://github.com/rentzsch/mogenerator/pull/165))
 
 * [CHANGE] Add explicit `atomic` to sooth `-Weverything`. ([Daniel Tull](https://github.com/rentzsch/mogenerator/pull/153))
 
-- [CHANGE] iOS 8 changes objectID from a getter into a property, resulting in a warning. Templates updated to match. ([Ryan Johnson](https://github.com/rentzsch/mogenerator/pull/201))
+* [CHANGE] iOS 8 changes objectID from a getter into a property, resulting in a warning. Templates updated to match. ([Ryan Johnson](https://github.com/rentzsch/mogenerator/pull/201))
 
 * [FIX] Support newly-created models when `--model=*.xcdatamodeld`. [issue 137](https://github.com/rentzsch/mogenerator/issues/137). ([Sergey](https://github.com/rentzsch/mogenerator/pull/138))
 
@@ -86,6 +86,8 @@ Senseful wrote up a [nice summary of mogenerator's command-line options](http://
 * [FIX] Don't attempt to `#import "NSManagedObject.h"` even in the face of weird (corrupted?) model files. [issue 42](https://github.com/rentzsch/mogenerator/issues/42). ([rentzsch](https://github.com/rentzsch/mogenerator/commit/3e6074814c4e6655c26469c01adeb3d0aafa9ddb))
 
 * [TEST] Escape spaces in mogenerator build path. ([Daniel Tull](https://github.com/rentzsch/mogenerator/issues/151))
+
+
 
 ### v1.27: Mon Nov 12 2012 [download](http://github.com/downloads/rentzsch/mogenerator/mogenerator-1.27.dmg)
 
@@ -244,7 +246,7 @@ Senseful wrote up a [nice summary of mogenerator's command-line options](http://
 * [NEW] Xmo'd works with versioned data models. ([rentzsch](http://github.com/rentzsch/mogenerator/commit/5195153e8ffce08eb82a63c8fde6aea20b0e6d34))
 
 * [NEW] Support for fetched properties ([Nikita Zhuk](http://github.com/rentzsch/mogenerator/commit/7481add810ef798c0f678d782d7d8fb9e6ff4d46))
-	
+
 * [NEW] `NSParameterAssert(moc)` in fetch request wrappers. ([rentzsch](http://github.com/rentzsch/mogenerator/commit/015aa0bec7dae21058c057bfa6b4f6748e444e00))
 
 
@@ -255,9 +257,9 @@ Senseful wrote up a [nice summary of mogenerator's command-line options](http://
 
 * [NEW] `--list-source-files` option, which lists model-related source files. ([rentzsch](http://github.com/rentzsch/mogenerator/commit/19fe5be5d9c0e13721cda4cdb18f8209222657f6))
 
-* [NEW] Add `--orphaned` option. ([rentzsch](http://github.com/rentzsch/mogenerator/commit/b64370f7532bcaf709fc8e0da8561306fa09a412))  
+* [NEW] Add `--orphaned` option. ([rentzsch](http://github.com/rentzsch/mogenerator/commit/b64370f7532bcaf709fc8e0da8561306fa09a412))
 
-Couple `--orphaned` with `--model` to get a listing of source files that no longer have corresponding entities in the model. The intent is to be able to pipe its output to xargs + git to remove deleted and renamed entities in one command, something like:  
+Couple `--orphaned` with `--model` to get a listing of source files that no longer have corresponding entities in the model. The intent is to be able to pipe its output to xargs + git to remove deleted and renamed entities in one command, something like:
 
 	$ mogenerator --model ../MyModel.xcdatamodel --orphaned | xargs git rm
 
@@ -277,7 +279,7 @@ Couple `--orphaned` with `--model` to get a listing of source files that no long
 
 ### v1.15: Mon 2 Nov 2009 [download](http://cloud.github.com/downloads/rentzsch/mogenerator/mogenerator-1.15.dmg)
 
-* [CHANGE] Xmo'd: now adds `.h` human+machine header files to project (in addition 
+* [CHANGE] Xmo'd: now adds `.h` human+machine header files to project (in addition
 to current `.m` + `.mm` files). ([rentzsch](http://github.com/rentzsch/mogenerator/commit/5c88445e366b15d4a4700b7f9a10a6915ff6b20b))
 
 * [NEW] Now supports key paths in fetch request predicates so long as they're relationships. ([Jon Olson](http://github.com/rentzsch/mogenerator/commit/6bd8051a70d32fe73c1965cb449d2f40d403260a))
