@@ -135,13 +135,21 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 
 	NSManagedObjectModel *model = [[moc_ persistentStoreCoordinator] managedObjectModel];
 	<$if FetchRequest.hasBindings$>
+	<$if TemplateVar.literals$>
+	NSDictionary *substitutionVariables = @{<$foreach Binding FetchRequest.bindings doVar$>@"<$Binding.name$>": <$Binding.name$>_<$if BindingIndex < FetchRequest.bindings.@count - 1$>, <$endif$><$endforeach doVar$>};
+	<$else$>
 	NSDictionary *substitutionVariables = [NSDictionary dictionaryWithObjectsAndKeys:
 														<$foreach Binding FetchRequest.bindings do2$>
 														<$Binding.name$>_, @"<$Binding.name$>",
 														<$endforeach do2$>
 														nil];
+	<$endif$>
+	<$else$>
+	<$if TemplateVar.literals$>
+	NSDictionary *substitutionVariables = @{};
 	<$else$>
 	NSDictionary *substitutionVariables = [NSDictionary dictionary];
+	<$endif$>
 	<$endif$>
 	NSFetchRequest *fetchRequest = [model fetchRequestFromTemplateWithName:@"<$FetchRequest.name$>"
 													 substitutionVariables:substitutionVariables];
@@ -156,7 +164,11 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 				//	Nothing found matching the fetch request. That's cool, though: we'll just return nil.
 				break;
 			case 1:
+			<$if TemplateVar.literals$>
+				result = results.firstObject;
+			<$else$>
 				result = [results objectAtIndex:0];
+			<$endif$>
 				break;
 			default:
 				NSLog(@"WARN fetch request <$FetchRequest.name$>: 0 or 1 objects expected, %lu found (substitutionVariables:%@, results:%@)",
@@ -188,13 +200,21 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 
 	NSManagedObjectModel *model = [[moc_ persistentStoreCoordinator] managedObjectModel];
 	<$if FetchRequest.hasBindings$>
+	<$if TemplateVar.literals$>
+	NSDictionary *substitutionVariables = @{<$foreach Binding FetchRequest.bindings doVar$>@"<$Binding.name$>": <$Binding.name$>_<$if BindingIndex < FetchRequest.bindings.@count - 1$>, <$endif$><$endforeach doVar$>};
+	<$else$>
 	NSDictionary *substitutionVariables = [NSDictionary dictionaryWithObjectsAndKeys:
 														<$foreach Binding FetchRequest.bindings do2$>
 														<$Binding.name$>_, @"<$Binding.name$>",
 														<$endforeach do2$>
 														nil];
+	<$endif$>
+	<$else$>
+	<$if TemplateVar.literals$>
+	NSDictionary *substitutionVariables = @{};
 	<$else$>
 	NSDictionary *substitutionVariables = [NSDictionary dictionary];
+	<$endif$>
 	<$endif$>
 	NSFetchRequest *fetchRequest = [model fetchRequestFromTemplateWithName:@"<$FetchRequest.name$>"
 													 substitutionVariables:substitutionVariables];
@@ -217,7 +237,11 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 	fetchRequest.predicate = [NSPredicate predicateWithFormat:@"<$Relationship.inverseRelationship.name$> <$if Relationship.inverseRelationship.isToMany$>CONTAINS<$else$>==<$endif$> %@", self];
 	fetchRequest.sortDescriptors = sortDescriptors;
 	<$if indexedNoninheritedAttributes.@count > 0$>
+	<$if TemplateVar.literals$>
+	NSArray *indexedIDs = @[<$foreach Attribute indexedNoninheritedAttributes do$>self.<$Attribute.name$><$if AttributeIndex < indexedNoninheritedAttributes.@count - 1$>, <$endif$><$endforeach do$>];
+	<$else$>
 	NSArray *indexedIDs = [NSArray arrayWithObjects:<$foreach Attribute indexedNoninheritedAttributes do$>self.<$Attribute.name$>, <$endforeach do$>nil];
+	<$endif$>
 	NSString *cacheName = [NSString stringWithFormat:@"mogenerator.<$managedObjectClassName$>.%@.<$Relationship.name$>.%@", indexedIDs, sortDescriptors];
 	<$endif$>
 	return [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
