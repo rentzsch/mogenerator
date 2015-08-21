@@ -439,8 +439,15 @@
 			files = (
 			);
 			inputPaths = (
+				"$(SRCROOT)/templates/human.m.motemplate",
+				"$(SRCROOT)/templates/human.h.motemplate",
+				"$(SRCROOT)/templates/human.swift.motemplate",
+				"$(SRCROOT)/templates/machine.h.motemplate",
+				"$(SRCROOT)/templates/machine.m.motemplate",
+				"$(SRCROOT)/templates/machine.swift.motemplate",
 			);
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/motemplate-Info.plist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -531,7 +538,7 @@
 					"-sectcreate",
 					__TEXT,
 					__info_plist,
-					"$TMPDIR/mogenerator-Info.plist",
+					"$(DERIVED_FILE_DIR)/mogenerator-Info.plist",
 				);
 				PRODUCT_NAME = mogenerator;
 				WARNING_CFLAGS = "-Wall";
@@ -552,7 +559,7 @@
 					"-sectcreate",
 					__TEXT,
 					__info_plist,
-					"$TMPDIR/mogenerator-Info.plist",
+					"$(DERIVED_FILE_DIR)/mogenerator-Info.plist",
 				);
 				PRODUCT_NAME = mogenerator;
 				WARNING_CFLAGS = "-Wall";
