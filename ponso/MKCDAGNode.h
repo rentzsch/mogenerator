@@ -34,7 +34,7 @@
 //! All objects of nodes in topological order which are reachable from the receiver.
 @property(nonatomic, readonly) NSArray *objectsInTopologicalOrder;
 
-- (id)initWithObject:(id)object;
+- (instancetype)initWithObject:(id)object;
 
 /**
  Creates dependency between receiver and the given node and adds the given node into the DAG.

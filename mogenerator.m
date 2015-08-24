@@ -592,7 +592,7 @@ static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName
     NSString *templateName;
     NSString *templatePath;
 }
-- (id)initWithName:(NSString*)name_ path:(NSString*)path_;
+- (instancetype)initWithName:(NSString*)name_ path:(NSString*)path_;
 - (NSString*)templateName;
 - (void)setTemplateName:(NSString*)name_;
 - (NSString*)templatePath;
@@ -1200,7 +1200,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 
 @implementation MogeneratorTemplateDesc
 
-- (id)initWithName:(NSString*)name_ path:(NSString*)path_ {
+- (instancetype)initWithName:(NSString*)name_ path:(NSString*)path_ {
     self = [super init];
     if (self) {
         templateName = [name_ retain];

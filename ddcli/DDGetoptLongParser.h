@@ -100,7 +100,7 @@ typedef struct
  *
  * @param target Object that receives target messages.
  */
-- (id) initWithTarget: (id) target;
+- (instancetype) initWithTarget: (id) target;
 
 /**
  * Returns the target object.
