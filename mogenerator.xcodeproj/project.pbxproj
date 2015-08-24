@@ -171,7 +171,6 @@
 		79D2BF9E0ACFB51A00F3F141 /* NSScanner+MiscMerge.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSScanner+MiscMerge.m"; path = "../MiscMerge/NSScanner+MiscMerge.m"; sourceTree = "<group>"; };
 		79D2BF9F0ACFB51A00F3F141 /* NSString+MiscAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "NSString+MiscAdditions.h"; path = "../MiscMerge/NSString+MiscAdditions.h"; sourceTree = "<group>"; };
 		79D2BFA00ACFB51A00F3F141 /* NSString+MiscAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSString+MiscAdditions.m"; path = "../MiscMerge/NSString+MiscAdditions.m"; sourceTree = "<group>"; };
-		79D2C00E0ACFB81200F3F141 /* nsenumerate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = nsenumerate.h; sourceTree = "<group>"; };
 		79D2C0570ACFBCB500F3F141 /* FoundationAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FoundationAdditions.h; sourceTree = "<group>"; };
 		79D2C0580ACFBCB500F3F141 /* FoundationAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FoundationAdditions.m; sourceTree = "<group>"; };
 		8DD76FA10486AA7600D96B5E /* mogenerator */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = mogenerator; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -224,7 +223,6 @@
 			children = (
 				08FB7796FE84155DC02AAC07 /* mogenerator.m */,
 				79A586510E48E8B400474C35 /* mogenerator.h */,
-				79D2C00E0ACFB81200F3F141 /* nsenumerate.h */,
 				7931E67910FE984F00175784 /* RegexKitLite.h */,
 				7931E67A10FE984F00175784 /* RegexKitLite.m */,
 				32A70AAB03705E1F00C91783 /* mogenerator_Prefix.pch */,

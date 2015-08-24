@@ -24,7 +24,9 @@ static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName
 - (NSDictionary*)fetchedPropertiesByName {
     NSMutableDictionary *fetchedPropertiesByName = [NSMutableDictionary dictionary];
 
-    nsenumerate ([self properties], NSPropertyDescription, property) {
+    NSArray *properties = [self properties];
+    for (NSPropertyDescription *property in properties)
+    {
         if ([property isKindOfClass:[NSFetchedPropertyDescription class]]) {
             [fetchedPropertiesByName setObject:property forKey:[property name]];
         }
@@ -94,7 +96,8 @@ static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName
         ddprintf(@"No entities found in model (or in specified configuration). No files will be generated.\n(model description: %@)\n", self);
     }
 
-    nsenumerate (allEntities, NSEntityDescription, entity) {
+    for (NSEntityDescription *entity in allEntities)
+    {
         NSString *entityClassName = [entity managedObjectClassName];
 
         if ([entity hasCustomClass]){
@@ -200,7 +203,8 @@ static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName
     NSArray *attributeDescriptions = [self noninheritedAttributes];
     NSMutableArray *filteredAttributeDescriptions = [NSMutableArray arrayWithCapacity:[attributeDescriptions count]];
 
-    nsenumerate(attributeDescriptions, NSAttributeDescription, attributeDescription) {
+    for (NSAttributeDescription *attributeDescription in attributeDescriptions)
+    {
         if ([[attributeDescription name] isEqualToString:@"type"]) {
             ddprintf(@"WARNING skipping 'type' attribute on %@ (%@) - see https://github.com/rentzsch/mogenerator/issues/74\n",
                      self.name, self.managedObjectClassName);
@@ -263,7 +267,10 @@ static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName
     NSDictionary *fetchRequests = [[self managedObjectModel] valueForKey:@"fetchRequestTemplatesByName"];
 
     NSMutableDictionary *result = [NSMutableDictionary dictionaryWithCapacity:[fetchRequests count]];
-    nsenumerate ([fetchRequests allKeys], NSString, fetchRequestName) {
+    
+    NSArray *keys = [fetchRequests allKeys];
+    for (NSString *fetchRequestName in keys)
+    {
         NSFetchRequest *fetchRequest = [fetchRequests objectForKey:fetchRequestName];
         if ([fetchRequest entity] == self) {
             [result setObject:fetchRequest forKey:fetchRequestName];
@@ -278,7 +285,8 @@ static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName
     // Hope the set of keys in the key path consists of solely relationships. Abort otherwise
 
     NSEntityDescription *entity = self;
-    nsenumerate(components, NSString, key) {
+    for (NSString *key in components)
+    {
         id property = [[entity propertiesByName] objectForKey:key];
         if ([property isKindOfClass:[NSAttributeDescription class]]) {
             NSString *result = [property objectAttributeType];
@@ -306,7 +314,8 @@ static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName
     if (!predicate_) return;
 
     if ([predicate_ isKindOfClass:[NSCompoundPredicate class]]) {
-        nsenumerate([(NSCompoundPredicate*)predicate_ subpredicates], NSPredicate, subpredicate) {
+        for (NSPredicate *subpredicate in [(NSCompoundPredicate*)predicate_ subpredicates])
+        {
             [self _processPredicate:subpredicate bindings:bindings_];
         }
     } else if ([predicate_ isKindOfClass:[NSComparisonPredicate class]]) {
@@ -350,7 +359,10 @@ static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName
 - (NSArray*)prettyFetchRequests {
     NSDictionary *fetchRequests = [self fetchRequestTemplates];
     NSMutableArray *result = [NSMutableArray arrayWithCapacity:[fetchRequests count]];
-    nsenumerate ([fetchRequests allKeys], NSString, fetchRequestName) {
+    
+    NSArray *keys = [fetchRequests allKeys];
+    for (NSString *fetchRequestName in keys)
+    {
         NSFetchRequest *fetchRequest = [fetchRequests objectForKey:fetchRequestName];
         NSMutableArray *bindings = [NSMutableArray array];
         [self _processPredicate:[fetchRequest predicate] bindings:bindings];
@@ -644,7 +656,8 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
         NSArray *appSupportDirectories = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask+NSLocalDomainMask, YES);
         assert(appSupportDirectories);
 
-        nsenumerate (appSupportDirectories, NSString*, appSupportDirectory) {
+        for (NSString *appSupportDirectory in appSupportDirectories)
+        {
             if ([fileManager fileExistsAtPath:appSupportDirectory isDirectory:&isDirectory]) {
                 NSString *appSupportSubdirectory = [appSupportDirectory stringByAppendingPathComponent:ApplicationSupportSubdirectoryName];
                 appSupportSubdirectory = [appSupportSubdirectory stringByAppendingPathComponent:templateGroup];
@@ -984,11 +997,15 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
         NSMutableDictionary *entityFilesByName = [NSMutableDictionary dictionary];
 
         NSArray *srcDirs = [NSArray arrayWithObjects:machineDir, humanDir, nil];
-        nsenumerate(srcDirs, NSString, srcDir) {
+        for (NSString *srcDir in srcDirs)
+        {
             if (![srcDir length]) {
                 srcDir = [fm currentDirectoryPath];
             }
-            nsenumerate([fm subpathsAtPath:srcDir], NSString, srcFileName) {
+            
+            NSArray *subpaths = [fm subpathsAtPath:srcDir];
+            for (NSString *srcFileName in subpaths)
+            {
                 #define MANAGED_OBJECT_SOURCE_FILE_REGEX    @"_?([a-zA-Z0-9_]+MO).(h|m|mm)" // Sadly /^(*MO).(h|m|mm)$/ doesn't work.
                 if ([srcFileName isMatchedByRegex:MANAGED_OBJECT_SOURCE_FILE_REGEX]) {
                     NSString *entityName = [[srcFileName captureComponentsMatchedByRegex:MANAGED_OBJECT_SOURCE_FILE_REGEX] objectAtIndex:1];
@@ -997,14 +1014,22 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
                     }
                     [[entityFilesByName objectForKey:entityName] addObject:srcFileName];
                 }
+    
             }
         }
-        nsenumerate ([model entitiesWithACustomSubclassInConfiguration:configuration verbose:NO], NSEntityDescription, entity) {
+        
+        NSArray *entitiesWithCustomSubclass = [model entitiesWithACustomSubclassInConfiguration:configuration verbose:NO];
+        
+        for (NSEntityDescription *entity in entitiesWithCustomSubclass)
+        {
             [entityFilesByName removeObjectForKey:[entity managedObjectClassName]];
         }
-        nsenumerate(entityFilesByName, NSSet, ophanedFiles) {
-            nsenumerate(ophanedFiles, NSString, ophanedFile) {
-                ddprintf(@"%@\n", ophanedFile);
+        
+        for (NSSet *orphanedFiles in entityFilesByName)
+        {
+            for (NSString *orphanedFile in orphanedFiles)
+            {
+                ddprintf(@"%@\n", orphanedFile);
             }
         }
 
@@ -1069,7 +1094,9 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
                         *machineMFiles = [NSMutableArray array],
                         *machineHFiles = [NSMutableArray array];
 
-        nsenumerate ([model entitiesWithACustomSubclassInConfiguration:configuration verbose:YES], NSEntityDescription, entity) {
+        NSArray *entitiesWithCustomSubclass = [model entitiesWithACustomSubclassInConfiguration:configuration verbose:YES];
+        for (NSEntityDescription *entity in entitiesWithCustomSubclass)
+        {
             NSString *generatedMachineH = [machineH executeWithObject:entity sender:nil];
             NSString *generatedMachineM = [machineM executeWithObject:entity sender:nil];
             NSString *generatedHumanH = [humanH executeWithObject:entity sender:nil];
@@ -1161,8 +1188,11 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 
         if (_listSourceFiles) {
             NSArray *filesList = [NSArray arrayWithObjects:humanMFiles, humanHFiles, machineMFiles, machineHFiles, nil];
-            nsenumerate (filesList, NSArray, files) {
-                nsenumerate (files, NSString, fileName) {
+            
+            for (NSArray *files in filesList)
+            {
+                for (NSString *fileName in files)
+                {
                     ddprintf(@"%@\n", fileName);
                 }
             }
