@@ -8,7 +8,7 @@
 	
 	************************************************************************************/
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 #define nsenumerate_getEnumerator( TYPE, OBJ )				\
 	(TYPE)([OBJ isKindOfClass:[NSEnumerator class]]			\

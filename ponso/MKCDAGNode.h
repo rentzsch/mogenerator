@@ -17,7 +17,7 @@
  Created by Nikita Zhuk on 22.1.2011.
  */
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 /**
  Generic DAG (Directed Acyclic Graph) implementation

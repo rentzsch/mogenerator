@@ -15,7 +15,7 @@
 //	
 
 #import "_MiscMergeProcedureCommand.h"
-#import <Foundation/Foundation.h>
+@import Foundation;
 #import "MiscMergeEngine.h"
 #import "MiscMergeTemplate.h"
 #import "MiscMergeCommandBlock.h"

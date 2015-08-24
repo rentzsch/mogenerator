@@ -3,8 +3,8 @@
 //   Some rights reserved: http://opensource.org/licenses/mit
 //   http://github.com/rentzsch/mogenerator
 
-#import <Foundation/Foundation.h>
-#import <CoreData/CoreData.h>
+@import Foundation;
+@import CoreData;
 
 #import "MiscMergeTemplate.h"
 #import "MiscMergeCommandBlock.h"
