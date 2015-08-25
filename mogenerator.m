@@ -4,8 +4,8 @@
 //   http://github.com/rentzsch/mogenerator
 
 #import "mogenerator.h"
-#import "RegexKitLite.h"
 #import "NSManagedObjectModel+momcom.h"
+#import "NSString+MORegEx.h"
 
 static NSString * const kTemplateVar = @"TemplateVar";
 NSString  *gCustomBaseClass;
@@ -1006,9 +1006,10 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
             NSArray *subpaths = [fm subpathsAtPath:srcDir];
             for (NSString *srcFileName in subpaths)
             {
-                #define MANAGED_OBJECT_SOURCE_FILE_REGEX    @"_?([a-zA-Z0-9_]+MO).(h|m|mm)" // Sadly /^(*MO).(h|m|mm)$/ doesn't work.
-                if ([srcFileName isMatchedByRegex:MANAGED_OBJECT_SOURCE_FILE_REGEX]) {
-                    NSString *entityName = [[srcFileName captureComponentsMatchedByRegex:MANAGED_OBJECT_SOURCE_FILE_REGEX] objectAtIndex:1];
+                NSString *moSourceFileRegex = @"_?([a-zA-Z0-9_]+MO).(h|m|mm)"; // Sadly /^(*MO).(h|m|mm)$/ doesn't work.
+                
+                if ([srcFileName isMatchedByRegex:moSourceFileRegex]) {
+                    NSString *entityName = [[srcFileName captureComponentsMatchedByRegex:moSourceFileRegex] objectAtIndex:1];
                     if (![entityFilesByName objectForKey:entityName]) {
                         [entityFilesByName setObject:[NSMutableSet set] forKey:entityName];
                     }
@@ -1103,10 +1104,13 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
             NSString *generatedHumanM = [humanM executeWithObject:entity sender:nil];
 
             // remove unnecessary empty lines
-            generatedMachineH = [generatedMachineH stringByReplacingOccurrencesOfRegex:@"([ \t]*(\n|\r|\r\n)){2,}" withString:@"\n\n"];
-            generatedMachineM = [generatedMachineM stringByReplacingOccurrencesOfRegex:@"([ \t]*(\n|\r|\r\n)){2,}" withString:@"\n\n"];
-            generatedHumanH = [generatedHumanH stringByReplacingOccurrencesOfRegex:@"([ \t]*(\n|\r|\r\n)){2,}" withString:@"\n\n"];
-            generatedHumanM = [generatedHumanM stringByReplacingOccurrencesOfRegex:@"([ \t]*(\n|\r|\r\n)){2,}" withString:@"\n\n"];
+            NSString *searchPattern = @"([ \t]*(\n|\r|\r\n)){2,}";
+            NSString *replacementString = @"\n\n";
+            
+            generatedMachineH = [generatedMachineH stringByReplacingOccurrencesOfRegex:searchPattern withString:replacementString];
+            generatedMachineM = [generatedMachineM stringByReplacingOccurrencesOfRegex:searchPattern withString:replacementString];
+            generatedHumanH = [generatedHumanH stringByReplacingOccurrencesOfRegex:searchPattern withString:replacementString];
+            generatedHumanM = [generatedHumanM stringByReplacingOccurrencesOfRegex:searchPattern withString:replacementString];
 
             NSString *entityClassName = [entity managedObjectClassName];
             BOOL machineDirtied = NO;
