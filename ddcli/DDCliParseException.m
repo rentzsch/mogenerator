@@ -34,7 +34,7 @@
                                 exitCode: exitCode] autorelease];
 }
 
-- (id) initWithReason: (NSString *) reason
+- (instancetype) initWithReason: (NSString *) reason
              exitCode: (int) exitCode;
 {
     self = [super initWithName: NSStringFromClass([self class])

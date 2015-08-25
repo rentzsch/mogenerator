@@ -15,7 +15,7 @@
 //
 
 #import "_MiscMergeDebugCommand.h"
-#import <Foundation/Foundation.h>
+@import Foundation;
 #import "NSString+MiscAdditions.h"
 #import "NSScanner+MiscMerge.h"
 

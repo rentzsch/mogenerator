@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 
 /**
@@ -52,7 +52,7 @@
  * @param exitCode Desired exit code
  * @return New exception
  */
-- (id) initWithReason: (NSString *) reason
+- (instancetype) initWithReason: (NSString *) reason
              exitCode: (int) exitCode;
 
 /**

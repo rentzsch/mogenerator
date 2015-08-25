@@ -23,7 +23,7 @@
  */
 
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 #import <sysexits.h>
 
 #import "DDGetoptLongParser.h"
