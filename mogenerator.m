@@ -13,8 +13,8 @@ static NSString  *gCustomBaseClassImport;
 static NSString  *gCustomBaseClassForced;
 static BOOL       gSwift;
 
-static NSString *const kAttributeValueScalarTypeKey = @"attributeValueScalarType";
-static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName";
+static const NSString *const kAttributeValueScalarTypeKey = @"attributeValueScalarType";
+static const NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName";
 
 @interface NSEntityDescription (fetchedPropertiesAdditions)
 - (NSDictionary*)fetchedPropertiesByName;
