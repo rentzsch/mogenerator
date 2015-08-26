@@ -180,36 +180,31 @@ static const NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFi
 }
 /** @TypeInfo NSAttributeDescription */
 - (NSArray*)noninheritedAttributes {
-    NSArray *sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
+    // Sort all attributes by name.
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
+    NSMutableArray *result = [[[[self attributesByName] allValues] mutableCopy] autorelease];
+    [result sortUsingDescriptors:@[sortDescriptor]];
+
+    // Remove any from the superentity, if any.
     NSEntityDescription *superentity = [self superentity];
     if (superentity) {
-        NSMutableArray *result = [[[[self attributesByName] allValues] mutableCopy] autorelease];
         [result removeObjectsInArray:[[superentity attributesByName] allValues]];
-        return [result sortedArrayUsingDescriptors:sortDescriptors];
-    } else {
-        return [[[self attributesByName] allValues] sortedArrayUsingDescriptors:sortDescriptors];
     }
+
+    // Log a warning for all attributes named 'type'.
+    for (NSAttributeDescription *attributeDescription in result) {
+        if ([[attributeDescription name] isEqualToString:@"type"]) {
+            ddprintf(@"WARNING: 'type' attribute on %@ (%@) could result in App Store rejection - see https://github.com/rentzsch/mogenerator/issues/74\n",
+                self.name, self.managedObjectClassName);
+        }
+    }
+    return result;
 }
 
 - (NSString*)additionalHeaderFileName {
     return [[self userInfo] objectForKey:kAdditionalHeaderFileNameKey];
 }
 
-/** @TypeInfo NSAttributeDescription */
-- (NSArray*)noninheritedAttributesSansType {
-    NSArray *attributeDescriptions = [self noninheritedAttributes];
-    NSMutableArray *filteredAttributeDescriptions = [NSMutableArray arrayWithCapacity:[attributeDescriptions count]];
-
-    nsenumerate(attributeDescriptions, NSAttributeDescription, attributeDescription) {
-        if ([[attributeDescription name] isEqualToString:@"type"]) {
-            ddprintf(@"WARNING skipping 'type' attribute on %@ (%@) - see https://github.com/rentzsch/mogenerator/issues/74\n",
-                     self.name, self.managedObjectClassName);
-        } else {
-            [filteredAttributeDescriptions addObject:attributeDescription];
-        }
-    }
-    return filteredAttributeDescriptions;
-}
 /** @TypeInfo NSAttributeDescription */
 - (NSArray*)noninheritedRelationships {
     NSArray *sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
