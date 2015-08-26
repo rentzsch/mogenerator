@@ -2,7 +2,7 @@
 // Make changes to <$managedObjectClassName$>.swift instead.
 
 import CoreData
-
+<$if hasAdditionalHeaderFile$>import <$additionalHeaderFileName$><$endif$>
 <$if hasCustomBaseCaseImport$>import <$baseClassImport$><$endif$>
 
 <$if noninheritedAttributes.@count > 0$>
@@ -34,11 +34,11 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
 
     // MARK: - Class methods
     
-    <$if hasCustomSuperentity$>override <$endif$>public class func entityName () -> String {
+    <$if (hasCustomSuperclass || (hasCustomSuperentity && TemplateVar.overrideBaseClass))$>override <$endif$>public class func entityName () -> String {
         return "<$name$>"
     }
 
-    <$if hasCustomSuperentity$>override <$endif$>public class func entity(managedObjectContext: NSManagedObjectContext!) -> NSEntityDescription! {
+    <$if (hasCustomSuperclass || (hasCustomSuperentity && TemplateVar.overrideBaseClass))$>override <$endif$>public class func entity(managedObjectContext: NSManagedObjectContext!) -> NSEntityDescription! {
         return NSEntityDescription.entityForName(self.entityName(), inManagedObjectContext: managedObjectContext);
     }
 
@@ -58,22 +58,32 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
 <$if Attribute.hasDefinedAttributeType$>
 <$if Attribute.hasScalarAttributeType$>
 <$if Attribute.isReadonly$>
-    @NSManaged public
-    let <$Attribute.name$>: NSNumber?
+    public var <$Attribute.name$>: NSNumber?
+    {
+        self.willAccessValueForKey(<$managedObjectClassName$>Attributes.<$Attribute.name$>.rawValue)
+        let <$Attribute.name$> = self.primitiveValueForKey(<$managedObjectClassName$>Attributes.<$Attribute.name$>.rawValue) as? NSNumber
+        self.didAccessValueForKey(<$managedObjectClassName$>Attributes.<$Attribute.name$>.rawValue)
+        return <$Attribute.name$>
+    }
 <$else$>
     @NSManaged public
     var <$Attribute.name$>: NSNumber?
 <$endif$>
 <$else$>
 <$if Attribute.isReadonly$>
-    @NSManaged public
-    let <$Attribute.name$>: <$Attribute.objectAttributeType$><$if Attribute.isOptional$>?<$endif$>
+    public var <$Attribute.name$>: <$Attribute.objectAttributeType$><$if Attribute.isOptional$>?<$endif$>
+    {
+        self.willAccessValueForKey(<$managedObjectClassName$>Attributes.<$Attribute.name$>.rawValue)
+        let <$Attribute.name$> = self.primitiveValueForKey(<$managedObjectClassName$>Attributes.<$Attribute.name$>.rawValue) as? <$Attribute.objectAttributeType$>
+        self.didAccessValueForKey(<$managedObjectClassName$>Attributes.<$Attribute.name$>.rawValue)
+        return <$Attribute.name$>
+    }
 <$else$>
     @NSManaged public
     var <$Attribute.name$>: <$Attribute.objectAttributeType$><$if Attribute.isOptional$>?<$endif$>
 <$endif$>
 <$endif$>
-    // func validate<$Attribute.name.initialCapitalString$>(value: AutoreleasingUnsafePointer<AnyObject>, error: NSErrorPointer) {}
+    // func validate<$Attribute.name.initialCapitalString$>(value: AutoreleasingUnsafeMutablePointer<AnyObject>, error: NSErrorPointer) -> Bool {}
 <$endif$>
 <$endforeach do$>
 
@@ -87,7 +97,7 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
     @NSManaged public
     var <$Relationship.name$>: <$Relationship.destinationEntity.managedObjectClassName$><$if Relationship.isOptional$>?<$endif$>
 
-    // func validate<$Relationship.name.initialCapitalString$>(value: AutoreleasingUnsafePointer<AnyObject>, error: NSErrorPointer) {}
+    // func validate<$Relationship.name.initialCapitalString$>(value: AutoreleasingUnsafeMutablePointer<AnyObject>, error: NSErrorPointer) -> Bool {}
 <$endif$>
 <$endforeach do$>
 
@@ -98,7 +108,7 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
     }
 
     class func fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext: NSManagedObjectContext!<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.type$><$endforeach do2$>, error outError: NSErrorPointer) -> AnyObject? {
-        let model = managedObjectContext.persistentStoreCoordinator().managedObjectModel()
+        let model = managedObjectContext.persistentStoreCoordinator!.managedObjectModel
         let substitutionVariables = [<$if FetchRequest.hasBindings$><$foreach Binding FetchRequest.bindings do2$>
             "<$Binding.name$>": <$Binding.name$>,
 <$endforeach do2$><$endif$>        ]
@@ -108,22 +118,22 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
 
         var error: NSError? = nil
         var result: AnyObject? = nil
-        let results = managedObjectContext.executeFetchRequest(fetchRequest, error: &error)
+        let results = managedObjectContext.executeFetchRequest(fetchRequest!, error: &error)
 
         if error != nil {
             outError.memory = error
         } else {
-            switch results.count {
+            switch results!.count {
             case 0:
                 // Nothing found matching the fetch request. That's cool, though: we'll just return nil.
                 break
             case 1:
-                result = results[0]
+                result = results![0]
             default:
                 NSLog("WARN fetch request <$FetchRequest.name$>: 0 or 1 objects expected, %lu found (substitutionVariables:%@, results:%@)",
-                    results.count,
+                    results!.count,
                     substitutionVariables,
-                    results);
+                    results!);
             }
         }
 
@@ -166,13 +176,13 @@ extension _<$managedObjectClassName$> {
 
     func add<$Relationship.name.initialCapitalString$>(objects: <$Relationship.immutableCollectionClassName$>) {
         let mutable = self.<$Relationship.name$>.mutableCopy() as! NSMutable<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
-        mutable.union<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set(objects as! Set<NSObject>)
+        mutable.union<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set(objects<$if !Relationship.jr_isOrdered$> as! Set<NSObject><$endif$>)
         self.<$Relationship.name$> = mutable.copy() as! NS<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
     }
 
     func remove<$Relationship.name.initialCapitalString$>(objects: <$Relationship.immutableCollectionClassName$>) {
         let mutable = self.<$Relationship.name$>.mutableCopy() as! NSMutable<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
-        mutable.minus<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set(objects as! Set<NSObject>)
+        mutable.minus<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set(objects<$if !Relationship.jr_isOrdered$> as! Set<NSObject><$endif$>)
         self.<$Relationship.name$> = mutable.copy() as! NS<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
     }
 
