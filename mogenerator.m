@@ -8,10 +8,10 @@
 #import "NSString+MORegEx.h"
 
 static NSString * const kTemplateVar = @"TemplateVar";
-NSString  *gCustomBaseClass;
-NSString  *gCustomBaseClassImport;
-NSString  *gCustomBaseClassForced;
-BOOL       gSwift;
+static NSString  *gCustomBaseClass;
+static NSString  *gCustomBaseClassImport;
+static NSString  *gCustomBaseClassForced;
+static BOOL       gSwift;
 
 static NSString *const kAttributeValueScalarTypeKey = @"attributeValueScalarType";
 static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName";
