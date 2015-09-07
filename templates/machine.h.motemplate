@@ -1,7 +1,8 @@
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
 // Make changes to <$managedObjectClassName$>.h instead.
 
-<$if TemplateVar.modules$>@import CoreData;<$else$>#import <CoreData/CoreData.h><$endif$>
+@import CoreData;
+
 <$if hasCustomSuperentity$><$if hasSuperentity$>#import "<$customSuperentity$>.h"
 <$else$><$if hasCustomBaseCaseImport$>#import <$baseClassImport$><$else$>#import "<$customSuperentity$>.h"<$endif$><$endif$><$endif$>
 
@@ -11,25 +12,25 @@
 
 <$if noninheritedAttributes.@count > 0$>
 extern const struct <$managedObjectClassName$>Attributes {<$foreach Attribute noninheritedAttributes do$>
-	<$if TemplateVar.arc$>__unsafe_unretained<$endif$> NSString *<$Attribute.name$>;<$endforeach do$>
+	__unsafe_unretained NSString *<$Attribute.name$>;<$endforeach do$>
 } <$managedObjectClassName$>Attributes;
 <$endif$>
 
 <$if noninheritedRelationships.@count > 0$>
 extern const struct <$managedObjectClassName$>Relationships {<$foreach Relationship noninheritedRelationships do$>
-	<$if TemplateVar.arc$>__unsafe_unretained<$endif$> NSString *<$Relationship.name$>;<$endforeach do$>
+	__unsafe_unretained NSString *<$Relationship.name$>;<$endforeach do$>
 } <$managedObjectClassName$>Relationships;
 <$endif$>
 
 <$if noninheritedFetchedProperties.@count > 0$>
 extern const struct <$managedObjectClassName$>FetchedProperties {<$foreach FetchedProperty noninheritedFetchedProperties do$>
-	<$if TemplateVar.arc$>__unsafe_unretained<$endif$> NSString *<$FetchedProperty.name$>;<$endforeach do$>
+	__unsafe_unretained NSString *<$FetchedProperty.name$>;<$endforeach do$>
 } <$managedObjectClassName$>FetchedProperties;
 <$endif$>
 
 <$if hasUserInfoKeys$>
 extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userInfoKeyValues do$>
-	<$if TemplateVar.arc$>__unsafe_unretained<$endif$> NSString *<$UserInfo.key$>;<$endforeach do$>
+	__unsafe_unretained NSString *<$UserInfo.key$>;<$endforeach do$>
 } <$managedObjectClassName$>UserInfo;
 <$endif$>
 
@@ -67,18 +68,10 @@ extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userI
  */
 <$endif$>
 <$if Attribute.hasDefinedAttributeType$>
-<$if TemplateVar.arc$>
 <$if Attribute.isReadonly$>
 @property (nonatomic, strong, readonly) <$Attribute.objectAttributeType$> <$Attribute.name$>;
 <$else$>
 @property (nonatomic, strong) <$Attribute.objectAttributeType$> <$Attribute.name$>;
-<$endif$>
-<$else$>
-<$if Attribute.isReadonly$>
-@property (nonatomic, retain, readonly) <$Attribute.objectAttributeType$> <$Attribute.name$>;
-<$else$>
-@property (nonatomic, retain) <$Attribute.objectAttributeType$> <$Attribute.name$>;
-<$endif$>
 <$endif$>
 <$if Attribute.hasScalarAttributeType$>
 <$if Attribute.isReadonly$>
@@ -102,18 +95,10 @@ extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userI
  */
 <$endif$>
 <$if Relationship.isToMany$>
-<$if TemplateVar.arc$>
 @property (nonatomic, strong) <$Relationship.immutableCollectionClassName$> *<$Relationship.name$>;
-<$else$>
-@property (nonatomic, retain) <$Relationship.immutableCollectionClassName$> *<$Relationship.name$>;
-<$endif$>
 - (<$Relationship.mutableCollectionClassName$>*)<$Relationship.name$>Set;
 <$else$>
-<$if TemplateVar.arc$>
 @property (nonatomic, strong) <$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>;
-<$else$>
-@property (nonatomic, retain) <$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>;
-<$endif$>
 //- (BOOL)validate<$Relationship.name.initialCapitalString$>:(id*)value_ error:(NSError**)error_;
 <$endif$>
 <$endforeach do$>

@@ -685,8 +685,6 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     DDGetoptOption optionTable[] =
     {
         // Long                 Short  Argument options
-        {@"v2",                 '2',   DDGetoptNoArgument},
-
         {@"model",              'm',   DDGetoptRequiredArgument},
         {@"configuration",      'C',   DDGetoptRequiredArgument},
         {@"base-class",         0,     DDGetoptRequiredArgument},
@@ -726,11 +724,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
            "Typical Use\n"
            "-----------\n"
            "\n"
-           "$ mogenerator --v2 --model MyModel.xcdatamodeld --output-dir MyModel\n"
-           "\n"
-           "The --v2 argument tells mogenerator to use modern Objective-C (ARC,\n"
-           "Objective-C literals, modules). Otherwise mogenerator will generate old-style\n"
-           "Objective-C.\n"
+           "$ mogenerator --model MyModel.xcdatamodeld --output-dir MyModel\n"
            "\n"
            "Use the --model argument to supply the required data model file.\n"
            "\n"
@@ -956,13 +950,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
         printf("mogenerator 1.29. By Jonathan 'Wolf' Rentzsch + friends.\n");
         return EXIT_SUCCESS;
     }
-
-    if (_v2) {
-        [templateVar setObject:@YES forKey:@"arc"];
-        [templateVar setObject:@YES forKey:@"literals"];
-        [templateVar setObject:@YES forKey:@"modules"];
-    }
-
+    
     gSwift = _swift;
 
     if (baseClassForce) {
