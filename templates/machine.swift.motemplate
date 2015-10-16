@@ -23,13 +23,7 @@ public enum <$managedObjectClassName$>FetchedProperties: String {<$foreach Fetch
 }
 <$endif$>
 
-<$if hasUserInfoKeys$>
-public enum <$managedObjectClassName$>UserInfo: String {<$foreach UserInfo userInfoKeyValues do$>
-    case <$UserInfo.key$> = "<$UserInfo.key$>"<$endforeach do$>
-}
-<$endif$>
-
-@objc public
+@objc
 class _<$managedObjectClassName$>: <$customSuperentity$> {
 
     // MARK: - Class methods
@@ -92,6 +86,10 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
 <$if Relationship.isToMany$>
     @NSManaged public
     var <$Relationship.name$>: <$Relationship.immutableCollectionClassName$>
+
+    func <$Relationship.name$>Set() -> <$Relationship.mutableCollectionClassName$> {
+        return self.<$Relationship.name$>.mutableCopy() as! <$Relationship.mutableCollectionClassName$>
+    }
 
 <$else$>
     @NSManaged public
@@ -176,13 +174,13 @@ extension _<$managedObjectClassName$> {
 
     func add<$Relationship.name.initialCapitalString$>(objects: <$Relationship.immutableCollectionClassName$>) {
         let mutable = self.<$Relationship.name$>.mutableCopy() as! NSMutable<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
-        mutable.union<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set(objects<$if !Relationship.jr_isOrdered$> as! Set<NSObject><$endif$>)
+        mutable.union<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set(objects<$if Relationship.jr_isOrdered$><$else$> as Set<NSObject><$endif$>)
         self.<$Relationship.name$> = mutable.copy() as! NS<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
     }
 
     func remove<$Relationship.name.initialCapitalString$>(objects: <$Relationship.immutableCollectionClassName$>) {
         let mutable = self.<$Relationship.name$>.mutableCopy() as! NSMutable<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
-        mutable.minus<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set(objects<$if !Relationship.jr_isOrdered$> as! Set<NSObject><$endif$>)
+        mutable.minus<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set(objects<$if Relationship.jr_isOrdered$><$else$> as Set<NSObject><$endif$>)
         self.<$Relationship.name$> = mutable.copy() as! NS<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
     }
 
