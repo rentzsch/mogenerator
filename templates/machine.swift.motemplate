@@ -6,19 +6,19 @@ import CoreData
 <$if hasCustomBaseCaseImport$>import <$baseClassImport$><$endif$>
 
 <$if noninheritedAttributes.@count > 0$>
-public enum <$managedObjectClassName$>Attributes: String {<$foreach Attribute noninheritedAttributes do$>
+enum <$managedObjectClassName$>Attributes: String {<$foreach Attribute noninheritedAttributes do$>
     case <$Attribute.name$> = "<$Attribute.name$>"<$endforeach do$>
 }
 <$endif$>
 
 <$if noninheritedRelationships.@count > 0$>
-public enum <$managedObjectClassName$>Relationships: String {<$foreach Relationship noninheritedRelationships do$>
+enum <$managedObjectClassName$>Relationships: String {<$foreach Relationship noninheritedRelationships do$>
     case <$Relationship.name$> = "<$Relationship.name$>"<$endforeach do$>
 }
 <$endif$>
 
 <$if noninheritedFetchedProperties.@count > 0$>
-public enum <$managedObjectClassName$>FetchedProperties: String {<$foreach FetchedProperty noninheritedFetchedProperties do$>
+enum <$managedObjectClassName$>FetchedProperties: String {<$foreach FetchedProperty noninheritedFetchedProperties do$>
     case <$FetchedProperty.name$> = "<$FetchedProperty.name$>"<$endforeach do$>
 }
 <$endif$>
@@ -28,21 +28,21 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
 
     // MARK: - Class methods
     
-    <$if (hasCustomSuperclass || (hasCustomSuperentity && TemplateVar.overrideBaseClass))$>override <$endif$>public class func entityName () -> String {
+    <$if (hasCustomSuperclass || (hasCustomSuperentity && TemplateVar.overrideBaseClass))$>override <$endif$>class func entityName () -> String {
         return "<$name$>"
     }
 
-    <$if (hasCustomSuperclass || (hasCustomSuperentity && TemplateVar.overrideBaseClass))$>override <$endif$>public class func entity(managedObjectContext: NSManagedObjectContext!) -> NSEntityDescription! {
+    <$if (hasCustomSuperclass || (hasCustomSuperentity && TemplateVar.overrideBaseClass))$>override <$endif$>class func entity(managedObjectContext: NSManagedObjectContext!) -> NSEntityDescription! {
         return NSEntityDescription.entityForName(self.entityName(), inManagedObjectContext: managedObjectContext);
     }
 
     // MARK: - Life cycle methods
 
-    public override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext!) {
+    override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext!) {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
     }
     
-    public convenience init(managedObjectContext: NSManagedObjectContext!) {
+    convenience init(managedObjectContext: NSManagedObjectContext!) {
         let entity = _<$managedObjectClassName$>.entity(managedObjectContext)
         self.init(entity: entity, insertIntoManagedObjectContext: managedObjectContext)
     }
@@ -52,7 +52,7 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
 <$if Attribute.hasDefinedAttributeType$>
 <$if Attribute.hasScalarAttributeType$>
 <$if Attribute.isReadonly$>
-    public var <$Attribute.name$>: NSNumber?
+    var <$Attribute.name$>: NSNumber?
     {
         self.willAccessValueForKey(<$managedObjectClassName$>Attributes.<$Attribute.name$>.rawValue)
         let <$Attribute.name$> = self.primitiveValueForKey(<$managedObjectClassName$>Attributes.<$Attribute.name$>.rawValue) as? NSNumber
@@ -60,12 +60,12 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
         return <$Attribute.name$>
     }
 <$else$>
-    @NSManaged public
+    @NSManaged
     var <$Attribute.name$>: NSNumber?
 <$endif$>
 <$else$>
 <$if Attribute.isReadonly$>
-    public var <$Attribute.name$>: <$Attribute.objectAttributeType$><$if Attribute.isOptional$>?<$endif$>
+    var <$Attribute.name$>: <$Attribute.objectAttributeType$><$if Attribute.isOptional$>?<$endif$>
     {
         self.willAccessValueForKey(<$managedObjectClassName$>Attributes.<$Attribute.name$>.rawValue)
         let <$Attribute.name$> = self.primitiveValueForKey(<$managedObjectClassName$>Attributes.<$Attribute.name$>.rawValue) as? <$Attribute.objectAttributeType$>
@@ -73,7 +73,7 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
         return <$Attribute.name$>
     }
 <$else$>
-    @NSManaged public
+    @NSManaged
     var <$Attribute.name$>: <$Attribute.objectAttributeType$><$if Attribute.isOptional$>?<$endif$>
 <$endif$>
 <$endif$>
@@ -84,7 +84,7 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
     // MARK: - Relationships
 <$foreach Relationship noninheritedRelationships do$>
 <$if Relationship.isToMany$>
-    @NSManaged public
+    @NSManaged
     var <$Relationship.name$>: <$Relationship.immutableCollectionClassName$>
 
     func <$Relationship.name$>Set() -> <$Relationship.mutableCollectionClassName$> {
@@ -92,7 +92,7 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
     }
 
 <$else$>
-    @NSManaged public
+    @NSManaged
     var <$Relationship.name$>: <$Relationship.destinationEntity.managedObjectClassName$><$if Relationship.isOptional$>?<$endif$>
 
     // func validate<$Relationship.name.initialCapitalString$>(value: AutoreleasingUnsafeMutablePointer<AnyObject>, error: NSErrorPointer) -> Bool {}
@@ -164,7 +164,7 @@ class _<$managedObjectClassName$>: <$customSuperentity$> {
 <$endforeach do$>
 
 <$foreach FetchedProperty noninheritedFetchedProperties do$>
-    @NSManaged public
+    @NSManaged
     let <$FetchedProperty.name$>: [<$FetchedProperty.entity.managedObjectClassName$>]
 <$endforeach do$>
 }
