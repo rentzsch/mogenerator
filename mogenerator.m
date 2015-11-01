@@ -36,6 +36,22 @@ static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName
 }
 @end
 
+@interface NSEntityDescription (swiftAdditions)
+- (NSString *)sanitizedManagedObjectClassName;
+@end
+
+@implementation NSEntityDescription (swiftAdditions)
+
+- (NSString *)sanitizedManagedObjectClassName {
+    NSString *className = [self managedObjectClassName];
+    if ([className hasPrefix:@"."]) {
+        return [className stringByReplacingOccurrencesOfString:@"." withString:@""];
+    }
+    return className;
+}
+
+@end
+
 @interface NSEntityDescription (userInfoAdditions)
 - (BOOL)hasUserInfoKeys;
 - (NSDictionary *)userInfoByKeys;
@@ -1113,6 +1129,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
             generatedHumanM = [generatedHumanM stringByReplacingOccurrencesOfRegex:searchPattern withString:replacementString];
 
             NSString *entityClassName = [entity managedObjectClassName];
+            entityClassName = [entityClassName stringByReplacingOccurrencesOfString:@"." withString:@"_"];
             BOOL machineDirtied = NO;
 
             // Machine header files.
