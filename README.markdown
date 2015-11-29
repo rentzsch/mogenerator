@@ -1,4 +1,4 @@
-# mogenerator
+# mogenerator ![](https://travis-ci.org/rentzsch/mogenerator.svg?branch=master)
 
 Visit the [project's pretty homepage](http://rentzsch.github.com/mogenerator).
 
@@ -11,10 +11,6 @@ Want more detail? John Blanco has authored a [detailed writeup about mogenerator
 ## Using mogenerator
 
 Senseful wrote up a [nice summary of mogenerator's command-line options](http://stackoverflow.com/questions/3589247/how-do-the-mogenerator-parameters-work-which-can-i-send-via-xcode).
-
-## Master branch build status:
-
-![](https://travis-ci.org/rentzsch/mogenerator.svg?branch=master)
 
 ## Version History
 
