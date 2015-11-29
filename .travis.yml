@@ -1,2 +1,5 @@
+language: objective-c
 osx_image: xcode7.1
-script: pwd && ls -l && cd test && rake
+xcode_project: mogenerator.xcodeproj
+xcode_scheme: mogenerator
+#script: pwd && ls -l && cd test && rake
