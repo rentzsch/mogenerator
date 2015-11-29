@@ -27,19 +27,6 @@ If you're contributing to mogenerator, please ensure tests pass prior to issuing
 
 It does this for both MRC and ARC modes.
 
-*Note:* if you encounter an error like this:
-
-	$ rake
-	*** Clean-building mogenerator
-	xcodebuild: error: The project 'mogenerator' does not contain a scheme named 'mogenerator'.
-	rake aborted!
-	ERROR: xcodebuild -project ../mogenerator.xcodeproj -scheme mogenerator clean failed
-	/Users/wolf/Downloads/mogenerator/test/Rakefile:4:in `run_or_die'
-	/Users/wolf/Downloads/mogenerator/test/Rakefile:11:in `<top (required)>'
-	(See full trace by running task with --trace)
-
-Try opening mogenerator.xcodeproj in Xcode, closing the project and try again. That should "fix" it. *sigh*
-
 Points of Highlight
 -------------------
 
