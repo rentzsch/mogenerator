@@ -1,11 +1,13 @@
 def run_or_die(cmd)
-  #puts "*** #{cmd}"
+  puts "*** #{cmd}" ## comment out later
   result = `#{cmd}`
   raise "ERROR: #{cmd} failed" if $?.exitstatus != 0
   result
 end
 
 puts "*** Clean-building mogenerator"
+puts run_or_die 'pwd'
+puts run_or_die 'whereis xcodebuild'
 build_settings = run_or_die 'xcodebuild -project ../mogenerator.xcodeproj -configuration Debug -showBuildSettings'
 built_products_dir = build_settings.lines.select{|line|line[/\sBUILT_PRODUCTS_DIR\s/]}[0].strip.sub('BUILT_PRODUCTS_DIR = ','')
 run_or_die 'xcodebuild -project ../mogenerator.xcodeproj -scheme mogenerator clean' # need this to pick up template changes
@@ -56,16 +58,16 @@ end
 
 task :default do
   Rake::Task[:clean].execute
-  
+
   Rake::Task[:mrc].execute
   Rake::Task[:clean].execute
-  
+
   Rake::Task[:mrc_noliterals].execute
   Rake::Task[:clean].execute
-  
+
   Rake::Task[:arc].execute
   Rake::Task[:clean].execute
-  
+
   Rake::Task[:arc_noliterals].execute
   Rake::Task[:clean].execute
 end
