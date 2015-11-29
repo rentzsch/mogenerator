@@ -1,15 +1,15 @@
 def run_or_die(cmd)
-  puts "*** #{cmd}" ## comment out later
+  #puts "*** #{cmd}"
   result = `#{cmd}`
   raise "ERROR: #{cmd} failed" if $?.exitstatus != 0
   result
 end
 
 puts "*** Clean-building mogenerator"
-build_settings = run_or_die '/usr/bin/xcodebuild -project ../mogenerator.xcodeproj -configuration Debug -showBuildSettings'
+build_settings = run_or_die 'xcodebuild -project ../mogenerator.xcodeproj -configuration Debug -showBuildSettings'
 built_products_dir = build_settings.lines.select{|line|line[/\sBUILT_PRODUCTS_DIR\s/]}[0].strip.sub('BUILT_PRODUCTS_DIR = ','')
-run_or_die '/usr/bin/xcodebuild -project ../mogenerator.xcodeproj -scheme mogenerator clean' # need this to pick up template changes
-run_or_die '/usr/bin/xcodebuild -project ../mogenerator.xcodeproj -scheme mogenerator'
+run_or_die 'xcodebuild -project ../mogenerator.xcodeproj -scheme mogenerator clean' # need this to pick up template changes
+run_or_die 'xcodebuild -project ../mogenerator.xcodeproj -scheme mogenerator'
 mogenPath = "#{built_products_dir}/mogenerator"
 
 def gen_and_compile(desc, mogenPath, extra_mogen_args, extra_gcc_args)
