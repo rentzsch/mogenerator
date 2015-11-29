@@ -8,13 +8,13 @@
 #import "NSManagedObjectModel+momcom.h"
 
 static NSString * const kTemplateVar = @"TemplateVar";
-NSString  *gCustomBaseClass;
-NSString  *gCustomBaseClassImport;
-NSString  *gCustomBaseClassForced;
-BOOL       gSwift;
+static NSString  *gCustomBaseClass;
+static NSString  *gCustomBaseClassImport;
+static NSString  *gCustomBaseClassForced;
+static BOOL       gSwift;
 
-static NSString *const kAttributeValueScalarTypeKey = @"attributeValueScalarType";
-static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName";
+static const NSString *const kAttributeValueScalarTypeKey = @"attributeValueScalarType";
+static const NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName";
 
 @interface NSEntityDescription (fetchedPropertiesAdditions)
 - (NSDictionary*)fetchedPropertiesByName;
@@ -180,36 +180,31 @@ static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName
 }
 /** @TypeInfo NSAttributeDescription */
 - (NSArray*)noninheritedAttributes {
-    NSArray *sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
+    // Sort all attributes by name.
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
+    NSMutableArray *result = [[[[self attributesByName] allValues] mutableCopy] autorelease];
+    [result sortUsingDescriptors:@[sortDescriptor]];
+
+    // Remove any from the superentity, if any.
     NSEntityDescription *superentity = [self superentity];
     if (superentity) {
-        NSMutableArray *result = [[[[self attributesByName] allValues] mutableCopy] autorelease];
         [result removeObjectsInArray:[[superentity attributesByName] allValues]];
-        return [result sortedArrayUsingDescriptors:sortDescriptors];
-    } else {
-        return [[[self attributesByName] allValues] sortedArrayUsingDescriptors:sortDescriptors];
     }
+
+    // Log a warning for all attributes named 'type'.
+    for (NSAttributeDescription *attributeDescription in result) {
+        if ([[attributeDescription name] isEqualToString:@"type"]) {
+            ddprintf(@"WARNING: 'type' attribute on %@ (%@) could result in App Store rejection - see https://github.com/rentzsch/mogenerator/issues/74\n",
+                self.name, self.managedObjectClassName);
+        }
+    }
+    return result;
 }
 
 - (NSString*)additionalHeaderFileName {
     return [[self userInfo] objectForKey:kAdditionalHeaderFileNameKey];
 }
 
-/** @TypeInfo NSAttributeDescription */
-- (NSArray*)noninheritedAttributesSansType {
-    NSArray *attributeDescriptions = [self noninheritedAttributes];
-    NSMutableArray *filteredAttributeDescriptions = [NSMutableArray arrayWithCapacity:[attributeDescriptions count]];
-
-    nsenumerate(attributeDescriptions, NSAttributeDescription, attributeDescription) {
-        if ([[attributeDescription name] isEqualToString:@"type"]) {
-            ddprintf(@"WARNING skipping 'type' attribute on %@ (%@) - see https://github.com/rentzsch/mogenerator/issues/74\n",
-                     self.name, self.managedObjectClassName);
-        } else {
-            [filteredAttributeDescriptions addObject:attributeDescription];
-        }
-    }
-    return filteredAttributeDescriptions;
-}
 /** @TypeInfo NSAttributeDescription */
 - (NSArray*)noninheritedRelationships {
     NSArray *sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
@@ -607,7 +602,7 @@ static MiscMergeEngine* engineWithTemplateDesc(MogeneratorTemplateDesc *template
     } else {
         NSData *templateData = [[NSBundle mainBundle] objectForInfoDictionaryKey:[templateDesc_ templateName]];
         assert(templateData);
-        NSString *templateString = [[[NSString alloc] initWithData:templateData encoding:NSASCIIStringEncoding] autorelease];
+        NSString *templateString = [[[NSString alloc] initWithData:templateData encoding:NSUTF8StringEncoding] autorelease];
         [template setFilename:[@"x-__info_plist://" stringByAppendingString:[templateDesc_ templateName]]];
         [template parseString:templateString];
     }
@@ -829,7 +824,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
             // Cool, the model is in the Xcode 4.0+ format, we can compile it ourselves.
             NSError *compileError = nil;
             momFilePath = [NSManagedObjectModel compileModelAtPath:momOrXCDataModelFilePath inDirectory:NSTemporaryDirectory() error:&compileError];
-            if (compileError) {
+            if (momFilePath == nil) {
                 NSLog(@"Error: %@", [compileError localizedDescription]);
             }
             assert(momFilePath);
@@ -948,6 +943,12 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
         [templateVar setObject:@YES forKey:@"arc"];
         [templateVar setObject:@YES forKey:@"literals"];
         [templateVar setObject:@YES forKey:@"modules"];
+    }
+
+    //  Default to generating Mike Ash-style structures if nothing specific was specified in the command arguments
+    if ([templateVar objectForKey:@"ash-structures"] == nil)
+    {
+        [templateVar setObject:@YES forKey:@"ash-structures"];
     }
 
     gSwift = _swift;

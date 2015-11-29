@@ -9,6 +9,8 @@
 #import "<$additionalHeaderFileName$>"
 <$endif$>
 
+<$if TemplateVar.ash-structures$>
+
 <$if noninheritedAttributes.@count > 0$>
 extern const struct <$managedObjectClassName$>Attributes {<$foreach Attribute noninheritedAttributes do$>
 	<$if TemplateVar.arc$>__unsafe_unretained<$endif$> NSString *<$Attribute.name$>;<$endforeach do$>
@@ -31,6 +33,8 @@ extern const struct <$managedObjectClassName$>FetchedProperties {<$foreach Fetch
 extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userInfoKeyValues do$>
 	<$if TemplateVar.arc$>__unsafe_unretained<$endif$> NSString *<$UserInfo.key$>;<$endforeach do$>
 } <$managedObjectClassName$>UserInfo;
+<$endif$>
+
 <$endif$>
 
 <$foreach Relationship noninheritedRelationships do$>@class <$Relationship.destinationEntity.managedObjectClassName$>;
@@ -167,7 +171,7 @@ extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userI
 <$endforeach do$>
 
 @interface _<$managedObjectClassName$> (CoreDataGeneratedPrimitiveAccessors)
-<$foreach Attribute noninheritedAttributesSansType do$>
+<$foreach Attribute noninheritedAttributes do$>
 <$if Attribute.hasDefinedAttributeType$>
 - (<$Attribute.objectAttributeType$>)primitive<$Attribute.name.initialCapitalString$>;
 - (void)setPrimitive<$Attribute.name.initialCapitalString$>:(<$Attribute.objectAttributeType$>)value;
