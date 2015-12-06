@@ -572,6 +572,14 @@ static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName
     }
 }
 
+- (BOOL)isReadonly {
+    NSString *readonlyUserinfoValue = [[self userInfo] objectForKey:@"mogenerator.readonly"];
+    if (readonlyUserinfoValue != nil) {
+        return YES;
+    }
+    return NO;
+}
+
 @end
 
 @implementation NSString (camelCaseString)
