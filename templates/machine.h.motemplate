@@ -69,15 +69,31 @@ extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userI
 <$if Attribute.hasDefinedAttributeType$>
 <$if TemplateVar.arc$>
 <$if Attribute.isReadonly$>
+<$if Attribute.hasAttributeSetterSemantics$>
+@property (nonatomic, <$Attribute.objectAttributeSetterSemantics$>, readonly) <$Attribute.objectAttributeType$> <$Attribute.name$>;
+<$else$>
 @property (nonatomic, strong, readonly) <$Attribute.objectAttributeType$> <$Attribute.name$>;
+<$endif$>
+<$else$>
+<$if Attribute.hasAttributeSetterSemantics$>
+@property (nonatomic, <$Attribute.objectAttributeSetterSemantics$>) <$Attribute.objectAttributeType$> <$Attribute.name$>;
 <$else$>
 @property (nonatomic, strong) <$Attribute.objectAttributeType$> <$Attribute.name$>;
 <$endif$>
+<$endif$>
 <$else$>
 <$if Attribute.isReadonly$>
+<$if Attribute.hasAttributeSetterSemantics$>
+@property (nonatomic, <$Attribute.objectAttributeSetterSemantics$>, readonly) <$Attribute.objectAttributeType$> <$Attribute.name$>;
+<$else$>
 @property (nonatomic, retain, readonly) <$Attribute.objectAttributeType$> <$Attribute.name$>;
+<$endif$>
+<$else$>
+<$if Attribute.hasAttributeSetterSemantics$>
+@property (nonatomic, <$Attribute.objectAttributeSetterSemantics$>) <$Attribute.objectAttributeType$> <$Attribute.name$>;
 <$else$>
 @property (nonatomic, retain) <$Attribute.objectAttributeType$> <$Attribute.name$>;
+<$endif$>
 <$endif$>
 <$endif$>
 <$if Attribute.hasScalarAttributeType$>

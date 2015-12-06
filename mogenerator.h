@@ -41,6 +41,8 @@
 - (NSString*)objectAttributeClassName;
 - (NSString*)objectAttributeType;
 - (BOOL)hasTransformableAttributeType;
+- (NSString*)objectAttributeSetterSemantics;
+- (BOOL)hasAttributeSetterSemantics;
 - (BOOL)isReadonly;
 @end
 
