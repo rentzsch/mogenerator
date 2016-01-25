@@ -531,7 +531,7 @@
 					"-sectcreate",
 					__TEXT,
 					__info_plist,
-					"$TMPDIR/mogenerator-Info.plist",
+					"$PROJECT_TEMP_DIR/mogenerator-Info.plist",
 				);
 				PRODUCT_NAME = mogenerator;
 				WARNING_CFLAGS = "-Wall";
@@ -552,7 +552,7 @@
 					"-sectcreate",
 					__TEXT,
 					__info_plist,
-					"$TMPDIR/mogenerator-Info.plist",
+					"$PROJECT_TEMP_DIR/mogenerator-Info.plist",
 				);
 				PRODUCT_NAME = mogenerator;
 				WARNING_CFLAGS = "-Wall";
