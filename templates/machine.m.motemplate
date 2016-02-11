@@ -52,7 +52,7 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 
 + (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
-	<$foreach Attribute noninheritedAttributes do$><$if Attribute.hasDefinedAttributeType$><$if Attribute.hasScalarAttributeType$>
+	<$foreach Attribute noninheritedAttributes do$><$if Attribute.hasDefinedAttributeType$><$if Attribute.hasScalarAttributeType && (Attribute.optional || !TemplateVar.scalarsWhenNonOptional)$>
 	if ([key isEqualToString:@"<$Attribute.name$>Value"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"<$Attribute.name$>"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
@@ -68,6 +68,18 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 @dynamic <$Attribute.name$>;
 
 <$if Attribute.hasScalarAttributeType$>
+<$if (!Attribute.optional && TemplateVar.scalarsWhenNonOptional)$>
+- (<$Attribute.scalarAttributeType$>)<$Attribute.name$> {
+	NSNumber *result = [self primitive<$Attribute.name.initialCapitalString$>];
+	return [result <$Attribute.scalarAccessorMethodName$>];
+}
+
+<$if ! Attribute.isReadonly$>
+- (void)set<$Attribute.name.initialCapitalString$>:(<$Attribute.scalarAttributeType$>)value_ {
+	[self setPrimitive<$Attribute.name.initialCapitalString$>:@(value_)];
+}
+<$endif$>
+<$else$>
 
 - (<$Attribute.scalarAttributeType$>)<$Attribute.name$>Value {
 	NSNumber *result = [self <$Attribute.name$>];
@@ -89,6 +101,7 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 - (void)setPrimitive<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_ {
 	[self setPrimitive<$Attribute.name.initialCapitalString$>:@(value_)];
 }
+<$endif$>
 <$endif$>
 <$endif$>
 <$endif$>

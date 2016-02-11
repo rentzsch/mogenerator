@@ -68,6 +68,13 @@ extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userI
  */
 <$endif$>
 <$if Attribute.hasDefinedAttributeType$>
+<$if (Attribute.hasScalarAttributeType &&  !Attribute.optional && TemplateVar.scalarsWhenNonOptional)$>
+<$if Attribute.isReadonly$>
+@property (atomic, readonly) <$Attribute.scalarAttributeType$> <$Attribute.name$>;
+<$else$>
+@property (atomic) <$Attribute.scalarAttributeType$> <$Attribute.name$>;
+<$endif$>
+<$else$>
 <$if Attribute.isReadonly$>
 @property (nonatomic, strong, readonly) <$Attribute.objectAttributeType$> <$Attribute.name$>;
 <$else$>
@@ -84,6 +91,7 @@ extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userI
 <$endif$>
 <$endif$>
 //- (BOOL)validate<$Attribute.name.initialCapitalString$>:(id*)value_ error:(NSError**)error_;
+<$endif$>
 <$endif$>
 <$endforeach do$>
 <$foreach Relationship noninheritedRelationships do$>
