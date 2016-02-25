@@ -56,16 +56,16 @@ end
 
 task :default do
   Rake::Task[:clean].execute
-  
+
   Rake::Task[:mrc].execute
   Rake::Task[:clean].execute
-  
+
   Rake::Task[:mrc_noliterals].execute
   Rake::Task[:clean].execute
-  
+
   Rake::Task[:arc].execute
   Rake::Task[:clean].execute
-  
+
   Rake::Task[:arc_noliterals].execute
   Rake::Task[:clean].execute
 end
