@@ -11,27 +11,27 @@
 <$endif$>
 
 <$if noninheritedAttributes.@count > 0$>
-extern const struct <$managedObjectClassName$>Attributes {<$foreach Attribute noninheritedAttributes do$>
-	__unsafe_unretained NSString *<$Attribute.name$>;<$endforeach do$>
-} <$managedObjectClassName$>Attributes;
+@interface <$managedObjectClassName$>Attributes: NSObject <$foreach Attribute noninheritedAttributes do$>
++ (NSString *)<$Attribute.name$>;<$endforeach do$>
+@end
 <$endif$>
 
 <$if noninheritedRelationships.@count > 0$>
-extern const struct <$managedObjectClassName$>Relationships {<$foreach Relationship noninheritedRelationships do$>
-	__unsafe_unretained NSString *<$Relationship.name$>;<$endforeach do$>
-} <$managedObjectClassName$>Relationships;
+@interface <$managedObjectClassName$>Relationships: NSObject<$foreach Relationship noninheritedRelationships do$>
++ (NSString *)<$Relationship.name$>;<$endforeach do$>
+@end
 <$endif$>
 
 <$if noninheritedFetchedProperties.@count > 0$>
-extern const struct <$managedObjectClassName$>FetchedProperties {<$foreach FetchedProperty noninheritedFetchedProperties do$>
-	__unsafe_unretained NSString *<$FetchedProperty.name$>;<$endforeach do$>
-} <$managedObjectClassName$>FetchedProperties;
+@interface <$managedObjectClassName$>FetchedProperties: NSObject<$foreach FetchedProperty noninheritedFetchedProperties do$>
++ (NSString *)<$FetchedProperty.name$>;<$endforeach do$>
+@end
 <$endif$>
 
 <$if hasUserInfoKeys$>
-extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userInfoKeyValues do$>
-	__unsafe_unretained NSString *<$UserInfo.key$>;<$endforeach do$>
-} <$managedObjectClassName$>UserInfo;
+@interface <$managedObjectClassName$>UserInfo: NSObject <$foreach UserInfo userInfoKeyValues do$>
++ (NSString *)<$UserInfo.key$>;<$endforeach do$>
+@end
 <$endif$>
 
 <$foreach Relationship noninheritedRelationships do$>@class <$Relationship.destinationEntity.managedObjectClassName$>;
