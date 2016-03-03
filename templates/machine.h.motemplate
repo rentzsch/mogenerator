@@ -10,6 +10,7 @@
 #import "<$additionalHeaderFileName$>"
 <$endif$>
 
+NS_ASSUME_NONNULL_BEGIN
 <$if noninheritedAttributes.@count > 0$>
 @interface <$managedObjectClassName$>Attributes: NSObject <$foreach Attribute noninheritedAttributes do$>
 + (NSString *)<$Attribute.name$>;<$endforeach do$>
@@ -53,11 +54,12 @@
  * <$userInfo.discussion$>
  */
 <$endif$>
+
 @interface _<$managedObjectClassName$> : <$customSuperentity$>
 + (instancetype)insertInManagedObjectContext:(NSManagedObjectContext *)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
-@property (nonatomic, readonly, strong) <$managedObjectClassName$>ID* objectID;
+@property (nonatomic, readonly, strong) <$managedObjectClassName$>ID*objectID;
 
 <$foreach Attribute noninheritedAttributes do$>
 <$if Attribute.userInfo.documentation$>
@@ -69,9 +71,9 @@
 <$endif$>
 <$if Attribute.hasDefinedAttributeType$>
 <$if Attribute.isReadonly$>
-@property (nonatomic, strong, readonly) <$Attribute.objectAttributeType$> <$Attribute.name$>;
+@property (nonatomic, strong, readonly<$if Attribute.optional$>, nullable<$endif$>) <$Attribute.objectAttributeType$> <$Attribute.name$>;
 <$else$>
-@property (nonatomic, strong) <$Attribute.objectAttributeType$> <$Attribute.name$>;
+@property (nonatomic, strong<$if Attribute.optional$>, nullable<$endif$>) <$Attribute.objectAttributeType$> <$Attribute.name$>;
 <$endif$>
 <$if Attribute.hasScalarAttributeType$>
 <$if Attribute.isReadonly$>
@@ -95,10 +97,10 @@
  */
 <$endif$>
 <$if Relationship.isToMany$>
-@property (nonatomic, strong) <$Relationship.immutableCollectionClassName$> *<$Relationship.name$>;
-- (<$Relationship.mutableCollectionClassName$>*)<$Relationship.name$>Set;
+@property (nonatomic, strong<$if Relationship.optional$>, nullable<$endif$>) <$Relationship.immutableCollectionClassName$> *<$Relationship.name$>;
+- (<$if Relationship.optional$>nullable <$endif$><$Relationship.mutableCollectionClassName$>*)<$Relationship.name$>Set;
 <$else$>
-@property (nonatomic, strong) <$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>;
+@property (nonatomic, strong<$if Relationship.optional$>, nullable<$endif$>) <$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>;
 //- (BOOL)validate<$Relationship.name.initialCapitalString$>:(id*)value_ error:(NSError**)error_;
 <$endif$>
 <$endforeach do$>
@@ -119,7 +121,7 @@
  * <$FetchedProperty.userInfo.discussion$>
  */
 <$endif$>
-@property (nonatomic, readonly) NSArray *<$FetchedProperty.name$>;
+@property (nonatomic, readonly<$if FetchedProperty.optional$>, nullable<$endif$>) NSArray *<$FetchedProperty.name$>;
 <$endforeach do$>
 <$if TemplateVar.frc$>
 #if TARGET_OS_IPHONE
@@ -131,6 +133,7 @@
 #endif
 <$endif$>
 @end
+
 
 <$foreach Relationship noninheritedRelationships do$>
 <$if Relationship.isToMany$>
@@ -172,3 +175,4 @@
 <$endif$>
 <$endforeach do$>
 @end
+NS_ASSUME_NONNULL_END
