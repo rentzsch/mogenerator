@@ -11,29 +11,6 @@
 <$endif$>
 
 NS_ASSUME_NONNULL_BEGIN
-<$if noninheritedAttributes.@count > 0$>
-@interface <$managedObjectClassName$>Attributes: NSObject <$foreach Attribute noninheritedAttributes do$>
-+ (NSString *)<$Attribute.name$>;<$endforeach do$>
-@end
-<$endif$>
-
-<$if noninheritedRelationships.@count > 0$>
-@interface <$managedObjectClassName$>Relationships: NSObject<$foreach Relationship noninheritedRelationships do$>
-+ (NSString *)<$Relationship.name$>;<$endforeach do$>
-@end
-<$endif$>
-
-<$if noninheritedFetchedProperties.@count > 0$>
-@interface <$managedObjectClassName$>FetchedProperties: NSObject<$foreach FetchedProperty noninheritedFetchedProperties do$>
-+ (NSString *)<$FetchedProperty.name$>;<$endforeach do$>
-@end
-<$endif$>
-
-<$if hasUserInfoKeys$>
-@interface <$managedObjectClassName$>UserInfo: NSObject <$foreach UserInfo userInfoKeyValues do$>
-+ (NSString *)<$UserInfo.key$>;<$endforeach do$>
-@end
-<$endif$>
 
 <$foreach Relationship noninheritedRelationships do$>@class <$Relationship.destinationEntity.managedObjectClassName$>;
 <$endforeach do$>
@@ -142,7 +119,6 @@ NS_ASSUME_NONNULL_BEGIN
 <$endif$>
 @end
 
-
 <$foreach Relationship noninheritedRelationships do$>
 <$if Relationship.isToMany$>
 @interface _<$managedObjectClassName$> (<$Relationship.name.initialCapitalString$>CoreDataGeneratedAccessors)
@@ -183,4 +159,30 @@ NS_ASSUME_NONNULL_BEGIN
 <$endif$>
 <$endforeach do$>
 @end
+
+
+<$if noninheritedAttributes.@count > 0$>
+@interface <$managedObjectClassName$>Attributes: NSObject <$foreach Attribute noninheritedAttributes do$>
++ (NSString *)<$Attribute.name$>;<$endforeach do$>
+@end
+<$endif$>
+
+<$if noninheritedRelationships.@count > 0$>
+@interface <$managedObjectClassName$>Relationships: NSObject<$foreach Relationship noninheritedRelationships do$>
++ (NSString *)<$Relationship.name$>;<$endforeach do$>
+@end
+<$endif$>
+
+<$if noninheritedFetchedProperties.@count > 0$>
+@interface <$managedObjectClassName$>FetchedProperties: NSObject<$foreach FetchedProperty noninheritedFetchedProperties do$>
++ (NSString *)<$FetchedProperty.name$>;<$endforeach do$>
+@end
+<$endif$>
+
+<$if hasUserInfoKeys$>
+@interface <$managedObjectClassName$>UserInfo: NSObject <$foreach UserInfo userInfoKeyValues do$>
++ (NSString *)<$UserInfo.key$>;<$endforeach do$>
+@end
+<$endif$>
+
 NS_ASSUME_NONNULL_END

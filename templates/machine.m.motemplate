@@ -3,38 +3,6 @@
 
 #import "_<$managedObjectClassName$>.h"
 
-<$if noninheritedAttributes.@count > 0$>
-@implementation <$managedObjectClassName$>Attributes <$foreach Attribute noninheritedAttributes do$>
-+ (NSString *)<$Attribute.name$> {
-	return @"<$Attribute.name$>";
-}<$endforeach do$>
-@end
-<$endif$>
-
-<$if noninheritedRelationships.@count > 0$>
-@implementation <$managedObjectClassName$>Relationships <$foreach Relationship noninheritedRelationships do$>
-+ (NSString *)<$Relationship.name$> {
-	return @"<$Relationship.name$>";
-}<$endforeach do$>
-@end
-<$endif$>
-
-<$if noninheritedFetchedProperties.@count > 0$>
-@implementation <$managedObjectClassName$>FetchedProperties <$foreach FetchedProperty noninheritedFetchedProperties do$>
-+ (NSString *)<$FetchedProperty.name$> {
-	return @"<$FetchedProperty.name$>";
-}<$endforeach do$>
-@end
-<$endif$>
-
-<$if hasUserInfoKeys$>
-@implementation <$managedObjectClassName$>UserInfo <$foreach UserInfo userInfoKeyValues do$>
-+ (NSString *)<$UserInfo.key$> {
-	return @"<$UserInfo.value$>";
-}<$endforeach do$>
-@end
-<$endif$>
-
 @implementation <$managedObjectClassName$>ID
 @end
 
@@ -304,3 +272,35 @@
 }
 @end
 <$endif$><$endif$><$endforeach do$>
+
+<$if noninheritedAttributes.@count > 0$>
+@implementation <$managedObjectClassName$>Attributes <$foreach Attribute noninheritedAttributes do$>
++ (NSString *)<$Attribute.name$> {
+	return @"<$Attribute.name$>";
+}<$endforeach do$>
+@end
+<$endif$>
+
+<$if noninheritedRelationships.@count > 0$>
+@implementation <$managedObjectClassName$>Relationships <$foreach Relationship noninheritedRelationships do$>
++ (NSString *)<$Relationship.name$> {
+	return @"<$Relationship.name$>";
+}<$endforeach do$>
+@end
+<$endif$>
+
+<$if noninheritedFetchedProperties.@count > 0$>
+@implementation <$managedObjectClassName$>FetchedProperties <$foreach FetchedProperty noninheritedFetchedProperties do$>
++ (NSString *)<$FetchedProperty.name$> {
+	return @"<$FetchedProperty.name$>";
+}<$endforeach do$>
+@end
+<$endif$>
+
+<$if hasUserInfoKeys$>
+@implementation <$managedObjectClassName$>UserInfo <$foreach UserInfo userInfoKeyValues do$>
++ (NSString *)<$UserInfo.key$> {
+	return @"<$UserInfo.value$>";
+}<$endforeach do$>
+@end
+<$endif$>
