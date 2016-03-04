@@ -4,27 +4,35 @@
 #import "_<$managedObjectClassName$>.h"
 
 <$if noninheritedAttributes.@count > 0$>
-const struct <$managedObjectClassName$>Attributes <$managedObjectClassName$>Attributes = {<$foreach Attribute noninheritedAttributes do$>
-	.<$Attribute.name$> = @"<$Attribute.name$>",<$endforeach do$>
-};
+@implementation <$managedObjectClassName$>Attributes <$foreach Attribute noninheritedAttributes do$>
++ (NSString *)<$Attribute.name$> {
+	return @"<$Attribute.name$>";
+}<$endforeach do$>
+@end
 <$endif$>
 
 <$if noninheritedRelationships.@count > 0$>
-const struct <$managedObjectClassName$>Relationships <$managedObjectClassName$>Relationships = {<$foreach Relationship noninheritedRelationships do$>
-	.<$Relationship.name$> = @"<$Relationship.name$>",<$endforeach do$>
-};
+@implementation <$managedObjectClassName$>Relationships <$foreach Relationship noninheritedRelationships do$>
++ (NSString *)<$Relationship.name$> {
+	return @"<$Relationship.name$>";
+}<$endforeach do$>
+@end
 <$endif$>
 
 <$if noninheritedFetchedProperties.@count > 0$>
-const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassName$>FetchedProperties = {<$foreach FetchedProperty noninheritedFetchedProperties do$>
-	.<$FetchedProperty.name$> = @"<$FetchedProperty.name$>",<$endforeach do$>
-};
+@implementation <$managedObjectClassName$>FetchedProperties <$foreach FetchedProperty noninheritedFetchedProperties do$>
++ (NSString *)<$FetchedProperty.name$> {
+	return @"<$FetchedProperty.name$>";
+}<$endforeach do$>
+@end
 <$endif$>
 
 <$if hasUserInfoKeys$>
-const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserInfo = {<$foreach UserInfo userInfoKeyValues do$>
-	.<$UserInfo.key$> = @"<$UserInfo.value$>",<$endforeach do$>
-};
+@implementation <$managedObjectClassName$>UserInfo <$foreach UserInfo userInfoKeyValues do$>
++ (NSString *)<$UserInfo.key$> {
+	return @"<$UserInfo.value$>";
+}<$endforeach do$>
+@end
 <$endif$>
 
 @implementation <$managedObjectClassName$>ID
@@ -32,7 +40,7 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 
 @implementation _<$managedObjectClassName$>
 
-+ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
++ (instancetype)insertInManagedObjectContext:(NSManagedObjectContext *)moc_ {
 	NSParameterAssert(moc_);
 	return [NSEntityDescription insertNewObjectForEntityForName:@"<$name$>" inManagedObjectContext:moc_];
 }
@@ -130,7 +138,7 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 
 <$foreach FetchRequest prettyFetchRequests do$>
 <$if FetchRequest.singleResult$>
-+ (id)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>{
++ (instancetype)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>{
 	NSError *error = nil;
 	id result = [self fetch<$FetchRequest.name.initialCapitalString$>:moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:<$Binding.name$>_ <$endforeach do2$>error:&error];
 	if (error) {
@@ -142,7 +150,7 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 	}
 	return result;
 }
-+ (id)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>error:(NSError**)error_ {
++ (instancetype)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>error:(NSError**)error_ {
 	NSParameterAssert(moc_);
 	NSError *error = nil;
 

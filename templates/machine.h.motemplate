@@ -10,28 +10,29 @@
 #import "<$additionalHeaderFileName$>"
 <$endif$>
 
+NS_ASSUME_NONNULL_BEGIN
 <$if noninheritedAttributes.@count > 0$>
-extern const struct <$managedObjectClassName$>Attributes {<$foreach Attribute noninheritedAttributes do$>
-	__unsafe_unretained NSString *<$Attribute.name$>;<$endforeach do$>
-} <$managedObjectClassName$>Attributes;
+@interface <$managedObjectClassName$>Attributes: NSObject <$foreach Attribute noninheritedAttributes do$>
++ (NSString *)<$Attribute.name$>;<$endforeach do$>
+@end
 <$endif$>
 
 <$if noninheritedRelationships.@count > 0$>
-extern const struct <$managedObjectClassName$>Relationships {<$foreach Relationship noninheritedRelationships do$>
-	__unsafe_unretained NSString *<$Relationship.name$>;<$endforeach do$>
-} <$managedObjectClassName$>Relationships;
+@interface <$managedObjectClassName$>Relationships: NSObject<$foreach Relationship noninheritedRelationships do$>
++ (NSString *)<$Relationship.name$>;<$endforeach do$>
+@end
 <$endif$>
 
 <$if noninheritedFetchedProperties.@count > 0$>
-extern const struct <$managedObjectClassName$>FetchedProperties {<$foreach FetchedProperty noninheritedFetchedProperties do$>
-	__unsafe_unretained NSString *<$FetchedProperty.name$>;<$endforeach do$>
-} <$managedObjectClassName$>FetchedProperties;
+@interface <$managedObjectClassName$>FetchedProperties: NSObject<$foreach FetchedProperty noninheritedFetchedProperties do$>
++ (NSString *)<$FetchedProperty.name$>;<$endforeach do$>
+@end
 <$endif$>
 
 <$if hasUserInfoKeys$>
-extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userInfoKeyValues do$>
-	__unsafe_unretained NSString *<$UserInfo.key$>;<$endforeach do$>
-} <$managedObjectClassName$>UserInfo;
+@interface <$managedObjectClassName$>UserInfo: NSObject <$foreach UserInfo userInfoKeyValues do$>
++ (NSString *)<$UserInfo.key$>;<$endforeach do$>
+@end
 <$endif$>
 
 <$foreach Relationship noninheritedRelationships do$>@class <$Relationship.destinationEntity.managedObjectClassName$>;
@@ -53,11 +54,12 @@ extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userI
  * <$userInfo.discussion$>
  */
 <$endif$>
-@interface _<$managedObjectClassName$> : <$customSuperentity$> {}
-+ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
+
+@interface _<$managedObjectClassName$> : <$customSuperentity$>
++ (instancetype)insertInManagedObjectContext:(NSManagedObjectContext *)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
-@property (nonatomic, readonly, strong) <$managedObjectClassName$>ID* objectID;
+@property (nonatomic, readonly, strong) <$managedObjectClassName$>ID*objectID;
 
 <$foreach Attribute noninheritedAttributes do$>
 <$if Attribute.userInfo.documentation$>
@@ -76,9 +78,9 @@ extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userI
 <$endif$>
 <$else$>
 <$if Attribute.isReadonly$>
-@property (nonatomic, strong, readonly) <$Attribute.objectAttributeType$> <$Attribute.name$>;
+@property (nonatomic, strong, readonly<$if Attribute.optional$>, nullable<$endif$>) <$Attribute.objectAttributeType$> <$Attribute.name$>;
 <$else$>
-@property (nonatomic, strong) <$Attribute.objectAttributeType$> <$Attribute.name$>;
+@property (nonatomic, strong<$if Attribute.optional$>, nullable<$endif$>) <$Attribute.objectAttributeType$> <$Attribute.name$>;
 <$endif$>
 <$if Attribute.hasScalarAttributeType$>
 <$if Attribute.isReadonly$>
@@ -103,17 +105,17 @@ extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userI
  */
 <$endif$>
 <$if Relationship.isToMany$>
-@property (nonatomic, strong) <$Relationship.immutableCollectionClassName$> *<$Relationship.name$>;
-- (<$Relationship.mutableCollectionClassName$>*)<$Relationship.name$>Set;
+@property (nonatomic, strong<$if Relationship.optional$>, nullable<$endif$>) <$Relationship.immutableCollectionClassName$> *<$Relationship.name$>;
+- (<$if Relationship.optional$>nullable <$endif$><$Relationship.mutableCollectionClassName$>*)<$Relationship.name$>Set;
 <$else$>
-@property (nonatomic, strong) <$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>;
+@property (nonatomic, strong<$if Relationship.optional$>, nullable<$endif$>) <$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>;
 //- (BOOL)validate<$Relationship.name.initialCapitalString$>:(id*)value_ error:(NSError**)error_;
 <$endif$>
 <$endforeach do$>
 <$foreach FetchRequest prettyFetchRequests do$>
 <$if FetchRequest.singleResult$>
-+ (id)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>;
-+ (id)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>error:(NSError**)error_;
++ (instancetype)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>;
++ (instancetype)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>error:(NSError**)error_;
 <$else$>
 + (NSArray*)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>;
 + (NSArray*)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>error:(NSError**)error_;
@@ -127,7 +129,7 @@ extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userI
  * <$FetchedProperty.userInfo.discussion$>
  */
 <$endif$>
-@property (nonatomic, readonly) NSArray *<$FetchedProperty.name$>;
+@property (nonatomic, readonly<$if FetchedProperty.optional$>, nullable<$endif$>) NSArray *<$FetchedProperty.name$>;
 <$endforeach do$>
 <$if TemplateVar.frc$>
 #if TARGET_OS_IPHONE
@@ -139,6 +141,7 @@ extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userI
 #endif
 <$endif$>
 @end
+
 
 <$foreach Relationship noninheritedRelationships do$>
 <$if Relationship.isToMany$>
@@ -180,3 +183,4 @@ extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userI
 <$endif$>
 <$endforeach do$>
 @end
+NS_ASSUME_NONNULL_END
