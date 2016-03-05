@@ -76,6 +76,7 @@
     BOOL                  _listSourceFiles;
     BOOL                  _orphaned;
     BOOL                  _swift;
+    BOOL                  _v2;
     NSMutableDictionary   *templateVar;
 }
 @end

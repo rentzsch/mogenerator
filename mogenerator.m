@@ -701,6 +701,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     DDGetoptOption optionTable[] =
     {
         // Long                 Short  Argument options
+        {@"v2",                 '2',   DDGetoptNoArgument},
         {@"model",              'm',   DDGetoptRequiredArgument},
         {@"configuration",      'C',   DDGetoptRequiredArgument},
         {@"base-class",         0,     DDGetoptRequiredArgument},
