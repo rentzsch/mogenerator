@@ -69,7 +69,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)set<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_;
 <$endif$>
 <$endif$>
-//- (BOOL)validate<$Attribute.name.initialCapitalString$>:(id*)value_ error:(NSError**)error_;
 <$endif$>
 <$endif$>
 <$endforeach do$>
@@ -86,7 +85,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (<$if Relationship.optional$>nullable <$endif$><$Relationship.mutableCollectionClassName$>*)<$Relationship.name$>Set;
 <$else$>
 @property (nonatomic, strong<$if Relationship.optional$>, nullable<$endif$>) <$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>;
-//- (BOOL)validate<$Relationship.name.initialCapitalString$>:(id*)value_ error:(NSError**)error_;
 <$endif$>
 <$endforeach do$>
 <$foreach FetchRequest prettyFetchRequests do$>

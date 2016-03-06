@@ -33,7 +33,7 @@ public enum <$sanitizedManagedObjectClassName$>UserInfo: String {<$foreach UserI
 class _<$sanitizedManagedObjectClassName$>: <$customSuperentity$> {
 
     // MARK: - Class methods
-    
+
     <$if (hasCustomSuperclass || (hasCustomSuperentity && TemplateVar.overrideBaseClass))$>override <$endif$>public class func entityName () -> String {
         return "<$name$>"
     }
@@ -47,7 +47,7 @@ class _<$sanitizedManagedObjectClassName$>: <$customSuperentity$> {
     public override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext!) {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
     }
-    
+
     public convenience init(managedObjectContext: NSManagedObjectContext!) {
         let entity = _<$sanitizedManagedObjectClassName$>.entity(managedObjectContext)
         self.init(entity: entity, insertIntoManagedObjectContext: managedObjectContext)
@@ -83,7 +83,6 @@ class _<$sanitizedManagedObjectClassName$>: <$customSuperentity$> {
     var <$Attribute.name$>: <$Attribute.objectAttributeType$><$if Attribute.isOptional$>?<$endif$>
 <$endif$>
 <$endif$>
-    // func validate<$Attribute.name.initialCapitalString$>(value: AutoreleasingUnsafeMutablePointer<AnyObject>, error: NSErrorPointer) -> Bool {}
 <$endif$>
 <$endforeach do$>
 
@@ -96,8 +95,6 @@ class _<$sanitizedManagedObjectClassName$>: <$customSuperentity$> {
 <$else$>
     @NSManaged public
     var <$Relationship.name$>: <$Relationship.destinationEntity.sanitizedManagedObjectClassName$><$if Relationship.isOptional$>?<$endif$>
-
-    // func validate<$Relationship.name.initialCapitalString$>(value: AutoreleasingUnsafeMutablePointer<AnyObject>, error: NSErrorPointer) -> Bool {}
 <$endif$>
 <$endforeach do$>
 
