@@ -584,12 +584,23 @@ static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName
 
 @implementation NSRelationshipDescription (collectionClassName)
 
+- (NSString*)jr_CollectionClassStringWithOrderedClassName:(NSString*)orderedClassName
+                                       unorderedClassName:(NSString*)unorderedClassName
+{
+    NSString *generic = [NSString stringWithFormat:@"<%@*>", self.destinationEntity.managedObjectClassName];
+    return [self jr_isOrdered]
+        ? [orderedClassName stringByAppendingString:generic]
+        : [unorderedClassName stringByAppendingString:generic];
+}
+
 - (NSString*)mutableCollectionClassName {
-    return [self jr_isOrdered] ? @"NSMutableOrderedSet" : @"NSMutableSet";
+    return [self jr_CollectionClassStringWithOrderedClassName:@"NSMutableOrderedSet"
+                                           unorderedClassName:@"NSMutableSet"];
 }
 
 - (NSString*)immutableCollectionClassName {
-    return [self jr_isOrdered] ? @"NSOrderedSet" : @"NSSet";
+    return [self jr_CollectionClassStringWithOrderedClassName:@"NSOrderedSet"
+                                           unorderedClassName:@"NSSet"];
 }
 
 - (BOOL)jr_isOrdered {
