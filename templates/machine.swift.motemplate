@@ -38,17 +38,17 @@ class _<$sanitizedManagedObjectClassName$>: <$customSuperentity$> {
         return "<$name$>"
     }
 
-    <$if (hasCustomSuperclass || (hasCustomSuperentity && TemplateVar.overrideBaseClass))$>override <$endif$>public class func entity(managedObjectContext: NSManagedObjectContext!) -> NSEntityDescription! {
+    <$if (hasCustomSuperclass || (hasCustomSuperentity && TemplateVar.overrideBaseClass))$>override <$endif$>public class func entity(managedObjectContext: NSManagedObjectContext) -> NSEntityDescription? {
         return NSEntityDescription.entityForName(self.entityName(), inManagedObjectContext: managedObjectContext);
     }
 
     // MARK: - Life cycle methods
 
-    public override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext!) {
+    public override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext) {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
     }
 
-    public convenience init(managedObjectContext: NSManagedObjectContext!) {
+    public convenience init(managedObjectContext: NSManagedObjectContext) {
         let entity = _<$sanitizedManagedObjectClassName$>.entity(managedObjectContext)
         self.init(entity: entity, insertIntoManagedObjectContext: managedObjectContext)
     }
@@ -100,12 +100,12 @@ class _<$sanitizedManagedObjectClassName$>: <$customSuperentity$> {
 
 <$foreach FetchRequest prettyFetchRequests do$>
 <$if FetchRequest.singleResult$>
-    class func fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext: NSManagedObjectContext!<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.type$><$endforeach do2$>) -> AnyObject? {
+    class func fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext: NSManagedObjectContext<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.type$><$endforeach do2$>) -> AnyObject? {
         return self.fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.name$><$endforeach do2$>, error: nil)
     }
 
-    class func fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext: NSManagedObjectContext!<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.type$><$endforeach do2$>, error outError: NSErrorPointer) -> AnyObject? {
-        let model = managedObjectContext.persistentStoreCoordinator!.managedObjectModel
+    class func fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext: NSManagedObjectContext<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.type$><$endforeach do2$>, error outError: NSErrorPointer) -> AnyObject? {
+        let model = managedObjectContext.persistentStoreCoordinator?.managedObjectModel
         let substitutionVariables = [<$if FetchRequest.hasBindings$><$foreach Binding FetchRequest.bindings do2$>
             "<$Binding.name$>": <$Binding.name$>,
 <$endforeach do2$><$endif$>        ]
@@ -143,7 +143,7 @@ class _<$sanitizedManagedObjectClassName$>: <$customSuperentity$> {
 
     class func fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext: NSManagedObjectContext!<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.type$><$endforeach do2$>, error outError: NSErrorPointer) -> [AnyObject]! {
         let model = managedObjectContext.persistentStoreCoordinator!.managedObjectModel
-        let substitutionVariables : [NSObject : AnyObject] = [<$if FetchRequest.hasBindings$><$foreach Binding FetchRequest.bindings do2$>
+        let substitutionVariables : [String : AnyObject] = [<$if FetchRequest.hasBindings$><$foreach Binding FetchRequest.bindings do2$>
             "<$Binding.name$>": <$Binding.name$>,
 <$endforeach do2$><$else$>:<$endif$>]
 
@@ -174,25 +174,25 @@ extension _<$sanitizedManagedObjectClassName$> {
     func add<$Relationship.name.initialCapitalString$>(objects: <$Relationship.immutableCollectionClassName$>) {
         let mutable = self.<$Relationship.name$>.mutableCopy() as! NSMutable<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
         mutable.union<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set(objects<$if !Relationship.jr_isOrdered$> as Set<NSObject><$endif$>)
-        self.<$Relationship.name$> = mutable.copy() as! NS<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
+        self.<$Relationship.name$> = mutable.copy() as NS<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
     }
 
     func remove<$Relationship.name.initialCapitalString$>(objects: <$Relationship.immutableCollectionClassName$>) {
         let mutable = self.<$Relationship.name$>.mutableCopy() as! NSMutable<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
         mutable.minus<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set(objects<$if !Relationship.jr_isOrdered$> as Set<NSObject><$endif$>)
-        self.<$Relationship.name$> = mutable.copy() as! NS<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
+        self.<$Relationship.name$> = mutable.copy() as NS<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
     }
 
     func add<$Relationship.name.initialCapitalString$>Object(value: <$Relationship.destinationEntity.sanitizedManagedObjectClassName$>!) {
         let mutable = self.<$Relationship.name$>.mutableCopy() as! NSMutable<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
         mutable.addObject(value)
-        self.<$Relationship.name$> = mutable.copy() as! NS<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
+        self.<$Relationship.name$> = mutable.copy() as NS<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
     }
 
     func remove<$Relationship.name.initialCapitalString$>Object(value: <$Relationship.destinationEntity.sanitizedManagedObjectClassName$>!) {
         let mutable = self.<$Relationship.name$>.mutableCopy() as! NSMutable<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
         mutable.removeObject(value)
-        self.<$Relationship.name$> = mutable.copy() as! NS<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
+        self.<$Relationship.name$> = mutable.copy() as NS<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
     }
 
 }
