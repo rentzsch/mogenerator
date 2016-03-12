@@ -588,6 +588,11 @@ static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName
                                        unorderedClassName:(NSString*)unorderedClassName
 {
     NSString *generic = [NSString stringWithFormat:@"<%@*>", self.destinationEntity.managedObjectClassName];
+    if (gSwift) {
+        // No generics for Swift sets, for now.
+        return [self jr_isOrdered] ? orderedClassName : unorderedClassName;
+    }
+    
     return [self jr_isOrdered]
         ? [orderedClassName stringByAppendingString:generic]
         : [unorderedClassName stringByAppendingString:generic];
