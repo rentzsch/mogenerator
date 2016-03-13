@@ -29,9 +29,12 @@ public enum <$sanitizedManagedObjectClassName$>UserInfo: String {<$foreach UserI
 }
 <$endif$>
 
-@objc public
-class _<$sanitizedManagedObjectClassName$>: <$customSuperentity$> {
 
+<$if hasCustomSuperentity $>
+public class _<$sanitizedManagedObjectClassName$>: <$customSuperentity$> {
+<$else$>
+public class _<$sanitizedManagedObjectClassName$>: NSManagedObject {
+<$endif$>
     // MARK: - Class methods
 
     <$if (hasCustomSuperclass || (hasCustomSuperentity && TemplateVar.overrideBaseClass))$>override <$endif$>public class func entityName () -> String {
@@ -39,17 +42,17 @@ class _<$sanitizedManagedObjectClassName$>: <$customSuperentity$> {
     }
 
     <$if (hasCustomSuperclass || (hasCustomSuperentity && TemplateVar.overrideBaseClass))$>override <$endif$>public class func entity(managedObjectContext: NSManagedObjectContext) -> NSEntityDescription? {
-        return NSEntityDescription.entityForName(self.entityName(), inManagedObjectContext: managedObjectContext);
+        return NSEntityDescription.entityForName(self.entityName(), inManagedObjectContext: managedObjectContext)
     }
 
     // MARK: - Life cycle methods
 
-    public override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext) {
+    public override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
     }
 
-    public convenience init(managedObjectContext: NSManagedObjectContext) {
-        let entity = _<$sanitizedManagedObjectClassName$>.entity(managedObjectContext)
+    public convenience init?(managedObjectContext: NSManagedObjectContext) {
+        guard let entity = _<$sanitizedManagedObjectClassName$>.entity(managedObjectContext) else { return nil }
         self.init(entity: entity, insertIntoManagedObjectContext: managedObjectContext)
     }
 
@@ -105,44 +108,44 @@ class _<$sanitizedManagedObjectClassName$>: <$customSuperentity$> {
     }
 
     class func fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext: NSManagedObjectContext<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.type$><$endforeach do2$>, error outError: NSErrorPointer) -> AnyObject? {
-        let model = managedObjectContext.persistentStoreCoordinator?.managedObjectModel
+        guard let psc = managedObjectContext.persistentStoreCoordinator else { return nil }
+        let model = psc.managedObjectModel
         let substitutionVariables = [<$if FetchRequest.hasBindings$><$foreach Binding FetchRequest.bindings do2$>
             "<$Binding.name$>": <$Binding.name$>,
-<$endforeach do2$><$endif$>        ]
+        <$endforeach do2$><$endif$>
+        ]
 
-        let fetchRequest = model.fetchRequestFromTemplateWithName("<$FetchRequest.name$>", substitutionVariables: substitutionVariables)
-        assert(fetchRequest != nil, "Can't find fetch request named \"<$FetchRequest.name$>\".")
+        guard let fetchRequest = model.fetchRequestFromTemplateWithName("<$FetchRequest.name$>", substitutionVariables: substitutionVariables) else {
+          assert(false, "Can't find fetch request named \"<$FetchRequest.name$>\".")
+          return nil
+        }
 
-        var error: NSError? = nil
         var result: AnyObject? = nil
-        let results = managedObjectContext.executeFetchRequest(fetchRequest!, error: &error)
-
-        if error != nil {
-            outError.memory = error
-        } else {
-            switch results!.count {
+        do {
+            let results = try managedObjectContext.executeFetchRequest(fetchRequest)
+            switch results.count {
             case 0:
                 // Nothing found matching the fetch request. That's cool, though: we'll just return nil.
                 break
             case 1:
-                result = results![0]
+                result = results.first
             default:
-                NSLog("WARN fetch request <$FetchRequest.name$>: 0 or 1 objects expected, %lu found (substitutionVariables:%@, results:%@)",
-                    results!.count,
-                    substitutionVariables,
-                    results!);
+                print("WARN fetch request <$FetchRequest.name$>: 0 or 1 objects expected, \(results.count) found (substitutionVariables: \(substitutionVariables), results: \(results))")
             }
-        }
 
-        return result;
+        } catch {
+            print("Error executing fetch request: \(error)")
+        }
+        return result
     }
 <$else$>
-    class func fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext: NSManagedObjectContext!<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.type$><$endforeach do2$>) -> [AnyObject] {
+    class func fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext: NSManagedObjectContext<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.type$><$endforeach do2$>) -> [AnyObject]? {
         return self.fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.name$><$endforeach do2$>, error: nil)
     }
 
-    class func fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext: NSManagedObjectContext!<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.type$><$endforeach do2$>, error outError: NSErrorPointer) -> [AnyObject]! {
-        let model = managedObjectContext.persistentStoreCoordinator!.managedObjectModel
+    class func fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext: NSManagedObjectContext<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.type$><$endforeach do2$>, error outError: NSErrorPointer) -> [AnyObject]? {
+        guard let psc = managedObjectContext.persistentStoreCoordinator else { return nil }
+        let model = psc.managedObjectModel
         let substitutionVariables : [String : AnyObject] = [<$if FetchRequest.hasBindings$><$foreach Binding FetchRequest.bindings do2$>
             "<$Binding.name$>": <$Binding.name$>,
 <$endforeach do2$><$else$>:<$endif$>]
@@ -150,11 +153,11 @@ class _<$sanitizedManagedObjectClassName$>: <$customSuperentity$> {
         let fetchRequest = model.fetchRequestFromTemplateWithName("<$FetchRequest.name$>", substitutionVariables: substitutionVariables)
         assert(fetchRequest != nil, "Can't find fetch request named \"<$FetchRequest.name$>\".")
 
-        var error: NSError? = nil
-        let results = managedObjectContext.executeFetchRequest(fetchRequest!, error: &error)
-
-        if error != nil {
-            outError.memory = error
+        var results = Array<AnyObject>()
+        do {
+          results = try managedObjectContext.executeFetchRequest(fetchRequest!)
+        } catch {
+          print("Error executing fetch request: \(error)")
         }
 
         return results
@@ -174,25 +177,25 @@ extension _<$sanitizedManagedObjectClassName$> {
     func add<$Relationship.name.initialCapitalString$>(objects: <$Relationship.immutableCollectionClassName$>) {
         let mutable = self.<$Relationship.name$>.mutableCopy() as! NSMutable<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
         mutable.union<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set(objects<$if !Relationship.jr_isOrdered$> as Set<NSObject><$endif$>)
-        self.<$Relationship.name$> = mutable.copy() as NS<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
+        self.<$Relationship.name$> = mutable.copy() as! NS<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
     }
 
     func remove<$Relationship.name.initialCapitalString$>(objects: <$Relationship.immutableCollectionClassName$>) {
         let mutable = self.<$Relationship.name$>.mutableCopy() as! NSMutable<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
         mutable.minus<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set(objects<$if !Relationship.jr_isOrdered$> as Set<NSObject><$endif$>)
-        self.<$Relationship.name$> = mutable.copy() as NS<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
+        self.<$Relationship.name$> = mutable.copy() as! NS<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
     }
 
-    func add<$Relationship.name.initialCapitalString$>Object(value: <$Relationship.destinationEntity.sanitizedManagedObjectClassName$>!) {
+    func add<$Relationship.name.initialCapitalString$>Object(value: <$Relationship.destinationEntity.sanitizedManagedObjectClassName$>) {
         let mutable = self.<$Relationship.name$>.mutableCopy() as! NSMutable<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
         mutable.addObject(value)
-        self.<$Relationship.name$> = mutable.copy() as NS<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
+        self.<$Relationship.name$> = mutable.copy() as! NS<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
     }
 
-    func remove<$Relationship.name.initialCapitalString$>Object(value: <$Relationship.destinationEntity.sanitizedManagedObjectClassName$>!) {
+    func remove<$Relationship.name.initialCapitalString$>Object(value: <$Relationship.destinationEntity.sanitizedManagedObjectClassName$>) {
         let mutable = self.<$Relationship.name$>.mutableCopy() as! NSMutable<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
         mutable.removeObject(value)
-        self.<$Relationship.name$> = mutable.copy() as NS<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
+        self.<$Relationship.name$> = mutable.copy() as! NS<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
     }
 
 }
