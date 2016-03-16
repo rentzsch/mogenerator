@@ -1,6 +1,9 @@
-This template allows to create entities filled with an NSDictionary (perfect for JSON mapping to Core Data)
+This template allows to create entities filled with an NSDictionary (perfect for JSON mapping to Core Data) using:
 
-Use:
++ (instancetype)insertWithDictionary:context:
+
+
+How to Use:
 Add for every property in our xcdatamodel that We want to be mapped you have to add a new row in its User Info dictionary (in Data Model Inspector).
 Key name: jsonKey
 Key Value: NSDictionary Key that contains the object to be read.
