@@ -12,40 +12,20 @@ run_or_die 'xcodebuild -project ../mogenerator.xcodeproj -scheme mogenerator cle
 run_or_die 'xcodebuild -project ../mogenerator.xcodeproj -scheme mogenerator'
 mogenPath = "#{built_products_dir}/mogenerator"
 
-def gen_and_compile(desc, mogenPath, extra_mogen_args, extra_gcc_args)
+def gen_and_compile(desc, mogenPath, extra_mogen_args, extra_llvm_args)
   puts "*** Testing #{desc}"
   ENV['MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS'] = '1'
   run_or_die "#{mogenPath.gsub(/ /, '\\ ')} --model test.xcdatamodel --output MOs --baseClass MyBaseClass #{extra_mogen_args}"
   run_or_die 'cp HumanMO.h HumanMO.m MyProtocol.h TestProtocol.m MOs'
-  run_or_die "clang -o testbin test.m MyBaseClass.m Gender.m MOs/*.m -I\"#{Dir.pwd}\" -framework Foundation -framework Cocoa -framework CoreData -fmodules #{extra_gcc_args}"
+  run_or_die "clang -o testbin test.m MyBaseClass.m Gender.m MOs/*.m -I\"#{Dir.pwd}\" -framework Foundation -framework Cocoa -framework CoreData -fmodules -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk -mmacosx-version-min=10.10 #{extra_llvm_args}"
   run_or_die "xcrun momc -MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS test.xcdatamodel \"#{Dir.pwd}/test.mom\""
   puts run_or_die './testbin'
 end
 
-desc 'Generate, Compile and Run MRC Code (with objc literals)'
-task :mrc do
-  gen_and_compile('MRC (with objc literals)', mogenPath, '', '')
-end
-
-desc 'Generate, Compile and Run MRC Code (without objc literals)'
-task :mrc_noliterals do
-  gen_and_compile('MRC (without objc literals)', mogenPath, '--template-var noliterals=true', '')
-end
-
-desc 'Generate, Compile and Run ARC Code (with objc literals)'
-task :arc do
-  gen_and_compile('ARC (with objc literals)', mogenPath, '--template-var arc=true', '-fobjc-arc')
-end
-
-desc 'Generate, Compile and Run ARC Code (without objc literals)'
-task :arc_noliterals do
-  gen_and_compile('ARC (without objc literals)', mogenPath, '--template-var arc=true --template-var noliterals=true', '-fobjc-arc')
-end
-
-desc 'Generate, Compile and Run ARC Code (without objc literals)'
-task :v2 do
+desc 'Generate, Compile and Run Objective-C'
+task :objc do
   Rake::Task[:clean].execute
-  gen_and_compile('v2 (ARC + objc literals)', mogenPath, '--v2', '-fobjc-arc')
+  gen_and_compile('Modern Objective-C', mogenPath, '', '-fobjc-arc')
   Rake::Task[:clean].execute
 end
 
@@ -57,15 +37,6 @@ end
 task :default do
   Rake::Task[:clean].execute
 
-  Rake::Task[:mrc].execute
-  Rake::Task[:clean].execute
-
-  Rake::Task[:mrc_noliterals].execute
-  Rake::Task[:clean].execute
-
-  Rake::Task[:arc].execute
-  Rake::Task[:clean].execute
-
-  Rake::Task[:arc_noliterals].execute
-  Rake::Task[:clean].execute
+  Rake::Task[:objc].execute
+#  Rake::Task[:clean].execute
 end

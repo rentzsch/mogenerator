@@ -14,7 +14,7 @@
 //	for a list of all applicable permissions and restrictions.
 //
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 @class MiscMergeEngine;
 

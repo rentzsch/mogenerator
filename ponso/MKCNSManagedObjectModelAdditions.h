@@ -17,7 +17,7 @@
  Created by Nikita Zhuk on 22.1.2011.
  */
 
-#import <CoreData/CoreData.h>
+@import CoreData;
 
 
 @protocol MKCNSRelationshipDescriptionDependencyFilter<NSObject>
