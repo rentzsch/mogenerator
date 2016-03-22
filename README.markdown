@@ -64,7 +64,7 @@ Thanks to lieutenant [Justin Williams](https://github.com/justin) for helping wi
 
 * [MODERNIZE] Replace `arrayWithObjects` and `dictionaryWithObjectsAndKeys` with literals. ([Markus Chmelar](https://github.com/iv-mexx) [1](https://github.com/rentzsch/mogenerator/commit/c1139ef2eff8ba26397fbc9be9bab3aece02f40c) [2](https://github.com/rentzsch/mogenerator/commit/7b4d9faffeeb3615d33667a1f8625073876b43ee))
 
-* [MODERNIZE] Replace `objectAtIndex:0` with `firstObject`. ([MeXx](https://github.com/rentzsch/mogenerator/commit/b317ac21b756b01c4eadacc677115583fab7a887))
+* [MODERNIZE] Replace `objectAtIndex:0` with `firstObject`. ([Markus Chmelar](https://github.com/rentzsch/mogenerator/commit/b317ac21b756b01c4eadacc677115583fab7a887))
 
 * [REMOVED] //validate machine comments. They were just guides on writing your own validation methods and aren't worth the code clutter. ([Justin Williams](https://github.com/rentzsch/mogenerator/commit/92cf5905b8410d26ffb9531bd2f507b07c925754))
 
