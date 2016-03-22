@@ -1,4 +1,4 @@
-# mogenerator ![https://travis-ci.org/rentzsch/mogenerator](https://travis-ci.org/rentzsch/mogenerator.svg?branch=master)
+# mogenerator <a href="https://travis-ci.org/rentzsch/mogenerator"><img src="https://travis-ci.org/rentzsch/mogenerator.svg?branch=master"></a>
 
 Visit the [project's pretty homepage](http://rentzsch.github.com/mogenerator).
 
