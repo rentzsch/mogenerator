@@ -1,23 +1,37 @@
+#!/usr/bin/ruby
+# Copyright (c) 2006-2016 Jonathan 'Wolf' Rentzsch: http://rentzsch.com
+# Some rights reserved: http://opensource.org/licenses/mit
+# http://github.com/rentzsch/mogenerator
+
 def run_or_die(cmd)
-  #puts "*** #{cmd}"
   result = `#{cmd}`
   raise "ERROR: #{cmd} failed" if $?.exitstatus != 0
   result
 end
 
-puts "*** Clean-building mogenerator"
-build_settings = run_or_die 'xcodebuild -project ../mogenerator.xcodeproj -configuration Debug -showBuildSettings'
-built_products_dir = build_settings.lines.select{|line|line[/\sBUILT_PRODUCTS_DIR\s/]}[0].strip.sub('BUILT_PRODUCTS_DIR = ','')
+#==============================
+# Variables
+#==============================
+OSX_SDK="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk"
+OSX_VERSION="10.11"
+LINKED_FRAMEWORKS="-framework Foundation -framework Cocoa -framework CoreData"
+
+BUILD_SETTINGS = run_or_die 'xcodebuild -project ../mogenerator.xcodeproj -configuration Debug -showBuildSettings'
+BUILT_PRODUCTS_DIR = BUILD_SETTINGS.lines.select{|line|line[/\sBUILT_PRODUCTS_DIR\s/]}[0].strip.sub('BUILT_PRODUCTS_DIR = ','')
+MOGENERATOR_PATH="#{BUILT_PRODUCTS_DIR}/mogenerator"
+
+
+puts "*** Clean-building mogenerator ***"
+
 run_or_die 'xcodebuild -project ../mogenerator.xcodeproj -scheme mogenerator clean' # need this to pick up template changes
 run_or_die 'xcodebuild -project ../mogenerator.xcodeproj -scheme mogenerator'
-mogenPath = "#{built_products_dir}/mogenerator"
 
-def gen_and_compile(desc, mogenPath, extra_mogen_args, extra_llvm_args)
+def gen_and_compile_objc(desc, mogenPath, extra_mogen_args, extra_llvm_args)
   puts "*** Testing #{desc}"
   ENV['MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS'] = '1'
   run_or_die "#{mogenPath.gsub(/ /, '\\ ')} --model test.xcdatamodel --output MOs --baseClass MyBaseClass #{extra_mogen_args}"
   run_or_die 'cp HumanMO.h HumanMO.m MyProtocol.h TestProtocol.m MOs'
-  run_or_die "clang -o testbin test.m MyBaseClass.m Gender.m MOs/*.m -I\"#{Dir.pwd}\" -framework Foundation -framework Cocoa -framework CoreData -fmodules -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk -mmacosx-version-min=10.10 #{extra_llvm_args}"
+  run_or_die "clang -o testbin test.m MyBaseClass.m Gender.m MOs/*.m -I\"#{Dir.pwd}\" #{LINKED_FRAMEWORKS} -fmodules -isysroot #{OSX_SDK} -mmacosx-version-min=#{OSX_VERSION} #{extra_llvm_args}"
   run_or_die "xcrun momc -MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS test.xcdatamodel \"#{Dir.pwd}/test.mom\""
   puts run_or_die './testbin'
 end
@@ -25,7 +39,7 @@ end
 desc 'Generate, Compile and Run Objective-C'
 task :objc do
   Rake::Task[:clean].execute
-  gen_and_compile('Modern Objective-C', mogenPath, '', '-fobjc-arc')
+  gen_and_compile_objc('Objective-C', MOGENERATOR_PATH, '', '')
   Rake::Task[:clean].execute
 end
 
@@ -35,8 +49,5 @@ task :clean do
 end
 
 task :default do
-  Rake::Task[:clean].execute
-
   Rake::Task[:objc].execute
-#  Rake::Task[:clean].execute
 end
