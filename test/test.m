@@ -33,7 +33,7 @@ int main(int argc, char *argv[]) {
         assert(persistentStore);
         assert(!inMemoryStoreError);
         
-        moc = [[[NSManagedObjectContext alloc] init] autorelease];
+        moc = [[[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType] autorelease];
         [moc setPersistentStoreCoordinator:persistentStoreCoordinator];
         assert(moc);
     }}
