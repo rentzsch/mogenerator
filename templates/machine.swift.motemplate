@@ -1,8 +1,8 @@
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
 // Make changes to <$sanitizedManagedObjectClassName$>.swift instead.
 
+import Foundation
 import CoreData
-<$if hasAdditionalHeaderFile$>import <$additionalHeaderFileName$><$endif$>
 <$if hasCustomBaseCaseImport$>import <$baseClassImport$><$endif$>
 
 <$if noninheritedAttributes.@count > 0$>
