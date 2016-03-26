@@ -1,6 +1,7 @@
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
 // Make changes to <$managedObjectClassName$>.h instead.
 
+@import Foundation;
 @import CoreData;
 
 <$if hasCustomSuperentity$><$if hasSuperentity$>#import "<$customSuperentity$>.h"
