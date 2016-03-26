@@ -14,7 +14,7 @@ end
 #==============================
 OSX_SDK="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk"
 OSX_VERSION="10.11"
-LINKED_FRAMEWORKS="-framework Foundation -framework Cocoa -framework CoreData"
+LINKED_FRAMEWORKS="-framework Foundation -framework AppKit -framework CoreData"
 
 BUILD_SETTINGS = run_or_die 'xcodebuild -project ../mogenerator.xcodeproj -configuration Debug -showBuildSettings'
 BUILT_PRODUCTS_DIR = BUILD_SETTINGS.lines.select{|line|line[/\sBUILT_PRODUCTS_DIR\s/]}[0].strip.sub('BUILT_PRODUCTS_DIR = ','')
@@ -30,11 +30,22 @@ def gen_and_compile_objc(desc, mogenPath, extra_mogen_args, extra_llvm_args)
   puts "*** Testing #{desc}"
   ENV['MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS'] = '1'
   run_or_die "#{mogenPath.gsub(/ /, '\\ ')} --model test.xcdatamodel --output MOs --baseClass MyBaseClass #{extra_mogen_args}"
-  run_or_die 'cp ./objc/HumanMO.* ./objc/Gender.* ./objc/MyProtocol.* ./objc/MyBaseClass.* MOs'
-  run_or_die "clang -o testbin ./objc/test.m ./objc/TestProtocol.m MOs/*.m -I\"#{Dir.pwd}\" #{LINKED_FRAMEWORKS} -fmodules -isysroot #{OSX_SDK} -mmacosx-version-min=#{OSX_VERSION} -fobjc-arc #{extra_llvm_args}"
+  run_or_die 'cp ./objc/Gender.* ./objc/MyBaseClass.* MOs'
+  run_or_die "clang -o testbin ./objc/test.m MOs/*.m -I\"#{Dir.pwd}\" #{LINKED_FRAMEWORKS} -fmodules -isysroot #{OSX_SDK} -mmacosx-version-min=#{OSX_VERSION} -fobjc-arc #{extra_llvm_args}"
   run_or_die "xcrun momc -MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS test.xcdatamodel \"#{Dir.pwd}/test.mom\""
   puts run_or_die './testbin'
 end
+
+def gen_and_compile_swift(desc, mogenPath, extra_mogen_args, extra_llvm_args)
+  puts "*** Testing #{desc}"
+  ENV['MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS'] = '1'
+  run_or_die "#{mogenPath.gsub(/ /, '\\ ')} --swift --model test.xcdatamodel --output MOs --baseClass MyBaseClass #{extra_mogen_args}"
+  run_or_die 'cp ./swift/Gender.swift ./swift/MyBaseClass.swift MOs'
+  run_or_die "swiftc -o testbin ./swift/main.swift MOs/*.swift -sdk #{OSX_SDK} #{LINKED_FRAMEWORKS}"
+  run_or_die "xcrun momc -MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS test.xcdatamodel \"#{Dir.pwd}/test.mom\""
+  puts run_or_die './testbin'
+end
+
 
 desc 'Generate, Compile and Run Objective-C'
 task :objc do
@@ -43,6 +54,14 @@ task :objc do
   Rake::Task[:clean].execute
 end
 
+desc 'Generate, Compile and Run Swift'
+task :swift do
+  Rake::Task[:clean].execute
+  gen_and_compile_swift('Swift', MOGENERATOR_PATH, '', '')
+  Rake::Task[:clean].execute
+end
+
+
 desc 'Clean output'
 task :clean do
   run_or_die 'rm -rf MOs testbin test.mom'
@@ -50,4 +69,5 @@ end
 
 task :default do
   Rake::Task[:objc].execute
+  Rake::Task[:swift].execute
 end

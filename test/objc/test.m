@@ -3,7 +3,6 @@
 #import "../MOs/MyBaseClass.h"
 #import "../MOs/ParentMO.h"
 #import "../MOs/ChildMO.h"
-#import "TestProtocol.h"
 #import "../MOs/Gender.h"
 
 int main(int argc, char *argv[]) {
@@ -60,9 +59,6 @@ int main(int argc, char *argv[]) {
     ChildMO *lisa = [ChildMO insertInManagedObjectContext:moc];
     lisa.humanName = lisa.childName = @"lisa";
     [lisa setIvar:1.0];
-
-    ParentMO *protocolMO = [ParentMO insertInManagedObjectContext:moc];
-    protocolMO.myTransformableWithProtocol = [TestProtocol new];
 
     //--
 

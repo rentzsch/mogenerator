@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6244" systemVersion="13E28" minimumToolsVersion="Xcode 4.5" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10171" systemVersion="15E65" minimumToolsVersion="Xcode 4.5">
     <entity name="Child" representedClassName="ChildMO" parentEntity="Human" syncable="YES">
         <attribute name="childName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -31,8 +31,6 @@
                 <entry key="attributeValueScalarType" value="Gender"/>
             </userInfo>
         </attribute>
-        <attribute name="hairColor" optional="YES" transient="YES" syncable="YES"/>
-        <attribute name="hairColorStorage" optional="YES" transient="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="humanName" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="meaninglessRelationship" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="EntitySansCustomClass" indexed="YES" syncable="YES"/>
         <userInfo>
@@ -53,17 +51,6 @@
         <attribute name="myInt64" optional="YES" attributeType="Integer 64" syncable="YES"/>
         <attribute name="myString" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="myTransformableSansClassName" optional="YES" attributeType="Transformable" syncable="YES"/>
-        <attribute name="myTransformableWithClassName" optional="YES" attributeType="Transformable" syncable="YES">
-            <userInfo>
-                <entry key="attributeValueClassName" value="NSColor"/>
-            </userInfo>
-        </attribute>
-        <attribute name="myTransformableWithProtocol" optional="YES" attributeType="Transformable" syncable="YES">
-            <userInfo>
-                <entry key="attributeTransformableProtocols" value="MyProtocol"/>
-                <entry key="attributeValueClassName" value="id&lt;MyProtocol>"/>
-            </userInfo>
-        </attribute>
         <attribute name="parentName" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="children" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Child" inverseName="parent" inverseEntity="Child" indexed="YES" syncable="YES"/>
     </entity>
@@ -79,7 +66,7 @@
         <element name="EntitySansCustomClass" positionX="502" positionY="90" width="128" height="60"/>
         <element name="EntitySansCustomClass2" positionX="295" positionY="-189" width="128" height="58"/>
         <element name="EntityWithBaseClass" positionX="342" positionY="18" width="128" height="60"/>
-        <element name="Human" positionX="169" positionY="18" width="128" height="133"/>
-        <element name="Parent" positionX="34" positionY="114" width="128" height="283"/>
+        <element name="Human" positionX="169" positionY="18" width="128" height="105"/>
+        <element name="Parent" positionX="34" positionY="114" width="128" height="255"/>
     </elements>
 </model>
