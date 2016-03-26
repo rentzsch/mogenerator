@@ -26,8 +26,8 @@ puts "*** Clean-building mogenerator ***"
 run_or_die 'xcodebuild -project ../mogenerator.xcodeproj -scheme mogenerator clean' # need this to pick up template changes
 run_or_die 'xcodebuild -project ../mogenerator.xcodeproj -scheme mogenerator'
 
-def gen_and_compile_objc(desc, mogenPath, extra_mogen_args, extra_llvm_args)
-  puts "*** Testing #{desc}"
+def gen_and_compile_objc(mogenPath, extra_mogen_args, extra_llvm_args)
+  puts "*** Testing Objective-C"
   ENV['MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS'] = '1'
   run_or_die "#{mogenPath.gsub(/ /, '\\ ')} --model test.xcdatamodel --output MOs --baseClass MyBaseClass #{extra_mogen_args}"
   run_or_die 'cp ./objc/Gender.* ./objc/MyBaseClass.* MOs'
@@ -36,8 +36,8 @@ def gen_and_compile_objc(desc, mogenPath, extra_mogen_args, extra_llvm_args)
   puts run_or_die './testbin'
 end
 
-def gen_and_compile_swift(desc, mogenPath, extra_mogen_args, extra_llvm_args)
-  puts "*** Testing #{desc}"
+def gen_and_compile_swift(mogenPath, extra_mogen_args)
+  puts "*** Testing Swift"
   ENV['MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS'] = '1'
   run_or_die "#{mogenPath.gsub(/ /, '\\ ')} --swift --model test.xcdatamodel --output MOs --baseClass MyBaseClass #{extra_mogen_args}"
   run_or_die 'cp ./swift/Gender.swift ./swift/MyBaseClass.swift MOs'
@@ -50,14 +50,14 @@ end
 desc 'Generate, Compile and Run Objective-C'
 task :objc do
   Rake::Task[:clean].execute
-  gen_and_compile_objc('Objective-C', MOGENERATOR_PATH, '', '')
+  gen_and_compile_objc(MOGENERATOR_PATH, '', '')
   Rake::Task[:clean].execute
 end
 
 desc 'Generate, Compile and Run Swift'
 task :swift do
   Rake::Task[:clean].execute
-  gen_and_compile_swift('Swift', MOGENERATOR_PATH, '', '')
+  gen_and_compile_swift(MOGENERATOR_PATH, '')
   Rake::Task[:clean].execute
 end
 
