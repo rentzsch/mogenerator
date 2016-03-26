@@ -20,7 +20,7 @@ BUILD_SETTINGS = run_or_die 'xcodebuild -project ../mogenerator.xcodeproj -confi
 BUILT_PRODUCTS_DIR = BUILD_SETTINGS.lines.select{|line|line[/\sBUILT_PRODUCTS_DIR\s/]}[0].strip.sub('BUILT_PRODUCTS_DIR = ','')
 MOGENERATOR_PATH="#{BUILT_PRODUCTS_DIR}/mogenerator"
 
-
+766
 puts "*** Clean-building mogenerator ***"
 
 run_or_die 'xcodebuild -project ../mogenerator.xcodeproj -scheme mogenerator clean' # need this to pick up template changes
@@ -30,8 +30,8 @@ def gen_and_compile_objc(desc, mogenPath, extra_mogen_args, extra_llvm_args)
   puts "*** Testing #{desc}"
   ENV['MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS'] = '1'
   run_or_die "#{mogenPath.gsub(/ /, '\\ ')} --model test.xcdatamodel --output MOs --baseClass MyBaseClass #{extra_mogen_args}"
-  run_or_die 'cp HumanMO.h HumanMO.m MyProtocol.h TestProtocol.m MOs'
-  run_or_die "clang -o testbin test.m MyBaseClass.m Gender.m MOs/*.m -I\"#{Dir.pwd}\" #{LINKED_FRAMEWORKS} -fmodules -isysroot #{OSX_SDK} -mmacosx-version-min=#{OSX_VERSION} -fobjc-arc #{extra_llvm_args}"
+  run_or_die 'cp ./objc/HumanMO.* ./objc/Gender.* ./objc/MyProtocol.* ./objc/MyBaseClass.* MOs'
+  run_or_die "clang -o testbin ./objc/test.m ./objc/TestProtocol.m MOs/*.m -I\"#{Dir.pwd}\" #{LINKED_FRAMEWORKS} -fmodules -isysroot #{OSX_SDK} -mmacosx-version-min=#{OSX_VERSION} -fobjc-arc #{extra_llvm_args}"
   run_or_die "xcrun momc -MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS test.xcdatamodel \"#{Dir.pwd}/test.mom\""
   puts run_or_die './testbin'
 end

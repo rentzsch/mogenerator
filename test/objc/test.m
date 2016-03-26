@@ -1,10 +1,10 @@
 @import Cocoa;
 
-#import "MyBaseClass.h"
-#import "MOs/ParentMO.h"
-#import "MOs/ChildMO.h"
+#import "../MOs/MyBaseClass.h"
+#import "../MOs/ParentMO.h"
+#import "../MOs/ChildMO.h"
 #import "TestProtocol.h"
-#import "Gender.h"
+#import "../MOs/Gender.h"
 
 int main(int argc, char *argv[]) {
     @autoreleasepool {
