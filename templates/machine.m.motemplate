@@ -46,13 +46,17 @@
 <$if Attribute.hasScalarAttributeType$>
 <$if (!Attribute.optional && TemplateVar.scalarsWhenNonOptional)$>
 - (<$Attribute.scalarAttributeType$>)<$Attribute.name$> {
+	[self willAccessValueForKey:@"<$Attribute.name$>"];
 	NSNumber *result = [self primitive<$Attribute.name.initialCapitalString$>];
+	[self didAccessValueForKey:@"<$Attribute.name$>"];
 	return [result <$Attribute.scalarAccessorMethodName$>];
 }
 
 <$if ! Attribute.isReadonly$>
 - (void)set<$Attribute.name.initialCapitalString$>:(<$Attribute.scalarAttributeType$>)value_ {
+	[self willChangeValueForKey:@"<$Attribute.name$>"];
 	[self setPrimitive<$Attribute.name.initialCapitalString$>:@(value_)];
+	[self didChangeValueForKey:@"<$Attribute.name$>"];
 }
 <$endif$>
 <$else$>
