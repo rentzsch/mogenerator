@@ -21,4 +21,4 @@ mogenerator doesn't have any specific coding guidelines at this point. Just do y
 
 Thanks for playing!
 
-[issue]: https://github.com/justin/Aspen/issues/new
+[issue]: https://github.com/rentzsch/mogenerator/issues/new
