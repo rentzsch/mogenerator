@@ -14,6 +14,16 @@ Senseful wrote up a [nice summary of mogenerator's command-line options](http://
 
 ## Version History
 
+### v1.30.1: Thu Apr 7 2016 [download](https://github.com/rentzsch/mogenerator/releases/download/1.30.1/mogenerator-1.30.1.dmg)
+
+* [FIX] Use `will`/`didChange` & `will`/`didAccess` in generated code when using `scalarsWhenNonOptional`. ([rentzsch](https://github.com/rentzsch/mogenerator/commit/1646a154c8d9bb2e12b3f23eaca3bbfe9f9bc7c8))
+
+* [FIX] Only use `@import` if supported (which Objective-C++ does not). [issue 325](https://github.com/rentzsch/mogenerator/issues/325) ([Samuel Bichsel](https://github.com/melbic))
+
+* [FIX] Add space between property type and name. [issue 323](https://github.com/rentzsch/mogenerator/pull/323) ([Daniel Rodríguez Troitiño](https://github.com/drodriguez))
+
+
+
 ### v1.30: Mon Mar 21 2016 [download](https://github.com/rentzsch/mogenerator/releases/download/1.30/mogenerator-1.30.dmg)
 
 Thanks to lieutenant [Justin Williams](https://github.com/justin) for helping with this release.
