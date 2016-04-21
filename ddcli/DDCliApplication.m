@@ -39,7 +39,7 @@ DDCliApplication * DDCliApp = nil;
     return DDCliApp;
 }
 
-- (id) init;
+- (instancetype) init;
 {
     self = [super init];
     if (self == nil)

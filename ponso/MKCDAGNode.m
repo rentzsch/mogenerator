@@ -74,7 +74,7 @@
 
 #pragma mark Public
 
-- (id)initWithObject:(id)anObject
+- (instancetype)initWithObject:(id)anObject
 {
 	if((self = [super init]))
 	{

@@ -1,4 +1,4 @@
-#import <Cocoa/Cocoa.h>
+@import Cocoa;
 
 @interface MyBaseClass : NSManagedObject {
 	double ivar;

@@ -3,36 +3,12 @@
 
 #import "_<$managedObjectClassName$>.h"
 
-<$if noninheritedAttributes.@count > 0$>
-const struct <$managedObjectClassName$>Attributes <$managedObjectClassName$>Attributes = {<$foreach Attribute noninheritedAttributes do$>
-	.<$Attribute.name$> = @"<$Attribute.name$>",<$endforeach do$>
-};
-<$endif$>
-
-<$if noninheritedRelationships.@count > 0$>
-const struct <$managedObjectClassName$>Relationships <$managedObjectClassName$>Relationships = {<$foreach Relationship noninheritedRelationships do$>
-	.<$Relationship.name$> = @"<$Relationship.name$>",<$endforeach do$>
-};
-<$endif$>
-
-<$if noninheritedFetchedProperties.@count > 0$>
-const struct <$managedObjectClassName$>FetchedProperties <$managedObjectClassName$>FetchedProperties = {<$foreach FetchedProperty noninheritedFetchedProperties do$>
-	.<$FetchedProperty.name$> = @"<$FetchedProperty.name$>",<$endforeach do$>
-};
-<$endif$>
-
-<$if hasUserInfoKeys$>
-const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserInfo = {<$foreach UserInfo userInfoKeyValues do$>
-	.<$UserInfo.key$> = @"<$UserInfo.value$>",<$endforeach do$>
-};
-<$endif$>
-
 @implementation <$managedObjectClassName$>ID
 @end
 
 @implementation _<$managedObjectClassName$>
 
-+ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
++ (instancetype)insertInManagedObjectContext:(NSManagedObjectContext *)moc_ {
 	NSParameterAssert(moc_);
 	return [NSEntityDescription insertNewObjectForEntityForName:@"<$name$>" inManagedObjectContext:moc_];
 }
@@ -52,7 +28,7 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 
 + (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
-	<$foreach Attribute noninheritedAttributes do$><$if Attribute.hasDefinedAttributeType$><$if Attribute.hasScalarAttributeType$>
+	<$foreach Attribute noninheritedAttributes do$><$if Attribute.hasDefinedAttributeType$><$if Attribute.hasScalarAttributeType && (Attribute.optional || !TemplateVar.scalarsWhenNonOptional)$>
 	if ([key isEqualToString:@"<$Attribute.name$>Value"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"<$Attribute.name$>"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
@@ -68,6 +44,22 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 @dynamic <$Attribute.name$>;
 
 <$if Attribute.hasScalarAttributeType$>
+<$if (!Attribute.optional && TemplateVar.scalarsWhenNonOptional)$>
+- (<$Attribute.scalarAttributeType$>)<$Attribute.name$> {
+	[self willAccessValueForKey:@"<$Attribute.name$>"];
+	NSNumber *result = [self primitive<$Attribute.name.initialCapitalString$>];
+	[self didAccessValueForKey:@"<$Attribute.name$>"];
+	return [result <$Attribute.scalarAccessorMethodName$>];
+}
+
+<$if ! Attribute.isReadonly$>
+- (void)set<$Attribute.name.initialCapitalString$>:(<$Attribute.scalarAttributeType$>)value_ {
+	[self willChangeValueForKey:@"<$Attribute.name$>"];
+	[self setPrimitive<$Attribute.name.initialCapitalString$>:@(value_)];
+	[self didChangeValueForKey:@"<$Attribute.name$>"];
+}
+<$endif$>
+<$else$>
 
 - (<$Attribute.scalarAttributeType$>)<$Attribute.name$>Value {
 	NSNumber *result = [self <$Attribute.name$>];
@@ -76,7 +68,7 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 
 <$if ! Attribute.isReadonly$>
 - (void)set<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_ {
-	[self set<$Attribute.name.initialCapitalString$>:<$if TemplateVar.literals$>@(value_)<$else$>[NSNumber <$Attribute.scalarFactoryMethodName$>value_]<$endif$>];
+	[self set<$Attribute.name.initialCapitalString$>:@(value_)];
 }
 <$endif$>
 
@@ -87,8 +79,9 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 }
 
 - (void)setPrimitive<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_ {
-	[self setPrimitive<$Attribute.name.initialCapitalString$>:<$if TemplateVar.literals$>@(value_)<$else$>[NSNumber <$Attribute.scalarFactoryMethodName$>value_]<$endif$>];
+	[self setPrimitive<$Attribute.name.initialCapitalString$>:@(value_)];
 }
+<$endif$>
 <$endif$>
 <$endif$>
 <$endif$>
@@ -117,7 +110,7 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 
 <$foreach FetchRequest prettyFetchRequests do$>
 <$if FetchRequest.singleResult$>
-+ (id)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>{
++ (instancetype)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>{
 	NSError *error = nil;
 	id result = [self fetch<$FetchRequest.name.initialCapitalString$>:moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:<$Binding.name$>_ <$endforeach do2$>error:&error];
 	if (error) {
@@ -129,19 +122,15 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 	}
 	return result;
 }
-+ (id)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>error:(NSError**)error_ {
++ (instancetype)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>error:(NSError**)error_ {
 	NSParameterAssert(moc_);
 	NSError *error = nil;
 
 	NSManagedObjectModel *model = [[moc_ persistentStoreCoordinator] managedObjectModel];
 	<$if FetchRequest.hasBindings$>
-	NSDictionary *substitutionVariables = [NSDictionary dictionaryWithObjectsAndKeys:
-														<$foreach Binding FetchRequest.bindings do2$>
-														<$Binding.name$>_, @"<$Binding.name$>",
-														<$endforeach do2$>
-														nil];
+	NSDictionary *substitutionVariables = @{<$foreach Binding FetchRequest.bindings doVar$>@"<$Binding.name$>": <$Binding.name$>_<$if BindingIndex < FetchRequest.bindings.@count - 1$>, <$endif$><$endforeach doVar$>};
 	<$else$>
-	NSDictionary *substitutionVariables = [NSDictionary dictionary];
+	NSDictionary *substitutionVariables = @{};
 	<$endif$>
 	NSFetchRequest *fetchRequest = [model fetchRequestFromTemplateWithName:@"<$FetchRequest.name$>"
 													 substitutionVariables:substitutionVariables];
@@ -156,7 +145,7 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 				//	Nothing found matching the fetch request. That's cool, though: we'll just return nil.
 				break;
 			case 1:
-				result = [results objectAtIndex:0];
+				result = results.firstObject;
 				break;
 			default:
 				NSLog(@"WARN fetch request <$FetchRequest.name$>: 0 or 1 objects expected, %lu found (substitutionVariables:%@, results:%@)",
@@ -188,13 +177,9 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 
 	NSManagedObjectModel *model = [[moc_ persistentStoreCoordinator] managedObjectModel];
 	<$if FetchRequest.hasBindings$>
-	NSDictionary *substitutionVariables = [NSDictionary dictionaryWithObjectsAndKeys:
-														<$foreach Binding FetchRequest.bindings do2$>
-														<$Binding.name$>_, @"<$Binding.name$>",
-														<$endforeach do2$>
-														nil];
+	NSDictionary *substitutionVariables = @{<$foreach Binding FetchRequest.bindings doVar$>@"<$Binding.name$>": <$Binding.name$>_<$if BindingIndex < FetchRequest.bindings.@count - 1$>, <$endif$><$endforeach doVar$>};
 	<$else$>
-	NSDictionary *substitutionVariables = [NSDictionary dictionary];
+	NSDictionary *substitutionVariables = @{};
 	<$endif$>
 	NSFetchRequest *fetchRequest = [model fetchRequestFromTemplateWithName:@"<$FetchRequest.name$>"
 													 substitutionVariables:substitutionVariables];
@@ -212,12 +197,11 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 <$if Relationship.isToMany$>
 - (NSFetchedResultsController*)new<$Relationship.name.initialCapitalString$>FetchedResultsControllerWithSortDescriptors:(NSArray*)sortDescriptors {
 	NSFetchRequest *fetchRequest = [NSFetchRequest new];
-	<$if !TemplateVar.arc$>[fetchRequest autorelease];<$endif$>
 	fetchRequest.entity = [NSEntityDescription entityForName:@"<$Relationship.destinationEntity.name$>" inManagedObjectContext:self.managedObjectContext];
 	fetchRequest.predicate = [NSPredicate predicateWithFormat:@"<$Relationship.inverseRelationship.name$> <$if Relationship.inverseRelationship.isToMany$>CONTAINS<$else$>==<$endif$> %@", self];
 	fetchRequest.sortDescriptors = sortDescriptors;
 	<$if indexedNoninheritedAttributes.@count > 0$>
-	NSArray *indexedIDs = [NSArray arrayWithObjects:<$foreach Attribute indexedNoninheritedAttributes do$>self.<$Attribute.name$>, <$endforeach do$>nil];
+	NSArray *indexedIDs = @[<$foreach Attribute indexedNoninheritedAttributes do$>self.<$Attribute.name$><$if AttributeIndex < indexedNoninheritedAttributes.@count - 1$>, <$endif$><$endforeach do$>];
 	NSString *cacheName = [NSString stringWithFormat:@"mogenerator.<$managedObjectClassName$>.%@.<$Relationship.name$>.%@", indexedIDs, sortDescriptors];
 	<$endif$>
 	return [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
@@ -293,4 +277,34 @@ const struct <$managedObjectClassName$>UserInfo <$managedObjectClassName$>UserIn
 @end
 <$endif$><$endif$><$endforeach do$>
 
+<$if noninheritedAttributes.@count > 0$>
+@implementation <$managedObjectClassName$>Attributes <$foreach Attribute noninheritedAttributes do$>
++ (NSString *)<$Attribute.name$> {
+	return @"<$Attribute.name$>";
+}<$endforeach do$>
+@end
+<$endif$>
 
+<$if noninheritedRelationships.@count > 0$>
+@implementation <$managedObjectClassName$>Relationships <$foreach Relationship noninheritedRelationships do$>
++ (NSString *)<$Relationship.name$> {
+	return @"<$Relationship.name$>";
+}<$endforeach do$>
+@end
+<$endif$>
+
+<$if noninheritedFetchedProperties.@count > 0$>
+@implementation <$managedObjectClassName$>FetchedProperties <$foreach FetchedProperty noninheritedFetchedProperties do$>
++ (NSString *)<$FetchedProperty.name$> {
+	return @"<$FetchedProperty.name$>";
+}<$endforeach do$>
+@end
+<$endif$>
+
+<$if hasUserInfoKeys$>
+@implementation <$managedObjectClassName$>UserInfo <$foreach UserInfo userInfoKeyValues do$>
++ (NSString *)<$UserInfo.key$> {
+	return @"<$UserInfo.value$>";
+}<$endforeach do$>
+@end
+<$endif$>

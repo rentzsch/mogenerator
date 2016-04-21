@@ -1,20 +1,20 @@
 // mogenerator.m
-//   Copyright (c) 2006-2015 Jonathan 'Wolf' Rentzsch: http://rentzsch.com
+//   Copyright (c) 2006-2016 Jonathan 'Wolf' Rentzsch: http://rentzsch.com
 //   Some rights reserved: http://opensource.org/licenses/mit
 //   http://github.com/rentzsch/mogenerator
 
 #import "mogenerator.h"
-#import "RegexKitLite.h"
 #import "NSManagedObjectModel+momcom.h"
+#import "NSString+MORegEx.h"
 
 static NSString * const kTemplateVar = @"TemplateVar";
-NSString  *gCustomBaseClass;
-NSString  *gCustomBaseClassImport;
-NSString  *gCustomBaseClassForced;
-BOOL       gSwift;
+static NSString  *gCustomBaseClass;
+static NSString  *gCustomBaseClassImport;
+static NSString  *gCustomBaseClassForced;
+static BOOL       gSwift;
 
-static NSString *const kAttributeValueScalarTypeKey = @"attributeValueScalarType";
-static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName";
+static const NSString *const kAttributeValueScalarTypeKey = @"attributeValueScalarType";
+static const NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName";
 
 @interface NSEntityDescription (fetchedPropertiesAdditions)
 - (NSDictionary*)fetchedPropertiesByName;
@@ -24,7 +24,9 @@ static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName
 - (NSDictionary*)fetchedPropertiesByName {
     NSMutableDictionary *fetchedPropertiesByName = [NSMutableDictionary dictionary];
 
-    nsenumerate ([self properties], NSPropertyDescription, property) {
+    NSArray *properties = [self properties];
+    for (NSPropertyDescription *property in properties)
+    {
         if ([property isKindOfClass:[NSFetchedPropertyDescription class]]) {
             [fetchedPropertiesByName setObject:property forKey:[property name]];
         }
@@ -32,6 +34,22 @@ static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName
 
     return fetchedPropertiesByName;
 }
+@end
+
+@interface NSEntityDescription (swiftAdditions)
+- (NSString *)sanitizedManagedObjectClassName;
+@end
+
+@implementation NSEntityDescription (swiftAdditions)
+
+- (NSString *)sanitizedManagedObjectClassName {
+    NSString *className = [self managedObjectClassName];
+    if ([className hasPrefix:@"."]) {
+        return [className stringByReplacingOccurrencesOfString:@"." withString:@""];
+    }
+    return className;
+}
+
 @end
 
 @interface NSEntityDescription (userInfoAdditions)
@@ -94,7 +112,8 @@ static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName
         ddprintf(@"No entities found in model (or in specified configuration). No files will be generated.\n(model description: %@)\n", self);
     }
 
-    nsenumerate (allEntities, NSEntityDescription, entity) {
+    for (NSEntityDescription *entity in allEntities)
+    {
         NSString *entityClassName = [entity managedObjectClassName];
 
         if ([entity hasCustomClass]){
@@ -200,7 +219,8 @@ static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName
     NSArray *attributeDescriptions = [self noninheritedAttributes];
     NSMutableArray *filteredAttributeDescriptions = [NSMutableArray arrayWithCapacity:[attributeDescriptions count]];
 
-    nsenumerate(attributeDescriptions, NSAttributeDescription, attributeDescription) {
+    for (NSAttributeDescription *attributeDescription in attributeDescriptions)
+    {
         if ([[attributeDescription name] isEqualToString:@"type"]) {
             ddprintf(@"WARNING skipping 'type' attribute on %@ (%@) - see https://github.com/rentzsch/mogenerator/issues/74\n",
                      self.name, self.managedObjectClassName);
@@ -263,7 +283,10 @@ static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName
     NSDictionary *fetchRequests = [[self managedObjectModel] valueForKey:@"fetchRequestTemplatesByName"];
 
     NSMutableDictionary *result = [NSMutableDictionary dictionaryWithCapacity:[fetchRequests count]];
-    nsenumerate ([fetchRequests allKeys], NSString, fetchRequestName) {
+
+    NSArray *keys = [fetchRequests allKeys];
+    for (NSString *fetchRequestName in keys)
+    {
         NSFetchRequest *fetchRequest = [fetchRequests objectForKey:fetchRequestName];
         if ([fetchRequest entity] == self) {
             [result setObject:fetchRequest forKey:fetchRequestName];
@@ -278,7 +301,8 @@ static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName
     // Hope the set of keys in the key path consists of solely relationships. Abort otherwise
 
     NSEntityDescription *entity = self;
-    nsenumerate(components, NSString, key) {
+    for (NSString *key in components)
+    {
         id property = [[entity propertiesByName] objectForKey:key];
         if ([property isKindOfClass:[NSAttributeDescription class]]) {
             NSString *result = [property objectAttributeType];
@@ -306,7 +330,8 @@ static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName
     if (!predicate_) return;
 
     if ([predicate_ isKindOfClass:[NSCompoundPredicate class]]) {
-        nsenumerate([(NSCompoundPredicate*)predicate_ subpredicates], NSPredicate, subpredicate) {
+        for (NSPredicate *subpredicate in [(NSCompoundPredicate*)predicate_ subpredicates])
+        {
             [self _processPredicate:subpredicate bindings:bindings_];
         }
     } else if ([predicate_ isKindOfClass:[NSComparisonPredicate class]]) {
@@ -350,7 +375,10 @@ static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName
 - (NSArray*)prettyFetchRequests {
     NSDictionary *fetchRequests = [self fetchRequestTemplates];
     NSMutableArray *result = [NSMutableArray arrayWithCapacity:[fetchRequests count]];
-    nsenumerate ([fetchRequests allKeys], NSString, fetchRequestName) {
+
+    NSArray *keys = [fetchRequests allKeys];
+    for (NSString *fetchRequestName in keys)
+    {
         NSFetchRequest *fetchRequest = [fetchRequests objectForKey:fetchRequestName];
         NSMutableArray *bindings = [NSMutableArray array];
         [self _processPredicate:[fetchRequest predicate] bindings:bindings];
@@ -556,12 +584,28 @@ static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName
 
 @implementation NSRelationshipDescription (collectionClassName)
 
+- (NSString*)jr_CollectionClassStringWithOrderedClassName:(NSString*)orderedClassName
+                                       unorderedClassName:(NSString*)unorderedClassName
+{
+    NSString *generic = [NSString stringWithFormat:@"<%@*>", self.destinationEntity.managedObjectClassName];
+    if (gSwift) {
+        // No generics for Swift sets, for now.
+        return [self jr_isOrdered] ? orderedClassName : unorderedClassName;
+    }
+
+    return [self jr_isOrdered]
+        ? [orderedClassName stringByAppendingString:generic]
+        : [unorderedClassName stringByAppendingString:generic];
+}
+
 - (NSString*)mutableCollectionClassName {
-    return [self jr_isOrdered] ? @"NSMutableOrderedSet" : @"NSMutableSet";
+    return [self jr_CollectionClassStringWithOrderedClassName:@"NSMutableOrderedSet"
+                                           unorderedClassName:@"NSMutableSet"];
 }
 
 - (NSString*)immutableCollectionClassName {
-    return [self jr_isOrdered] ? @"NSOrderedSet" : @"NSSet";
+    return [self jr_CollectionClassStringWithOrderedClassName:@"NSOrderedSet"
+                                           unorderedClassName:@"NSSet"];
 }
 
 - (BOOL)jr_isOrdered {
@@ -592,7 +636,7 @@ static NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName
     NSString *templateName;
     NSString *templatePath;
 }
-- (id)initWithName:(NSString*)name_ path:(NSString*)path_;
+- (instancetype)initWithName:(NSString*)name_ path:(NSString*)path_;
 - (NSString*)templateName;
 - (void)setTemplateName:(NSString*)name_;
 - (NSString*)templatePath;
@@ -607,7 +651,7 @@ static MiscMergeEngine* engineWithTemplateDesc(MogeneratorTemplateDesc *template
     } else {
         NSData *templateData = [[NSBundle mainBundle] objectForInfoDictionaryKey:[templateDesc_ templateName]];
         assert(templateData);
-        NSString *templateString = [[[NSString alloc] initWithData:templateData encoding:NSASCIIStringEncoding] autorelease];
+        NSString *templateString = [[[NSString alloc] initWithData:templateData encoding:NSUTF8StringEncoding] autorelease];
         [template setFilename:[@"x-__info_plist://" stringByAppendingString:[templateDesc_ templateName]]];
         [template parseString:templateString];
     }
@@ -644,7 +688,8 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
         NSArray *appSupportDirectories = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask+NSLocalDomainMask, YES);
         assert(appSupportDirectories);
 
-        nsenumerate (appSupportDirectories, NSString*, appSupportDirectory) {
+        for (NSString *appSupportDirectory in appSupportDirectories)
+        {
             if ([fileManager fileExistsAtPath:appSupportDirectory isDirectory:&isDirectory]) {
                 NSString *appSupportSubdirectory = [appSupportDirectory stringByAppendingPathComponent:ApplicationSupportSubdirectoryName];
                 appSupportSubdirectory = [appSupportSubdirectory stringByAppendingPathComponent:templateGroup];
@@ -673,7 +718,6 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     {
         // Long                 Short  Argument options
         {@"v2",                 '2',   DDGetoptNoArgument},
-
         {@"model",              'm',   DDGetoptRequiredArgument},
         {@"configuration",      'C',   DDGetoptRequiredArgument},
         {@"base-class",         0,     DDGetoptRequiredArgument},
@@ -713,11 +757,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
            "Typical Use\n"
            "-----------\n"
            "\n"
-           "$ mogenerator --v2 --model MyModel.xcdatamodeld --output-dir MyModel\n"
-           "\n"
-           "The --v2 argument tells mogenerator to use modern Objective-C (ARC,\n"
-           "Objective-C literals, modules). Otherwise mogenerator will generate old-style\n"
-           "Objective-C.\n"
+           "$ mogenerator --model MyModel.xcdatamodeld --output-dir MyModel\n"
            "\n"
            "Use the --model argument to supply the required data model file.\n"
            "\n"
@@ -829,7 +869,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
             // Cool, the model is in the Xcode 4.0+ format, we can compile it ourselves.
             NSError *compileError = nil;
             momFilePath = [NSManagedObjectModel compileModelAtPath:momOrXCDataModelFilePath inDirectory:NSTemporaryDirectory() error:&compileError];
-            if (compileError) {
+            if (momFilePath == nil) {
                 NSLog(@"Error: %@", [compileError localizedDescription]);
             }
             assert(momFilePath);
@@ -940,14 +980,8 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     }
 
     if (_version) {
-        printf("mogenerator 1.29. By Jonathan 'Wolf' Rentzsch + friends.\n");
+        printf("mogenerator 1.30.1. By Jonathan 'Wolf' Rentzsch + friends.\n");
         return EXIT_SUCCESS;
-    }
-
-    if (_v2) {
-        [templateVar setObject:@YES forKey:@"arc"];
-        [templateVar setObject:@YES forKey:@"literals"];
-        [templateVar setObject:@YES forKey:@"modules"];
     }
 
     gSwift = _swift;
@@ -984,27 +1018,40 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
         NSMutableDictionary *entityFilesByName = [NSMutableDictionary dictionary];
 
         NSArray *srcDirs = [NSArray arrayWithObjects:machineDir, humanDir, nil];
-        nsenumerate(srcDirs, NSString, srcDir) {
+        for (NSString *srcDir in srcDirs)
+        {
             if (![srcDir length]) {
                 srcDir = [fm currentDirectoryPath];
             }
-            nsenumerate([fm subpathsAtPath:srcDir], NSString, srcFileName) {
-                #define MANAGED_OBJECT_SOURCE_FILE_REGEX    @"_?([a-zA-Z0-9_]+MO).(h|m|mm)" // Sadly /^(*MO).(h|m|mm)$/ doesn't work.
-                if ([srcFileName isMatchedByRegex:MANAGED_OBJECT_SOURCE_FILE_REGEX]) {
-                    NSString *entityName = [[srcFileName captureComponentsMatchedByRegex:MANAGED_OBJECT_SOURCE_FILE_REGEX] objectAtIndex:1];
+
+            NSArray *subpaths = [fm subpathsAtPath:srcDir];
+            for (NSString *srcFileName in subpaths)
+            {
+                NSString *moSourceFileRegex = @"_?([a-zA-Z0-9_]+MO).(h|m|mm)"; // Sadly /^(*MO).(h|m|mm)$/ doesn't work.
+
+                if ([srcFileName isMatchedByRegex:moSourceFileRegex]) {
+                    NSString *entityName = [[srcFileName captureComponentsMatchedByRegex:moSourceFileRegex] objectAtIndex:1];
                     if (![entityFilesByName objectForKey:entityName]) {
                         [entityFilesByName setObject:[NSMutableSet set] forKey:entityName];
                     }
                     [[entityFilesByName objectForKey:entityName] addObject:srcFileName];
                 }
+
             }
         }
-        nsenumerate ([model entitiesWithACustomSubclassInConfiguration:configuration verbose:NO], NSEntityDescription, entity) {
+
+        NSArray *entitiesWithCustomSubclass = [model entitiesWithACustomSubclassInConfiguration:configuration verbose:NO];
+
+        for (NSEntityDescription *entity in entitiesWithCustomSubclass)
+        {
             [entityFilesByName removeObjectForKey:[entity managedObjectClassName]];
         }
-        nsenumerate(entityFilesByName, NSSet, ophanedFiles) {
-            nsenumerate(ophanedFiles, NSString, ophanedFile) {
-                ddprintf(@"%@\n", ophanedFile);
+
+        for (NSSet *orphanedFiles in entityFilesByName)
+        {
+            for (NSString *orphanedFile in orphanedFiles)
+            {
+                ddprintf(@"%@\n", orphanedFile);
             }
         }
 
@@ -1069,19 +1116,25 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
                         *machineMFiles = [NSMutableArray array],
                         *machineHFiles = [NSMutableArray array];
 
-        nsenumerate ([model entitiesWithACustomSubclassInConfiguration:configuration verbose:YES], NSEntityDescription, entity) {
+        NSArray *entitiesWithCustomSubclass = [model entitiesWithACustomSubclassInConfiguration:configuration verbose:YES];
+        for (NSEntityDescription *entity in entitiesWithCustomSubclass)
+        {
             NSString *generatedMachineH = [machineH executeWithObject:entity sender:nil];
             NSString *generatedMachineM = [machineM executeWithObject:entity sender:nil];
             NSString *generatedHumanH = [humanH executeWithObject:entity sender:nil];
             NSString *generatedHumanM = [humanM executeWithObject:entity sender:nil];
 
             // remove unnecessary empty lines
-            generatedMachineH = [generatedMachineH stringByReplacingOccurrencesOfRegex:@"([ \t]*(\n|\r|\r\n)){2,}" withString:@"\n\n"];
-            generatedMachineM = [generatedMachineM stringByReplacingOccurrencesOfRegex:@"([ \t]*(\n|\r|\r\n)){2,}" withString:@"\n\n"];
-            generatedHumanH = [generatedHumanH stringByReplacingOccurrencesOfRegex:@"([ \t]*(\n|\r|\r\n)){2,}" withString:@"\n\n"];
-            generatedHumanM = [generatedHumanM stringByReplacingOccurrencesOfRegex:@"([ \t]*(\n|\r|\r\n)){2,}" withString:@"\n\n"];
+            NSString *searchPattern = @"([ \t]*(\n|\r|\r\n)){2,}";
+            NSString *replacementString = @"\n\n";
+
+            generatedMachineH = [generatedMachineH stringByReplacingOccurrencesOfRegex:searchPattern withString:replacementString];
+            generatedMachineM = [generatedMachineM stringByReplacingOccurrencesOfRegex:searchPattern withString:replacementString];
+            generatedHumanH = [generatedHumanH stringByReplacingOccurrencesOfRegex:searchPattern withString:replacementString];
+            generatedHumanM = [generatedHumanM stringByReplacingOccurrencesOfRegex:searchPattern withString:replacementString];
 
             NSString *entityClassName = [entity managedObjectClassName];
+            entityClassName = [entityClassName stringByReplacingOccurrencesOfString:@"." withString:@"_"];
             BOOL machineDirtied = NO;
 
             // Machine header files.
@@ -1161,8 +1214,11 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 
         if (_listSourceFiles) {
             NSArray *filesList = [NSArray arrayWithObjects:humanMFiles, humanHFiles, machineMFiles, machineHFiles, nil];
-            nsenumerate (filesList, NSArray, files) {
-                nsenumerate (files, NSString, fileName) {
+
+            for (NSArray *files in filesList)
+            {
+                for (NSString *fileName in files)
+                {
                     ddprintf(@"%@\n", fileName);
                 }
             }
@@ -1200,7 +1256,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 
 @implementation MogeneratorTemplateDesc
 
-- (id)initWithName:(NSString*)name_ path:(NSString*)path_ {
+- (instancetype)initWithName:(NSString*)name_ path:(NSString*)path_ {
     self = [super init];
     if (self) {
         templateName = [name_ retain];

@@ -1,4 +1,4 @@
-# mogenerator ![](https://travis-ci.org/rentzsch/mogenerator.svg?branch=master)
+# mogenerator <a href="https://travis-ci.org/rentzsch/mogenerator"><img src="https://travis-ci.org/rentzsch/mogenerator.svg?branch=master"></a>
 
 Visit the [project's pretty homepage](http://rentzsch.github.com/mogenerator).
 
@@ -13,6 +13,74 @@ Want more detail? John Blanco has authored a [detailed writeup about mogenerator
 Senseful wrote up a [nice summary of mogenerator's command-line options](http://stackoverflow.com/questions/3589247/how-do-the-mogenerator-parameters-work-which-can-i-send-via-xcode).
 
 ## Version History
+
+### v1.30.1: Thu Apr 7 2016 [download](https://github.com/rentzsch/mogenerator/releases/download/1.30.1/mogenerator-1.30.1.dmg)
+
+* [FIX] Use `will`/`didChange` & `will`/`didAccess` in generated code when using `scalarsWhenNonOptional`. ([rentzsch](https://github.com/rentzsch/mogenerator/commit/1646a154c8d9bb2e12b3f23eaca3bbfe9f9bc7c8))
+
+* [FIX] Only use `@import` if supported (which Objective-C++ does not). [issue 325](https://github.com/rentzsch/mogenerator/issues/325) ([Samuel Bichsel](https://github.com/melbic))
+
+* [FIX] Add space between property type and name. [issue 323](https://github.com/rentzsch/mogenerator/pull/323) ([Daniel Rodríguez Troitiño](https://github.com/drodriguez))
+
+
+
+### v1.30: Mon Mar 21 2016 [download](https://github.com/rentzsch/mogenerator/releases/download/1.30/mogenerator-1.30.dmg)
+
+Thanks to lieutenant [Justin Williams](https://github.com/justin) for helping with this release.
+
+* [NEW] Official bundled Swift 2 templates. (Justin Williams [1](https://github.com/rentzsch/mogenerator/commit/8489f4d5e5b8b7bf570ef0d7934f2f9e7a8ecd92) [2](https://github.com/rentzsch/mogenerator/commit/a7f8e53f6357ad1ef9af7d9f7e7f3ec450df334b))
+
+* [NEW] "Modern" Objective-C and Swift is default. Apple has made it exceptionally difficult to target older versions of OS X and iOS, so we've given up. The grand `--v2` experiment, which I loved, has been killed (the option will still be accepted to not break existing scripts but is now a no-op). From now on if you need to target an older OS, use an older mogenerator. Sorry. ([Justin Williams](https://github.com/rentzsch/mogenerator/pull/305))
+
+* [NEW] Generate Objective-C Lightweight Generics. ([rentzsch](https://github.com/rentzsch/mogenerator/commit/c141670d7f0ee11061ebb67de56c38a260315128))
+
+* [NEW] Generate `instancetype`. ([Justin Williams](https://github.com/rentzsch/mogenerator/commit/83f031de783f876d843f4987377aac27452171e2))
+
+* [NEW] Generate nullability attributes for Objective-C machine templates (`NS_ASSUME_NONNULL_BEGIN`/`nullable`). ([Justin Williams](https://github.com/rentzsch/mogenerator/commit/b12d7a45cec823775ddefaafc0cfcc3c7a99ef32))
+
+* [NEW] mogenerator project is now using [Travis CI](https://travis-ci.org/rentzsch/mogenerator). Travis automatically builds and runs mogenerator's test suite on each commit, reporting the results, making it easier+faster to process Pull Requests. (rentzsch)
+
+* [NEW] Change of branch philosophy: master used to be the "stable" branch. Now it's the branch we're going to land incoming Pull Requests. Pull Requests will be accepted onto master pretty freely, Travis will help catch breaking changes. I want to reduce latency and friction for folks to help out with mogenerator. Related reading: [Drew Crawford's Conduct unbecoming of a hacker](http://sealedabstract.com/rants/conduct-unbecoming-of-a-hacker/). (rentzsch)
+
+* [NEW] Specifying `--template-var scalarsWhenNonOptional=true` will have mogenerator generate only scalar properties for non-optional entity scalar attributes. For example, consider an `age` attribute. Without this option, mogenerator will generate two properties: `@property (…) NSNumber *age` and `@property (…) uint16_t ageValue`. With this option, only `@property (…) uint16_t age` would be generated, simplifying things since the age attribute can never be `nil`. ([Mr Anonymous](https://github.com/rentzsch/mogenerator/commit/51e8124101121ce8a863e68d597bab9ccd3628cc))
+
+* [CHANGE] Replace [Mike Ash-style constant structures](http://www.mikeash.com/pyblog/friday-qa-2011-08-19-namespaced-constants-and-functions.html) in favor of more ARC-friendly NSObject subclasses. Should be source-compatible with with Mike Ash-style. ([Justin Williams](https://github.com/rentzsch/mogenerator/commit/69eb701ac7e5b84c8fc0297bf25d9f9f47844705))
+
+* [FIX] You can specify an entity's module in Xcode's Core Data Model editor. However, when specifying the current module, the entity class name is prefixed with a period, resulting in an invalid class name. This period is now suppressed. ([Saul Mora](https://github.com/rentzsch/mogenerator/pull/311))
+
+* [FIX] momcom: `NSPropertyDescription`'s `optional` wasn't being set correctly. [issue 286](https://github.com/rentzsch/mogenerator/issues/286) ([Matthias Bauch](https://github.com/rentzsch/mogenerator/commit/a04b88de5f872f4a3899de7716db2c9738b55a61))
+
+* [FIX] override and explicitly include `xcshareddata` in `.gitignore` and add the default shared schemes. This fixes the problem where `xcodebuild` would fail with an `The project 'mogenerator' does not contain a scheme named 'mogenerator'` error until you first opened it in Xcode. ([rentzsch](https://github.com/rentzsch/mogenerator/commit/8846237ca957437d664b48365c27dd2eb8b87773))
+
+* [FIX] Generated indentation. ([Markus Chmelar](https://github.com/iv-mexx) [1](https://github.com/rentzsch/mogenerator/commit/7942420b3156d9cf3e38c17b7a956bd804187bf9) [2](https://github.com/rentzsch/mogenerator/commit/3030a8b1ab6c49ddadbc1033cd0e9a5c5d2d5a71))
+
+* [FIX] Use `DERIVED_FILE_DIR` instead of `TMPDIR`. ([Jonathan MacMillan](https://github.com/rentzsch/mogenerator/issues/298))
+
+* [CHANGE] Move the constant structures to the end of the machine header file. It's just uninteresting support code. ([rentzsch](https://github.com/rentzsch/mogenerator/commit/f48402f4948790d08ceaeba30666a5998c057350))
+
+* [MODERNIZE] MiscMerge: switch to Objective-C Modules. ([Justin Williams](https://github.com/rentzsch/mogenerator/commit/030e72a3a6e4edc73a61327ce161659762dc5bed))
+
+* [MODERNIZE] Use instancetype internally. ([Justin Williams](https://github.com/rentzsch/mogenerator/commit/ddf66cd44e81d2fc196030914c1de4bad15f7e16))
+
+* [MODERNIZE] 64-bit only. ([Justin Williams](https://github.com/rentzsch/mogenerator/commit/1fc894fe6bb493e202e4798665b17e3076384da6))
+
+* [MODERNIZE] Replace `nsenumerate` macro with `for...in`. ([Justin Williams](https://github.com/rentzsch/mogenerator/commit/2afdfc84ad1da947e8530f0cb6d5eedf12007e57))
+
+* [MODERNIZE] MiscMerge: encode all source files as UTF8. ([Justin Williams](https://github.com/rentzsch/mogenerator/commit/8a1a9f625773b7a5e867efdafc6e1a78bea37355))
+
+* [MODERNIZE] Set minimum deployment target to 10.8. ([Justin Williams](https://github.com/rentzsch/mogenerator/commit/9f652bdc7d508d78ff9248b39bf02c814061b4ca))
+
+* [MODERNIZE] Replace RegexKitLite with NSRegularExpression. ([Justin Williams](https://github.com/rentzsch/mogenerator/commit/ada5b2ae637001d6c1ce2b08539982b58b77f1f0))
+
+* [MODERNIZE] Replace `arrayWithObjects` and `dictionaryWithObjectsAndKeys` with literals. ([Markus Chmelar](https://github.com/iv-mexx) [1](https://github.com/rentzsch/mogenerator/commit/c1139ef2eff8ba26397fbc9be9bab3aece02f40c) [2](https://github.com/rentzsch/mogenerator/commit/7b4d9faffeeb3615d33667a1f8625073876b43ee))
+
+* [MODERNIZE] Replace `objectAtIndex:0` with `firstObject`. ([Markus Chmelar](https://github.com/rentzsch/mogenerator/commit/b317ac21b756b01c4eadacc677115583fab7a887))
+
+* [REMOVED] //validate machine comments. They were just guides on writing your own validation methods and aren't worth the code clutter. ([Justin Williams](https://github.com/rentzsch/mogenerator/commit/92cf5905b8410d26ffb9531bd2f507b07c925754))
+
+* [REMOVED] Xmo'd. It hasn't worked for a very long time and I have no immediate plans on putting in the time to get working again. ([Justin Williams](https://github.com/rentzsch/mogenerator/commit/47db28b8c07331b9c218603b99ca16fbd3076376))
+
+
 
 ### v1.29: Thu Aug 20 2015 [download](https://github.com/rentzsch/mogenerator/releases/download/1.29/mogenerator-1.29.dmg)
 

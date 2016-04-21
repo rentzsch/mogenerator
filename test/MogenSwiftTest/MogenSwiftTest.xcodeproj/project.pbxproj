@@ -182,6 +182,7 @@
 		79F9CEC1196F146600D9BF82 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = "Jonathan 'Wolf' Rentzsch";
 				TargetAttributes = {

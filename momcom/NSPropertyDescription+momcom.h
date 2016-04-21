@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Tom Harrington. All rights reserved.
 //
 
-#import <CoreData/CoreData.h>
+@import CoreData;
 
 @interface NSPropertyDescription (momcom)
 
