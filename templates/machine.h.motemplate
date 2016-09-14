@@ -146,11 +146,15 @@ NS_ASSUME_NONNULL_BEGIN
 @interface _<$managedObjectClassName$> (CoreDataGeneratedPrimitiveAccessors)
 <$foreach Attribute noninheritedAttributesSansType do$>
 <$if Attribute.hasDefinedAttributeType$>
+<$if Attribute.name != "type" && Attribute.name != "value"$>
 - (<$Attribute.objectAttributeType$>)primitive<$Attribute.name.initialCapitalString$>;
 - (void)setPrimitive<$Attribute.name.initialCapitalString$>:(<$Attribute.objectAttributeType$>)value;
+<$endif$>
 <$if Attribute.hasScalarAttributeType$>
+<$if Attribute.name != "type" && Attribute.name != "value"$>
 - (<$Attribute.scalarAttributeType$>)primitive<$Attribute.name.initialCapitalString$>Value;
 - (void)setPrimitive<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_;
+<$endif$>
 <$endif$>
 <$endif$>
 <$endforeach do$>
