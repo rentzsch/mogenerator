@@ -20,7 +20,6 @@ BUILD_SETTINGS = run_or_die 'xcodebuild -project ../mogenerator.xcodeproj -confi
 BUILT_PRODUCTS_DIR = BUILD_SETTINGS.lines.select{|line|line[/\sBUILT_PRODUCTS_DIR\s/]}[0].strip.sub('BUILT_PRODUCTS_DIR = ','')
 MOGENERATOR_PATH="#{BUILT_PRODUCTS_DIR}/mogenerator"
 
-766
 puts "*** Clean-building mogenerator ***"
 
 run_or_die 'xcodebuild -project ../mogenerator.xcodeproj -scheme mogenerator clean' # need this to pick up template changes
