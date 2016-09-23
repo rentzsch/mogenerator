@@ -1,6 +1,6 @@
 import Foundation
 
 @objc(<$managedObjectClassName$>)
-public class <$managedObjectClassName$>: _<$managedObjectClassName$> {
+open class <$managedObjectClassName$>: _<$managedObjectClassName$> {
 	// Custom logic goes here.
 }
