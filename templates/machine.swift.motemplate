@@ -23,6 +23,12 @@ public enum <$sanitizedManagedObjectClassName$>FetchedProperties: String {<$fore
 }
 <$endif$>
 
+<$if hasUserInfoKeys && userInfoKeyValues.@count > 0$>		
+public enum <$sanitizedManagedObjectClassName$>UserInfo: String {<$foreach UserInfo userInfoKeyValues do$>		
+    case <$UserInfo.key$> = "<$UserInfo.key$>"<$endforeach do$>		
+}		
+<$endif$>
+
 
 <$if hasCustomSuperentity $>
 open class _<$sanitizedManagedObjectClassName$>: <$customSuperentity$> {
