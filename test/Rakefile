@@ -12,7 +12,7 @@ end
 #==============================
 # Variables
 #==============================
-OSX_SDK="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk"
+OSX_SDK="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk"
 OSX_VERSION="10.10"
 LINKED_FRAMEWORKS="-framework Foundation -framework AppKit -framework CoreData"
 
