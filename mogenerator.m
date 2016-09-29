@@ -540,6 +540,9 @@ static const NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFi
     if (gSwift && [result isEqualToString:@"NSString"]) {
         result = @"String";
     }
+    if (gSwift && [result isEqualToString:@"NSDate"]) {
+        result = @"Date";
+    }
     return result;
 }
 - (NSArray*)objectAttributeTransformableProtocols {
