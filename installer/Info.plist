@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleGetInfoString</key>
-	<string>VERSION, Copyright © 2006-2012 Jonathan 'Wolf' Rentzsch</string>
+	<string>VERSION, Copyright © 2006-2015 Jonathan 'Wolf' Rentzsch</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.rentzsch.mogenerator</string>
 	<key>CFBundleShortVersionString</key>

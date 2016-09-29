@@ -1,7 +1,15 @@
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
 // Make changes to <$managedObjectClassName$>.h instead.
 
-<$if TemplateVar.modules$>@import CoreData;<$else$>#import <CoreData/CoreData.h><$endif$>
+#if __has_feature(modules)
+    @import Foundation;
+    @import CoreData;
+#else
+    #import <Foundation/Foundation.h>
+    #import <CoreData/CoreData.h>
+#endif
+
+
 <$if hasCustomSuperentity$><$if hasSuperentity$>#import "<$customSuperentity$>.h"
 <$else$><$if hasCustomBaseCaseImport$>#import <$baseClassImport$><$else$>#import "<$customSuperentity$>.h"<$endif$><$endif$><$endif$>
 
@@ -9,29 +17,7 @@
 #import "<$additionalHeaderFileName$>"
 <$endif$>
 
-<$if noninheritedAttributes.@count > 0$>
-extern const struct <$managedObjectClassName$>Attributes {<$foreach Attribute noninheritedAttributes do$>
-	<$if TemplateVar.arc$>__unsafe_unretained<$endif$> NSString *<$Attribute.name$>;<$endforeach do$>
-} <$managedObjectClassName$>Attributes;
-<$endif$>
-
-<$if noninheritedRelationships.@count > 0$>
-extern const struct <$managedObjectClassName$>Relationships {<$foreach Relationship noninheritedRelationships do$>
-	<$if TemplateVar.arc$>__unsafe_unretained<$endif$> NSString *<$Relationship.name$>;<$endforeach do$>
-} <$managedObjectClassName$>Relationships;
-<$endif$>
-
-<$if noninheritedFetchedProperties.@count > 0$>
-extern const struct <$managedObjectClassName$>FetchedProperties {<$foreach FetchedProperty noninheritedFetchedProperties do$>
-	<$if TemplateVar.arc$>__unsafe_unretained<$endif$> NSString *<$FetchedProperty.name$>;<$endforeach do$>
-} <$managedObjectClassName$>FetchedProperties;
-<$endif$>
-
-<$if hasUserInfoKeys$>
-extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userInfoKeyValues do$>
-	<$if TemplateVar.arc$>__unsafe_unretained<$endif$> NSString *<$UserInfo.key$>;<$endforeach do$>
-} <$managedObjectClassName$>UserInfo;
-<$endif$>
+NS_ASSUME_NONNULL_BEGIN
 
 <$foreach Relationship noninheritedRelationships do$>@class <$Relationship.destinationEntity.managedObjectClassName$>;
 <$endforeach do$>
@@ -52,11 +38,12 @@ extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userI
  * <$userInfo.discussion$>
  */
 <$endif$>
-@interface _<$managedObjectClassName$> : <$customSuperentity$> {}
-+ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
+
+@interface _<$managedObjectClassName$> : <$customSuperentity$>
++ (instancetype)insertInManagedObjectContext:(NSManagedObjectContext *)moc_;
 + (NSString*)entityName;
-+ (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
-@property (nonatomic, readonly, strong) <$managedObjectClassName$>ID* objectID;
++ (nullable NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
+@property (nonatomic, readonly, strong) <$managedObjectClassName$>ID *objectID;
 
 <$foreach Attribute noninheritedAttributes do$>
 <$if Attribute.userInfo.documentation$>
@@ -67,18 +54,17 @@ extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userI
  */
 <$endif$>
 <$if Attribute.hasDefinedAttributeType$>
-<$if TemplateVar.arc$>
+<$if (Attribute.hasScalarAttributeType &&  !Attribute.optional && TemplateVar.scalarsWhenNonOptional)$>
 <$if Attribute.isReadonly$>
-@property (nonatomic, strong, readonly) <$Attribute.objectAttributeType$> <$Attribute.name$>;
+@property (atomic, readonly) <$Attribute.scalarAttributeType$> <$Attribute.name$>;
 <$else$>
-@property (nonatomic, strong) <$Attribute.objectAttributeType$> <$Attribute.name$>;
+@property (atomic) <$Attribute.scalarAttributeType$> <$Attribute.name$>;
 <$endif$>
 <$else$>
 <$if Attribute.isReadonly$>
-@property (nonatomic, retain, readonly) <$Attribute.objectAttributeType$> <$Attribute.name$>;
+@property (nonatomic, strong, readonly<$if Attribute.optional$>, nullable<$endif$>) <$Attribute.objectAttributeType$> <$Attribute.name$>;
 <$else$>
-@property (nonatomic, retain) <$Attribute.objectAttributeType$> <$Attribute.name$>;
-<$endif$>
+@property (nonatomic, strong<$if Attribute.optional$>, nullable<$endif$>) <$Attribute.objectAttributeType$> <$Attribute.name$>;
 <$endif$>
 <$if Attribute.hasScalarAttributeType$>
 <$if Attribute.isReadonly$>
@@ -90,7 +76,7 @@ extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userI
 - (void)set<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_;
 <$endif$>
 <$endif$>
-//- (BOOL)validate<$Attribute.name.initialCapitalString$>:(id*)value_ error:(NSError**)error_;
+<$endif$>
 <$endif$>
 <$endforeach do$>
 <$foreach Relationship noninheritedRelationships do$>
@@ -102,25 +88,16 @@ extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userI
  */
 <$endif$>
 <$if Relationship.isToMany$>
-<$if TemplateVar.arc$>
-@property (nonatomic, strong) <$Relationship.immutableCollectionClassName$> *<$Relationship.name$>;
+@property (nonatomic, strong<$if Relationship.optional$>, nullable<$endif$>) <$Relationship.immutableCollectionClassName$> *<$Relationship.name$>;
+- (<$if Relationship.optional$>nullable <$endif$><$Relationship.mutableCollectionClassName$>*)<$Relationship.name$>Set;
 <$else$>
-@property (nonatomic, retain) <$Relationship.immutableCollectionClassName$> *<$Relationship.name$>;
-<$endif$>
-- (<$Relationship.mutableCollectionClassName$>*)<$Relationship.name$>Set;
-<$else$>
-<$if TemplateVar.arc$>
-@property (nonatomic, strong) <$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>;
-<$else$>
-@property (nonatomic, retain) <$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>;
-<$endif$>
-//- (BOOL)validate<$Relationship.name.initialCapitalString$>:(id*)value_ error:(NSError**)error_;
+@property (nonatomic, strong<$if Relationship.optional$>, nullable<$endif$>) <$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>;
 <$endif$>
 <$endforeach do$>
 <$foreach FetchRequest prettyFetchRequests do$>
 <$if FetchRequest.singleResult$>
-+ (id)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>;
-+ (id)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>error:(NSError**)error_;
++ (instancetype)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>;
++ (instancetype)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>error:(NSError**)error_;
 <$else$>
 + (NSArray*)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>;
 + (NSArray*)fetch<$FetchRequest.name.initialCapitalString$>:(NSManagedObjectContext*)moc_ <$foreach Binding FetchRequest.bindings do2$><$Binding.name$>:(<$Binding.type$>)<$Binding.name$>_ <$endforeach do2$>error:(NSError**)error_;
@@ -134,7 +111,7 @@ extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userI
  * <$FetchedProperty.userInfo.discussion$>
  */
 <$endif$>
-@property (nonatomic, readonly) NSArray *<$FetchedProperty.name$>;
+@property (nonatomic, readonly<$if FetchedProperty.optional$>, nullable<$endif$>) NSArray *<$FetchedProperty.name$>;
 <$endforeach do$>
 <$if TemplateVar.frc$>
 #if TARGET_OS_IPHONE
@@ -169,8 +146,8 @@ extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userI
 @interface _<$managedObjectClassName$> (CoreDataGeneratedPrimitiveAccessors)
 <$foreach Attribute noninheritedAttributesSansType do$>
 <$if Attribute.hasDefinedAttributeType$>
-- (<$Attribute.objectAttributeType$>)primitive<$Attribute.name.initialCapitalString$>;
-- (void)setPrimitive<$Attribute.name.initialCapitalString$>:(<$Attribute.objectAttributeType$>)value;
+- (<$if Attribute.optional$>nullable <$endif$><$Attribute.objectAttributeType$>)primitive<$Attribute.name.initialCapitalString$>;
+- (void)setPrimitive<$Attribute.name.initialCapitalString$>:(<$if Attribute.optional$>nullable <$endif$><$Attribute.objectAttributeType$>)value;
 <$if Attribute.hasScalarAttributeType$>
 - (<$Attribute.scalarAttributeType$>)primitive<$Attribute.name.initialCapitalString$>Value;
 - (void)setPrimitive<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_;
@@ -187,3 +164,30 @@ extern const struct <$managedObjectClassName$>UserInfo {<$foreach UserInfo userI
 <$endif$>
 <$endforeach do$>
 @end
+
+
+<$if noninheritedAttributes.@count > 0$>
+@interface <$managedObjectClassName$>Attributes: NSObject <$foreach Attribute noninheritedAttributes do$>
++ (NSString *)<$Attribute.name$>;<$endforeach do$>
+@end
+<$endif$>
+
+<$if noninheritedRelationships.@count > 0$>
+@interface <$managedObjectClassName$>Relationships: NSObject<$foreach Relationship noninheritedRelationships do$>
++ (NSString *)<$Relationship.name$>;<$endforeach do$>
+@end
+<$endif$>
+
+<$if noninheritedFetchedProperties.@count > 0$>
+@interface <$managedObjectClassName$>FetchedProperties: NSObject<$foreach FetchedProperty noninheritedFetchedProperties do$>
++ (NSString *)<$FetchedProperty.name$>;<$endforeach do$>
+@end
+<$endif$>
+
+<$if hasUserInfoKeys$>
+@interface <$managedObjectClassName$>UserInfo: NSObject <$foreach UserInfo userInfoKeyValues do$>
++ (NSString *)<$UserInfo.key$>;<$endforeach do$>
+@end
+<$endif$>
+
+NS_ASSUME_NONNULL_END

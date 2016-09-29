@@ -65,29 +65,29 @@
 "*/
 
 /*"
- * Returns the default string used to start a merge command, "«".  A
+ * Returns the default string used to start a merge command, "Â«".  A
  * subclass of MiscMergeTemplate could override this method.
 "*/
 + (NSString *)defaultStartDelimiter
 {
     //	return @"(";
-    //	return @"«";
+    //	return @"Â«";
     /* This works better for whatever reason. Due to some unknown pecularities,
     a constant NSString doesn't work under Windows with Apple's
     implementation. */
-    return [NSString stringWithCString:"«" encoding:NSUTF8StringEncoding];
+    return [NSString stringWithCString:"Â«" encoding:NSUTF8StringEncoding];
 }
 
 /*"
- * Returns the default string used to end a merge command, "»".  A
+ * Returns the default string used to end a merge command, "Â»".  A
  * subclass of MiscMergeTemplate could override this method.
 "*/
 + (NSString *)defaultEndDelimiter
 {
     //	return @")";
-    //	return @"»";
+    //	return @"Â»";
     /* This works better than a constant NSString for whatever reason.  See above. */
-    return [NSString stringWithCString:"»" encoding:NSUTF8StringEncoding];
+    return [NSString stringWithCString:"Â»" encoding:NSUTF8StringEncoding];
 }
 
 /*" Creates a new, autoreleased MiscMergeTemplate. "*/
@@ -133,10 +133,10 @@
 - (NSString *) contentsOfFileWithName:(NSString *)filename {
     NSError *error = nil;
     NSString *fileString = [NSString stringWithContentsOfFile:filename
-                                                     encoding:NSASCIIStringEncoding
+                                                     encoding:NSUTF8StringEncoding
                                                         error:&error];
     
-    if (error != nil) {
+    if (fileString == nil) {
         NSLog(@"%@: Could not read template file %@ because %@", [self class], filename, [error localizedDescription]);   
     }
     return fileString;
@@ -343,8 +343,8 @@
  * classes with specific names.  The name that is looked up is build from
  * the first word found in %{aCommand}.  The first word is turned to all
  * lower case, with the first letter upper case, and then sandwiched
- * between "Merge" and "Command".  For example, the merge command "«if xxx
- * = y»" has the word "if" as the first word.  Thus, the class
+ * between "Merge" and "Command".  For example, the merge command "Â«if xxx
+ * = yÂ»" has the word "if" as the first word.  Thus, the class
  * "MergeIfCommand" will be searched for. If the desired class cannot be
  * found, then it is assumed that the merge command is giving the name of a
  * field which should be inserted into the output document.

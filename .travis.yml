@@ -1,0 +1,5 @@
+language: objective-c
+osx_image: xcode8
+#xcode_project: mogenerator.xcodeproj
+#xcode_scheme: mogenerator
+script: cd test && rake

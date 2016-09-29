@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6244" systemVersion="13E28" minimumToolsVersion="Xcode 4.5" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15G1004" minimumToolsVersion="Xcode 4.5">
     <entity name="Child" representedClassName="ChildMO" parentEntity="Human" syncable="YES">
         <attribute name="childName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <relationship name="parent" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Parent" inverseName="children" inverseEntity="Parent" indexed="YES" syncable="YES"/>
+        <relationship name="parent" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Parent" inverseName="orderedChildren" inverseEntity="Parent" indexed="YES" syncable="YES"/>
     </entity>
     <entity name="ConcreteEntityWithCustomClass1" representedClassName="ConcreteEntityWithCustomClass1" parentEntity="EntitySansCustomClass2" syncable="YES">
         <attribute name="dummy2" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -31,8 +31,6 @@
                 <entry key="attributeValueScalarType" value="Gender"/>
             </userInfo>
         </attribute>
-        <attribute name="hairColor" optional="YES" transient="YES" syncable="YES"/>
-        <attribute name="hairColorStorage" optional="YES" transient="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="humanName" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="meaninglessRelationship" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="EntitySansCustomClass" indexed="YES" syncable="YES"/>
         <userInfo>
@@ -53,19 +51,9 @@
         <attribute name="myInt64" optional="YES" attributeType="Integer 64" syncable="YES"/>
         <attribute name="myString" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="myTransformableSansClassName" optional="YES" attributeType="Transformable" syncable="YES"/>
-        <attribute name="myTransformableWithClassName" optional="YES" attributeType="Transformable" syncable="YES">
-            <userInfo>
-                <entry key="attributeValueClassName" value="NSColor"/>
-            </userInfo>
-        </attribute>
-        <attribute name="myTransformableWithProtocol" optional="YES" attributeType="Transformable" syncable="YES">
-            <userInfo>
-                <entry key="attributeTransformableProtocols" value="MyProtocol"/>
-                <entry key="attributeValueClassName" value="id&lt;MyProtocol>"/>
-            </userInfo>
-        </attribute>
         <attribute name="parentName" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="children" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Child" inverseName="parent" inverseEntity="Child" indexed="YES" syncable="YES"/>
+        <relationship name="children" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Child" indexed="YES" syncable="YES"/>
+        <relationship name="orderedChildren" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Child" inverseName="parent" inverseEntity="Child" indexed="YES" syncable="YES"/>
     </entity>
     <fetchRequest name="allHumans" entity="Human"/>
     <fetchRequest name="byHumanName" entity="Human" predicateString="humanName == $humanName"/>
@@ -73,13 +61,13 @@
     <fetchRequest name="byParentName" entity="Child" predicateString="parent.parentName == $parentName"/>
     <fetchRequest name="oneByHumanName" entity="Human" predicateString="humanName == $humanName"/>
     <elements>
-        <element name="Child" positionX="349" positionY="180" width="128" height="88"/>
+        <element name="Child" positionX="349" positionY="180" width="128" height="90"/>
         <element name="ConcreteEntityWithCustomClass1" positionX="225" positionY="-97" width="128" height="58"/>
         <element name="ConcreteEntityWithCustomClass2" positionX="405" positionY="-99" width="128" height="58"/>
         <element name="EntitySansCustomClass" positionX="502" positionY="90" width="128" height="60"/>
         <element name="EntitySansCustomClass2" positionX="295" positionY="-189" width="128" height="58"/>
         <element name="EntityWithBaseClass" positionX="342" positionY="18" width="128" height="60"/>
-        <element name="Human" positionX="169" positionY="18" width="128" height="133"/>
-        <element name="Parent" positionX="34" positionY="114" width="128" height="283"/>
+        <element name="Human" positionX="169" positionY="18" width="128" height="105"/>
+        <element name="Parent" positionX="34" positionY="114" width="128" height="270"/>
     </elements>
 </model>

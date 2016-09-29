@@ -1,2 +1,0 @@
-@protocol MyProtocol <NSObject>
-@end

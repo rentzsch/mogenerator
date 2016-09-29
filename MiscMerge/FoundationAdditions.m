@@ -30,7 +30,7 @@
  */
 
 #import "FoundationAdditions.h"
-#import <Foundation/Foundation.h>
+@import Foundation;
 #import "NSString+MiscAdditions.h"
 
 

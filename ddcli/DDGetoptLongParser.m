@@ -47,7 +47,7 @@
     return [[[self alloc] initWithTarget: target] autorelease];
 }
 
-- (id) initWithTarget: (id) target
+- (instancetype) initWithTarget: (id) target
 {
     self = [super init];
     if (self == nil)

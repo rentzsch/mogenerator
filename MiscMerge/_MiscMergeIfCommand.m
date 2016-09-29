@@ -23,7 +23,7 @@
 
 @implementation _MiscMergeIfCommand
 
-- (id)init
+- (instancetype)init
 {
     [super init];
     trueBlock = [[MiscMergeCommandBlock alloc] initWithOwner:self];

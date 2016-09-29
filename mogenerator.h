@@ -1,16 +1,15 @@
 // mogenerator.h
-//   Copyright (c) 2006-2014 Jonathan 'Wolf' Rentzsch: http://rentzsch.com
+//   Copyright (c) 2006-2016 Jonathan 'Wolf' Rentzsch: http://rentzsch.com
 //   Some rights reserved: http://opensource.org/licenses/mit
 //   http://github.com/rentzsch/mogenerator
 
-#import <Foundation/Foundation.h>
-#import <CoreData/CoreData.h>
+@import Foundation;
+@import CoreData;
 
 #import "MiscMergeTemplate.h"
 #import "MiscMergeCommandBlock.h"
 #import "MiscMergeEngine.h"
 #import "FoundationAdditions.h"
-#import "nsenumerate.h"
 #import "NSString+MiscAdditions.h"
 #import "DDCommandLineInterface.h"
 
