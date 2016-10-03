@@ -1,3 +1,4 @@
+import Foundation 
 @objc
 class MyEntityMO: _MyEntityMO {
 

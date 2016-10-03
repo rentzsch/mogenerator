@@ -1,3 +1,4 @@
+import Foundation 
 @objc
 class UnorderedToManyDstMO: _UnorderedToManyDstMO {
 

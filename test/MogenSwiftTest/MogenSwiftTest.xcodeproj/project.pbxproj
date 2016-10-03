@@ -13,7 +13,6 @@
 		796DBE22196F2D9C004EAA15 /* MyEntityMO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796DBE1C196F2D9C004EAA15 /* MyEntityMO.swift */; };
 		796DBE23196F2D9C004EAA15 /* UnorderedToManyDstMO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796DBE1D196F2D9C004EAA15 /* UnorderedToManyDstMO.swift */; };
 		796DBE24196F2D9C004EAA15 /* UnorderedToManySrcMO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796DBE1E196F2D9C004EAA15 /* UnorderedToManySrcMO.swift */; };
-		79F9CECF196F146600D9BF82 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F9CECE196F146600D9BF82 /* main.swift */; };
 		79F9CED1196F146600D9BF82 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F9CED0196F146600D9BF82 /* AppDelegate.swift */; };
 		79F9CED4196F146600D9BF82 /* MogenSwiftTest.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 79F9CED2196F146600D9BF82 /* MogenSwiftTest.xcdatamodeld */; };
 		79F9CED6196F146600D9BF82 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 79F9CED5196F146600D9BF82 /* Images.xcassets */; };
@@ -40,7 +39,6 @@
 		796DBE1E196F2D9C004EAA15 /* UnorderedToManySrcMO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnorderedToManySrcMO.swift; sourceTree = "<group>"; };
 		79F9CEC9196F146600D9BF82 /* MogenSwiftTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MogenSwiftTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		79F9CECD196F146600D9BF82 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		79F9CECE196F146600D9BF82 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		79F9CED0196F146600D9BF82 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		79F9CED3196F146600D9BF82 /* MogenSwiftTest.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MogenSwiftTest.xcdatamodel; sourceTree = "<group>"; };
 		79F9CED5196F146600D9BF82 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -103,7 +101,6 @@
 			isa = PBXGroup;
 			children = (
 				79F9CECD196F146600D9BF82 /* Info.plist */,
-				79F9CECE196F146600D9BF82 /* main.swift */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -183,14 +180,17 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0600;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Jonathan 'Wolf' Rentzsch";
 				TargetAttributes = {
 					79F9CEC8196F146600D9BF82 = {
 						CreatedOnToolsVersion = 6.0;
+						LastSwiftMigration = 0800;
 					};
 					79F9CEDD196F146600D9BF82 = {
 						CreatedOnToolsVersion = 6.0;
+						LastSwiftMigration = 0800;
+						ProvisioningStyle = Automatic;
 						TestTargetID = 79F9CEC8196F146600D9BF82;
 					};
 				};
@@ -244,7 +244,6 @@
 				796DBE24196F2D9C004EAA15 /* UnorderedToManySrcMO.swift in Sources */,
 				796DBE20196F2D9C004EAA15 /* _UnorderedToManyDstMO.swift in Sources */,
 				796DBE23196F2D9C004EAA15 /* UnorderedToManyDstMO.swift in Sources */,
-				79F9CECF196F146600D9BF82 /* main.swift in Sources */,
 				796DBE1F196F2D9C004EAA15 /* _MyEntityMO.swift in Sources */,
 				79F9CED4196F146600D9BF82 /* MogenSwiftTest.xcdatamodeld in Sources */,
 			);
@@ -293,15 +292,19 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -335,8 +338,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -345,6 +350,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -354,6 +360,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 			};
 			name = Release;
 		};
@@ -362,9 +369,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
 				INFOPLIST_FILE = MogenSwiftTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rentzsch.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -373,9 +383,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
 				INFOPLIST_FILE = MogenSwiftTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rentzsch.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -383,6 +396,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MogenSwiftTest.app/Contents/MacOS/MogenSwiftTest";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
@@ -394,7 +408,9 @@
 				);
 				INFOPLIST_FILE = MogenSwiftTestTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rentzsch.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 			};
 			name = Debug;
@@ -403,6 +419,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MogenSwiftTest.app/Contents/MacOS/MogenSwiftTest";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
@@ -410,7 +427,9 @@
 				);
 				INFOPLIST_FILE = MogenSwiftTestTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rentzsch.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 			};
 			name = Release;

@@ -1,6 +1,6 @@
 
 // Mostly stolen from http://abcnewsgocom/blogs/headlines/2014/02/heres-a-list-of-58-gender-options-for-facebook-users/
-enum Gender: Int32 {
+enum Gender: Int {
   case Undefined = 0,
       Female,
       Male,
@@ -44,7 +44,7 @@ enum Gender: Int32 {
       TranssexualPerson
 
       func toString() -> String {
-        return String(self)
+        return String(describing: self)
       }
 }
 
