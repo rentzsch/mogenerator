@@ -20,19 +20,19 @@ class _UnorderedToManySrcMO: NSManagedObject {
         return "UnorderedToManySrc"
     }
 
-    class func entity(managedObjectContext: NSManagedObjectContext!) -> NSEntityDescription! {
-        return NSEntityDescription.entityForName(self.entityName(), inManagedObjectContext: managedObjectContext);
+    class func entity(_ managedObjectContext: NSManagedObjectContext!) -> NSEntityDescription! {
+        return NSEntityDescription.entity(forEntityName: self.entityName(), in: managedObjectContext);
     }
 
     /// pragma mark - Life cycle methods
 
-    override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
-        super.init(entity: entity, insertIntoManagedObjectContext: context)
+    override init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?) {
+        super.init(entity: entity, insertInto: context)
     }
 
     convenience init(managedObjectContext: NSManagedObjectContext!) {
         let entity = _UnorderedToManySrcMO.entity(managedObjectContext)
-        self.init(entity: entity, insertIntoManagedObjectContext: managedObjectContext)
+        self.init(entity: entity!, insertInto: managedObjectContext)
     }
 
     /// pragma mark - Properties
@@ -48,53 +48,60 @@ class _UnorderedToManySrcMO: NSManagedObject {
     var relationship: NSSet
 
     func relationshipSet() -> NSMutableSet! {
-        self.willAccessValueForKey("relationship")
+        self.willAccessValue(forKey: "relationship")
 
-        let result = self.mutableSetValueForKey("relationship")
+        let result = self.mutableSetValue(forKey: "relationship")
 
-        self.didAccessValueForKey("relationship")
+        self.didAccessValue(forKey: "relationship")
         return result
     }
 
-    class func fetchAllUnorderedToManySrcs(managedObjectContext: NSManagedObjectContext!) -> [AnyObject] {
+    class func fetchAllUnorderedToManySrcs(_ managedObjectContext: NSManagedObjectContext!) -> [AnyObject] {
         return self.fetchAllUnorderedToManySrcs(managedObjectContext, error: nil)
     }
 
-    class func fetchAllUnorderedToManySrcs(managedObjectContext: NSManagedObjectContext!, error outError: NSErrorPointer) -> [AnyObject] {
+    class func fetchAllUnorderedToManySrcs(_ managedObjectContext: NSManagedObjectContext!, error outError: NSErrorPointer) -> [AnyObject] {
         let model = managedObjectContext.persistentStoreCoordinator!.managedObjectModel
-        let substitutionVariables = [:]
+        let substitutionVariables:[String : Any] = [:]
 
-        let fetchRequest = model.fetchRequestFromTemplateWithName("allUnorderedToManySrcs", substitutionVariables: substitutionVariables as [NSObject : AnyObject])
+        let fetchRequest = model.fetchRequestFromTemplate(withName: "allUnorderedToManySrcs", substitutionVariables: substitutionVariables )
         assert(fetchRequest != nil, "Can't find fetch request named \"allUnorderedToManySrcs\".")
 
-        var error: NSError? = nil
-        let results = managedObjectContext.executeFetchRequest(fetchRequest!, error: &error)
+        var results:[AnyObject] = []
+        do {
+            
+            
+             results = try managedObjectContext.fetch(fetchRequest!)
 
-        if (error != nil) {
-            outError.memory = error
+        }catch let e {
+            outError?.pointee = e as NSError?
+
+            
         }
 
-        return results!
+        
+
+        return results
     }
 
 }
 
 extension _UnorderedToManySrcMO {
 
-    func addRelationship(objects: NSSet) {
-        self.relationshipSet().unionSet(objects as Set<NSObject>)
+    func addRelationship(_ objects: NSSet) {
+        self.relationshipSet().union(objects as Set<NSObject>)
     }
 
-    func removeRelationship(objects: NSSet) {
-        self.relationshipSet().minusSet(objects as Set<NSObject>)
+    func removeRelationship(_ objects: NSSet) {
+        self.relationshipSet().minus(objects as Set<NSObject>)
     }
 
-    func addRelationshipObject(value: UnorderedToManyDstMO!) {
-        self.relationshipSet().addObject(value)
+    func addRelationshipObject(_ value: UnorderedToManyDstMO!) {
+        self.relationshipSet().add(value)
     }
 
-    func removeRelationshipObject(value: UnorderedToManyDstMO!) {
-        self.relationshipSet().removeObject(value)
+    func removeRelationshipObject(_ value: UnorderedToManyDstMO!) {
+        self.relationshipSet().remove(value)
     }
 
 }

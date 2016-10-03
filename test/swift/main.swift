@@ -5,35 +5,35 @@ struct CoreDataStore {
     let moc: NSManagedObjectContext
 
     init() {
-        let modelURL = NSURL(fileURLWithPath: "test.mom")
-        let model = NSManagedObjectModel(contentsOfURL: modelURL)
+        let modelURL = URL(fileURLWithPath: "test.mom")
+        let model = NSManagedObjectModel(contentsOf: modelURL as URL)
         let psc = NSPersistentStoreCoordinator(managedObjectModel: model!)
 
         do {
-            try psc.addPersistentStoreWithType(NSInMemoryStoreType, configuration: nil, URL: nil, options: nil)
+            let _ = try psc.addPersistentStore(ofType: NSInMemoryStoreType, configurationName: nil, at: nil, options: nil)
         } catch {
           assertionFailure("Can't bring up PSC")
         }
 
-        moc = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
+        moc = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         moc.persistentStoreCoordinator = psc
     }
 }
 
 let dataStore = CoreDataStore()
 let moc = dataStore.moc
-
+//
 let homer = ParentMO(managedObjectContext: moc)!
 homer.humanName = "homer"
 homer.parentName = homer.humanName
 homer.ivar = 1.0
-homer.gender = NSNumber(int: Gender.Male.rawValue)
+homer.gender = NSNumber(value: Gender.Male.rawValue)
 
 let marge = ParentMO(managedObjectContext: moc)!
 marge.humanName = "marge"
 marge.parentName = marge.humanName
 marge.ivar = 1.0
-marge.gender = NSNumber(int: Gender.Female.rawValue)
+marge.gender = NSNumber(value: Gender.Female.rawValue)
 
 assert(homer.children.count == 0)
 assert(marge.children.count == 0)

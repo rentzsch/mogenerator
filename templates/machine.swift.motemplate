@@ -63,9 +63,9 @@ open class _<$sanitizedManagedObjectClassName$>: NSManagedObject {
 <$if Attribute.isReadonly$>
     open var <$Attribute.name$>: NSNumber?
     {
-        self.willAccessValueForKey(<$sanitizedManagedObjectClassName$>Attributes.<$Attribute.name$>.rawValue)
-        let <$Attribute.name$> = self.primitiveValueForKey(<$sanitizedManagedObjectClassName$>Attributes.<$Attribute.name$>.rawValue) as? NSNumber
-        self.didAccessValueForKey(<$sanitizedManagedObjectClassName$>Attributes.<$Attribute.name$>.rawValue)
+        self.willAccessValue(forKey: <$sanitizedManagedObjectClassName$>Attributes.<$Attribute.name$>.rawValue)
+        let <$Attribute.name$> = self.primitiveValue(forKey: <$sanitizedManagedObjectClassName$>Attributes.<$Attribute.name$>.rawValue) as? NSNumber
+        self.didAccessValue(forKey: <$sanitizedManagedObjectClassName$>Attributes.<$Attribute.name$>.rawValue)
         return <$Attribute.name$>
     }
 <$else$>
@@ -76,9 +76,9 @@ open class _<$sanitizedManagedObjectClassName$>: NSManagedObject {
 <$if Attribute.isReadonly$>
     open var <$Attribute.name$>: <$Attribute.objectAttributeType$><$if Attribute.isOptional$>?<$endif$>
     {
-        self.willAccessValueForKey(<$sanitizedManagedObjectClassName$>Attributes.<$Attribute.name$>.rawValue)
-        let <$Attribute.name$> = self.primitiveValueForKey(<$sanitizedManagedObjectClassName$>Attributes.<$Attribute.name$>.rawValue) as? <$Attribute.objectAttributeType$>
-        self.didAccessValueForKey(<$sanitizedManagedObjectClassName$>Attributes.<$Attribute.name$>.rawValue)
+        self.willAccessValue(forKey: <$sanitizedManagedObjectClassName$>Attributes.<$Attribute.name$>.rawValue)
+        let <$Attribute.name$> =self.primitiveValue(forKey: <$sanitizedManagedObjectClassName$>Attributes.<$Attribute.name$>.rawValue) as? <$Attribute.objectAttributeType$>
+        self.didAccessValue(forKey: <$sanitizedManagedObjectClassName$>Attributes.<$Attribute.name$>.rawValue)
         return <$Attribute.name$>
     }
 <$else$>
@@ -107,11 +107,11 @@ open class _<$sanitizedManagedObjectClassName$>: NSManagedObject {
 
 <$foreach FetchRequest prettyFetchRequests do$>
 <$if FetchRequest.singleResult$>
-    class func fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext: NSManagedObjectContext<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.type$><$endforeach do2$>) -> AnyObject? {
-        return self.fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.name$><$endforeach do2$>, error: nil)
+    class func fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext: NSManagedObjectContext<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.type$><$endforeach do2$>) -> Any? {
+        return self.fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext: managedObjectContext<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.name$><$endforeach do2$>, error: nil)
     }
 
-    class func fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext: NSManagedObjectContext<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.type$><$endforeach do2$>, error outError: NSErrorPointer) -> AnyObject? {
+    class func fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext: NSManagedObjectContext<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.type$><$endforeach do2$>, error outError: NSErrorPointer) -> Any? {
         guard let psc = managedObjectContext.persistentStoreCoordinator else { return nil }
         let model = psc.managedObjectModel
         let substitutionVariables = [<$if FetchRequest.hasBindings$><$foreach Binding FetchRequest.bindings do2$>
@@ -119,14 +119,14 @@ open class _<$sanitizedManagedObjectClassName$>: NSManagedObject {
         <$endforeach do2$><$endif$>
         ]
 
-        guard let fetchRequest = model.fetchRequestFromTemplateWithName("<$FetchRequest.name$>", substitutionVariables: substitutionVariables) else {
+        guard let fetchRequest = model.fetchRequestFromTemplate(withName: "<$FetchRequest.name$>", substitutionVariables: substitutionVariables) else {
           assert(false, "Can't find fetch request named \"<$FetchRequest.name$>\".")
           return nil
         }
 
-        var result: AnyObject? = nil
+        var result: Any? = nil
         do {
-            let results = try managedObjectContext.executeFetchRequest(fetchRequest)
+            let results = try managedObjectContext.fetch(fetchRequest)
             switch results.count {
             case 0:
                 // Nothing found matching the fetch request. That's cool, though: we'll just return nil.
@@ -143,23 +143,24 @@ open class _<$sanitizedManagedObjectClassName$>: NSManagedObject {
         return result
     }
 <$else$>
-    class func fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext: NSManagedObjectContext<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.type$><$endforeach do2$>) -> [AnyObject]? {
-        return self.fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.name$><$endforeach do2$>, error: nil)
+    class func fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext: NSManagedObjectContext<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.type$><$endforeach do2$>) -> [Any]? {
+        return self.fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext: managedObjectContext<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.name$><$endforeach do2$>, error: nil)
     }
 
-    class func fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext: NSManagedObjectContext<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.type$><$endforeach do2$>, error outError: NSErrorPointer) -> [AnyObject]? {
+    class func fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext: NSManagedObjectContext<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.type$><$endforeach do2$>, error outError: NSErrorPointer) -> [Any]? {
         guard let psc = managedObjectContext.persistentStoreCoordinator else { return nil }
         let model = psc.managedObjectModel
-        let substitutionVariables : [String : AnyObject] = [<$if FetchRequest.hasBindings$><$foreach Binding FetchRequest.bindings do2$>
+        let substitutionVariables : [String : Any] = [<$if FetchRequest.hasBindings$><$foreach Binding FetchRequest.bindings do2$>
             "<$Binding.name$>": <$Binding.name$>,
 <$endforeach do2$><$else$>:<$endif$>]
 
-        let fetchRequest = model.fetchRequestFromTemplateWithName("<$FetchRequest.name$>", substitutionVariables: substitutionVariables)
-        assert(fetchRequest != nil, "Can't find fetch request named \"<$FetchRequest.name$>\".")
-
-        var results = Array<AnyObject>()
+        guard let fetchRequest = model.fetchRequestFromTemplate(withName: "<$FetchRequest.name$>", substitutionVariables: substitutionVariables) else {
+        	assert(false, "Can't find fetch request named \"<$FetchRequest.name$>\".")
+		return nil
+	}
+        var results = Array<Any>()
         do {
-          results = try managedObjectContext.executeFetchRequest(fetchRequest!)
+             results = try managedObjectContext.fetch(fetchRequest)
         } catch {
           print("Error executing fetch request: \(error)")
         }
@@ -178,25 +179,25 @@ open class _<$sanitizedManagedObjectClassName$>: NSManagedObject {
 <$foreach Relationship noninheritedRelationships do$><$if Relationship.isToMany$>
 extension _<$sanitizedManagedObjectClassName$> {
 
-    open func add<$Relationship.name.initialCapitalString$>(objects: <$Relationship.immutableCollectionClassName$>) {
+    open func add<$Relationship.name.initialCapitalString$>(_ objects: <$Relationship.immutableCollectionClassName$>) {
         let mutable = self.<$Relationship.name$>.mutableCopy() as! NSMutable<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
         mutable.union(objects<$if !Relationship.jr_isOrdered$> as Set<NSObject><$endif$>)
         self.<$Relationship.name$> = mutable.copy() as! NS<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
     }
 
-    open func remove<$Relationship.name.initialCapitalString$>(objects: <$Relationship.immutableCollectionClassName$>) {
+    open func remove<$Relationship.name.initialCapitalString$>(_ objects: <$Relationship.immutableCollectionClassName$>) {
         let mutable = self.<$Relationship.name$>.mutableCopy() as! NSMutable<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
         mutable.minus(objects<$if !Relationship.jr_isOrdered$> as Set<NSObject><$endif$>)
         self.<$Relationship.name$> = mutable.copy() as! NS<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
     }
 
-    open func add<$Relationship.name.initialCapitalString$>Object(value: <$Relationship.destinationEntity.sanitizedManagedObjectClassName$>) {
+    open func add<$Relationship.name.initialCapitalString$>Object(_ value: <$Relationship.destinationEntity.sanitizedManagedObjectClassName$>) {
         let mutable = self.<$Relationship.name$>.mutableCopy() as! NSMutable<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
         mutable.add(value)
         self.<$Relationship.name$> = mutable.copy() as! NS<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
     }
 
-    open func remove<$Relationship.name.initialCapitalString$>Object(value: <$Relationship.destinationEntity.sanitizedManagedObjectClassName$>) {
+    open func remove<$Relationship.name.initialCapitalString$>Object(_ value: <$Relationship.destinationEntity.sanitizedManagedObjectClassName$>) {
         let mutable = self.<$Relationship.name$>.mutableCopy() as! NSMutable<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
         mutable.remove(value)
         self.<$Relationship.name$> = mutable.copy() as! NS<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set

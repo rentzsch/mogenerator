@@ -1,6 +1,6 @@
 import Foundation
 import CoreData
 
-public class MyBaseClass: NSManagedObject {
+open class MyBaseClass: NSManagedObject {
   var ivar: Double = -1.0
 }

@@ -20,19 +20,19 @@ class _UnorderedToManyDstMO: NSManagedObject {
         return "UnorderedToManyDst"
     }
 
-    class func entity(managedObjectContext: NSManagedObjectContext!) -> NSEntityDescription! {
-        return NSEntityDescription.entityForName(self.entityName(), inManagedObjectContext: managedObjectContext);
+    class func entity(_ managedObjectContext: NSManagedObjectContext!) -> NSEntityDescription! {
+        return NSEntityDescription.entity(forEntityName: self.entityName(), in: managedObjectContext);
     }
 
     /// pragma mark - Life cycle methods
 
-    override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
-        super.init(entity: entity, insertIntoManagedObjectContext: context)
+    override init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?) {
+        super.init(entity: entity, insertInto: context)
     }
 
     convenience init(managedObjectContext: NSManagedObjectContext!) {
         let entity = _UnorderedToManyDstMO.entity(managedObjectContext)
-        self.init(entity: entity, insertIntoManagedObjectContext: managedObjectContext)
+        self.init(entity: entity!, insertInto: managedObjectContext)
     }
 
     /// pragma mark - Properties
