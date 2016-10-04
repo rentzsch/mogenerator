@@ -537,11 +537,14 @@ static const NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFi
     } else {
         result = [self attributeValueClassName];
     }
-    if (gSwift && [result isEqualToString:@"NSString"]) {
-        result = @"String";
-    }
-    if (gSwift && [result isEqualToString:@"NSDate"]) {
-        result = @"Date";
+    if (gSwift) {
+        if ([result isEqualToString:@"NSString"]) {
+            result = @"String";
+        } else if ([result isEqualToString:@"NSDate"]) {
+            result = @"Date";
+        } else if ([result isEqualToString:@"NSData"]) {
+            result = @"Data";
+        }
     }
     return result;
 }
