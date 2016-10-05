@@ -10,6 +10,7 @@
 #import "NSPropertyDescription+momcom.h"
 
 static NSDictionary *attributeTypeForString;
+const NSString *const kUsesScalarAttributeType = @"mogenerator.usesScalarAttributeType";
 
 @implementation NSAttributeDescription (momcom)
 
@@ -44,7 +45,14 @@ static NSDictionary *attributeTypeForString;
             [attributeDescription setAttributeType:[attributeType integerValue]];
         }
     }
-    
+
+    NSXMLNode *userScalarElement = [xmlNode attributeForName:@"usesScalarValueType"];
+    if (userScalarElement != nil) {
+        NSMutableDictionary *userInfo = [[attributeDescription userInfo] mutableCopy];
+        userInfo[kUsesScalarAttributeType] = [userScalarElement stringValue];
+        [attributeDescription setUserInfo:userInfo.copy];
+    }
+
     NSXMLNode *defaultValueElement = [xmlNode attributeForName:@"defaultValueString"];
     if (defaultValueElement != nil) {
         NSString *defaultValueString = [defaultValueElement stringValue];
