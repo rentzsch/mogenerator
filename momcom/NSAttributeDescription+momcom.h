@@ -8,6 +8,8 @@
 
 @import CoreData;
 
+extern const NSString *const kUsesScalarAttributeType;
+
 @interface NSAttributeDescription (momcom)
 
 + (NSAttributeDescription *)baseEntityForXML:(NSXMLElement *)xmlNode;

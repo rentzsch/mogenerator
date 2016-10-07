@@ -5,6 +5,7 @@
 
 #import "mogenerator.h"
 #import "NSManagedObjectModel+momcom.h"
+#import "NSAttributeDescription+momcom.h"
 #import "NSString+MORegEx.h"
 
 static NSString * const kTemplateVar = @"TemplateVar";
@@ -15,6 +16,8 @@ static BOOL       gSwift;
 
 static const NSString *const kAttributeValueScalarTypeKey = @"attributeValueScalarType";
 static const NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName";
+static const NSString *const kCustomBaseClass = @"mogenerator.customBaseClass";
+static const NSString *const kReadOnly = @"mogenerator.readonly";
 
 @interface NSEntityDescription (fetchedPropertiesAdditions)
 - (NSDictionary*)fetchedPropertiesByName;
@@ -194,7 +197,7 @@ static const NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFi
     }
 }
 - (NSString*)forcedCustomBaseClass {
-    NSString* userInfoCustomBaseClass = [[self userInfo] objectForKey:@"mogenerator.customBaseClass"];
+    NSString* userInfoCustomBaseClass = [[self userInfo] objectForKey:kCustomBaseClass];
     return userInfoCustomBaseClass ? userInfoCustomBaseClass : gCustomBaseClassForced;
 }
 /** @TypeInfo NSAttributeDescription */
@@ -419,8 +422,18 @@ static const NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFi
             return NO;
     }
 }
-- (NSString*)scalarAttributeType {
 
+- (BOOL)usesScalarAttributeType {
+    NSNumber *usesScalarAttributeType = [[self userInfo] objectForKey:kUsesScalarAttributeType];
+
+    if (usesScalarAttributeType) {
+        return usesScalarAttributeType.boolValue;
+    } else {
+        return NO;
+    }
+}
+
+- (NSString*)scalarAttributeType {
     BOOL isUnsigned = [self isUnsigned];
 
     NSString *attributeValueScalarType = [[self userInfo] objectForKey:kAttributeValueScalarTypeKey];
@@ -576,7 +589,7 @@ static const NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFi
 }
 
 - (BOOL)isReadonly {
-    NSString *readonlyUserinfoValue = [[self userInfo] objectForKey:@"mogenerator.readonly"];
+    NSString *readonlyUserinfoValue = [[self userInfo] objectForKey:kReadOnly];
     if (readonlyUserinfoValue != nil) {
         return YES;
     }
