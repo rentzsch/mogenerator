@@ -23,10 +23,10 @@ public enum <$sanitizedManagedObjectClassName$>FetchedProperties: String {<$fore
 }
 <$endif$>
 
-<$if hasUserInfoKeys && userInfoKeyValues.@count > 0$>		
-public enum <$sanitizedManagedObjectClassName$>UserInfo: String {<$foreach UserInfo userInfoKeyValues do$>		
-    case <$UserInfo.key$> = "<$UserInfo.key$>"<$endforeach do$>		
-}		
+<$if hasUserInfoKeys && userInfoKeyValues.@count > 0$>
+public enum <$sanitizedManagedObjectClassName$>UserInfo: String {<$foreach UserInfo userInfoKeyValues do$>
+    case <$UserInfo.key$> = "<$UserInfo.key$>"<$endforeach do$>
+}
 <$endif$>
 
 
@@ -61,29 +61,29 @@ open class _<$sanitizedManagedObjectClassName$>: NSManagedObject {
 <$if Attribute.hasDefinedAttributeType$>
 <$if Attribute.hasScalarAttributeType$>
 <$if Attribute.isReadonly$>
-    open var <$Attribute.name$>: NSNumber?
+    open var <$Attribute.name$>: <$if Attribute.usesScalarAttributeType$><$Attribute.scalarAttributeType$><$if Attribute.isOptional$> // Optional scalars not supported<$endif$><$else$>NSNumber<$if Attribute.isOptional$>?<$else$>!<$endif$><$endif$>
     {
         self.willAccessValue(forKey: <$sanitizedManagedObjectClassName$>Attributes.<$Attribute.name$>.rawValue)
-        let <$Attribute.name$> = self.primitiveValue(forKey: <$sanitizedManagedObjectClassName$>Attributes.<$Attribute.name$>.rawValue) as? NSNumber
+        let <$Attribute.name$> = self.primitiveValue(forKey: <$sanitizedManagedObjectClassName$>Attributes.<$Attribute.name$>.rawValue) as? <$if Attribute.usesScalarAttributeType$><$Attribute.scalarAttributeType$><$else$>NSNumber<$endif$>
         self.didAccessValue(forKey: <$sanitizedManagedObjectClassName$>Attributes.<$Attribute.name$>.rawValue)
         return <$Attribute.name$>
     }
 <$else$>
     @NSManaged open
-    var <$Attribute.name$>: NSNumber?
+    var <$Attribute.name$>: <$if Attribute.usesScalarAttributeType$><$Attribute.scalarAttributeType$><$if Attribute.isOptional$> // Optional scalars not supported<$endif$><$else$>NSNumber<$if Attribute.isOptional$>?<$else$>!<$endif$><$endif$>
 <$endif$>
 <$else$>
 <$if Attribute.isReadonly$>
-    open var <$Attribute.name$>: <$Attribute.objectAttributeType$><$if Attribute.isOptional$>?<$endif$>
+    open var <$Attribute.name$>: <$Attribute.objectAttributeType$><$if Attribute.isOptional$>?<$else$>!<$endif$>
     {
         self.willAccessValue(forKey: <$sanitizedManagedObjectClassName$>Attributes.<$Attribute.name$>.rawValue)
-        let <$Attribute.name$> =self.primitiveValue(forKey: <$sanitizedManagedObjectClassName$>Attributes.<$Attribute.name$>.rawValue) as? <$Attribute.objectAttributeType$>
+        let <$Attribute.name$> = self.primitiveValue(forKey: <$sanitizedManagedObjectClassName$>Attributes.<$Attribute.name$>.rawValue) as? <$Attribute.objectAttributeType$>
         self.didAccessValue(forKey: <$sanitizedManagedObjectClassName$>Attributes.<$Attribute.name$>.rawValue)
         return <$Attribute.name$>
     }
 <$else$>
     @NSManaged open
-    var <$Attribute.name$>: <$Attribute.objectAttributeType$><$if Attribute.isOptional$>?<$endif$>
+    var <$Attribute.name$>: <$Attribute.objectAttributeType$><$if Attribute.isOptional$>?<$else$>!<$endif$>
 <$endif$>
 <$endif$>
 <$endif$>
