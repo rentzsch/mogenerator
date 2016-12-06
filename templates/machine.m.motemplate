@@ -10,7 +10,7 @@
 
 + (instancetype)insertInManagedObjectContext:(NSManagedObjectContext *)moc_ {
 	NSParameterAssert(moc_);
-	return [NSEntityDescription insertNewObjectForEntityForName:@"<$name$>" inManagedObjectContext:moc_];
+	return [NSEntityDescription insertNewObjectForEntityForName:[self entityName] inManagedObjectContext:moc_];
 }
 
 + (NSString*)entityName {
@@ -19,7 +19,7 @@
 
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	NSParameterAssert(moc_);
-	return [NSEntityDescription entityForName:@"<$name$>" inManagedObjectContext:moc_];
+	return [NSEntityDescription entityForName:[self entityName] inManagedObjectContext:moc_];
 }
 
 - (<$managedObjectClassName$>ID*)objectID {
