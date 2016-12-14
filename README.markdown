@@ -15,7 +15,7 @@ Senseful wrote up a [nice summary of mogenerator's command-line options](http://
 ## Version History
 
 ### v1.31: Mon Oct 3 2016 [download](https://github.com/rentzsch/mogenerator/releases/download/1.31/mogenerator-1.31.dmg)
-
+<details>
 * [NEW] Swift 3 support. ([Goncharov Vladimir](https://github.com/rentzsch/mogenerator/pull/347), [Hardik](https://github.com/rentzsch/mogenerator/pull/349), [rentzsch](https://github.com/rentzsch/mogenerator/commit/a65f6421baf39dc1458f22836907cfc55fc8ceb1))
 
 * [CHANGE] Add nullability to the primitive value. ([Tom Carey](https://github.com/rentzsch/mogenerator/pull/343))
@@ -29,23 +29,23 @@ Senseful wrote up a [nice summary of mogenerator's command-line options](http://
 * [FIX] Syntax error in Objective-C templates. ([Dave Wood](https://github.com/rentzsch/mogenerator/pull/345))
 
 * [TEST] Add Parent.orderedChildren ordered relationship. ([rentzsch](https://github.com/rentzsch/mogenerator/commit/b5c68ff538ed8a77e43524d846a5ac89793662ca))
-
+</details>
 
 
 ### v1.30.1: Thu Apr 7 2016 [download](https://github.com/rentzsch/mogenerator/releases/download/1.30.1/mogenerator-1.30.1.dmg)
-
+<details>
 * [FIX] Use `will`/`didChange` & `will`/`didAccess` in generated code when using `scalarsWhenNonOptional`. ([rentzsch](https://github.com/rentzsch/mogenerator/commit/1646a154c8d9bb2e12b3f23eaca3bbfe9f9bc7c8))
 
 * [FIX] Only use `@import` if supported (which Objective-C++ does not). [issue 325](https://github.com/rentzsch/mogenerator/issues/325) ([Samuel Bichsel](https://github.com/melbic))
 
 * [FIX] Add space between property type and name. [issue 323](https://github.com/rentzsch/mogenerator/pull/323) ([Daniel Rodríguez Troitiño](https://github.com/drodriguez))
-
+</details>
 
 
 ### v1.30: Mon Mar 21 2016 [download](https://github.com/rentzsch/mogenerator/releases/download/1.30/mogenerator-1.30.dmg)
 
 Thanks to lieutenant [Justin Williams](https://github.com/justin) for helping with this release.
-
+<details>
 * [NEW] Official bundled Swift 2 templates. (Justin Williams [1](https://github.com/rentzsch/mogenerator/commit/8489f4d5e5b8b7bf570ef0d7934f2f9e7a8ecd92) [2](https://github.com/rentzsch/mogenerator/commit/a7f8e53f6357ad1ef9af7d9f7e7f3ec450df334b))
 
 * [NEW] "Modern" Objective-C and Swift is default. Apple has made it exceptionally difficult to target older versions of OS X and iOS, so we've given up. The grand `--v2` experiment, which I loved, has been killed (the option will still be accepted to not break existing scripts but is now a no-op). From now on if you need to target an older OS, use an older mogenerator. Sorry. ([Justin Williams](https://github.com/rentzsch/mogenerator/pull/305))
@@ -97,13 +97,13 @@ Thanks to lieutenant [Justin Williams](https://github.com/justin) for helping wi
 * [REMOVED] //validate machine comments. They were just guides on writing your own validation methods and aren't worth the code clutter. ([Justin Williams](https://github.com/rentzsch/mogenerator/commit/92cf5905b8410d26ffb9531bd2f507b07c925754))
 
 * [REMOVED] Xmo'd. It hasn't worked for a very long time and I have no immediate plans on putting in the time to get working again. ([Justin Williams](https://github.com/rentzsch/mogenerator/commit/47db28b8c07331b9c218603b99ca16fbd3076376))
-
+</details>
 
 
 ### v1.29: Thu Aug 20 2015 [download](https://github.com/rentzsch/mogenerator/releases/download/1.29/mogenerator-1.29.dmg)
 
 Much thanks to lieutenants [Tom Harrington](https://github.com/atomicbird) and [Justin Williams](https://github.com/justin) for handling this release.
-
+<details>
 * [NEW] Use built-in model compiler ([momcom](https://github.com/atomicbird/momcom)) instead of relying on Xcode's `momc`. ([Tom Harrington](https://github.com/rentzsch/mogenerator/pull/225))
 
 * [NEW] Documentation generation using User Info keys. ([Daniel Tull](https://github.com/rentzsch/mogenerator/pull/268))
@@ -133,11 +133,11 @@ Much thanks to lieutenants [Tom Harrington](https://github.com/atomicbird) and [
 * [FIX] Swift: generation of `override` method declarations. (Tom Harrington [1](https://github.com/rentzsch/mogenerator/commit/6f57408e7a1db0ebd07fb8a8190f819082293014), [2](https://github.com/rentzsch/mogenerator/commit/78e62b1247cfee13bc19131d5bf00fa59794c448))
 
 * [FIX] Quote paths in test/Rakefile. ([Jonah Williams](https://github.com/rentzsch/mogenerator/commit/2f2f034d35cc0600ad2e12dd343dc5ccff888b35))
-
+</details>
 
 
 ### v1.28: Wed Sep 10 2014 [download](https://github.com/rentzsch/mogenerator/releases/download/1.28/mogenerator-1.28.dmg)
-
+<details>
 * [NEW] `--v2` argument. I wanted to enable ARC by default, but decided to take it a step further (while not breaking existing scripts). The new `--v2` argument is basically [semantic versioning](http://semver.org) for tool arguments.
 
 	So now instead of this:
@@ -208,11 +208,11 @@ Much thanks to lieutenants [Tom Harrington](https://github.com/atomicbird) and [
 * [FIX] Don't attempt to `#import "NSManagedObject.h"` even in the face of weird (corrupted?) model files. [issue 42](https://github.com/rentzsch/mogenerator/issues/42). ([rentzsch](https://github.com/rentzsch/mogenerator/commit/3e6074814c4e6655c26469c01adeb3d0aafa9ddb))
 
 * [TEST] Escape spaces in mogenerator build path. ([Daniel Tull](https://github.com/rentzsch/mogenerator/issues/151))
-
+</details>
 
 
 ### v1.27: Mon Nov 12 2012 [download](http://github.com/downloads/rentzsch/mogenerator/mogenerator-1.27.dmg)
-
+<details>
 * [NEW] You can now pass .xcdatamodeld paths to mogenerator. mogenerator will look inside the directory, read its hidden `.xccurrentversion` file and use the "current" .xcdatamodel file. ([Alexander Zats](https://github.com/rentzsch/mogenerator/pull/102))
 
 * [NEW] Replaced mogenerator's previous testing system (the test mule) with a new Rakefile-based system that eases building & testing from the current source tree and tests both MRC and ARC. ([rentzsch](https://github.com/rentzsch/mogenerator/blob/master/test/Test%20README.markdown))
@@ -242,11 +242,11 @@ Much thanks to lieutenants [Tom Harrington](https://github.com/atomicbird) and [
 * [WORKAROUND] Recent versions of Xcode use an empty string to mark entities that do not have a custom subclass. ([Matthias Bauch](https://github.com/rentzsch/mogenerator/pull/132))
 
 * [CHANGE] make_installer.command: assume PackageMaker now lives in /Applications/Utilities. ([rentzsch](https://github.com/rentzsch/mogenerator/commit/aa4d3d5ba274985bd0a9f636efb0c5c82ce33381))
-
+</details>
 
 
 ### v1.26: Thu Apr 12 2012 [download](http://github.com/downloads/rentzsch/mogenerator/mogenerator-1.26.dmg)
-
+<details>
 * [FIX] Missing space in transformable attribute codegen. [issue 89](https://github.com/rentzsch/mogenerator/issues/89) ([Daniel Tull](https://github.com/rentzsch/mogenerator/issues/89), [Kris Markel](https://github.com/rentzsch/mogenerator/pull/99), [Whitney Young](https://github.com/rentzsch/mogenerator/pull/101))
 
 * [NEW] mogenerator's standard templates are now bundled into the mogenerator binary itself. This should solve the problem of templates growing out of sync with the intended version of mogenerator ([exacerbated](https://github.com/rentzsch/mogenerator/issues/93#issuecomment-4059248) by the now-popular homebrew installer). You can still use your own templates with the `--template-path` and `--template-group` parameters. [issue 79](https://github.com/rentzsch/mogenerator/pull/79) (Ingvar Nedrebo, rentzsch).
@@ -256,11 +256,11 @@ Much thanks to lieutenants [Tom Harrington](https://github.com/atomicbird) and [
 * [CHANGE] mogenerator installer no longer installs separate template files (but it won't touch those already installed).
 
 * [CHANGE] mogenerator's .pkg installer no longer includes Xmo'd since 1) Xmo'd doesn't work with Xcode 4 yet and 2) Xcode.app now lives in /Applications, so the installer needs to get smarter to cope.
-
+</details>
 
 
 ### v1.25: Thu Feb 16 2012 [download](http://github.com/downloads/rentzsch/mogenerator/mogenerator-1.25.dmg)
-
+<details>
 * [NEW] Support for Xcode 4.3 and it's relocation of `momc` into its bundle. Only supports /Applications/Xcode.app for now. ([Matt McGlincy](https://github.com/rentzsch/mogenerator/pull/90))
 
 * [CHANGE] Now generates size-specific scalar types (`int16_t`, `int32_t`, `int64_t`) instead of size-variable types (`short`, `int`, `long long`). [bug 2](https://github.com/rentzsch/mogenerator/issues/2) ([Rob Rix](https://github.com/rentzsch/mogenerator/pull/86))
@@ -268,11 +268,11 @@ Much thanks to lieutenants [Tom Harrington](https://github.com/atomicbird) and [
 * [NEW] Can now generate `NSFetchedResultsController` creation code for to-many relationships (use `--template-var frc=true`). ([Daniel Tull](https://github.com/rentzsch/mogenerator/pull/88))
 
 * [DOC] Link to John Blanco's [Getting Started with Mogenerator](http://raptureinvenice.com/getting-started-with-mogenerator/).
-
+</details>
 
 
 ### v1.24: Wed Dec 6 2011 [download](http://github.com/downloads/rentzsch/mogenerator/mogenerator-1.24.dmg)
-
+<details>
 * [FIX] Was incorrectly using `-mutableSetValueForKey:` for ordered relationships instead of `-mutableOrderedSetValueForKey:`. [bug 75](https://github.com/rentzsch/mogenerator/issues/75) ([Martin Schürrer](https://github.com/rentzsch/mogenerator/pull/66))
 
 * [NEW] Now generates [Mike Ash-style constant structures](http://www.mikeash.com/pyblog/friday-qa-2011-08-19-namespaced-constants-and-functions.html) for attributes, relationships and fetched properties. This allows you to write code like `[obj valueForKey:PersonMOAttributes.age]`. Tip: you'll need to enable ARC generation  (`--template-var arc=true`) if you're using ARC. ([Daniel Tull](https://github.com/rentzsch/mogenerator/pull/72))
@@ -284,9 +284,10 @@ Much thanks to lieutenants [Tom Harrington](https://github.com/atomicbird) and [
 * [FIX] PONSO: Added import for super entity in machine headers. ([Tyrone Trevorrow](https://github.com/rentzsch/mogenerator/pull/67))
 
 * [FIX] Migrate from deprecated `-[NSString initWithContentsOfFile:]` and fix a MiscMerge warning where an immutable object was assigned to a mutable ivar. ([Joshua Smith](https://github.com/rentzsch/mogenerator/pull/76))
+</details>
 
 ### v1.23: Sun Jul 10 2011 [download](http://github.com/downloads/rentzsch/mogenerator/mogenerator-1.23.dmg)
-
+<details>
 * [NEW] Support for Mac OS X 10.7 Lion's ordered relationships (generated relationship code uses `NSOrderedSet` and `NSMutableOrderedSet`). (rentzsch [1](https://github.com/rentzsch/mogenerator/commit/4e9a045dcbf5af2eefed2ca9cb5fbac8394f9df2) [2](https://github.com/rentzsch/mogenerator/commit/a716c87b88b4614520175694d6e910bd38114602) [3](https://github.com/rentzsch/mogenerator/commit/932c4b382ab086faf76e167d3051bafa087321ae))
 
 * [NEW] Optional support for ARC: pass `--template-var arc=true` to mogenerator. [bug 63](https://github.com/rentzsch/mogenerator/issues/63) ([Adam Cox](https://github.com/rentzsch/mogenerator/pull/64))
@@ -312,11 +313,11 @@ Much thanks to lieutenants [Tom Harrington](https://github.com/atomicbird) and [
 * [CHANGE] mogeneratorTestMule's `mogenerate.command` upgraded to use double-dash option names. ([rentzsch](https://github.com/rentzsch/mogenerator/commit/b78d7611dc8819782541fe65e50050173a040d92))
 
 * [FIX] Set mogeneratorTestMule's `mogenerate.command` executable bit. ([rentzsch](https://github.com/rentzsch/mogenerator/commit/83182682d39c3b1f96ac28df5a3ae326418dbfe8))
-
+</details>
 
 
 ### v1.22: Wed Mar 2 2011 [download](http://github.com/downloads/rentzsch/mogenerator/mogenerator-1.22.dmg)
-
+<details>
 * [FIX] Xmo'd 1.21 introduced a bug where it would no longer create a source folder for your data model (it would work fine it one already existed). [bug 43](https://github.com/rentzsch/mogenerator/issues/43) ([rentzsch](https://github.com/rentzsch/mogenerator/commit/462a485f0686b44fbaabad875ee8a21e3e0f61bc))
 
 * [NEW] `-keyPathsForValuesAffectingValueForKey:` is now generated in machine.m files, populated by your entity's scalar attributes. The idea is code like `myObject.myIntAttributeValue++` tells Core Data that `myIntAttribute` has changed (handy when you're KVO-observing `myIntAttribute`). ([Tony Arnold](https://github.com/rentzsch/mogenerator/commit/fdc4a02c2180493d24a68fddc98ddd35b1fc1277))
@@ -326,11 +327,11 @@ Much thanks to lieutenants [Tom Harrington](https://github.com/atomicbird) and [
 * [NEW] Support [undefined attribute types](http://developer.apple.com/library/ios/#documentation/Cocoa/Conceptual/CoreData/Articles/cdNSAttributes.html%23//apple_ref/doc/uid/TP40001919-SW12). ([Brian Doig](https://github.com/rentzsch/mogenerator/commit/12298a8d622321c211839d6016bce72f7fcf8d59))
 
 * [NEW] mogenerator and Xmo'd now supports model-relative paths for the `--template-path` argument. ([tonklon](https://github.com/rentzsch/mogenerator/commit/fff9f12a15186877e780cb01cc8a925cc59768cf))
-
+</details>
 
 
 ### v1.21: Mon Nov 1 2010 [download](http://github.com/downloads/rentzsch/mogenerator/mogenerator-1.21.dmg)
-
+<details>
 * [NEW] Machine templates now include fetched properties by default. ([Jonathan del Strother](http://github.com/rentzsch/mogenerator/commit/d0f28ab3354af852d3470adccaf392fbd7c6129c))
 
 * [NEW] Xmo'd: better support for `--(machine|human|output)-dir` model option path: now they can be full or relative to the model file. Xcode group and file references are no longer deleted/re-added with every save. ([John Turnipseed](http://github.com/rentzsch/mogenerator/commit/0894c56ed471b4c5d0d30cb312f1d8970a0dd216))
@@ -338,11 +339,11 @@ Much thanks to lieutenants [Tom Harrington](https://github.com/atomicbird) and [
 * [NEW] Xmo'd: `--log-command` model option. When enabled, Xmo'd will log (to Console.app) the generated+executed `mogenerator` invocation. Good for automation debugging and also can provide training wheels for using mogenerator directly. ([rentzsch](http://github.com/rentzsch/mogenerator/commit/9d7101c774d71f82da68f2ef91982e9a8f956ebb))
 
 * [FIX] Avoid `nil` substitution dictionary in generated fetch request wrapper code, which resulted in an `NSInvalidArgumentException` reason "Cannot substitute a nil substitution dictionary." ([Anthony Mittaz](http://github.com/rentzsch/mogenerator/commit/03d005036bb6bfa6a7c88d3d3ac7e877d48eea61))
-
+</details>
 
 
 ### v1.20: Thu Aug 12 2010 [download](http://github.com/downloads/rentzsch/mogenerator/mogenerator-1.20.dmg)
-
+<details>
 * [NEW] Xmo'd: model comments that start with `--` are passed as args to mogenerator. This allows accessing command-line options such as `--base-class`. ([David LeBer](http://github.com/rentzsch/mogenerator/commit/5c0c3790d0b872962391abffc7ea82d9b643d0f1))
 
 * [NEW] Forward-declare transformable attribute class types. [bug 11](http://github.com/rentzsch/mogenerator/issues/issue/11) ([seanm](http://github.com/rentzsch/mogenerator/commit/f711fc5705e8891b41ce0364b24ff495db1a4856))
@@ -354,27 +355,27 @@ Much thanks to lieutenants [Tom Harrington](https://github.com/atomicbird) and [
 * [CHANGE] LLVM 2/Xcode 4 doesn't like `[NSDictionary dictionaryWithObjectsAndKeys:nil]`, issuing a "missing sentinel in method dispatch" warning. Add `hasBindings` to `prettyFetchRequests` so we can just generate `NSDictionary *substitutionVariables = nil` in that case. ([Anthony Mittaz](http://github.com/rentzsch/mogenerator/commit/8369f7108e3eb3d73e10583fe3f4248c914583c7))
 
 * [FIX] Variable shadowing bug which would cause v1.19's `xcode-select` functionality to always fail. ([Nikita Zhuk](http://github.com/rentzsch/mogenerator/commit/93b4c6bfcde93701875174040e76ed192643bc87#commitcomment-108156))
-
+</details>
 
 
 ### v1.19: Sun 4 Jul 2010 [download](http://github.com/downloads/rentzsch/mogenerator/mogenerator-1.19.dmg)
-
+<details>
 * [NEW] Use `xcode-select` to dynamically discover our way to `momc` instead of only hard-coding `/Developer`. ([Josh Abernathy](http://github.com/rentzsch/mogenerator/commit/93b4c6bfcde93701875174040e76ed192643bc87))
-
+</details>
 
 
 ### v1.18: Thu 1 Jul 2010 [download](http://github.com/downloads/rentzsch/mogenerator/mogenerator-1.18.dmg)
-
+<details>
 * [NEW] Xmo'd works with versioned data models. ([rentzsch](http://github.com/rentzsch/mogenerator/commit/5195153e8ffce08eb82a63c8fde6aea20b0e6d34))
 
 * [NEW] Support for fetched properties ([Nikita Zhuk](http://github.com/rentzsch/mogenerator/commit/7481add810ef798c0f678d782d7d8fb9e6ff4d46))
 
 * [NEW] `NSParameterAssert(moc)` in fetch request wrappers. ([rentzsch](http://github.com/rentzsch/mogenerator/commit/015aa0bec7dae21058c057bfa6b4f6748e444e00))
-
+</details>
 
 
 ### v1.17: Sat 27 Mar 2010 [download](http://github.com/downloads/rentzsch/mogenerator/mogenerator-1.17.dmg)
-
+<details>
 * [NEW] `+[Machine entityName]` (for [@drance](http://twitter.com/drance/status/11157708725)) and `+[Machine entityInManagedObjectContext:]` ([Michael Dales](http://github.com/rentzsch/mogenerator/commit/8902305650c68d7ba7550acb7f3c21ce42c02d93)).
 
 * [NEW] `--list-source-files` option, which lists model-related source files. ([rentzsch](http://github.com/rentzsch/mogenerator/commit/19fe5be5d9c0e13721cda4cdb18f8209222657f6))
@@ -384,11 +385,11 @@ Much thanks to lieutenants [Tom Harrington](https://github.com/atomicbird) and [
 Couple `--orphaned` with `--model` to get a listing of source files that no longer have corresponding entities in the model. The intent is to be able to pipe its output to xargs + git to remove deleted and renamed entities in one command, something like:
 
 	$ mogenerator --model ../MyModel.xcdatamodel --orphaned | xargs git rm
-
+</details>
 
 
 ### v1.16: Mon 4 Jan 2010 [download](http://cloud.github.com/downloads/rentzsch/mogenerator/mogenerator-1.16.dmg)
-
+<details>
 * [NEW] machine.h template now produces type-safe scalar attribute property declarations. ([rentzsch](http://github.com/rentzsch/mogenerator/commit/b56ec4aebe0146b7c4258111274fb4a4fbb3e01e))
 
 * [CHANGE] Remove machine.m implementations of to-many relationship setters. ([rentzsch](http://github.com/rentzsch/mogenerator/commit/665a8d65a54f3fc95b8ffff8ec6ef708634b7baa))
@@ -396,11 +397,11 @@ Couple `--orphaned` with `--model` to get a listing of source files that no long
 * [CHANGE] Xmo'd: change file ordering to human.m, human.h, machine.m, machine.h (from human.h, human.m, machine.h, machine.m). ([rentzsch](http://github.com/rentzsch/mogenerator/commit/fb7eb172817b1bee7e4a5448b4250aa2b5cdeb8a))
 
 * [FIX] Missing space for fetch requests with multiple bindings. ([Frederik Seiffert](http://github.com/rentzsch/mogenerator/commit/f54e32b9cee29ef8b908704874f2112c320e4f1f))
-
+</details>
 
 
 ### v1.15: Mon 2 Nov 2009 [download](http://cloud.github.com/downloads/rentzsch/mogenerator/mogenerator-1.15.dmg)
-
+<details>
 * [CHANGE] Xmo'd: now adds `.h` human+machine header files to project (in addition
 to current `.m` + `.mm` files). ([rentzsch](http://github.com/rentzsch/mogenerator/commit/5c88445e366b15d4a4700b7f9a10a6915ff6b20b))
 
@@ -409,11 +410,11 @@ to current `.m` + `.mm` files). ([rentzsch](http://github.com/rentzsch/mogenerat
 * [FIX] Log fetch-request-wrapper errors to `NSLog()` on iPhone since it lacks `-[NSApp presentError:]`. ([rentzsch](http://github.com/rentzsch/mogenerator/commit/4a834281da07af799206db5099a077fa28721742))
 
 * [NEW] `+insertInManagedObjectContext:` `NSParameterAssert()`'s its `moc` arg. ([rentzsch](http://github.com/rentzsch/mogenerator/commit/5ff20395ccdcde12955483046ee30ed215d3b920))
-
+</details>
 
 
 ### v1.14: Fri 9 Oct 2009 [download](http://cloud.github.com/downloads/rentzsch/mogenerator/mogenerator-1.14.dmg)
-
+<details>
 * **IMPORTANT:** 1.14 generates code that may be incompatible with clients of 1.13-or-earlier generated code. `+newInManagedObjectContext:` has been replaced with `+insertInManagedObjectContext:` and method implementations have been replaced with `@dynamic`, which don't work so well with overriding (most of these uses can be replaced with Cocoa Bindings). Upgrade only if you have spare cycles to fix-up existing projects.
 
 * [CHANGE] changed `+newInManagedObjectContext:` to `+insertInManagedObjectContext:` to satisfy the LLVM/clang static analyser. ([Ruotger Skupin](http://github.com/rentzsch/mogenerator/commit/25ad62d15a21e4ef855f5eb80bee32182a3ad6f4))
@@ -427,3 +428,4 @@ to current `.m` + `.mm` files). ([rentzsch](http://github.com/rentzsch/mogenerat
 * [NEW] Xmo'd version checking whitelists Xcode versions 3.1(.x) and 3.2(.x).
 
 * [NEW] Dropped ppc support for Xmo'd. May reconsider if folks yelp. ([rentzsch](http://github.com/rentzsch/mogenerator/commit/c6d0ef3fa308c7b1095daaa5364e1c944a772d2e))
+</details>
