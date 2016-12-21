@@ -45,6 +45,15 @@ open class _<$sanitizedManagedObjectClassName$>: NSManagedObject {
         return NSEntityDescription.entity(forEntityName: self.entityName(), in: managedObjectContext)
     }
 
+    @nonobjc
+    open class func fetchRequest() -> NSFetchRequest<<$sanitizedManagedObjectClassName$>> {
+        if #available(iOS 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *) {
+            return NSManagedObject.fetchRequest() as! NSFetchRequest<<$sanitizedManagedObjectClassName$>>
+        } else {
+            return NSFetchRequest(entityName: self.entityName())
+        }
+    }
+
     // MARK: - Life cycle methods
 
     public override init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?) {
