@@ -46,9 +46,9 @@ open class _<$sanitizedManagedObjectClassName$>: NSManagedObject {
     }
 
     @nonobjc
-    <$if (hasCustomSuperclass || (hasCustomSuperentity && TemplateVar.overrideBaseClass))$>override <$endif$>open class func fetchRequest() -> NSFetchRequest<<$name$>> {
+    open class func fetchRequest() -> NSFetchRequest<<$sanitizedManagedObjectClassName$>> {
         if #available(iOS 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *) {
-            return super.fetchRequest() as! NSFetchRequest<<$name$>>
+            return NSManagedObject.fetchRequest() as! NSFetchRequest<<$sanitizedManagedObjectClassName$>>
         } else {
             return NSFetchRequest(entityName: self.entityName())
         }
