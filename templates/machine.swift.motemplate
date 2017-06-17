@@ -45,6 +45,15 @@ open class _<$sanitizedManagedObjectClassName$>: NSManagedObject {
         return NSEntityDescription.entity(forEntityName: self.entityName(), in: managedObjectContext)
     }
 
+    @nonobjc
+    open class func fetchRequest() -> NSFetchRequest<<$sanitizedManagedObjectClassName$>> {
+        if #available(iOS 10.0, tvOS 10.0, watchOS 3.0, macOS 10.12, *) {
+            return NSManagedObject.fetchRequest() as! NSFetchRequest<<$sanitizedManagedObjectClassName$>>
+        } else {
+            return NSFetchRequest(entityName: self.entityName())
+        }
+    }
+
     // MARK: - Life cycle methods
 
     public override init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?) {
@@ -114,10 +123,9 @@ open class _<$sanitizedManagedObjectClassName$>: NSManagedObject {
     class func fetch<$FetchRequest.name.initialCapitalString$>(managedObjectContext: NSManagedObjectContext<$foreach Binding FetchRequest.bindings do2$>, <$Binding.name$>: <$Binding.type$><$endforeach do2$>, error outError: NSErrorPointer) -> Any? {
         guard let psc = managedObjectContext.persistentStoreCoordinator else { return nil }
         let model = psc.managedObjectModel
-        let substitutionVariables = [<$if FetchRequest.hasBindings$><$foreach Binding FetchRequest.bindings do2$>
-            "<$Binding.name$>": <$Binding.name$>,
-        <$endforeach do2$><$endif$>
-        ]
+		let substitutionVariables : [String : Any] = [<$if FetchRequest.hasBindings$><$foreach Binding FetchRequest.bindings do2$>
+		            "<$Binding.name$>": <$Binding.name$>,
+		<$endforeach do2$><$else$>:<$endif$>]
 
         guard let fetchRequest = model.fetchRequestFromTemplate(withName: "<$FetchRequest.name$>", substitutionVariables: substitutionVariables) else {
           assert(false, "Can't find fetch request named \"<$FetchRequest.name$>\".")
