@@ -1,6 +1,15 @@
 import Foundation
+import CoreData
 
-@objc(<$managedObjectClassName$>)
-open class <$managedObjectClassName$>: _<$managedObjectClassName$> {
-	// Custom logic goes here.
+@objc(<$sanitizedManagedObjectClassName$>)
+open class <$sanitizedManagedObjectClassName$>: <$customSuperentity$> {
+
+    public override init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?) {
+        super.init(entity: entity, insertInto: context)
+    }
+
+	required public init?(managedObjectContext moc: NSManagedObjectContext) {
+		guard let entity = NSEntityDescription.entity(forEntityName: "<$managedObjectClassName$>", in: moc) else { return nil }
+		super.init(entity: entity, insertInto: moc)
+	}
 }
