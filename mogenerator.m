@@ -558,8 +558,23 @@ static const NSString *const kReadOnly = @"mogenerator.readonly";
             result = gSwift ? @"AnyObject" : @"NSObject";
         }
     } else {
-        result = [self attributeValueClassName];
+        // Forcibly generate the correct class name in case we are
+        // running on macOS < 10.13
+        switch ([self attributeType]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpartial-availability"
+            case NSURIAttributeType:
+                result = @"NSURL";
+                break;
+            case NSUUIDAttributeType:
+                result = @"NSUUID";
+                break;
+#pragma clang diagnostic pop
+            default:
+                result = [self attributeValueClassName];
+        }
     }
+    
     if (gSwift) {
         if ([result isEqualToString:@"NSString"]) {
             result = @"String";
@@ -567,6 +582,10 @@ static const NSString *const kReadOnly = @"mogenerator.readonly";
             result = @"Date";
         } else if ([result isEqualToString:@"NSData"]) {
             result = @"Data";
+        } else if ([result isEqualToString:@"NSURL"]) {
+            result = @"URL";
+        } else if ([result isEqualToString:@"NSUUID"]) {
+            result = @"UUID";
         }
     }
     return result;
