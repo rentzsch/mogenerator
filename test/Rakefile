@@ -12,7 +12,7 @@ end
 #==============================
 # Variables
 #==============================
-OSX_SDK=run_or_die('xcrun --sdk macosx --show-sdk-path').chomp()
+OSX_SDK="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk"
 OSX_VERSION="10.10"
 LINKED_FRAMEWORKS="-framework Foundation -framework AppKit -framework CoreData"
 
