@@ -30,6 +30,11 @@ const NSString *const kUsesScalarAttributeType = @"mogenerator.usesScalarAttribu
                               @"Float"          : @(NSFloatAttributeType),
                               @"String"         : @(NSStringAttributeType),
                               @"Transformable"  : @(NSTransformableAttributeType),
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpartial-availability"
+                              @"URI"            : @(NSURIAttributeType),
+                              @"UUID"           : @(NSUUIDAttributeType),
+#pragma clang diagnostic pop
                               };
     });
 }
