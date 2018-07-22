@@ -32,12 +32,14 @@
 @interface NSAttributeDescription (typing)
 - (BOOL)hasScalarAttributeType;
 - (BOOL)usesScalarAttributeType;
+- (BOOL)usesCustomScalarAttributeType;
 - (NSString*)scalarAttributeType;
 - (NSString*)scalarAccessorMethodName;
 - (NSString*)scalarFactoryMethodName;
 - (BOOL)hasDefinedAttributeType;
 - (NSArray*)objectAttributeTransformableProtocols;
 - (BOOL)hasAttributeTransformableProtocols;
+- (BOOL)usesCustomObjectAttributeType;
 - (NSString*)objectAttributeClassName;
 - (NSString*)objectAttributeType;
 - (BOOL)hasTransformableAttributeType;

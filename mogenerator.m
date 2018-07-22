@@ -443,6 +443,11 @@ static const NSString *const kReadOnly = @"mogenerator.readonly";
     }
 }
 
+- (BOOL)usesCustomScalarAttributeType {
+    NSString *attributeValueScalarType = [[self userInfo] objectForKey:kAttributeValueScalarTypeKey];
+    return (attributeValueScalarType != nil);
+}
+
 - (NSString*)scalarAttributeType {
     BOOL isUnsigned = [self isUnsigned];
 
@@ -603,6 +608,12 @@ static const NSString *const kReadOnly = @"mogenerator.readonly";
 - (BOOL)hasAttributeTransformableProtocols {
     return [self hasTransformableAttributeType] && [[self userInfo] objectForKey:@"attributeTransformableProtocols"];
 }
+
+- (BOOL)usesCustomObjectAttributeType {
+    NSString *attributeValueClassName = [[self userInfo] objectForKey:@"attributeValueClassName"];
+    return (attributeValueClassName != nil);
+}
+
 - (NSString*)objectAttributeType {
     NSString *result = [self objectAttributeClassName];
     if ([result isEqualToString:@"Class"]) {
