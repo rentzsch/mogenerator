@@ -2,17 +2,16 @@
 // Make changes to <$managedObjectClassName$>.swift instead.
 
 import CoreData
-<$if hasAdditionalHeaderFile$>import <$additionalHeaderFileName$><$endif$>
 <$if hasCustomBaseCaseImport$>import <$baseClassImport$><$endif$>
 
 
 public extension <$managedObjectClassName$> {
 	
-    <$if (hasCustomSuperclass || (hasCustomSuperentity && TemplateVar.overrideBaseClass))$>override <$endif$>open class var entityName: String {
+    <$if (hasCustomSuperclass || (hasCustomSuperentity && TemplateVar.overrideBaseClass))$>override <$endif$>public class var entityName: String {
         return "<$name$>"
     }
 
-    <$if (hasCustomSuperclass || (hasCustomSuperentity && TemplateVar.overrideBaseClass))$>override <$endif$>open class func entity(managedObjectContext: NSManagedObjectContext) -> NSEntityDescription? {
+    <$if (hasCustomSuperclass || (hasCustomSuperentity && TemplateVar.overrideBaseClass))$>override <$endif$>public class func entity(managedObjectContext: NSManagedObjectContext) -> NSEntityDescription? {
         return NSEntityDescription.entity(forEntityName: entityName, in: managedObjectContext)
     }
 	
@@ -39,8 +38,8 @@ public extension <$managedObjectClassName$> {
 	    static let <$UserInfo.key$> = "<$UserInfo.key$>"<$endforeach do$>
 	}
 	<$endif$>
-    open class func fetchRequest() -> NSFetchRequest<<$sanitizedManagedObjectClassName$>> {
-        return NSFetchRequest(entityName: self.entityName())
+    public class func fetchRequest() -> NSFetchRequest<<$sanitizedManagedObjectClassName$>> {
+        return NSFetchRequest(entityName: self.entityName)
     }
 	
     // MARK: - Properties
@@ -50,7 +49,7 @@ public extension <$managedObjectClassName$> {
 
 <$if Attribute.isOptional$>
 <$if Attribute.usesScalarAttributeType$>
-	public<$if Attribute.isReadonly$>private(set)<$endif$> var <$Attribute.name$>: <$Attribute.scalarAttributeType$>? {
+	public<$if Attribute.isReadonly$> private(set)<$endif$> var <$Attribute.name$>: <$Attribute.scalarAttributeType$>? {
 		get {
 			let key = <$managedObjectClassName$>.Attributes.<$Attribute.name$>
 			willAccessValue(forKey: key)
@@ -71,14 +70,14 @@ public extension <$managedObjectClassName$> {
 		}
 	}
 <$else$>
-	@NSManaged public<$if Attribute.isReadonly$>private(set)<$endif$> var <$Attribute.name$>: NSNumber?
+	@NSManaged public<$if Attribute.isReadonly$> private(set)<$endif$> var <$Attribute.name$>: NSNumber?
 <$endif$>
 <$else$>
-	@NSManaged public<$if Attribute.isReadonly$>private(set)<$endif$> var <$Attribute.name$>: <$if Attribute.usesScalarAttributeType$><$Attribute.scalarAttributeType$><$else$>NSNumber<$endif$>
+	@NSManaged public<$if Attribute.isReadonly$> private(set)<$endif$> var <$Attribute.name$>: <$if Attribute.usesScalarAttributeType$><$Attribute.scalarAttributeType$><$else$>NSNumber<$endif$>
 <$endif$>
 
 <$else$>
-    @NSManaged public<$if Attribute.isReadonly$>private(set)<$endif$> var <$Attribute.name$>: <$Attribute.objectAttributeType$><$if Attribute.isOptional$>?<$endif$>
+    @NSManaged public<$if Attribute.isReadonly$> private(set)<$endif$> var <$Attribute.name$>: <$Attribute.objectAttributeType$><$if Attribute.isOptional$>?<$endif$>
 <$endif$>
 <$endif$>
 <$endforeach do$>
@@ -93,7 +92,7 @@ public extension <$managedObjectClassName$> {
 <$endforeach do$>
 
 <$foreach FetchedProperty noninheritedFetchedProperties do$>
-    @NSManaged open let <$FetchedProperty.name$>: [<$FetchedProperty.entity.sanitizedManagedObjectClassName$>]
+    @NSManaged public let <$FetchedProperty.name$>: [<$FetchedProperty.entity.sanitizedManagedObjectClassName$>]
 <$endforeach do$>
 
 }
