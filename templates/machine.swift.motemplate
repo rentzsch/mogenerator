@@ -6,7 +6,12 @@ import CoreData
 
 
 public extension <$managedObjectClassName$> {
-	
+
+	public convenience init?(managedObjectContext moc: NSManagedObjectContext) {
+		guard let entity = NSEntityDescription.entity(forEntityName: "<$managedObjectClassName$>", in: moc) else { return nil }
+		self.init(entity: entity, insertInto: moc)
+	}
+
     <$if (hasCustomSuperclass || (hasCustomSuperentity && TemplateVar.overrideBaseClass))$>override <$endif$>public class var entityName: String {
         return "<$name$>"
     }
