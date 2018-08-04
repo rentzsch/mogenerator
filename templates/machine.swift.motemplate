@@ -7,11 +7,11 @@ import CoreData
 
 public extension <$managedObjectClassName$> {
 
-    <$if (hasCustomSuperclass || (hasCustomSuperentity && TemplateVar.overrideBaseClass))$>override <$endif$>public class var entityName: String {
+    @objc <$if (hasCustomSuperclass || (hasCustomSuperentity && TemplateVar.overrideBaseClass))$>override <$endif$>public class var entityName: String {
         return "<$name$>"
     }
 
-    <$if (hasCustomSuperclass || (hasCustomSuperentity && TemplateVar.overrideBaseClass))$>override <$endif$>public class func entity(managedObjectContext: NSManagedObjectContext) -> NSEntityDescription? {
+    @objc <$if (hasCustomSuperclass || (hasCustomSuperentity && TemplateVar.overrideBaseClass))$>override <$endif$>public class func entity(managedObjectContext: NSManagedObjectContext) -> NSEntityDescription? {
         return NSEntityDescription.entity(forEntityName: entityName, in: managedObjectContext)
     }
 	
