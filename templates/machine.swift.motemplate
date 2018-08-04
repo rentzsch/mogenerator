@@ -34,7 +34,7 @@ public extension <$managedObjectClassName$> {
 	<$endif$>
 
 	<$if hasUserInfoKeys && userInfoKeyValues.@count > 0$>
-	public struct UserInfo: String {<$foreach UserInfo userInfoKeyValues do$>
+	public struct UserInfo {<$foreach UserInfo userInfoKeyValues do$>
 	    static let <$UserInfo.key$> = "<$UserInfo.key$>"<$endforeach do$>
 	}
 	<$endif$>
