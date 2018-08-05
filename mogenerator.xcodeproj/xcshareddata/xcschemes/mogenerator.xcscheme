@@ -61,20 +61,6 @@
             ReferencedContainer = "container:mogenerator.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <CommandLineArguments>
-         <CommandLineArgument
-            argument = "--model /Users/tomek/Code/mobile-bo-ios/HiringStoreKit/HiringStoreKit/DataModel/hiring.xcdatamodeld"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "--output-dir /Users/tomek/Desktop"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "--swift"
-            isEnabled = "YES">
-         </CommandLineArgument>
-      </CommandLineArguments>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
