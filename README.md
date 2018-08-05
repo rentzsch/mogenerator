@@ -14,6 +14,28 @@ Senseful wrote up a [nice summary of mogenerator's command-line options](http://
 
 ## Version History
 
+### v1.32: TBD
+
+* [NEW] Update Swift templates for better Swift style ([Aleksandar Vacić](https://github.com/rentzsch/mogenerator/pull/368))
+
+* [FIX] Fixed invalid call of `NSManagedObject.fetchRequest()` ([Vincent Esche](https://github.com/rentzsch/mogenerator/pull/372))
+
+* [NEW] Add support for URI and UUID attribute types ([Trevor Squires](https://github.com/rentzsch/mogenerator/pull/370))
+
+* [NEW] Expose information when custom type is set through userInfo ([Aleksandar Vacić](https://github.com/rentzsch/mogenerator/pull/369))
+
+* [CHANGE] Nullability annotations for generated primitive accessors ([Michael Babin](https://github.com/rentzsch/mogenerator/pull/363))
+
+* [FIX] Support for “Uses Scalar Type” ([Rok Gregorič](https://github.com/rentzsch/mogenerator/pull/352))
+
+* [FIX] Swift 3 `NSData` to `Data` ([Christopher Rogers](https://github.com/rentzsch/mogenerator/pull/350))
+
+* [FIX] Add specialized `fetchRequest()` func to Swift's machine generated files ([0xpablo](https://github.com/rentzsch/mogenerator/pull/358))
+
+* [FIX] Correct Swift machine template for singleton (fetchOne…) fetch request results ([Warren Burton](https://github.com/rentzsch/mogenerator/pull/359))
+
+* [FIX] Expose allAttributes and allRelationships ([Trevor Squires](https://github.com/rentzsch/mogenerator/pull/360))
+
 ### v1.31: Mon Oct 3 2016 [download](https://github.com/rentzsch/mogenerator/releases/download/1.31/mogenerator-1.31.dmg)
 
 * [NEW] Swift 3 support. ([Goncharov Vladimir](https://github.com/rentzsch/mogenerator/pull/347), [Hardik](https://github.com/rentzsch/mogenerator/pull/349), [rentzsch](https://github.com/rentzsch/mogenerator/commit/a65f6421baf39dc1458f22836907cfc55fc8ceb1))
