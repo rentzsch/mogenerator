@@ -1,6 +1,9 @@
 import Foundation
+import CoreData
 
-@objc(<$managedObjectClassName$>)
-open class <$managedObjectClassName$>: _<$managedObjectClassName$> {
-	// Custom logic goes here.
+@objc(<$sanitizedManagedObjectClassName$>)
+open class <$sanitizedManagedObjectClassName$>: <$customSuperentity$> {
+
+	// Custom code for <$sanitizedManagedObjectClassName$> goes here.
+
 }
