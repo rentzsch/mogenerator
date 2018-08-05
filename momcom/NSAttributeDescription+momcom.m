@@ -11,6 +11,7 @@
 
 static NSDictionary *attributeTypeForString;
 const NSString *const kUsesScalarAttributeType = @"mogenerator.usesScalarAttributeType";
+const NSString *const kAttributeValueClassName = @"attributeValueClassName";
 
 @implementation NSAttributeDescription (momcom)
 
@@ -49,6 +50,13 @@ const NSString *const kUsesScalarAttributeType = @"mogenerator.usesScalarAttribu
         if (attributeType != nil) {
             [attributeDescription setAttributeType:[attributeType integerValue]];
         }
+    }
+    
+    NSXMLNode *customClassNameElement = [xmlNode attributeForName:@"customClassName"];
+    if (customClassNameElement != nil) {
+        NSMutableDictionary *userInfo = [[attributeDescription userInfo] mutableCopy];
+        userInfo[kAttributeValueClassName] = [customClassNameElement stringValue];
+        [attributeDescription setUserInfo:userInfo.copy];
     }
 
     NSXMLNode *userScalarElement = [xmlNode attributeForName:@"usesScalarValueType"];
