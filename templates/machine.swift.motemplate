@@ -5,6 +5,12 @@ import Foundation
 import CoreData
 <$if hasCustomBaseCaseImport$>import <$baseClassImport$><$endif$>
 
+<$if hasAdditionalImports$>
+<$foreach Import additionalImports do$>
+import <$Import$>
+<$endforeach do$>
+<$endif$>
+
 <$if noninheritedAttributes.@count > 0$>
 public enum <$sanitizedManagedObjectClassName$>Attributes: String {<$foreach Attribute noninheritedAttributes do$>
     case <$Attribute.name$> = "<$Attribute.name$>"<$endforeach do$>
