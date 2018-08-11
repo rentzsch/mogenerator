@@ -16,6 +16,7 @@ static BOOL       gSwift;
 
 static const NSString *const kAttributeValueScalarTypeKey = @"attributeValueScalarType";
 static const NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName";
+static const NSString *const kAdditionalImportsKey = @"additionalImports";
 static const NSString *const kCustomBaseClass = @"mogenerator.customBaseClass";
 static const NSString *const kReadOnly = @"mogenerator.readonly";
 
@@ -183,6 +184,10 @@ static const NSString *const kReadOnly = @"mogenerator.readonly";
     return [[[self userInfo] allKeys] containsObject:kAdditionalHeaderFileNameKey];
 }
 
+- (BOOL)hasAdditionalImports {
+    return [[[self userInfo] allKeys] containsObject:kAdditionalImportsKey];
+}
+
 - (NSString*)customSuperentity {
     NSString *forcedBaseClass = [self forcedCustomBaseClass];
     if (!forcedBaseClass) {
@@ -220,6 +225,15 @@ static const NSString *const kReadOnly = @"mogenerator.readonly";
 
 - (NSString*)additionalHeaderFileName {
     return [[self userInfo] objectForKey:kAdditionalHeaderFileNameKey];
+}
+
+- (NSArray *)additionalImports {
+    NSString *csvString = [[self userInfo] objectForKey:kAdditionalImportsKey];
+    NSMutableArray *imports = [[csvString componentsSeparatedByString:@","] mutableCopy];
+    [imports enumerateObjectsUsingBlock:^(NSString *import, NSUInteger idx, BOOL * _Nonnull stop) {
+        imports[idx] = [import stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
+    }];
+    return imports;
 }
 
 /** @TypeInfo NSAttributeDescription */

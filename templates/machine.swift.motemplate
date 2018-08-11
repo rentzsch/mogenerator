@@ -4,6 +4,12 @@
 import CoreData
 <$if hasCustomBaseCaseImport$>import <$baseClassImport$><$endif$>
 
+<$if hasAdditionalImports$>
+<$foreach Import additionalImports do$>
+import <$Import$>
+<$endforeach do$>
+<$endif$>
+
 
 public extension <$managedObjectClassName$> {
 
