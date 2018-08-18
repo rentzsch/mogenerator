@@ -16,6 +16,7 @@ static BOOL       gSwift;
 
 static const NSString *const kAttributeValueScalarTypeKey = @"attributeValueScalarType";
 static const NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName";
+static const NSString *const kUsesRawValueEnumType = @"attributeRawValueEnumType";
 static const NSString *const kAdditionalImportsKey = @"additionalImports";
 static const NSString *const kCustomBaseClass = @"mogenerator.customBaseClass";
 static const NSString *const kReadOnly = @"mogenerator.readonly";
@@ -445,6 +446,15 @@ static const NSString *const kReadOnly = @"mogenerator.readonly";
         default:
             return NO;
     }
+}
+
+- (BOOL)usesRawValueEnumType {
+    NSNumber *usesRawValueEnumType = [[self userInfo] objectForKey:kUsesRawValueEnumType];
+    return (usesRawValueEnumType != NULL);
+}
+
+- (NSString *)attributeRawValueEnumType {
+    return [[self userInfo] objectForKey:kUsesRawValueEnumType];
 }
 
 - (BOOL)usesScalarAttributeType {

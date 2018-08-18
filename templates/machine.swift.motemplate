@@ -53,6 +53,29 @@ public extension <$managedObjectClassName$> {
 <$if Attribute.hasDefinedAttributeType$>	
 <$if Attribute.hasScalarAttributeType$>
 
+<$if Attribute.usesRawValueEnumType$>
+	public<$if Attribute.isReadonly$> private(set)<$endif$> var <$Attribute.name$>: <$Attribute.attributeRawValueEnumType$>? {
+		get {
+			let key = <$managedObjectClassName$>.Attributes.<$Attribute.name$>
+			willAccessValue(forKey: key)
+			defer { didAccessValue(forKey: key) }
+
+			guard let primitiveValue = primitiveValue(forKey: key) as? <$Attribute.attributeRawValueEnumType$>.RawValue else { return nil }
+			return <$Attribute.attributeRawValueEnumType$>(rawValue: primitiveValue)
+		}
+		set {
+			let key = <$managedObjectClassName$>.Attributes.<$Attribute.name$>
+			willChangeValue(forKey: key)
+			defer { didChangeValue(forKey: key) }
+
+			guard let value = newValue else {
+				setPrimitiveValue(nil, forKey: key)
+				return
+			}
+			setPrimitiveValue(value.rawValue, forKey: key)
+		}
+	}
+<$else$> <$comment usesRawValueEnumType = false $>
 <$if Attribute.isOptional$>
 <$if Attribute.usesScalarAttributeType$>
 	public<$if Attribute.isReadonly$> private(set)<$endif$> var <$Attribute.name$>: <$Attribute.scalarAttributeType$>? {
@@ -75,17 +98,41 @@ public extension <$managedObjectClassName$> {
 			setPrimitiveValue(value, forKey: key)
 		}
 	}
-<$else$>
+<$else$> <$comment usesScalarAttributeType = true but the above checks are not true $>
 	@NSManaged public<$if Attribute.isReadonly$> private(set)<$endif$> var <$Attribute.name$>: NSNumber?
 <$endif$>
-<$else$>
+<$else$> <$comment isOptional is not true $>
 	@NSManaged public<$if Attribute.isReadonly$> private(set)<$endif$> var <$Attribute.name$>: <$if Attribute.usesScalarAttributeType$><$Attribute.scalarAttributeType$><$else$>NSNumber<$endif$>
-<$endif$>
+<$endif$> <$comment isOptional $>
+<$endif$> <$comment usesRawValueEnumType $>
+<$else$> <$comment hasScalarAttribuetType = false (object type) $>
+<$if Attribute.usesRawValueEnumType$> <$comment This is here because enums with String raw value don't count as scalars $>
+	public<$if Attribute.isReadonly$> private(set)<$endif$> var <$Attribute.name$>: <$Attribute.attributeRawValueEnumType$>? {
+		get {
+			let key = <$managedObjectClassName$>.Attributes.<$Attribute.name$>
+			willAccessValue(forKey: key)
+			defer { didAccessValue(forKey: key) }
 
-<$else$>
+			guard let primitiveValue = primitiveValue(forKey: key) as? <$Attribute.attributeRawValueEnumType$>.RawValue else { return nil }
+			return <$Attribute.attributeRawValueEnumType$>(rawValue: primitiveValue)
+		}
+		set {
+			let key = <$managedObjectClassName$>.Attributes.<$Attribute.name$>
+			willChangeValue(forKey: key)
+			defer { didChangeValue(forKey: key) }
+
+			guard let value = newValue else {
+				setPrimitiveValue(nil, forKey: key)
+				return
+			}
+			setPrimitiveValue(value.rawValue, forKey: key)
+		}
+	}
+<$else$> <$comment usesRawValueEnumType = false $>
     @NSManaged public<$if Attribute.isReadonly$> private(set)<$endif$> var <$Attribute.name$>: <$Attribute.objectAttributeType$><$if Attribute.isOptional$>?<$endif$>
-<$endif$>
-<$endif$>
+<$endif$> <$comment usesRawValueEnumType $>
+<$endif$> <$comment hasScalarAttribuetType$>
+<$endif$> <$comment hasDefinedAttributeType$>
 <$endforeach do$>
 
     // MARK: - Relationships
