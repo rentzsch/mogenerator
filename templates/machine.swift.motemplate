@@ -105,7 +105,7 @@ public extension <$managedObjectClassName$> {
 	@NSManaged public<$if Attribute.isReadonly$> private(set)<$endif$> var <$Attribute.name$>: <$if Attribute.usesScalarAttributeType$><$Attribute.scalarAttributeType$><$else$>NSNumber<$endif$>
 <$endif$> <$comment isOptional $>
 <$endif$> <$comment usesRawValueEnumType $>
-<$else$> <$comment hasScalarAttribuetType = false (object type) $>
+<$else$> <$comment hasScalarAttributeType = false (object type) $>
 <$if Attribute.usesRawValueEnumType$> <$comment This is here because enums with String raw value don't count as scalars $>
 	public<$if Attribute.isReadonly$> private(set)<$endif$> var <$Attribute.name$>: <$Attribute.attributeRawValueEnumType$>? {
 		get {
@@ -131,7 +131,7 @@ public extension <$managedObjectClassName$> {
 <$else$> <$comment usesRawValueEnumType = false $>
     @NSManaged public<$if Attribute.isReadonly$> private(set)<$endif$> var <$Attribute.name$>: <$Attribute.objectAttributeType$><$if Attribute.isOptional$>?<$endif$>
 <$endif$> <$comment usesRawValueEnumType $>
-<$endif$> <$comment hasScalarAttribuetType$>
+<$endif$> <$comment hasScalarAttributrType$>
 <$endif$> <$comment hasDefinedAttributeType$>
 <$endforeach do$>
 
