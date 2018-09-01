@@ -128,6 +128,29 @@ public extension <$managedObjectClassName$> {
 			setPrimitiveValue(value.rawValue, forKey: key)
 		}
 	}
+<$elseif Attribute.usesCustomCodableAttributeType$>
+		// Attribute <$Attribute.name$> with Codable type <$Attribute.objectAttributeType$>
+		public<$if Attribute.isReadonly$> private(set)<$endif$> var <$Attribute.name$>: <$Attribute.objectAttributeType$>? {
+			get {
+				let key = <$managedObjectClassName$>.Attributes.<$Attribute.name$>
+				willAccessValue(forKey: key)
+				defer { didAccessValue(forKey: key) }
+
+				guard let primitiveValue = primitiveValue(forKey: key) as? Data else {
+					return nil
+				}
+                    
+				return try? JSONDecoder().decode(<$Attribute.objectAttributeType$>.self, from: primitiveValue)
+			}
+			set {
+				let key = <$managedObjectClassName$>.Attributes.<$Attribute.name$>
+				willChangeValue(forKey: key)
+				defer { didChangeValue(forKey: key) }
+
+				let primitiveValue = try? JSONEncoder().encode(newValue)
+				setPrimitiveValue(primitiveValue, forKey: key)
+			}
+		}
 <$else$> <$comment usesRawValueEnumType = false $>
     @NSManaged public<$if Attribute.isReadonly$> private(set)<$endif$> var <$Attribute.name$>: <$Attribute.objectAttributeType$><$if Attribute.isOptional$>?<$endif$>
 <$endif$> <$comment usesRawValueEnumType $>

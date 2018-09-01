@@ -586,6 +586,13 @@ static const NSString *const kReadOnly = @"mogenerator.readonly";
         if (!result) {
             result = gSwift ? @"AnyObject" : @"NSObject";
         }
+    } else if (gSwift && [self attributeType] == NSBinaryDataAttributeType) {
+        NSString *codableName = [self userInfo][@"attributeCodableTypeName"];
+        if (!codableName) {
+            result = @"Data";
+        } else {
+            result = codableName;
+        }
     } else {
         // Forcibly generate the correct class name in case we are
         // running on macOS < 10.13
@@ -636,6 +643,10 @@ static const NSString *const kReadOnly = @"mogenerator.readonly";
 - (BOOL)usesCustomObjectAttributeType {
     NSString *attributeValueClassName = [[self userInfo] objectForKey:@"attributeValueClassName"];
     return (attributeValueClassName != nil);
+}
+
+- (BOOL)usesCustomCodableAttributeType {
+    return [self userInfo][@"attributeCodableTypeName"] != NULL;
 }
 
 - (NSString*)objectAttributeType {
