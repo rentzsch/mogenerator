@@ -67,6 +67,7 @@
     NSString              *baseClass;
     NSString              *baseClassImport;
     NSString              *baseClassForce;
+    NSString              *ignoredEntities;
     NSString              *includem;
     NSString              *includeh;
     NSString              *templatePath;
