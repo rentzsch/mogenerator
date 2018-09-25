@@ -55,6 +55,9 @@
         <relationship name="children" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Child" indexed="YES" syncable="YES"/>
         <relationship name="orderedChildren" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Child" inverseName="parent" inverseEntity="Child" indexed="YES" syncable="YES"/>
     </entity>
+    <entity name="Uncle" representedClassName="UncleMO" parentEntity="Human" syncable="YES">
+        <attribute name="attribute" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <fetchRequest name="allHumans" entity="Human"/>
     <fetchRequest name="byHumanName" entity="Human" predicateString="humanName == $humanName"/>
     <fetchRequest name="byParent" entity="Child" predicateString="parent == $parent"/>
@@ -69,5 +72,6 @@
         <element name="EntityWithBaseClass" positionX="342" positionY="18" width="128" height="60"/>
         <element name="Human" positionX="169" positionY="18" width="128" height="105"/>
         <element name="Parent" positionX="34" positionY="114" width="128" height="270"/>
+        <element name="Uncle" positionX="243" positionY="-36" width="128" height="60"/>
     </elements>
 </model>
