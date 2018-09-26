@@ -17,6 +17,11 @@
 - (NSArray*)entitiesWithACustomSubclassInConfiguration:(NSString*)configuration_ verbose:(BOOL)verbose_;
 @end
 
+@interface NSEntityDescription (userInfo)
+/// @return Whether or not the entity should be ignored during code generation
+- (BOOL)isIgnored;
+@end
+
 @interface NSEntityDescription (customBaseClass)
 - (BOOL)hasCustomClass;
 - (BOOL)hasSuperentity;
@@ -27,7 +32,6 @@
 - (NSString*)additionalHeaderFileName;
 - (void)_processPredicate:(NSPredicate*)predicate_ bindings:(NSMutableArray*)bindings_;
 - (NSArray*)prettyFetchRequests;
-- (BOOL)isIgnored;
 @end
 
 @interface NSAttributeDescription (typing)

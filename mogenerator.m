@@ -136,6 +136,15 @@ static const NSString *const kIgnored = @"mogenerator.ignore";
 }
 @end
 
+@implementation NSEntityDescription (userInfo)
+- (BOOL)isIgnored {
+    NSString *readonlyUserinfoValue = [[self userInfo] objectForKey:kIgnored];
+    if (readonlyUserinfoValue != nil) {
+        return YES;
+    }
+    return NO;
+}
+@end
 
 @implementation NSEntityDescription (customBaseClass)
 - (BOOL)hasCustomBaseCaseImport {
@@ -420,13 +429,6 @@ static const NSString *const kIgnored = @"mogenerator.ignore";
     return result;
 }
 
-- (BOOL)isIgnored {
-    NSString *readonlyUserinfoValue = [[self userInfo] objectForKey:kIgnored];
-    if (readonlyUserinfoValue != nil) {
-        return YES;
-    }
-    return NO;
-}
 @end
 
 @implementation NSAttributeDescription (typing)
