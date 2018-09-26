@@ -26,7 +26,7 @@ run_or_die 'xcodebuild -project ../mogenerator.xcodeproj -scheme mogenerator cle
 run_or_die 'xcodebuild -project ../mogenerator.xcodeproj -scheme mogenerator'
 
 def gen_and_compile_objc(mogenPath, extra_mogen_args, extra_llvm_args)
-  puts = '*** Testing Objective-C'
+  puts "*** Testing Objective-C"
   ENV['MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS'] = '1'
   run_or_die "#{mogenPath.gsub(/ /, '\\ ')} --model test.xcdatamodel --output MOs --baseClass MyBaseClass #{extra_mogen_args}"
   run_or_die 'cp ./objc/Gender.* ./objc/MyBaseClass.* MOs'
