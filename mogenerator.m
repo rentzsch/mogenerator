@@ -19,6 +19,7 @@ static const NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFi
 static const NSString *const kAdditionalImportsKey = @"additionalImports";
 static const NSString *const kCustomBaseClass = @"mogenerator.customBaseClass";
 static const NSString *const kReadOnly = @"mogenerator.readonly";
+static const NSString *const kIgnored = @"mogenerator.ignore";
 
 @interface NSEntityDescription (fetchedPropertiesAdditions)
 - (NSDictionary*)fetchedPropertiesByName;
@@ -418,6 +419,14 @@ static const NSString *const kReadOnly = @"mogenerator.readonly";
     }
     return result;
 }
+
+- (BOOL)isIgnored {
+    NSString *readonlyUserinfoValue = [[self userInfo] objectForKey:kIgnored];
+    if (readonlyUserinfoValue != nil) {
+        return YES;
+    }
+    return NO;
+}
 @end
 
 @implementation NSAttributeDescription (typing)
@@ -796,7 +805,6 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
         {@"base-class",         0,     DDGetoptRequiredArgument},
         {@"base-class-import",  0,     DDGetoptRequiredArgument},
         {@"base-class-force",   0,     DDGetoptRequiredArgument},
-        {@"ignored-entities",   0,     DDGetoptRequiredArgument},
         // For compatibility:
         {@"baseClass",          0,     DDGetoptRequiredArgument},
         {@"includem",           0,     DDGetoptRequiredArgument},
@@ -851,7 +859,6 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
            "--base-class-force CLASS  Same as --base-class except will force all entities to\n"
            "                          have the specified base class. Even if a super entity\n"
            "                          exists\n"
-           "--ignored-entities LIST   Comma separated list of of entity names. Entities will be ignored when generating classes\n"
            "--includem FILE           Generate aggregate include file for .m files for both\n"
            "                          human and machine generated source files\n"
            "--includeh FILE           Generate aggregate include file for .h files for human\n"
@@ -1048,11 +1055,6 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     }
 }
 
-- (BOOL)isIgnoredEntity:(NSString *)entityName {
-    NSArray<NSString *> *entities = [ignoredEntities componentsSeparatedByString:@","];
-    return [entities containsObject:entityName] || [entities containsObject:[NSString stringWithFormat:@"_%@", entityName]];
-}
-
 - (int)application:(DDCliApplication*)app runWithArguments:(NSArray*)arguments {
     if (_help) {
         [self printUsage];
@@ -1199,7 +1201,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
         NSArray *entitiesWithCustomSubclass = [model entitiesWithACustomSubclassInConfiguration:configuration verbose:YES];
         for (NSEntityDescription *entity in entitiesWithCustomSubclass)
         {
-            if ([self isIgnoredEntity:entity.name]) {
+            if ([entity isIgnored]) {
                 continue;
             }
             NSString *generatedMachineH = [machineH executeWithObject:entity sender:nil];

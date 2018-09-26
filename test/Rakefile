@@ -26,9 +26,7 @@ run_or_die 'xcodebuild -project ../mogenerator.xcodeproj -scheme mogenerator cle
 run_or_die 'xcodebuild -project ../mogenerator.xcodeproj -scheme mogenerator'
 
 def gen_and_compile_objc(mogenPath, extra_mogen_args, extra_llvm_args)
-  status = '*** Testing Objective-C'
-  status << ' with parameters' if extra_mogen_args.length > 0
-  puts status
+  puts = '*** Testing Objective-C'
   ENV['MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS'] = '1'
   run_or_die "#{mogenPath.gsub(/ /, '\\ ')} --model test.xcdatamodel --output MOs --baseClass MyBaseClass #{extra_mogen_args}"
   run_or_die 'cp ./objc/Gender.* ./objc/MyBaseClass.* MOs'
@@ -62,13 +60,11 @@ task :swift do
   Rake::Task[:clean].execute
 end
 
-desc 'Generate, Compile and Run with parameters'
+desc 'Generate, Compile and test ignored entities'
 task :objc do
   Rake::Task[:clean].execute
-  gen_and_compile_objc(MOGENERATOR_PATH, '--ignored-entities Uncle,Aunt', '')
-  includes_uncle = Dir.entries('./MOs').any? do |file|
-    file.include?('Uncle') || file.include?('Aunt')
-  end
+  gen_and_compile_objc(MOGENERATOR_PATH, '', '')
+  includes_uncle = Dir.entries('./MOs').any? { |file| file.include?('Uncle') }
   raise 'Failed: Ignored entities should not be generated' if includes_uncle
   Rake::Task[:clean].execute
 end

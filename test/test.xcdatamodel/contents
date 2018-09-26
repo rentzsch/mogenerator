@@ -57,6 +57,9 @@
     </entity>
     <entity name="Uncle" representedClassName="UncleMO" parentEntity="Human" syncable="YES">
         <attribute name="attribute" optional="YES" attributeType="String" syncable="YES"/>
+        <userInfo>
+            <entry key="mogenerator.ignore" value="value"/>
+        </userInfo>
     </entity>
     <fetchRequest name="allHumans" entity="Human"/>
     <fetchRequest name="byHumanName" entity="Human" predicateString="humanName == $humanName"/>

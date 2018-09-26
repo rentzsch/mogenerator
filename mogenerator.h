@@ -27,6 +27,7 @@
 - (NSString*)additionalHeaderFileName;
 - (void)_processPredicate:(NSPredicate*)predicate_ bindings:(NSMutableArray*)bindings_;
 - (NSArray*)prettyFetchRequests;
+- (BOOL)isIgnored;
 @end
 
 @interface NSAttributeDescription (typing)
@@ -67,7 +68,6 @@
     NSString              *baseClass;
     NSString              *baseClassImport;
     NSString              *baseClassForce;
-    NSString              *ignoredEntities;
     NSString              *includem;
     NSString              *includeh;
     NSString              *templatePath;
