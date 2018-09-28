@@ -428,7 +428,6 @@ static const NSString *const kIgnored = @"mogenerator.ignore";
     }
     return result;
 }
-
 @end
 
 @implementation NSAttributeDescription (typing)

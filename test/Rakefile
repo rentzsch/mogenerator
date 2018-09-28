@@ -45,11 +45,17 @@ def gen_and_compile_swift(mogenPath, extra_mogen_args)
   puts run_or_die './testbin'
 end
 
+def assert_entity_user_info_respected
+  # mogenerator.ignore
+  includes_uncle = Dir.entries('./MOs').any? { |file| file.include?('Uncle') }
+  raise 'Failed: Ignored entities should not be generated' if includes_uncle
+end
 
 desc 'Generate, Compile and Run Objective-C'
 task :objc do
   Rake::Task[:clean].execute
   gen_and_compile_objc(MOGENERATOR_PATH, '', '')
+  assert_entity_user_info_respected
   Rake::Task[:clean].execute
 end
 
@@ -57,17 +63,10 @@ desc 'Generate, Compile and Run Swift'
 task :swift do
   Rake::Task[:clean].execute
   gen_and_compile_swift(MOGENERATOR_PATH, '')
+  assert_entity_user_info_respected
   Rake::Task[:clean].execute
 end
 
-desc 'Generate, Compile and test ignored entities'
-task :objc do
-  Rake::Task[:clean].execute
-  gen_and_compile_objc(MOGENERATOR_PATH, '', '')
-  includes_uncle = Dir.entries('./MOs').any? { |file| file.include?('Uncle') }
-  raise 'Failed: Ignored entities should not be generated' if includes_uncle
-  Rake::Task[:clean].execute
-end
 
 desc 'Clean output'
 task :clean do
