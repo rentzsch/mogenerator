@@ -19,6 +19,7 @@ static const NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFi
 static const NSString *const kAdditionalImportsKey = @"additionalImports";
 static const NSString *const kCustomBaseClass = @"mogenerator.customBaseClass";
 static const NSString *const kReadOnly = @"mogenerator.readonly";
+static const NSString *const kIgnored = @"mogenerator.ignore";
 
 @interface NSEntityDescription (fetchedPropertiesAdditions)
 - (NSDictionary*)fetchedPropertiesByName;
@@ -135,6 +136,15 @@ static const NSString *const kReadOnly = @"mogenerator.readonly";
 }
 @end
 
+@implementation NSEntityDescription (userInfo)
+- (BOOL)isIgnored {
+    NSString *readonlyUserinfoValue = [[self userInfo] objectForKey:kIgnored];
+    if (readonlyUserinfoValue != nil) {
+        return YES;
+    }
+    return NO;
+}
+@end
 
 @implementation NSEntityDescription (customBaseClass)
 - (BOOL)hasCustomBaseCaseImport {
@@ -1192,6 +1202,9 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
         NSArray *entitiesWithCustomSubclass = [model entitiesWithACustomSubclassInConfiguration:configuration verbose:YES];
         for (NSEntityDescription *entity in entitiesWithCustomSubclass)
         {
+            if ([entity isIgnored]) {
+                continue;
+            }
             NSString *generatedMachineH = [machineH executeWithObject:entity sender:nil];
             NSString *generatedMachineM = [machineM executeWithObject:entity sender:nil];
             NSString *generatedHumanH = [humanH executeWithObject:entity sender:nil];
