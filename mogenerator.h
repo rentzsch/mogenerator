@@ -17,6 +17,11 @@
 - (NSArray*)entitiesWithACustomSubclassInConfiguration:(NSString*)configuration_ verbose:(BOOL)verbose_;
 @end
 
+@interface NSEntityDescription (userInfo)
+/// @return Whether or not the entity should be ignored during code generation
+- (BOOL)isIgnored;
+@end
+
 @interface NSEntityDescription (customBaseClass)
 - (BOOL)hasCustomClass;
 - (BOOL)hasSuperentity;
