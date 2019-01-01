@@ -60,6 +60,7 @@ public extension <$managedObjectClassName$> {
 <$if Attribute.hasDefinedAttributeType$>	
 <$if Attribute.hasScalarAttributeType$>
 
+<$if Attribute.isOptional$>
 <$if Attribute.usesRawValueEnumType$>
 	// Attribute <$Attribute.name$> is an enum with a numeric raw type.
 	public<$if Attribute.isReadonly$> private(set)<$endif$> var <$Attribute.name$>: <$Attribute.attributeRawValueEnumType$>? {
@@ -83,9 +84,7 @@ public extension <$managedObjectClassName$> {
 			setPrimitiveValue(value.rawValue, forKey: key)
 		}
 	}
-<$else$> <$comment usesRawValueEnumType = false $>
-<$if Attribute.isOptional$>
-<$if Attribute.usesScalarAttributeType$>
+<$elseif Attribute.usesScalarAttributeType$>
 	// Attribtue <$Attribute.name$> is a scalar optional
 	public<$if Attribute.isReadonly$> private(set)<$endif$> var <$Attribute.name$>: <$Attribute.scalarAttributeType$>? {
 		get {
@@ -107,14 +106,13 @@ public extension <$managedObjectClassName$> {
 			setPrimitiveValue(value, forKey: key)
 		}
 	}
-<$else$> <$comment usesScalarAttributeType = true but the above checks are not true $>
+<$else$> <$comment isOptional = true but the above checks are not true $>
 	@NSManaged public<$if Attribute.isReadonly$> private(set)<$endif$> var <$Attribute.name$>: NSNumber?
-<$endif$>
-<$else$> <$comment isOptional is not true $>
+<$endif$> <$comment end of if/elesif/else for optional properties $>
+<$else$> <$comment isOptional is not true but hasScalarAttributeType is still true $>
 	// <$Attribute.name$> is required (not optional)
 	@NSManaged public<$if Attribute.isReadonly$> private(set)<$endif$> var <$Attribute.name$>: <$if Attribute.usesScalarAttributeType$><$Attribute.scalarAttributeType$><$else$>NSNumber<$endif$>
 <$endif$> <$comment isOptional $>
-<$endif$> <$comment usesRawValueEnumType $>
 <$else$> <$comment hasScalarAttributeType = false (object type) $>
 <$if Attribute.usesRawValueEnumType$> <$comment This is here because enums with String raw value don't count as scalars $>
 	// Attribute <$Attribute.name$> is an enum with a non-numeric raw type.
@@ -167,7 +165,7 @@ public extension <$managedObjectClassName$> {
 <$endif$> <$comment usesRawValueEnumType $>
 <$endif$> <$comment hasScalarAttributrType$>
 <$endif$> <$comment hasDefinedAttributeType$>
-<$endforeach do$>
+<$endforeach do$> <$comment end of properties $>
 
     // MARK: - Relationships
 <$foreach Relationship noninheritedRelationships do$>
