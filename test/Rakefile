@@ -1,5 +1,5 @@
 #!/usr/bin/ruby
-# Copyright (c) 2006-2016 Jonathan 'Wolf' Rentzsch: http://rentzsch.com
+# Copyright (c) 2006-2019 Jonathan 'Wolf' Rentzsch: http://rentzsch.com
 # Some rights reserved: http://opensource.org/licenses/mit
 # http://github.com/rentzsch/mogenerator
 
@@ -12,7 +12,7 @@ end
 #==============================
 # Variables
 #==============================
-OSX_SDK="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk"
+OSX_SDK="/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
 OSX_VERSION="10.10"
 LINKED_FRAMEWORKS="-framework Foundation -framework AppKit -framework CoreData"
 
