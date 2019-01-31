@@ -2,7 +2,7 @@ a { text-decoration: none; }
 h1, h2, h3, h4, h5, h6, pre, code, li, p {
 	font-size: 1em;
 }
-ul, ol, dl, ul, li, dl, dt, dd, h1, h2, h3, h4, h5, h6, pre, 
+ul, ol, dl, ul, li, dl, dt, dd, h1, h2, h3, h4, h5, h6, pre,
 form, body, html, p, blockquote, fieldset, input, td, th {
 	padding: 0;
 	margin: 0;
@@ -81,6 +81,6 @@ dd p {
 }
 #actions .command {
 	font-family: Menlo; Courier, mono;
-	font-size: 11px;
+	zfont-size: 12px;
 	white-space: nowrap;
 }
