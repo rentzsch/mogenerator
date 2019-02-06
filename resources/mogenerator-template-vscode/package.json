@@ -1,0 +1,26 @@
+{
+    "name": "mogenerator-template",
+    "displayName": "Mogenerator template",
+    "description": "Syntax highlighting for mogenerator template files",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.30.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "homepage": "https://github.com/rentzsch/mogenerator",
+    "contributes": {
+        "languages": [{
+            "id": "mogenerator-template",
+            "aliases": ["Mogenerator template", "mogenerator-template"],
+            "extensions": [".motemplate"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "mogenerator-template",
+            "scopeName": "source.motemplate",
+            "path": "./syntaxes/mogenerator-template.tmLanguage.json"
+        }]
+    }
+}

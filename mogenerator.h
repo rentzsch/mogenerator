@@ -1,5 +1,5 @@
 // mogenerator.h
-//   Copyright (c) 2006-2016 Jonathan 'Wolf' Rentzsch: http://rentzsch.com
+//   Copyright (c) 2006-2019 Jonathan 'Wolf' Rentzsch: http://rentzsch.com
 //   Some rights reserved: http://opensource.org/licenses/mit
 //   http://github.com/rentzsch/mogenerator
 

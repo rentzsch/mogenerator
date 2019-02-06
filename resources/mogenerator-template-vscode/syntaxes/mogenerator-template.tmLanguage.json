@@ -1,0 +1,47 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "Mogenerator template",
+	"patterns": [
+		{
+			"include": "#comment"
+		},
+		{
+			"include": "#keywords"
+		}
+	],
+	"repository": {
+		"keywords": {
+			"name": "keyword.other.mogenerator-template",
+			"begin": "<\\$\\s*",
+			"end": "\\$>",
+			"patterns": [{
+				"name": "keyword.control.mogenerator-template",
+				"match": "(if|else|elseif|endif|foreach|endforeach|break|continue|date)"
+			}]
+		},
+		"strings": {
+			"name": "string.quoted.double.mogenerator-template",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.mogenerator-template",
+					"match": "\\\\."
+				}
+			]
+		},
+		"comment": {
+			"name": "comment.block.motemplate",
+			"begin": "<\\$comment",
+			"end": "\\$>",
+			"patterns": [
+				{
+					"name": "constant.character.escape.mogenerator-template",
+					"match": "\\\\."
+				}
+			],
+			"contentName": "constant.character.escape.mogenerator-template"
+		}
+	},
+	"scopeName": "source.motemplate"
+}
