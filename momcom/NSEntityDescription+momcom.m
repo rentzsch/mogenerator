@@ -28,6 +28,9 @@
         if ([attributeName isEqualToString:@"name"]) {
             [entityDescription setName:attributeString];
         } else if ([attributeName isEqualToString:@"representedClassName"]) {
+			if ([attributeString hasPrefix:@"."]) {
+				attributeString = [attributeString substringFromIndex:1];
+			}
             [entityDescription setManagedObjectClassName:attributeString];
         } else if ([attributeName isEqualToString:@"elementID"]) {
             [entityDescription setRenamingIdentifier:attributeString];
