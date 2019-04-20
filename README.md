@@ -24,6 +24,8 @@ Senseful wrote up a [nice summary of mogenerator's command-line options](http://
 
 * [NEW] Expose information when custom type is set through userInfo ([Aleksandar Vacić](https://github.com/rentzsch/mogenerator/pull/369))
 
+* [NEW] Add Codable property support via a new attributeCodableTypeName user info key ([Tom Harrington](https://github.com/rentzsch/mogenerator/issues/375))
+
 * [CHANGE] Nullability annotations for generated primitive accessors ([Michael Babin](https://github.com/rentzsch/mogenerator/pull/363))
 
 * [FIX] Support for “Uses Scalar Type” ([Rok Gregorič](https://github.com/rentzsch/mogenerator/pull/352))
