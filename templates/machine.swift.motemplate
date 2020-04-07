@@ -107,9 +107,15 @@ open class _<$sanitizedManagedObjectClassName$>: NSManagedObject {
     var <$Relationship.name$>: <$Relationship.immutableCollectionClassName$>
 
     open func <$Relationship.name$>Set() -> <$Relationship.mutableCollectionClassName$> {
-        return self.<$Relationship.name$>.mutableCopy() as! <$Relationship.mutableCollectionClassName$>
+        willAccessValue(forKey: "<$Relationship.name$>")
+  <$if Relationship.jr_isOrdered$>
+		let result = mutableOrderedSetValue(forKey:"<$Relationship.name$>")
+  <$else$>
+		let result = mutableSetValue(forKey:"<$Relationship.name$>")
+  <$endif$>
+		didAccessValue(forKey: "<$Relationship.name$>");
+        return result
     }
-
 <$else$>
     @NSManaged open
     var <$Relationship.name$>: <$Relationship.destinationEntity.sanitizedManagedObjectClassName$><$if Relationship.isOptional$>?<$endif$>
