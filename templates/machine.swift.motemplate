@@ -194,30 +194,16 @@ open class _<$sanitizedManagedObjectClassName$>: NSManagedObject {
 
 <$foreach Relationship noninheritedRelationships do$><$if Relationship.isToMany$>
 extension _<$sanitizedManagedObjectClassName$> {
+	@NSManaged
+    open func add<$Relationship.name.initialCapitalString$>(_ objects: <$Relationship.immutableCollectionClassName$>)
 
-    open func add<$Relationship.name.initialCapitalString$>(_ objects: <$Relationship.immutableCollectionClassName$>) {
-        let mutable = self.<$Relationship.name$>.mutableCopy() as! NSMutable<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
-        mutable.union(objects<$if !Relationship.jr_isOrdered$> as Set<NSObject><$endif$>)
-        self.<$Relationship.name$> = mutable.copy() as! NS<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
-    }
+	@NSManaged
+    open func remove<$Relationship.name.initialCapitalString$>(_ objects: <$Relationship.immutableCollectionClassName$>)
 
-    open func remove<$Relationship.name.initialCapitalString$>(_ objects: <$Relationship.immutableCollectionClassName$>) {
-        let mutable = self.<$Relationship.name$>.mutableCopy() as! NSMutable<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
-        mutable.minus(objects<$if !Relationship.jr_isOrdered$> as Set<NSObject><$endif$>)
-        self.<$Relationship.name$> = mutable.copy() as! NS<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
-    }
+	@NSManaged
+    open func add<$Relationship.name.initialCapitalString$>Object(_ value: <$Relationship.destinationEntity.sanitizedManagedObjectClassName$>)
 
-    open func add<$Relationship.name.initialCapitalString$>Object(_ value: <$Relationship.destinationEntity.sanitizedManagedObjectClassName$>) {
-        let mutable = self.<$Relationship.name$>.mutableCopy() as! NSMutable<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
-        mutable.add(value)
-        self.<$Relationship.name$> = mutable.copy() as! NS<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
-    }
-
-    open func remove<$Relationship.name.initialCapitalString$>Object(_ value: <$Relationship.destinationEntity.sanitizedManagedObjectClassName$>) {
-        let mutable = self.<$Relationship.name$>.mutableCopy() as! NSMutable<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
-        mutable.remove(value)
-        self.<$Relationship.name$> = mutable.copy() as! NS<$if Relationship.jr_isOrdered$>Ordered<$endif$>Set
-    }
-
+	@NSManaged
+    open func remove<$Relationship.name.initialCapitalString$>Object(_ value: <$Relationship.destinationEntity.sanitizedManagedObjectClassName$>) 
 }
 <$endif$><$endforeach do$>
