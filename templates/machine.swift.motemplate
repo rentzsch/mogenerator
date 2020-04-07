@@ -51,11 +51,6 @@ open class _<$sanitizedManagedObjectClassName$>: NSManagedObject {
         return NSEntityDescription.entity(forEntityName: self.entityName(), in: managedObjectContext)
     }
 
-    @nonobjc
-    open class func fetchRequest() -> NSFetchRequest<<$sanitizedManagedObjectClassName$>> {
-        return NSFetchRequest(entityName: self.entityName())
-    }
-
     // MARK: - Life cycle methods
 
     public override init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?) {
