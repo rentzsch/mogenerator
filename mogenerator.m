@@ -211,6 +211,15 @@ static const NSString *const kIgnored = @"mogenerator.ignore";
         return forcedBaseClass;
     }
 }
+
+- (NSString*)sanitizedCustomSuperentity {
+    NSString *customSuperentity = [self customSuperentity];
+    if ([customSuperentity hasPrefix:@"."]) {
+        return [customSuperentity stringByReplacingOccurrencesOfString:@"." withString:@""];
+    }
+    return customSuperentity;
+}
+
 - (NSString*)forcedCustomBaseClass {
     NSString* userInfoCustomBaseClass = [[self userInfo] objectForKey:kCustomBaseClass];
     return userInfoCustomBaseClass ? userInfoCustomBaseClass : gCustomBaseClassForced;
@@ -1220,6 +1229,10 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
             generatedHumanM = [generatedHumanM stringByReplacingOccurrencesOfRegex:searchPattern withString:replacementString];
 
             NSString *entityClassName = [entity managedObjectClassName];
+            if ([entityClassName.firstLetter compare:@"."] == NSOrderedSame) {
+                // If default module specified, "MyClass" -> ".MyClass" -> "_MyClass"/"__MyClass"
+                entityClassName = [entityClassName substringFromIndex:1];
+            }
             entityClassName = [entityClassName stringByReplacingOccurrencesOfString:@"." withString:@"_"];
             BOOL machineDirtied = NO;
 
