@@ -211,6 +211,15 @@ static const NSString *const kIgnored = @"mogenerator.ignore";
         return forcedBaseClass;
     }
 }
+
+- (NSString*)sanitizedCustomSuperentity {
+    NSString *customSuperentity = [self customSuperentity];
+    if ([customSuperentity hasPrefix:@"."]) {
+        return [customSuperentity stringByReplacingOccurrencesOfString:@"." withString:@""];
+    }
+    return customSuperentity;
+}
+
 - (NSString*)forcedCustomBaseClass {
     NSString* userInfoCustomBaseClass = [[self userInfo] objectForKey:kCustomBaseClass];
     return userInfoCustomBaseClass ? userInfoCustomBaseClass : gCustomBaseClassForced;
@@ -447,6 +456,7 @@ static const NSString *const kIgnored = @"mogenerator.ignore";
         case NSInteger16AttributeType:
         case NSInteger32AttributeType:
         case NSInteger64AttributeType:
+		case NSDecimalAttributeType:
         case NSDoubleAttributeType:
         case NSFloatAttributeType:
         case NSBooleanAttributeType:
@@ -489,6 +499,9 @@ static const NSString *const kIgnored = @"mogenerator.ignore";
                 break;
             case NSInteger64AttributeType:
                 return gSwift ? isUnsigned ? @"UInt64" : @"Int64" : isUnsigned ? @"uint64_t" : @"int64_t";
+                break;
+            case NSDecimalAttributeType:
+                return gSwift ? @"Decimal" : @"NSDecimalNumber";
                 break;
             case NSDoubleAttributeType:
                 return gSwift ? @"Double" : @"double";
@@ -1220,6 +1233,10 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
             generatedHumanM = [generatedHumanM stringByReplacingOccurrencesOfRegex:searchPattern withString:replacementString];
 
             NSString *entityClassName = [entity managedObjectClassName];
+            if ([entityClassName.firstLetter compare:@"."] == NSOrderedSame) {
+                // If default module specified, "MyClass" -> ".MyClass" -> "_MyClass"/"__MyClass"
+                entityClassName = [entityClassName substringFromIndex:1];
+            }
             entityClassName = [entityClassName stringByReplacingOccurrencesOfString:@"." withString:@"_"];
             BOOL machineDirtied = NO;
 

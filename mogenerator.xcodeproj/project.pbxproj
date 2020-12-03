@@ -217,6 +217,7 @@
 			);
 			name = mogenerator;
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		08FB7795FE84155DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
