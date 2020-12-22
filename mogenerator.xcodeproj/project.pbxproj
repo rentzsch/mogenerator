@@ -446,7 +446,7 @@
 				"$(SRCROOT)/templates/machine.swift.motemplate",
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/motemplate-Info.plist",
+				"$(DERIVED_FILE_DIR)/mogenerator-Info.plist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
