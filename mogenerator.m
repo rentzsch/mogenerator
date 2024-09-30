@@ -442,13 +442,23 @@ static const NSString *const kIgnored = @"mogenerator.ignore";
 @implementation NSAttributeDescription (typing)
 - (BOOL)isUnsigned
 {
-    BOOL hasMin = NO;
+    BOOL isUnsigned = NO;
     for (NSPredicate *pred in [self validationPredicates]) {
-        if ([pred.predicateFormat containsString:@">= 0"]) {
-            hasMin = YES;
+        NSString* formatString = pred.predicateFormat;
+        NSRange range = [formatString rangeOfString:@"SELF >="];
+        if (range.location != NSNotFound) {
+            NSUInteger startIndex = range.location + range.length;
+            NSString *minString = [formatString substringFromIndex:startIndex];
+            NSScanner *scanner = [NSScanner scannerWithString:minString];
+            NSInteger minValue;
+            BOOL success = [scanner scanInteger:&minValue];
+            if (success && (minValue >= 0)) {
+                isUnsigned = YES;
+                break;
+            }
         }
     }
-    return hasMin;
+    return isUnsigned;
 }
 
 - (BOOL)hasScalarAttributeType {
