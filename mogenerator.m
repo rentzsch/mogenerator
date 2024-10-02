@@ -16,6 +16,7 @@ static BOOL       gSwift;
 
 static const NSString *const kAttributeValueScalarTypeKey = @"attributeValueScalarType";
 static const NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName";
+static const NSString *const kUsesRawValueEnumType = @"attributeRawValueEnumType";
 static const NSString *const kAdditionalImportsKey = @"additionalImports";
 static const NSString *const kCustomBaseClass = @"mogenerator.customBaseClass";
 static const NSString *const kReadOnly = @"mogenerator.readonly";
@@ -476,6 +477,15 @@ static const NSString *const kIgnored = @"mogenerator.ignore";
     }
 }
 
+- (BOOL)usesRawValueEnumType {
+    NSNumber *usesRawValueEnumType = [[self userInfo] objectForKey:kUsesRawValueEnumType];
+    return (usesRawValueEnumType != NULL);
+}
+
+- (NSString *)attributeRawValueEnumType {
+    return [[self userInfo] objectForKey:kUsesRawValueEnumType];
+}
+
 - (BOOL)usesScalarAttributeType {
     NSNumber *usesScalarAttributeType = [[self userInfo] objectForKey:kUsesScalarAttributeType];
 
@@ -605,6 +615,13 @@ static const NSString *const kIgnored = @"mogenerator.ignore";
         if (!result) {
             result = gSwift ? @"AnyObject" : @"NSObject";
         }
+    } else if (gSwift && [self attributeType] == NSBinaryDataAttributeType) {
+        NSString *codableName = [self userInfo][@"attributeCodableTypeName"];
+        if (!codableName) {
+            result = @"Data";
+        } else {
+            result = codableName;
+        }
     } else {
         // Forcibly generate the correct class name in case we are
         // running on macOS < 10.13
@@ -655,6 +672,10 @@ static const NSString *const kIgnored = @"mogenerator.ignore";
 - (BOOL)usesCustomObjectAttributeType {
     NSString *attributeValueClassName = [[self userInfo] objectForKey:@"attributeValueClassName"];
     return (attributeValueClassName != nil);
+}
+
+- (BOOL)usesCustomCodableAttributeType {
+    return [self userInfo][@"attributeCodableTypeName"] != NULL;
 }
 
 - (NSString*)objectAttributeType {
@@ -1082,7 +1103,7 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     }
 
     if (_version) {
-        printf("mogenerator 1.32. By Jonathan 'Wolf' Rentzsch + friends.\n");
+        printf("mogenerator 1.33. By Jonathan 'Wolf' Rentzsch + friends.\n");
         return EXIT_SUCCESS;
     }
 

@@ -23,38 +23,38 @@ struct CoreDataStore {
 let dataStore = CoreDataStore()
 let moc = dataStore.moc
 //
-let homer = ParentMO(managedObjectContext: moc)!
+let homer = ParentMO(context: moc)
 homer.humanName = "homer"
 homer.parentName = homer.humanName
 homer.ivar = 1.0
 homer.gender = NSNumber(value: Gender.Male.rawValue)
 
-let marge = ParentMO(managedObjectContext: moc)!
+let marge = ParentMO(context: moc)
 marge.humanName = "marge"
 marge.parentName = marge.humanName
 marge.ivar = 1.0
 marge.gender = NSNumber(value: Gender.Female.rawValue)
 
-assert(homer.children.count == 0)
-assert(marge.children.count == 0)
+assert(homer.children!.count == 0)
+assert(marge.children!.count == 0)
 
-let bart = ChildMO(managedObjectContext: moc)!
+let bart = ChildMO(context: moc)
 bart.humanName = "bart"
 bart.childName = bart.humanName
 bart.ivar = 1.0
 bart.type = 64
 
-let lisa = ChildMO(managedObjectContext: moc)!
+let lisa = ChildMO(context: moc)
 lisa.humanName = "lisa"
 lisa.childName = lisa.humanName
 lisa.ivar = 1.0
 
 do {
     try moc.save()
-    assert(Gender(rawValue: homer.gender!.intValue) == .Male)
-    assert(Gender(rawValue: marge.gender!.intValue) == .Female)
-    assert(Gender(rawValue: bart.gender!.intValue) == .Undefined)
-    assert(Gender(rawValue: homer.gender!.intValue)!.toString() == "Male")
+    assert(Gender(rawValue: homer.gender.intValue) == .Male)
+    assert(Gender(rawValue: marge.gender.intValue) == .Female)
+    assert(Gender(rawValue: bart.gender.intValue) == .Undefined)
+    assert(Gender(rawValue: homer.gender.intValue)!.toString() == "Male")
 
 } catch {
     assertionFailure("Failed to save")
