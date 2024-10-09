@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 <$endif$>
 <$if Attribute.hasDefinedAttributeType$>
-<$if (Attribute.hasScalarAttributeType &&  !Attribute.optional && TemplateVar.scalarsWhenNonOptional)$>
+<$if (Attribute.hasScalarAttributeType && !Attribute.optional && TemplateVar.scalarsWhenNonOptional)$>
 <$if Attribute.isReadonly$>
 @property (atomic, readonly) <$Attribute.scalarAttributeType$> <$Attribute.name$>;
 <$else$>
