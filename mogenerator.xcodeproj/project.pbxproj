@@ -71,6 +71,12 @@
 /* Begin PBXFileReference section */
 		08FB7796FE84155DC02AAC07 /* mogenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mogenerator.m; sourceTree = "<group>"; usesTabs = 0; };
 		08FB779EFE84155DC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		147D172B1B8E2F480052E67D /* human.h.motemplate */ = {isa = PBXFileReference; lastKnownFileType = text; name = human.h.motemplate; path = templates/human.h.motemplate; sourceTree = "<group>"; };
+		147D172C1B8E2F480052E67D /* human.m.motemplate */ = {isa = PBXFileReference; lastKnownFileType = text; name = human.m.motemplate; path = templates/human.m.motemplate; sourceTree = "<group>"; };
+		147D172D1B8E2F480052E67D /* human.swift.motemplate */ = {isa = PBXFileReference; lastKnownFileType = text; name = human.swift.motemplate; path = templates/human.swift.motemplate; sourceTree = "<group>"; };
+		147D172E1B8E2F480052E67D /* machine.h.motemplate */ = {isa = PBXFileReference; lastKnownFileType = text; name = machine.h.motemplate; path = templates/machine.h.motemplate; sourceTree = "<group>"; };
+		147D172F1B8E2F480052E67D /* machine.m.motemplate */ = {isa = PBXFileReference; lastKnownFileType = text; name = machine.m.motemplate; path = templates/machine.m.motemplate; sourceTree = "<group>"; };
+		147D17301B8E2F480052E67D /* machine.swift.motemplate */ = {isa = PBXFileReference; lastKnownFileType = text; name = machine.swift.motemplate; path = templates/machine.swift.motemplate; sourceTree = "<group>"; };
 		32A70AAB03705E1F00C91783 /* mogenerator_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mogenerator_Prefix.pch; sourceTree = "<group>"; };
 		457C26C7139A1EF900BF00DD /* MKCDAGNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKCDAGNode.h; sourceTree = "<group>"; };
 		457C26C8139A1EF900BF00DD /* MKCDAGNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKCDAGNode.m; sourceTree = "<group>"; };
@@ -208,6 +214,7 @@
 			isa = PBXGroup;
 			children = (
 				08FB7795FE84155DC02AAC07 /* Source */,
+				147D172A1B8E2F170052E67D /* Templates */,
 				EE5ED86417332DED0013CCD1 /* momcom */,
 				79D2BF510ACFB51000F3F141 /* MiscMerge */,
 				457C26C6139A1EF900BF00DD /* ponso */,
@@ -238,6 +245,19 @@
 				7931E67710FE982500175784 /* libicucore.dylib */,
 			);
 			name = "External Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		147D172A1B8E2F170052E67D /* Templates */ = {
+			isa = PBXGroup;
+			children = (
+				147D172B1B8E2F480052E67D /* human.h.motemplate */,
+				147D172C1B8E2F480052E67D /* human.m.motemplate */,
+				147D172D1B8E2F480052E67D /* human.swift.motemplate */,
+				147D172E1B8E2F480052E67D /* machine.h.motemplate */,
+				147D172F1B8E2F480052E67D /* machine.m.motemplate */,
+				147D17301B8E2F480052E67D /* machine.swift.motemplate */,
+			);
+			name = Templates;
 			sourceTree = "<group>";
 		};
 		1AB674ADFE9D54B511CA2CBB /* Products */ = {
