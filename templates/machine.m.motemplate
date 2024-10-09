@@ -26,11 +26,11 @@
 	return (<$managedObjectClassName$>ID*)[super objectID];
 }
 
-+ (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
-	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
++ (NSSet<NSString*>*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
+	NSSet<NSString*> *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 	<$foreach Attribute noninheritedAttributes do$><$if Attribute.hasDefinedAttributeType$><$if Attribute.hasScalarAttributeType && (Attribute.optional || !TemplateVar.scalarsWhenNonOptional)$>
 	if ([key isEqualToString:@"<$Attribute.name$>Value"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"<$Attribute.name$>"];
+		NSSet<NSString*> *affectingKey = [NSSet setWithObject:@"<$Attribute.name$>"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}<$endif$><$endif$><$endforeach do$>
@@ -195,7 +195,7 @@
 #if TARGET_OS_IPHONE
 <$foreach Relationship noninheritedRelationships do$>
 <$if Relationship.isToMany$>
-- (NSFetchedResultsController*)new<$Relationship.name.initialCapitalString$>FetchedResultsControllerWithSortDescriptors:(NSArray*)sortDescriptors {
+- (NSFetchedResultsController*)new<$Relationship.name.initialCapitalString$>FetchedResultsControllerWithSortDescriptors:(NSArray<NSSortDescriptor*>*)sortDescriptors {
 	NSFetchRequest *fetchRequest = [NSFetchRequest new];
 	fetchRequest.entity = [NSEntityDescription entityForName:@"<$Relationship.destinationEntity.name$>" inManagedObjectContext:self.managedObjectContext];
 	fetchRequest.predicate = [NSPredicate predicateWithFormat:@"<$Relationship.inverseRelationship.name$> <$if Relationship.inverseRelationship.isToMany$>CONTAINS<$else$>==<$endif$> %@", self];
