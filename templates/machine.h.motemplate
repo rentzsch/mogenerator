@@ -171,6 +171,7 @@ NS_ASSUME_NONNULL_BEGIN
 <$endforeach do$>
 @end
 
+<$if TemplateVar.include-ash-classes$>
 
 <$if noninheritedAttributes.@count > 0$>
 @interface <$managedObjectClassName$>Attributes: NSObject <$foreach Attribute noninheritedAttributes do$>
@@ -194,6 +195,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface <$managedObjectClassName$>UserInfo: NSObject <$foreach UserInfo userInfoKeyValues do$>
 + (NSString *)<$UserInfo.key$>;<$endforeach do$>
 @end
+<$endif$>
+
 <$endif$>
 
 NS_ASSUME_NONNULL_END
