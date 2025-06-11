@@ -1086,6 +1086,11 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
         return EXIT_SUCCESS;
     }
 
+    // Default to generating Mike Ash-style classes if nothing specific was specified in the command arguments
+    NSNumber * useAshClassesObj = [templateVar objectForKey:@"include-ash-classes"];
+    BOOL useAshClasses = !useAshClassesObj || [useAshClassesObj boolValue];
+    [templateVar setObject:[NSNumber numberWithBool:useAshClasses] forKey:@"include-ash-classes"];
+    
     gSwift = _swift;
 
     if (baseClassForce) {

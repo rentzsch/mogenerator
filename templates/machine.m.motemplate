@@ -277,6 +277,8 @@
 @end
 <$endif$><$endif$><$endforeach do$>
 
+<$if TemplateVar.include-ash-classes$>
+
 <$if noninheritedAttributes.@count > 0$>
 @implementation <$managedObjectClassName$>Attributes <$foreach Attribute noninheritedAttributes do$>
 + (NSString *)<$Attribute.name$> {
@@ -307,4 +309,6 @@
 	return @"<$UserInfo.value$>";
 }<$endforeach do$>
 @end
+<$endif$>
+
 <$endif$>
