@@ -1,6 +1,10 @@
 import Foundation
+import CoreData
 
-@objc(<$managedObjectClassName$>)
-open class <$managedObjectClassName$>: _<$managedObjectClassName$> {
-	// Custom logic goes here.
+@objc(<$sanitizedManagedObjectClassName$>)
+open class <$sanitizedManagedObjectClassName$>: <$customSuperentity$> {
+
+	// Put custom code for <$sanitizedManagedObjectClassName$> here.
+	// This file will be created if it doesn't exist, but mogenerator will not replace an existing copy.
+
 }
