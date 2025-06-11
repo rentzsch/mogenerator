@@ -60,11 +60,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 <$endif$>
 <$if Attribute.hasDefinedAttributeType$>
-<$if (Attribute.hasScalarAttributeType &&  !Attribute.optional && TemplateVar.scalarsWhenNonOptional)$>
+<$if (Attribute.hasScalarAttributeType && !Attribute.optional && TemplateVar.scalarsWhenNonOptional)$>
 <$if Attribute.isReadonly$>
-@property (atomic, readonly) <$Attribute.scalarAttributeType$> <$Attribute.name$>;
+@property (nonatomic, readonly) <$Attribute.scalarAttributeType$> <$Attribute.name$>;
 <$else$>
-@property (atomic) <$Attribute.scalarAttributeType$> <$Attribute.name$>;
+@property (nonatomic) <$Attribute.scalarAttributeType$> <$Attribute.name$>;
 <$endif$>
 <$else$>
 <$if Attribute.isReadonly$>
@@ -74,9 +74,9 @@ NS_ASSUME_NONNULL_BEGIN
 <$endif$>
 <$if Attribute.hasScalarAttributeType$>
 <$if Attribute.isReadonly$>
-@property (atomic, readonly) <$Attribute.scalarAttributeType$> <$Attribute.name$>Value;
+@property (nonatomic, readonly) <$Attribute.scalarAttributeType$> <$Attribute.name$>Value;
 <$else$>
-@property (atomic) <$Attribute.scalarAttributeType$> <$Attribute.name$>Value;
+@property (nonatomic) <$Attribute.scalarAttributeType$> <$Attribute.name$>Value;
 <$endif$>
 <$endif$>
 <$endif$>
