@@ -75,11 +75,8 @@ NS_ASSUME_NONNULL_BEGIN
 <$if Attribute.hasScalarAttributeType$>
 <$if Attribute.isReadonly$>
 @property (atomic, readonly) <$Attribute.scalarAttributeType$> <$Attribute.name$>Value;
-- (<$Attribute.scalarAttributeType$>)<$Attribute.name$>Value;
 <$else$>
 @property (atomic) <$Attribute.scalarAttributeType$> <$Attribute.name$>Value;
-- (<$Attribute.scalarAttributeType$>)<$Attribute.name$>Value;
-- (void)set<$Attribute.name.initialCapitalString$>Value:(<$Attribute.scalarAttributeType$>)value_;
 <$endif$>
 <$endif$>
 <$endif$>
