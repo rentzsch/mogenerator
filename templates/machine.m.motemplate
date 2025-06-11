@@ -26,6 +26,7 @@
 	return (<$managedObjectClassName$>ID*)[super objectID];
 }
 
+<$if noninheritedAttributes.@count > 0$>
 + (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 	<$foreach Attribute noninheritedAttributes do$><$if Attribute.hasDefinedAttributeType$><$if Attribute.hasScalarAttributeType && (Attribute.optional || !TemplateVar.scalarsWhenNonOptional)$>
@@ -37,6 +38,7 @@
 
 	return keyPaths;
 }
+<$endif$>
 
 <$foreach Attribute noninheritedAttributes do$>
 <$if Attribute.hasDefinedAttributeType$>
