@@ -13,6 +13,7 @@ static NSString  *gCustomBaseClass;
 static NSString  *gCustomBaseClassImport;
 static NSString  *gCustomBaseClassForced;
 static BOOL       gSwift;
+static BOOL       gForceSigned;
 
 static const NSString *const kAttributeValueScalarTypeKey = @"attributeValueScalarType";
 static const NSString *const kAdditionalHeaderFileNameKey = @"additionalHeaderFileName";
@@ -442,6 +443,11 @@ static const NSString *const kIgnored = @"mogenerator.ignore";
 @implementation NSAttributeDescription (typing)
 - (BOOL)isUnsigned
 {
+    if (gForceSigned)
+    {
+        return NO;
+    }
+
     BOOL isUnsigned = NO;
     for (NSPredicate *pred in [self validationPredicates]) {
         NSString* formatString = pred.predicateFormat;
@@ -1091,6 +1097,13 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
     BOOL useAshClasses = !useAshClassesObj || [useAshClassesObj boolValue];
     [templateVar setObject:[NSNumber numberWithBool:useAshClasses] forKey:@"include-ash-classes"];
     
+    // By default, if an attribute's minimum is non-negative, unsigned types are used in the "Value" accessor methods. However, Core Data actually always stores things as signed values, and so you might want your accessors to always be signed, regardless of their minimum value. We store this in a global variable so it can be easily accessed from the NSAttributeDescription category methods.
+    NSNumber * forceSigned = [templateVar objectForKey:@"force-signed"];
+    if (forceSigned && [forceSigned boolValue])
+    {
+        gForceSigned = YES;
+    }
+
     gSwift = _swift;
 
     if (baseClassForce) {

@@ -35,6 +35,7 @@
 @end
 
 @interface NSAttributeDescription (typing)
+- (BOOL)isUnsigned;
 - (BOOL)hasScalarAttributeType;
 - (BOOL)usesScalarAttributeType;
 - (BOOL)usesCustomScalarAttributeType;
